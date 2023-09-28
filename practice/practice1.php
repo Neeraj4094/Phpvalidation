@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   
 
   $match = "/^[a-zA-Z]$/";
-
+if(isset($_POST['submit'])){
   // Name validation
   $len = strlen($name);
   if ($len >= 3 && $len <= 16) {
@@ -77,6 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $gen;
   }
 }
+}
 
 ?>
 <!DOCTYPE html>
@@ -128,35 +129,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
       <span style="color: red;">* <?= $errgender; ?></span>
       <input type="submit" value="Google" class=" bg-white font-bold rounded-lg border py-1 px-4  w-full">
-      <input type="submit" value="Github" class=" bg-blue-800 text-white rounded-lg border py-1 px-4 ">
+      <input type="submit" name="submit" value="Github" class=" bg-blue-800 text-white rounded-lg border py-1 px-4 ">
 
     </form>
-
+  <div class="  w-full h-full">
+    <h2 class="font-bold text-xl">
     <?php
-    // foreach($_SESSION["names"] as $key => $value){
-    //   echo "Name:" . "$value<br>";
-    // }
-    if($errname = '' && $erremail = '' && $errpasword ='' && $errtextarea ='' && $errgender =''){
-      echo "Complete the form";
-    }
-    else{
-      echo "<br>Name : $name";
+    
+    
+      echo "Name :$name";
       echo "<br>";
-  
-      echo "Email: $email";
-      echo "<br>";
-  
+      ?>
+    </h2>
+      <h3  class=" font-semibold">
+      <?php
+    echo "Email: $email";
+    echo "<br>";
+    ?>
+      </h3>
+      <h3 class=" font-semibold">
+    <?php
       echo "Password: $password";
       echo "<br>";
-  
+  ?>
+      </h3>
+      <h3 class=" font-medium">
+  <?php
       echo "Message: $textarea";
       echo "<br>";
-  
-      echo "Gender: $gen";
-      echo "<br>";
-    }    
+?>
+      </h3>
+      <h3 class="font-semibold">
+        <?php
+echo "Gender: $gen";
+echo "<br>";
 
-    ?>
+        ?>
+      </h3>
+  
+  
+
+  
+  </div>
   </div>
 </body>
 
