@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   
 
   $match = "/^[a-zA-Z]$/";
-if(isset($_POST['submit'])){
+// if(isset($_POST['submit'])){
   // Name validation
   $len = strlen($name);
   if ($len >= 3 && $len <= 16) {
@@ -77,7 +77,7 @@ if(isset($_POST['submit'])){
     $gen;
   }
 }
-}
+// }
 
 ?>
 <!DOCTYPE html>
