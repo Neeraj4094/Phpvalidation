@@ -135,8 +135,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <div class="  w-full h-full">
     <h2 class="font-bold text-xl">
     <?php
-    
-    
       echo "Name :$name";
       echo "<br>";
       ?>
