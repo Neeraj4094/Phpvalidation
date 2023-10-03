@@ -8,13 +8,13 @@
     <title>Missing Positive Number</title>
 </head>
 
-<body class=" grid py-1 px-4 bg-slate-200">
+<body class=" grid py-1 px-4 bg-slate-100">
 
 <div class="py-1">
     <h1 class="font-semibold text-xl underline">Finding fisrt missing positive number with Php :-</h1>
     <br>
     <?php
-    $a = array(-1, -2, -10, -12, -15, 1, 2, 3, 4, 6, 12, 14); //Entered values
+    $a = array(-1, -2, -10, -12, -15, 1, 3, 4, 6, 12, 14); //Entered values
     arsort($a); //Array sort
     echo "Entered value are :- ";
     print_r($a);
