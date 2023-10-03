@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./dist/output.css">
     <title>Missing Positive Number</title>
 </head>
 
-<body>
+<body class=" grid py-1 px-4 bg-slate-200">
 
+<div class="py-1">
     <?php
 
     $a = array(-1, -2, -10, -12, -15, 1, 2, 3, 4, 6, 12, 14); //Entered values
@@ -45,6 +47,7 @@
         echo $final;
     }
     ?>
+</div>
 </body>
 
 </html>
