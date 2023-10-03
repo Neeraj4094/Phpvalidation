@@ -8,7 +8,7 @@
     <title>Missing Positive Number</title>
 </head>
 
-<body class=" grid py-1 px-4 bg-slate-100">
+<body class=" grid py-1 px-4 bg-slate-50">
 
 <div class="py-1">
     <h1 class="font-semibold text-xl underline">Finding fisrt missing positive number with Php :-</h1>
