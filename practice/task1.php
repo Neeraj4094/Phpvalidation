@@ -119,20 +119,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="grid p-12 border space-y-2">
 
       <label class=" text-lg font-semibold ">Name:</label>
-      <input type="text" name="fname" placeholder="Enter your name" class=" border w-96">
+      <input type="text" name="fname" placeholder="Enter your name" class=" border w-96" >
       <span style="color: red;">* <?= $errname; ?></span>
 
       <label class=" text-lg font-semibold ">Email:</label>
-      <input type="email" name="femail" placeholder="Enter your name" class=" border w-96">
+      <input type="email" name="femail" placeholder="Enter your name" class=" border w-96" >
       <span style="color: red;">* <?= $erremail; ?></span>
 
 
       <label class=" text-lg font-semibold ">Password:</label>
-      <input type="password" name="fpassword" placeholder="Enter your name" class=" border w-96">
+      <input type="password" name="fpassword" placeholder="Enter your name" class=" border w-96" >
       <span style="color: red;">* <?= $errpasword; ?></span>
 
       <label class=" text-lg font-semibold ">Message:</label>
-      <textarea name="textarea" id="textarea" cols="40" rows="5" class="border " placeholder="Enter your message"></textarea>
+      <textarea name="textarea" id="textarea" cols="40" rows="5" class="border " placeholder="Enter your message" ></textarea>
       <span style="color: red;">* <?= $errtextarea; ?></span>
 
       <label class=" text-lg font-semibold ">Select your gender:</label>
@@ -160,13 +160,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="p-2 bg-slate-100">
       
         <?php
+      //   if($errname='' && $erremail='' && $errpasword='' && $errtextarea='' && $errgender=''){
+      //     echo "Complete the form";
+      //   }
+      // else{
         echo "<pre>";
         print_r($_SESSION);
         foreach($_SESSION as $i=> $j){
           echo "$i Data :-";
           print_r($j);
-        }
-
+      }
+    // }
         ?>
       
     </div>
