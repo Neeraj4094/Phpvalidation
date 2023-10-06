@@ -14,7 +14,7 @@
     <h1 class="font-semibold text-xl underline">Finding first missing positive number with Php :-</h1>
     <br>
     <?php
-    $a = array(-1, -2, -10, -12, -15, 1, 3, 4, 6, 12, 14); //Entered values
+    $a = array(-1, -2, -10, -12, -15, 1, 3, 4, 6, 12, 14,52,2); //Entered values
     arsort($a); //Array sort
     echo "Entered value are :- ";
     print_r($a);

@@ -8,6 +8,28 @@ $password = $gen = $name = $email = $textarea = '';
 
 // Post method is used
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // if (!isset($_SESSION['form'])) {
+  //   $_SESSION['form'] = array();
+  // }
+  // if (count($_SESSION['form']) == 0) {
+  //   $namelist = array();
+  //   $name = $_POST['fname'];
+  //   array_push($namelist, $name);
+  //   $_SESSION['form'] = $namelist;
+  //   $_SESSION['form'];
+  //   // echo "Name :-";
+  //   // print_r($_SESSION['form']);
+  // } else {
+  //   $name = $_POST['fname'];
+  //   array_push($_SESSION['form'], $name);
+  // }
+
+  
+
+  if($_SERVER["REQUEST_METHOD"]=="POST"){
+  $_SESSION[$_POST['fname']]=$_POST;
+  }
+
   $name = trim($_POST["fname"]);
   $email = $_POST["femail"];
   $password = $_POST["fpassword"];
@@ -15,19 +37,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_POST['gen'])) {
     $gen = $_POST["gen"];
   }
-  
+
 
   $match = "/^[a-zA-Z]$/";
-// if(isset($_POST['submit'])){
+  // if(isset($_POST['submit'])){
   // Name validation
   $len = strlen($name);
   if ($len >= 3 && $len <= 16) {
     $name;
   } elseif (empty($name)) {
     $errname = "Invalid name";
-  } if (!preg_match('/^[a-zA-Z\s]+$/', $name)) {
+  }
+  if (!preg_match('/^[a-zA-Z\s]+$/', $name)) {
     $errname = "Invalid ";
-} else {
+  } else {
     $name;
   }
 
@@ -90,13 +113,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <title>Document</title>
 </head>
 
-<body class="grid">
+<body class="flex gap-4 bg-slate-100 ">
 
-  <div class=" flex w-full">
-    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="grid p-12 border space-y-2 w-1/2">
+  <div class="flex-1 w-full bg-white border">
+    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" class="grid p-12 border space-y-2">
 
       <label class=" text-lg font-semibold ">Name:</label>
-      <input name="fname" placeholder="Enter your name" class=" border w-96">
+      <input type="text" name="fname" placeholder="Enter your name" class=" border w-96">
       <span style="color: red;">* <?= $errname; ?></span>
 
       <label class=" text-lg font-semibold ">Email:</label>
@@ -115,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <label class=" text-lg font-semibold ">Select your gender:</label>
       <div class="flex gap-4">
         <div>
-          <input type="radio" name="gen" value="Male" id="male" >
+          <input type="radio" name="gen" value="Male" id="male">
           <label for="male">Male</label>
         </div>
         <div>
@@ -132,44 +155,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <input type="submit" name="submit" value="Github" class=" bg-blue-800 text-white rounded-lg border py-1 px-4 ">
 
     </form>
-  <div class="  w-full h-full">
-    <h2 class="font-bold text-xl">
-    <?php
-      echo "Name :$name";
-      echo "<br>";
-      ?>
-    </h2>
-      <h3  class=" font-semibold">
-      <?php
-    echo "Email: $email";
-    echo "<br>";
-    ?>
-      </h3>
-      <h3 class=" font-semibold">
-    <?php
-      echo "Password: $password";
-      echo "<br>";
-  ?>
-      </h3>
-      <h3 class=" font-medium">
-  <?php
-      echo "Message: $textarea";
-      echo "<br>";
-?>
-      </h3>
-      <h3 class="font-semibold">
+  </div>
+  <div class="flex-1  w-full h-full p-2 px-4">
+    <div class="border rounded-2xl p-2 bg-slate-200">
+      
         <?php
-echo "Gender: $gen";
-echo "<br>";
+        echo "<pre>";
+        print_r($_SESSION);
+        foreach($_SESSION as $i=> $j){
+          echo "$i Data :-";
+          print_r($j);
+        }
 
         ?>
-      </h3>
-  
-  
+      
+    </div>
 
-  
   </div>
-  </div>
+
 </body>
 
 </html>
