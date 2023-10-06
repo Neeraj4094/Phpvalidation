@@ -157,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
   </div>
   <div class="flex-1  w-full h-full p-2 px-4">
-    <div class="p-2 ">
+    <div class="p-2 bg-slate-100">
       
         <?php
         echo "<pre>";
