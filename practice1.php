@@ -60,7 +60,7 @@
     </ul>
     <br>
 
-    <ul> <!--  Video 8 Booleans  -->
+    <ul> <!--  Video 8 Conditions  -->
         <li><strong>Name :- <span><?= $arr['Name']; ?></span></strong></li>
         <li><strong>Name :- <span><?= $arr['Name1']; ?></span></strong></li>
         <li><strong>Name :- <span><?= $arr['Name2']; ?></span></strong></li>
@@ -86,6 +86,14 @@
         </li>
     </ul>
     <br>
+    
+    <?php
+
+    showdata($arr);
+    
+    
+
+    ?>
 
     <b>
         <?php

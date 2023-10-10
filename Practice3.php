@@ -15,9 +15,9 @@
 
             if ($option == "Push") {
                 $value = array(
-                    "id" => "4018",
-                    "name" => "Raj",
-                    "email" => "4018.shekhar@gmail.com"
+                    "id" => "4106",
+                    "name" => "Kartik",
+                    "email" => "4106.kartik@gmail.com"
                 );
                 array_push($User_Information, $value);
                 foreach ($User_Information as $v) {
@@ -77,12 +77,12 @@
         )
     );
 
-    $option = "Push"; // Used for pushing data
+     $option = "Push"; // Used for pushing data
     // $option = "Edit"; //Used for re-editing data
     // $option = "Delete"; //Used for Deleting data
 
     editing_data($User_Information, $option);
-
+    
     ?>
 </body>
 
