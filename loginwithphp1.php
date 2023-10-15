@@ -1,9 +1,13 @@
 <?php 
+
+session_start();
 $erremail= $errpassword = '';
 $email = $password = '';
+if($_SERVER["REQUEST_METHOD"]=="POST"){
 if(isset($_POST['loginemail']) && isset($_POST['loginpassword'])){
     $email= $_POST['loginemail'];
     $password = $_POST['loginpassword'];
+}
 }
 if(empty($email)){
     $erremail = "Invalid";
@@ -26,8 +30,24 @@ else{
 
 
 
-
-// Storing values in array
-
-// require 'loginwithphp.php';
+// Comparing of Registration and Login Page
+foreach($_SESSION as $i=>$j){
+    if(isset($j["first_name"])){
+    $a =($j["email"]);
+    }
+}
+foreach($_SESSION as $i=>$j){
+    if(isset($j["password"])){
+    $b =($j["password"]);
+    }
+}
+// print_r($b);
+if($a==$email && $b==$password){
+    echo "Email is matched";
+    print_r($b);
+    header("location:/phpprogramms/admin3.php");
+}
+else{
+    echo "Email & password is not matched";
+}
 ?>

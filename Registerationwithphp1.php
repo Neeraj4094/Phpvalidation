@@ -4,21 +4,26 @@ session_start();
 // Validation
 $firstname = $lastname = $email = $password = $occupation = $role = $skills = "";
 $errfirstname =  $erremail= $errpassword= $erroccupation = $errrole = $errskills = "";
-
+if($_SERVER['REQUEST_METHOD']=="POST") {
+    if($_POST['submit']){
 if(isset($_POST['first_name']) || isset($_POST['email']) ){
     $firstname= trim($_POST['first_name']);
     // $lastname= trim($_POST['last_name']);
     $email = $_POST['email'];
 }
-
+    }}
 if(isset($_POST['password']) || isset($_POST['occupation'])){
     $password = $_POST['password'];
     $occupation= $_POST['occupation'];
 }
 
-if( isset($_POST['role']) || isset($_POST['skills'])){
+if( isset($_POST['role'])){
     $role = $_POST['role'];
+}
+
+if(isset($_POST['skills'])){
     $skills = $_POST['skills'];
+
 }
 
 
@@ -26,9 +31,7 @@ $len= strlen($firstname);
 $lengthoflastname= strlen($lastname);
 
 // First Name
-if($len>=3 && $len<20){
-    $firstname;
-}else{
+if(!$len>=3 && !$len<20){
     $errfirstname= "Invalid Name";
 }
 
@@ -80,8 +83,6 @@ if ($_SERVER['REQUEST_METHOD']=="POST") {
         $_SESSION[$_POST['email']] = $_POST;
     }
 }
-    
 
-include 'registerationwithphp.php';
 
 ?>
