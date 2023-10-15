@@ -32,7 +32,7 @@ else{
 
 // Comparing of Registration and Login Page
 foreach($_SESSION as $i=>$j){
-    if(isset($j["first_name"])){
+    if(isset($j["email"])){
     $a =($j["email"]);
     }
 }
