@@ -14,15 +14,14 @@ require 'loginwithphp1.php';
  <body>
      <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
          <?php
-            // if (isset($_POST['submit'])) {
-            //     if ($erremail == null && $errpassword == null) {
-            //         if ($_POST['submit']) {
-            //             echo "Message sent successfully";
-            //             header("location:/phpprogramms/admin3.php");
-            //         }
-            //     }
-            // }
-
+            if($a==$email && $b==$password){
+                echo "Email is matched";
+                print_r($b);
+                header("location:/phpprogramms/admin3.php");
+            }
+            else{
+                echo "Email & password is not matched";
+            }
             ?>
      </h2>
      <div class="flex w-full h-screen ">

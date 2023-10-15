@@ -42,12 +42,5 @@ foreach($_SESSION as $i=>$j){
     }
 }
 // print_r($b);
-if($a==$email && $b==$password){
-    echo "Email is matched";
-    print_r($b);
-    header("location:/phpprogramms/admin3.php");
-}
-else{
-    echo "Email & password is not matched";
-}
+
 ?>
