@@ -1,5 +1,5 @@
 <?php
-include 'registerationwithphp1.php';
+include 'registeration_form_with_php.php';
 ?>
 
 <!DOCTYPE html>
@@ -17,12 +17,14 @@ include 'registerationwithphp1.php';
         <?php
         if (isset($_POST['submit'])) {
             if ($erremail == null && $errfirstname == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
-                if ($_POST['submit']) {
                     echo "Message sent successfully";
-                    header("location:/phpprogramms/loginwithphp.php");
+                    header("location:/phpprogramms/login_form_in_html.php");
                 }
             }
-        }
+            else{
+                echo "Please complete the form";
+            }
+        
 
         ?>
     </h2>

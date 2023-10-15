@@ -1,5 +1,5 @@
 <?php
-require 'loginwithphp1.php';
+require 'login_with_php.php';
 ?>
  <!DOCTYPE html>
  <html lang="en">
@@ -20,7 +20,7 @@ require 'loginwithphp1.php';
                 header("location:/phpprogramms/admin3.php");
             }
             else{
-                echo "Email & password is not matched";
+                echo "Please enter the correct email or password";
             }
             ?>
      </h2>
