@@ -1,5 +1,7 @@
 <?php
+
 require 'login_with_php.php';
+
 ?>
  <!DOCTYPE html>
  <html lang="en">
@@ -13,24 +15,24 @@ require 'login_with_php.php';
 
  <body>
      <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
-         <?php
+         <?php //Compare of Registeration & Login Page
          if(isset($_POST['submit'])){
-            if($a==$email){
+            if(in_array($email1,$a)){
                 echo "Email is correct but ";
-                if($b==$password){
+                if(in_array($password1,$b)){
                 header("location:/phpprogramms/admin3.php");
                 }else{
                     echo "Password is not correct";
                 }
             }
             else{
-                echo "Email & Password not matched";
+                echo "Email is not matched";
             }
-         }
+        }
             ?>
      </h2>
      <div class="flex w-full h-screen ">
-         <form action="" method="post" class="grid px-12 py-8 border bg-white shadow-sm text-slate-500">
+         <form action="" method="post" class="grid px-12 py-8 border bg-white shadow-sm text-slate-500" name="login_form">
              <div class="max-w-md space-y-4 px-16">
                  <div class="relative">
                      <a href="http://" class="absolute inset-0"></a>

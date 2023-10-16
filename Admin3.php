@@ -1,5 +1,18 @@
 <?php
-include 'registeration_form_with_php.php';
+// include 'registeration_form_with_php.php';
+require 'login_with_php.php';
+echo "<pre>";
+if(isset($_POST['submit'])){
+print_r($email1);
+}
+echo "</pre>";
+foreach($_SESSION as $i => $j){
+    if(isset($j["first_name"])){
+    $a[]= $j["first_name"];
+    // print_r($a);
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -183,7 +196,11 @@ include 'registeration_form_with_php.php';
         <main class="row-span-6 col-span-10 bg-slate-100 w-full sm:col-span-12 lg:col-span-10">
             <div class="flex justify-between items-center border-b-2 py-3 px-2">
                 <span>Welcome Admin, <?php foreach ($_SESSION as $i => $j) {
-                                            if (isset($j["first_name"])) {
+                                            $a[] = $j["first_name"];
+                                            if (in_array("Neeraj", $a)) {
+                                                echo "Neeraj";
+                                                break;
+                                            } else {
                                                 print_r($j["first_name"]);
                                             }
                                         } ?></span>
@@ -213,6 +230,7 @@ include 'registeration_form_with_php.php';
                 $cards = array();
                 foreach ($_SESSION as $i => $j) : ?>
                     <?php if (isset($j["first_name"]) && isset($j["skills"]) && isset($j["role"])) : ?>
+                        
                         <?php $cardcontent[] = '<div class="grid gap-2 py-2 sm:block md:grid mt-2 bg-white rounded-md border w-full">
                     <div class=" flex justify-between items-center p-2 gap-2 w-full">
                         <div class=" flex justify-between items-center gap-4">

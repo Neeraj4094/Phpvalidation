@@ -87,7 +87,8 @@ if (empty($skills)) {
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if ($_POST['submit']) {
-
+        if(isset($_POST['email'])){
         $_SESSION[$_POST['email']] = $_POST;
+        }
     }
 }

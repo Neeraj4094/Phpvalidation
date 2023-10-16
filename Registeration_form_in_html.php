@@ -17,19 +17,16 @@ include 'registeration_form_with_php.php';
         <?php
         if (isset($_POST['submit'])) {
             if ($erremail == null && $errfirstname == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
-                    echo "Message sent successfully";
-                    header("location:/phpprogramms/login_form_in_html.php");
-                }
-                else{
-                    echo "Please complete the form";
-                }
+                echo "Message sent successfully";
+                header("location:/phpprogramms/login_form_in_html.php");
+            } else {
+                echo "Please complete the form";
             }
-                
-        
+        }
         ?>
     </h2>
     <div class="flex w-full h-full">
-        <form action="" method="post" class="h-full shadow" name="form">
+        <form action="" method="post" class="h-full shadow" name="registeration_form">
             <div class="h-full space-y-2 bg-slate-50 shadow-sm py-6 px-10">
                 <div class="flex gap-10">
                     <div class="space-y-2">
