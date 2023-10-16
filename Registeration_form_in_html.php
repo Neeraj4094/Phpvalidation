@@ -20,12 +20,12 @@ include 'registeration_form_with_php.php';
                     echo "Message sent successfully";
                     header("location:/phpprogramms/login_form_in_html.php");
                 }
+                else{
+                    echo "Please complete the form";
+                }
             }
-            else{
-                echo "Please complete the form";
-            }
+                
         
-
         ?>
     </h2>
     <div class="flex w-full h-full">

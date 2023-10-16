@@ -12,7 +12,7 @@ include 'registeration_form_with_php.php';
 </head>
 
 <body>
-    <div class="grid grid-cols-12 grid-rows-6 p-1 gap-2 w-full h-full">
+    <div class="grid grid-cols-12 grid-rows-6 p-1 gap-1 w-full h-full">
         <aside class=" row-span-6 col-span-2 bg-slate-100 px-2 py-2 space-y-3 sm:hidden lg:block ">
             <div class="px-2 flex items-center justify-center w-full">
                 <div class="w-full h-10 rounded-full ">
