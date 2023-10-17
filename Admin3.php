@@ -1,18 +1,23 @@
 <?php
-// include 'registeration_form_with_php.php';
 require 'login_with_php.php';
-echo "<pre>";
-if(isset($_POST['submit'])){
-print_r($email1);
+
+$login_data = $abc = $current = $current1 = null;
+foreach ($_SESSION["Login"] as $i => $j) {
+    $login_data[]= $j;
 }
-echo "</pre>";
-foreach($_SESSION as $i => $j){
-    if(isset($j["first_name"])){
-    $a[]= $j["first_name"];
-    // print_r($a);
+$abc= $login_data[0];
+if(array_key_exists( $abc,$_SESSION)){
+    $current1 = $_SESSION[$abc];
+    foreach($_SESSION[$abc] as $i=>$j){
+        $current[] =$j;
     }
 }
-
+foreach($_SESSION as $i=>$j){
+    if(isset($j['first_name'])){
+    $admin[] =$j['first_name'];
+    }
+}
+// print_r($admin[0]);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -195,15 +200,8 @@ foreach($_SESSION as $i => $j){
 
         <main class="row-span-6 col-span-10 bg-slate-100 w-full sm:col-span-12 lg:col-span-10">
             <div class="flex justify-between items-center border-b-2 py-3 px-2">
-                <span>Welcome Admin, <?php foreach ($_SESSION as $i => $j) {
-                                            $a[] = $j["first_name"];
-                                            if (in_array("Neeraj", $a)) {
-                                                echo "Neeraj";
-                                                break;
-                                            } else {
-                                                print_r($j["first_name"]);
-                                            }
-                                        } ?></span>
+                <span>Welcome Admin, <?php print_r($admin[0]);
+                                        ?></span>
                 <div class="p-2 border rounded-full bg-slate-100">
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM7 6v2a3 3 0 1 0 6 0V6a3 3 0 1 0-6 0zm-3.65 8.44a8 8 0 0 0 13.3 0 15.94 15.94 0 0 0-13.3 0z">
@@ -230,7 +228,7 @@ foreach($_SESSION as $i => $j){
                 $cards = array();
                 foreach ($_SESSION as $i => $j) : ?>
                     <?php if (isset($j["first_name"]) && isset($j["skills"]) && isset($j["role"])) : ?>
-                        
+
                         <?php $cardcontent[] = '<div class="grid gap-2 py-2 sm:block md:grid mt-2 bg-white rounded-md border w-full">
                     <div class=" flex justify-between items-center p-2 gap-2 w-full">
                         <div class=" flex justify-between items-center gap-4">
@@ -238,26 +236,26 @@ foreach($_SESSION as $i => $j){
                             <div class="ar">
                                 <div class="flex items-center gap-1">
                                     <h2 class="font-bold">'
-                            . $j["first_name"] . '
+                            . $current[0] . '
                                            </h2>
                                     <p class=" px-1 rounded-lg mx-2 bg-purple-600 text-white">'
-                            . $j["role"] . '</p>
+                            . $current[5] . '</p>
                                 </div>
                                 <div class="email">'
-                            . $j["email"] . '</p>
+                            . $current[2] . '</p>
                                 </div>
                                 <div class="skills flex justify-between items-center gap-4">
                                     <p>Associated Marketplace: Not Associated</p>
                                     <p>Service Provider : No</p>
                                     <p>Skills : '
-                            . $j["skills"] . '</p>
+                            . $current[7] . '</p>
                                 </div>
                             </div>
                         </div>
                         <div class="flex items-center justify-between gap-8">
                             <p class=" bg-indigo-500 text-white px-3 rounded-full">Active</p>
                             <p class=" bg-purple-500 text-white px-3 rounded-full">'
-                            . $j["occupation"] . '</p>
+                            . $current[4] . '</p>
                             <svg class="w-6" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24" fill="currentColor">
                                 <rect fill="none" height="24" width="24"></rect>
                                 <path d="M13,3c-4.97,0-9,4.03-9,9c0,0.06,0.01,0.12,0.01,0.19l-1.84-1.84l-1.41,1.41L5,16l4.24-4.24l-1.41-1.41l-1.82,1.82 C6.01,12.11,6,12.06,6,12c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7c-1.9,0-3.62-0.76-4.88-1.99L6.7,18.42 C8.32,20.01,10.55,21,13,21c4.97,0,9-4.03,9-9S17.97,3,13,3z M15,11v-1c0-1.1-0.9-2-2-2s-2,0.9-2,2v1c-0.55,0-1,0.45-1,1v3 c0,0.55,0.45,1,1,1h4c0.55,0,1-0.45,1-1v-3C16,11.45,15.55,11,15,11z M14,11h-2v-1c0-0.55,0.45-1,1-1s1,0.45,1,1V11z">

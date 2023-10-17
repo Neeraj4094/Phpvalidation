@@ -1,5 +1,5 @@
 <?php 
-include 'registeration_form_with_php.php';
+require 'registeration_form_with_php.php';
 // session_start();
 $erremail= $errpassword = '';
 $email1 = $password1 = $arr= '';
@@ -7,6 +7,8 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 if(isset($_POST['loginemail']) && isset($_POST['loginpassword'])){
     $email1= $_POST['loginemail'];
     $password1 = $_POST['loginpassword'];
+    $_SESSION[$_POST['submit']]= [$_POST['loginemail'],$_POST['loginpassword']];
+    // print_r($_SESSION);
 }
 }
 if(isset($_POST['submit'])){
@@ -41,5 +43,4 @@ foreach($_SESSION as $i=>$j){
     $b[] =$j["password"];
     }
 }
-
 ?>
