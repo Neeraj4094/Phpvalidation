@@ -17,9 +17,9 @@ include 'registeration_form_with_php.php';
         <?php
         if (isset($_POST['submit'])) {
             if(in_array($email,array_keys($_SESSION))){
-                echo "Error";
+                echo "This email already exists";
             }else{
-            if ($erremail == null && $errfirstname == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
+            if ($errfirstname= $errfirstname1=$erremail = $erremail1 = $errpassword = $erroccupation = $errrole = $errskills == false) {
                 echo "Message sent successfully";
                 // Session in Regesteration form
                 if (isset($_POST['email'])) {

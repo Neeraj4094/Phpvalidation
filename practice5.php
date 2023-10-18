@@ -10,73 +10,100 @@
 
 <body>
     <?php
-    require 'registerationwithphp1.php';
-    function det($userlist)
-    {
-        echo "<pre>";
-        print_r($userlist);
-        echo "</pre>";
-    }
+    session_start();
+    // session_destroy();
+    $err = $password = $errpassword = $a=$b=$c=$d=$e="";
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if ($_POST["submit"]) {
+            if ($_POST["password"]) {
+                $password = $_POST["password"];
+            }
+            $_SESSION[$_POST["password"]] = $_POST;
 
-    class A
-    {
-        static $a = 2;
-        public $b = 4;
+            $errpassword = func1($password,$err,$a,$b,$c,$d,$e);
+            
+        }
     }
-    $ab = new A();
-    // print_r($ab);
-    echo "Static class :-" . A::$a;
-    echo "<br>Non-Static/Public class :-" . $ab->b;
-    ?>
-    <?php 
-    $cards = array();
-    foreach($_SESSION as $i => $j) : ?>
-    <?php if (isset($j["first_name"])) : ?>
-    <?php $cardcontent[] = '<div class="grid gap-2 py-2 sm:block md:grid mt-2 bg-white rounded-md border w-full">
-                    <div class=" flex justify-between items-center p-2 gap-2 w-full">
-                        <div class=" flex justify-between items-center gap-4">
-                            <div class=" p-2 rounded-full bg-blue-600"></div>
-                            <div class="ar">
-                                <div class="flex items-center gap-1">
-                                    <h2 class="font-bold">'
-                                               . $j["first_name"] .'
-                                           </h2>
-                                    <p class=" px-1 rounded-lg mx-2 bg-purple-600 text-white">'
-                                           . $j["role"] . '</p>
-                                </div>
-                                <div class="email">'
-                                . $j["email"] . '</p>
-                                </div>
-                                <div class="skills flex justify-between items-center gap-4">
-                                    <p>Associated Marketplace: Not Associated</p>
-                                    <p>Service Provider : No</p>
-                                    <p>Skills : '
-                                    . $j["skills"] . '</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between gap-8">
-                            <p class=" bg-indigo-500 text-white px-3 rounded-full">Active</p>
-                            <p class=" bg-purple-500 text-white px-3 rounded-full">'
-                            . $j["occupation"] . '</p>
-                            <svg class="w-6" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24" fill="currentColor">
-                                <rect fill="none" height="24" width="24"></rect>
-                                <path d="M13,3c-4.97,0-9,4.03-9,9c0,0.06,0.01,0.12,0.01,0.19l-1.84-1.84l-1.41,1.41L5,16l4.24-4.24l-1.41-1.41l-1.82,1.82 C6.01,12.11,6,12.06,6,12c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7c-1.9,0-3.62-0.76-4.88-1.99L6.7,18.42 C8.32,20.01,10.55,21,13,21c4.97,0,9-4.03,9-9S17.97,3,13,3z M15,11v-1c0-1.1-0.9-2-2-2s-2,0.9-2,2v1c-0.55,0-1,0.45-1,1v3 c0,0.55,0.45,1,1,1h4c0.55,0,1-0.45,1-1v-3C16,11.45,15.55,11,15,11z M14,11h-2v-1c0-0.55,0.45-1,1-1s1,0.45,1,1V11z">
-                                </path>
-                            </svg>
-                            <button class="border-2 px-4 py-1 rounded-md">Archive</button>
-                        </div>
-                    </div>
-                </div>'; ?>
-                <?php endif; ?>
-                <?php endforeach;
-                array_push($cards,$cardcontent);
-                foreach($cards as $key => $value){
-                    print_r($value[0]);
-                }
-    ?>
+    function func1($value,$err, $a, $b, $c, $d, $e)
+    {
+        $a = strlen($value);
+        $b = preg_match('@[A-Z]@', $value);
+        $c = preg_match('@[a-z]@', $value);
+        $d = preg_match('@[0-9]@', $value);
+        $e = preg_match('@[^\w]@', $value);
 
-                
+        
+            if(empty($email1)){
+                $erremail = "Invalid";
+            }else{
+                $email1;
+            }
+            if($a >= 8 && $b && $c && $d && $e && !empty($value)){
+                $value;
+            }
+            else{
+                $err = "Invalid";
+                return $err;
+            }
+        
+    }
+    
+    ?>
+    <form action="" method="post" class="p-2">
+        <input type="password" name="password" class="border-2" placeholder="Enter password">
+        <span>* <?php echo $errpassword; ?></span>
+        <input type="submit" name="submit" id="submit">
+    </form>
+
+    <?php
+    // function det($userlist)
+    // {
+    //     echo "<pre>";
+    //     print_r($userlist);
+    //     echo "</pre>";
+    // }
+
+    // class A
+    // {
+    //     static $a = 2;
+    //     public $b = 4;
+    // }
+    // $ab = new A();
+    // // print_r($ab);
+    // echo "Static class :-" . A::$a;
+    // echo "<br>Non-Static/Public class :-" . $ab->b;
+    // 
+    ?>
+    <?php
+    // require 'login_with_php.php';
+    // $array1 = $_SESSION["Login"]["email"];
+    // if (in_array($_SESSION["Login"]["email"], array_keys($_SESSION))) {
+    //     if (in_array($_SESSION["Login"]["password"], $_SESSION[$array1])) {
+    //     }
+    // } else {
+    //     header("location:Error.php");
+    // }
+    // echo "<pre>";
+    // print_r($_SESSION);
+
+    // echo "</pre>";
+    // 
+    ?>
+    <div class="grid place-items-center space-y-4">
+        <?php
+        //         $_SESSION["data"] = array();
+
+        //         $card = '<div class="border w-auto h-auto rounded-lg bg-slate-100 flex p-1 shadow">'
+        //         . $_SESSION["Login"]["email"] .
+        //         '</div>';
+
+        //     array_push($_SESSION["data"],$card);
+        //     foreach($_SESSION["data"] as $i=>$j){
+        //         print_r($j);
+        //     }
+        // // print_r($_SESSION);
+        ?>
+    </div>
 </body>
 
 </html>

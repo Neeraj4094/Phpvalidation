@@ -11,34 +11,13 @@ if(isset($_POST['loginemail']) && isset($_POST['loginpassword'])){
     }
 }
 
-// Password
-$passwordlength= strlen($password1);
-$ucase = preg_match('@[A-Z]@', $password1);
-$lcase = preg_match('@[a-z]@', $password1);
-$passwordnumber = preg_match('@[0-9]@', $password1);
-$specialchar = preg_match('@[^\w]@', $password1);
-
 if(isset($_POST['submit'])){
     if(empty($email1)){
         $erremail = "Invalid";
     }else{
         $email1;
     }
-    if($passwordlength >= 8 && $ucase && $lcase && $passwordnumber && $specialchar && !empty($password1)){
-        $password1;
-    }
-    else{
-        $errpassword = "Invalid";
-    }
+    $errpassword = func1($password, $err, $passlength, $ucase, $lcase, $passnumber, $spchar); // Password
 }
-
-foreach($_SESSION as $i=>$j){
-    if(isset($j["email"]) && isset($j["password"])){
-    $a[] =$j["email"];
-    
-    $b[] =$j["password"];
-}
-}
-
 
 ?>

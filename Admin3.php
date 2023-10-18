@@ -1,11 +1,10 @@
 <?php
 require 'login_with_php.php';
-$array1 =$_SESSION["Login"]["email"];
-if(in_array($_SESSION["Login"]["email"],array_keys($_SESSION))){
-    if(in_array($_SESSION["Login"]["password"],$_SESSION[$array1])){
-    
+$array1 = $_SESSION["Login"]["email"];
+if (in_array($_SESSION["Login"]["email"], array_keys($_SESSION))) {
+    if (in_array($_SESSION["Login"]["password"], $_SESSION[$array1])) {
     }
-}else{
+} else {
     header("location:Error.php");
 }
 ?>
@@ -176,7 +175,7 @@ if(in_array($_SESSION["Login"]["email"],array_keys($_SESSION))){
                     </li>
                     <li>
                         <div class="flex items-center gap-2 relative border-t px-2 py-2">
-                            <a href="#" class="absolute inset-0 z-10"></a>
+                            <a href="./Logout.php" class="absolute inset-0 z-10"></a>
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                 <path d="M16.8 2h-2.6C11 2 9 4 9 7.2v4.05h6.25c.41 0 .75.34.75.75s-.34.75-.75.75H9v4.05C9 20 11 22 14.2 22h2.59c3.2 0 5.2-2 5.2-5.2V7.2C22 4 20 2 16.8 2z"></path>
                                 <path d="M4.561 11.25l2.07-2.07c.15-.15.22-.34.22-.53s-.07-.39-.22-.53a.754.754 0 00-1.06 0l-3.35 3.35c-.29.29-.29.77 0 1.06l3.35 3.35c.29.29.77.29 1.06 0 .29-.29.29-.77 0-1.06l-2.07-2.07h4.44v-1.5h-4.44z"></path>
@@ -215,10 +214,8 @@ if(in_array($_SESSION["Login"]["email"],array_keys($_SESSION))){
             <div class="px-2 ">
                 <?php
                 $cards = array();
-                foreach ($_SESSION as $i => $j) : ?>
-                    <?php if (isset($j["first_name"]) && isset($j["skills"]) && isset($j["role"])) : ?>
-
-                        <?php $cardcontent[] = '<div class="grid gap-2 py-2 sm:block md:grid mt-2 bg-white rounded-md border w-full">
+                
+                    $cardcontent[] = '<div class="grid gap-2 py-2 sm:block md:grid mt-2 bg-white rounded-md border w-full">
                     <div class=" flex justify-between items-center p-2 gap-2 w-full">
                         <div class=" flex justify-between items-center gap-4">
                             <div class=" p-2 rounded-full bg-blue-600"></div>
@@ -253,10 +250,7 @@ if(in_array($_SESSION["Login"]["email"],array_keys($_SESSION))){
                             <button class="border-2 px-4 py-1 rounded-md">Archive</button>
                         </div>
                     </div>
-                </div>'; ?>
-                    <?php endif; ?>
-                <?php endforeach;
-
+                </div>';
                 array_push($cards, $cardcontent);
 
                 foreach ($cards as $key => $value) {
