@@ -11,6 +11,7 @@ if(isset($_POST['loginemail']) && isset($_POST['loginpassword'])){
     }
 }
 
+
 if(isset($_POST['submit'])){
     if(empty($email1)){
         $erremail = "Invalid";
