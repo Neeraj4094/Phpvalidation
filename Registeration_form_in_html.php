@@ -16,13 +16,21 @@ include 'registeration_form_with_php.php';
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
         if (isset($_POST['submit'])) {
+            if(in_array($email,array_keys($_SESSION))){
+                echo "Error";
+            }else{
             if ($erremail == null && $errfirstname == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
                 echo "Message sent successfully";
+                // Session in Regesteration form
+                if (isset($_POST['email'])) {
+                    $_SESSION[$_POST['email']] = $_POST;
+                }
                 header("location:/phpprogramms/login_form_in_html.php");
             } else {
                 echo "Please complete the form";
             }
         }
+    }
         ?>
     </h2>
     <div class="flex w-full h-full">
@@ -47,7 +55,6 @@ include 'registeration_form_with_php.php';
                                 <label for="serviceno">No</label>
                             </div>
                         </div>
-
                     </div>
 
                     <!-- <div class="">
@@ -145,7 +152,7 @@ include 'registeration_form_with_php.php';
                     </fieldset>
                 </div>
                 <div class="pt-2">
-                    <input type="submit" name="submit" class="bg-purple-600 rounded-lg text-white border border-white px-8 py-2">
+                    <input type="submit" name="submit" class="bg-purple-600 rounded-lg text-white border border-white px-8 py-2 cursor-pointer">
                 </div>
             </div>
         </form>
