@@ -210,8 +210,8 @@ if (in_array($_SESSION["Login"]["email"], array_keys($_SESSION))) {
                     <button class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg">+ Add Customes</button>
                 </div>
             </div>
-            <div class="px-2 overflow-y-scroll h-64">
             <div class="px-2">
+            <div class="px-2 h-96 overflow-y-scroll">
                 <?php
                 $cardcontent ="";
                 if (empty($_SESSION["data"])) {

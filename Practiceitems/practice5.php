@@ -46,7 +46,7 @@
     <div class="grid place-items-center space-y-4">
         <?php
         // print_r($_SESSION["data"]);
-        $array1 = $_SESSION["Login"]["email"];
+        
         $card="";
         if (empty($_SESSION["data"])) {
             $_SESSION["data"] = array();
@@ -54,7 +54,7 @@
             . $array1 .
             '</div>';
         }else{
-            // if(isset($_POST["submit"])){
+           
             if(in_array($_SESSION["Login"],$_SESSION)){
             $card = '<div class="border w-auto h-auto rounded-lg bg-slate-100 flex p-1 shadow">'
                 . $array1 .
