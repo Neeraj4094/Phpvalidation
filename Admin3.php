@@ -20,7 +20,7 @@ if (in_array($_SESSION["Login"]["email"], array_keys($_SESSION))) {
 
 <body>
     <div class="grid grid-cols-12 grid-rows-6 p-1 gap-1 w-full h-full">
-        <aside class=" row-span-6 col-span-2 bg-slate-100 px-2 py-2 space-y-3 sm:hidden lg:block ">
+        <aside class=" row-span-6 col-span-2 bg-slate-100 px-2 py-2 space-y-3 sm:hidden lg:block">
             <div class="px-2 flex items-center justify-center w-full">
                 <div class="w-full h-10 rounded-full ">
                     <img src="./Image/Balloon.jpg" alt="Logo" class="w-full h-full object-cover rounded-lg">
@@ -187,7 +187,7 @@ if (in_array($_SESSION["Login"]["email"], array_keys($_SESSION))) {
             </nav>
         </aside>
 
-        <main class="row-span-6 col-span-10 bg-slate-100 w-full sm:col-span-12 lg:col-span-10">
+        <main class="row-span-6 col-span-10 bg-slate-100 sm:col-span-12 lg:col-span-10 ">
             <div class="flex justify-between items-center border-b-2 py-3 px-2">
                 <span>Welcome Admin, <?php print_r($_SESSION[$array1]["first_name"]) ?></span>
                 <div class="p-2 border rounded-full bg-slate-100">
@@ -210,8 +210,8 @@ if (in_array($_SESSION["Login"]["email"], array_keys($_SESSION))) {
                     <button class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg">+ Add Customes</button>
                 </div>
             </div>
-
-            <div class="px-2 overflow-auto">
+            <div class="px-2 overflow-y-scroll h-64">
+            <div class="px-2  border-2">
                 <?php
                 $cardcontent ="";
                 if (empty($_SESSION["data"])) {
@@ -305,7 +305,7 @@ if (in_array($_SESSION["Login"]["email"], array_keys($_SESSION))) {
                 }
                 ?>
             </div>
-
+            </div>
         </main>
     </div>
 
