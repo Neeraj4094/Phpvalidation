@@ -211,7 +211,7 @@ if (in_array($_SESSION["Login"]["email"], array_keys($_SESSION))) {
                 </div>
             </div>
             <div class="px-2 overflow-y-scroll h-64">
-            <div class="px-2  border-2">
+            <div class="px-2">
                 <?php
                 $cardcontent ="";
                 if (empty($_SESSION["data"])) {
