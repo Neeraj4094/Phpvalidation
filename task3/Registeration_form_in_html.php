@@ -1,9 +1,5 @@
 <?php
-include './registeration_form_with_php.php';
-include 'dbconnection.php';
-$select = "select * from registeration_login";
-$query = mysqli_query($con, $select);
-$show = mysqli_fetch_all($query);
+include 'registeration_form_with_php.php';
 ?>
 
 <!DOCTYPE html>
@@ -20,41 +16,21 @@ $show = mysqli_fetch_all($query);
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
         if (isset($_POST['submit'])) {
-            if (empty($show)) {
-                if ($erremail == null && $erremail1 == null && $errfirstname == null && $errfirstname1 == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
-                    echo "Message sent successfully";
-                    //Database
-                    if(in_array($_POST["email"],$show)){
-                        echo "This email already exists";
-                    }else{
-                    $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
-                    $result = mysqli_query($con, $insert);
-                    header("location:/phpprogramms/task3/login_form_in_html.php");
+            if(in_array($email,array_keys($_SESSION))){
+                echo "This email already exists";
+            }else{
+            if ($erremail == null && $erremail1 == null && $errfirstname ==null && $errfirstname1 == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
+                echo "Message sent successfully";
+                // Session in Regesteration form
+                if (isset($_POST['email'])) {
+                    $_SESSION[$_POST['email']] = $_POST;
                 }
-                } else {
-                    echo "Please complete the form";
-                }
+                header("location:/phpprogramms/task3/login_form_in_html.php");
             } else {
-                foreach ($show as $i => $j) {
-                    if (in_array($email, $j)) {
-                        echo "This email already exists";
-                        break;
-                    } else {
-                        if ($erremail == null && $erremail1 == null && $errfirstname == null && $errfirstname1 == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
-                            echo "Message sent successfully";
-                            //Database
-                            $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
-                            $result = mysqli_query($con, $insert);
-                            header("location:/phpprogramms/task3/login_form_in_html.php");
-                            break;
-                        } else {
-                            echo "Please complete the form";
-                            break;
-                        }
-                    }
-                }
+                echo "Please complete the form";
             }
         }
+    }
         ?>
     </h2>
     <div class="flex w-full h-full">
@@ -81,6 +57,12 @@ $show = mysqli_fetch_all($query);
                         </div>
                     </div>
 
+                    <!-- <div class="">
+                    Last Name 
+                    <input type="text" name="last_name" id="last_name" placeholder="Last Name"
+                        class="border rounded-sm w-full p-1">
+                        <span>* <?php echo $errlastname ?></span>
+                </div> -->
                 </div>
                 <div class="">
                     Email

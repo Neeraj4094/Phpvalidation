@@ -1,12 +1,9 @@
 <?php
-require 'login_with_php.php';
-$array1 = $_SESSION["Login"]["email"];
-if (in_array($_SESSION["Login"]["email"], array_keys($_SESSION))) {
-    if (in_array($_SESSION["Login"]["password"], $_SESSION[$array1])) {
-    }
-} else {
-    header("location:Error.php");
-}
+// session_start();
+include 'dbconnection.php';
+$select = "select * from registeration_login";
+$query= mysqli_query($con,$select);
+$result = mysqli_fetch_all($query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,16 +11,16 @@ if (in_array($_SESSION["Login"]["email"], array_keys($_SESSION))) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="dist/output.css">
+    <link rel="stylesheet" href="../dist/output.css">
     <title>Document</title>
 </head>
 
 <body>
-    <div class="grid grid-cols-12 grid-rows-6 p-1 gap-1 w-full h-full">
+    <div class="grid grid-cols-12 grid-rows-6  gap-1 w-full h-full">
         <aside class=" row-span-6 col-span-2 bg-slate-100 px-2 py-2 space-y-3 sm:hidden lg:block">
             <div class="px-2 flex items-center justify-center w-full">
                 <div class="w-full h-10 rounded-full ">
-                    <img src="./Image/Balloon.jpg" alt="Logo" class="w-full h-full object-cover rounded-lg">
+                    <img src="../Image/Balloon.jpg" alt="Logo" class="w-full h-full object-cover rounded-lg">
                 </div>
             </div>
             <div class="flex relative gap-2 pt-1">
@@ -175,7 +172,7 @@ if (in_array($_SESSION["Login"]["email"], array_keys($_SESSION))) {
                     </li>
                     <li>
                         <div class="flex items-center gap-2 relative border-t px-2 py-2">
-                            <a href="./Logout.php" class="absolute inset-0 z-10"></a>
+                            <a href="../Logout.php" class="absolute inset-0 z-10"></a>
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                 <path d="M16.8 2h-2.6C11 2 9 4 9 7.2v4.05h6.25c.41 0 .75.34.75.75s-.34.75-.75.75H9v4.05C9 20 11 22 14.2 22h2.59c3.2 0 5.2-2 5.2-5.2V7.2C22 4 20 2 16.8 2z"></path>
                                 <path d="M4.561 11.25l2.07-2.07c.15-.15.22-.34.22-.53s-.07-.39-.22-.53a.754.754 0 00-1.06 0l-3.35 3.35c-.29.29-.29.77 0 1.06l3.35 3.35c.29.29.77.29 1.06 0 .29-.29.29-.77 0-1.06l-2.07-2.07h4.44v-1.5h-4.44z"></path>
@@ -189,7 +186,7 @@ if (in_array($_SESSION["Login"]["email"], array_keys($_SESSION))) {
 
         <main class="row-span-6 col-span-10 bg-slate-100 sm:col-span-12 lg:col-span-10 ">
             <div class="flex justify-between items-center border-b-2 py-3 px-2">
-                <span>Welcome Admin, <?php print_r($_SESSION[$array1]["first_name"]) ?></span>
+                <span>Welcome Admin, <?php print_r($result[0][1]) ?></span>
                 <div class="p-2 border rounded-full bg-slate-100">
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM7 6v2a3 3 0 1 0 6 0V6a3 3 0 1 0-6 0zm-3.65 8.44a8 8 0 0 0 13.3 0 15.94 15.94 0 0 0-13.3 0z">
@@ -207,15 +204,16 @@ if (in_array($_SESSION["Login"]["email"], array_keys($_SESSION))) {
                         </svg>
                         <input type="search" class="px-10 py-2 rounded-lg text-slate-400" placeholder="Search...">
                     </div>
-                    <button class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg">+ Add Customes</button>
+                    <a href="Registeration_form_in_html.php" class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg">+ Add Customers</a>
                 </div>
             </div>
             <div class="px-2">
             <div class="px-2 h-96 overflow-y-scroll">
                 <?php
+                // foreach($a as $i=>$j){
                 $cardcontent ="";
-                if (empty($_SESSION["data"])) {
-                    $_SESSION["data"] = array();
+                
+                foreach($result as $item){
                     $cardcontent = '<div class="grid gap-2 py-2 sm:block md:grid mt-2 bg-white rounded-md border w-full">
                     <div class=" flex justify-between items-center p-2 gap-2 w-full">
                         <div class=" flex justify-between items-center gap-4">
@@ -223,93 +221,35 @@ if (in_array($_SESSION["Login"]["email"], array_keys($_SESSION))) {
                             <div class="ar">
                                 <div class="flex items-center gap-1">
                                     <h2 class="font-bold">'
-                            . $_SESSION[$array1]["first_name"] . '
+                            . $item[1] . '
                                            </h2>
                                     <p class=" px-1 rounded-lg mx-2 bg-purple-600 text-white">'
-                            . $_SESSION[$array1]["occupation"] . '</p>
+                            . $item[5] . '</p>
                                 </div>
                                 <div class="email">'
-                            . $_SESSION[$array1]["email"] . '</p>
+                            . $item[2] . '</p>
                                 </div>
                                 <div class="skills flex justify-between items-center gap-4">
                                     <p>Associated Marketplace: Not Associated</p>
                                     <p>Service Provider : No</p>
                                     <p>Skills : '
-                            . $_SESSION[$array1]["skills"] . '</p>
+                            . $item[6] . '</p>
                                 </div>
                             </div>
                         </div>
                         <div class="flex items-center justify-between gap-8">
                             <p class=" bg-indigo-500 text-white px-3 rounded-full">Active</p>
                             <p class=" bg-purple-500 text-white px-3 rounded-full">'
-                            . $_SESSION[$array1]["role"] . '</p>
-                            <svg class="w-6" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24" fill="currentColor">
-                                <rect fill="none" height="24" width="24"></rect>
-                                <path d="M13,3c-4.97,0-9,4.03-9,9c0,0.06,0.01,0.12,0.01,0.19l-1.84-1.84l-1.41,1.41L5,16l4.24-4.24l-1.41-1.41l-1.82,1.82 C6.01,12.11,6,12.06,6,12c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7c-1.9,0-3.62-0.76-4.88-1.99L6.7,18.42 C8.32,20.01,10.55,21,13,21c4.97,0,9-4.03,9-9S17.97,3,13,3z M15,11v-1c0-1.1-0.9-2-2-2s-2,0.9-2,2v1c-0.55,0-1,0.45-1,1v3 c0,0.55,0.45,1,1,1h4c0.55,0,1-0.45,1-1v-3C16,11.45,15.55,11,15,11z M14,11h-2v-1c0-0.55,0.45-1,1-1s1,0.45,1,1V11z">
-                                </path>
-                            </svg>
-                            <button class="border-2 px-4 py-1 rounded-md">Archive</button>
+                            . $item[5] . '</p>
+                            <a href="update.php?id=' . $item[0] . '" data-toggle="tooltip" data-placement="top" title="Edit" class="px-1 rounded-lg bg-slate-100 text-black">
+                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path><path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path></svg></a>
+                            <a href="delete.php?id=' . $item[0] .'" data-toggle="tooltip" data-placement="top" title="Delete" class="border-2 px-4 py-1 rounded-md">Archive</a>
                         </div>
                     </div>
                 </div>';
-                }
-                else{
-           
-                    if(in_array($_SESSION["Login"],$_SESSION)){
-                        $cardcontent = '<div class="grid gap-2 py-2 sm:block md:grid mt-2 bg-white rounded-md border w-full">
-                    <div class=" flex justify-between items-center p-2 gap-2 w-full">
-                        <div class=" flex justify-between items-center gap-4">
-                            <div class=" p-2 rounded-full bg-blue-600"></div>
-                            <div class="ar">
-                                <div class="flex items-center gap-1">
-                                    <h2 class="font-bold">'
-                            . $_SESSION[$array1]["first_name"] . '
-                                           </h2>
-                                    <p class=" px-1 rounded-lg mx-2 bg-purple-600 text-white">'
-                            . $_SESSION[$array1]["occupation"] . '</p>
-                                </div>
-                                <div class="email">'
-                            . $_SESSION[$array1]["email"] . '</p>
-                                </div>
-                                <div class="skills flex justify-between items-center gap-4">
-                                    <p>Associated Marketplace: Not Associated</p>
-                                    <p>Service Provider : No</p>
-                                    <p>Skills : '
-                            . $_SESSION[$array1]["skills"] . '</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between gap-8">
-                            <p class=" bg-indigo-500 text-white px-3 rounded-full">Active</p>
-                            <p class=" bg-purple-500 text-white px-3 rounded-full">'
-                            . $_SESSION[$array1]["role"] . '</p>
-                            <svg class="w-6" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24" fill="currentColor">
-                                <rect fill="none" height="24" width="24"></rect>
-                                <path d="M13,3c-4.97,0-9,4.03-9,9c0,0.06,0.01,0.12,0.01,0.19l-1.84-1.84l-1.41,1.41L5,16l4.24-4.24l-1.41-1.41l-1.82,1.82 C6.01,12.11,6,12.06,6,12c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7c-1.9,0-3.62-0.76-4.88-1.99L6.7,18.42 C8.32,20.01,10.55,21,13,21c4.97,0,9-4.03,9-9S17.97,3,13,3z M15,11v-1c0-1.1-0.9-2-2-2s-2,0.9-2,2v1c-0.55,0-1,0.45-1,1v3 c0,0.55,0.45,1,1,1h4c0.55,0,1-0.45,1-1v-3C16,11.45,15.55,11,15,11z M14,11h-2v-1c0-0.55,0.45-1,1-1s1,0.45,1,1V11z">
-                                </path>
-                            </svg>
-                            <button class="border-2 px-4 py-1 rounded-md">Archive</button>
-                        </div>
-                    </div>
-                </div>';
-                    }
-                }
-                array_push($_SESSION["data"], $cardcontent);
-                $same[] = array_unique($_SESSION["data"]);
-                // print_r($same)
-                foreach ($same as $i => $j) {
-                    foreach($j as $k=> $v){
-                        print_r($v);
-                    }
-                    // print_r(array_values($j));
+                print_r($cardcontent);
                 }
                 ?>
-            </div>
-            </div>
-        </main>
-    </div>
-
-
 </body>
 
 </html>

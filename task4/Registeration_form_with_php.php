@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 // Validation
 $firstname = $lastname = $email = $password = $occupation = $role = $skills = $passlength = $ucase = $lcase = $passnumber = $spchar = "";
@@ -18,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (!empty($_POST['skills'])) {
             $skills = $_POST['skills'];
         }
-
+        $email1 = $email;
         $errfirstname = validation_match($firstname); // First Name
         $errfirstname1 = validation_length($firstname); // First Name
         $erremail = validation_length($email); // Email
