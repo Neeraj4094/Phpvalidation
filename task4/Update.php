@@ -34,7 +34,7 @@ $fetchdata = mysqli_fetch_all($result1);
                     // $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
                     $update = "update registeration_login set name= '$firstname', email = '$email', password= '$password', occupation = '$occupation', role = '$role', skills= '$skills' where id= $id";
                     $result = mysqli_query($con, $update);
-                    header("location: /phpprogramms/task3/admin3.php");
+                    header("location: /phpprogramms/task4/admin3.php");
                 }
                 } else {
                     echo "Please complete the form";
@@ -49,7 +49,7 @@ $fetchdata = mysqli_fetch_all($result1);
                             // $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
                             $update = "update registeration_login set name= '$firstname', email = '$email', password= '$password', occupation = '$occupation', role = '$role', skills= '$skills' where id= $id";
                             $result = mysqli_query($con, $update);
-                            header("location: /phpprogramms/task3/admin3.php");
+                            header("location: /phpprogramms/task4/admin3.php");
                             break;
                         } else {
                             echo "Please complete the form";

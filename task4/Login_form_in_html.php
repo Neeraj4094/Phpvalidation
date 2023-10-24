@@ -1,6 +1,6 @@
 <?php
 require './login_with_php.php';
-$email2 = "";
+$email2 = $compare="";
 function searcharray($array, $show, $email2)
 {
     foreach ($array as $item) {
@@ -16,6 +16,9 @@ if (isset($_POST["submit"])) {
     $password2  = $login["submit"]["password"];
 }
 $res[] = searcharray($result, $show, $email2);
+if(isset($res[0][2])){
+$compare= $res[0][2];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,11 +35,11 @@ $res[] = searcharray($result, $show, $email2);
         <?php //Compare of Registeration & Login Page
         if (isset($_POST['submit'])) {
             if(!empty($email2) && !empty($password2)){
-            if (in_array($email2, $res[0])) {
+            if ($email2 == $compare) {
                 echo "Email is correct ";
-                if (in_array($password2, $res[0])) {
+                if ($password2 == $res[0][3]) {
                     echo " and password is also correct";
-                    header("location:/phpprogramms/task3/admin3.php");
+                    header("location:/phpprogramms/task4/admin3.php");
                 }else{
                     echo " but Password is not correct";
                 }

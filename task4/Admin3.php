@@ -1,6 +1,7 @@
 <?php
 // session_start();
 include 'dbconnection.php';
+include 'login_with_php.php';
 $select = "select * from registeration_login";
 $query= mysqli_query($con,$select);
 $result = mysqli_fetch_all($query);
@@ -186,7 +187,7 @@ $result = mysqli_fetch_all($query);
 
         <main class="row-span-6 col-span-10 bg-slate-100 sm:col-span-12 lg:col-span-10 ">
             <div class="flex justify-between items-center border-b-2 py-3 px-2">
-                <span>Welcome Admin, <?php print_r($result[0][1]) ?></span>
+                <span>Welcome Admin, <?php print_r(end($result)[1]) ?></span>
                 <div class="p-2 border rounded-full bg-slate-100">
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM7 6v2a3 3 0 1 0 6 0V6a3 3 0 1 0-6 0zm-3.65 8.44a8 8 0 0 0 13.3 0 15.94 15.94 0 0 0-13.3 0z">
