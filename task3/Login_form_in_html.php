@@ -16,10 +16,6 @@ if (isset($_POST["submit"])) {
     $password2  = $login["submit"]["password"];
 }
 $res[] = searcharray($result, $show, $email2);
-
-// echo "<pre>";
-// print_r($result);
-// echo "</pre>";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,13 +31,13 @@ $res[] = searcharray($result, $show, $email2);
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php //Compare of Registeration & Login Page
         if (isset($_POST['submit'])) {
-            if(!empty($email2)){
+            if(!empty($email2) && !empty($password2)){
             if (in_array($email2, $res[0])) {
                 echo "Email is correct ";
                 if (in_array($password2, $res[0])) {
                     echo " and password is also correct";
-                    // header("location:/phpprogramms/database/admin3.php");
-                } else {
+                    header("location:/phpprogramms/task3/admin3.php");
+                }else{
                     echo " but Password is not correct";
                 }
             } else {
@@ -51,9 +47,6 @@ $res[] = searcharray($result, $show, $email2);
             echo "Please complete the form";
         }
         }
-        // else{
-        //     echo "complete the form";
-        // }
 
         ?>
     </h2>

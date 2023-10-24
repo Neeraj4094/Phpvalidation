@@ -16,11 +16,11 @@ $result = mysqli_fetch_all($query);
 </head>
 
 <body>
-    <div class="grid grid-cols-12 grid-rows-6 p-1 gap-1 w-full h-full">
+    <div class="grid grid-cols-12 grid-rows-6  gap-1 w-full h-full">
         <aside class=" row-span-6 col-span-2 bg-slate-100 px-2 py-2 space-y-3 sm:hidden lg:block">
             <div class="px-2 flex items-center justify-center w-full">
                 <div class="w-full h-10 rounded-full ">
-                    <img src="./Image/Balloon.jpg" alt="Logo" class="w-full h-full object-cover rounded-lg">
+                    <img src="../Image/Balloon.jpg" alt="Logo" class="w-full h-full object-cover rounded-lg">
                 </div>
             </div>
             <div class="flex relative gap-2 pt-1">
@@ -204,7 +204,7 @@ $result = mysqli_fetch_all($query);
                         </svg>
                         <input type="search" class="px-10 py-2 rounded-lg text-slate-400" placeholder="Search...">
                     </div>
-                    <button class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg">+ Add Customes</button>
+                    <a href="Registeration_form_in_html.php" class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg">+ Add Customers</a>
                 </div>
             </div>
             <div class="px-2">
@@ -241,21 +241,15 @@ $result = mysqli_fetch_all($query);
                             <p class=" bg-indigo-500 text-white px-3 rounded-full">Active</p>
                             <p class=" bg-purple-500 text-white px-3 rounded-full">'
                             . $item[5] . '</p>
-                            <svg class="w-6" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24" fill="currentColor">
-                                <rect fill="none" height="24" width="24"></rect>
-                                <path d="M13,3c-4.97,0-9,4.03-9,9c0,0.06,0.01,0.12,0.01,0.19l-1.84-1.84l-1.41,1.41L5,16l4.24-4.24l-1.41-1.41l-1.82,1.82 C6.01,12.11,6,12.06,6,12c0-3.86,3.14-7,7-7s7,3.14,7,7s-3.14,7-7,7c-1.9,0-3.62-0.76-4.88-1.99L6.7,18.42 C8.32,20.01,10.55,21,13,21c4.97,0,9-4.03,9-9S17.97,3,13,3z M15,11v-1c0-1.1-0.9-2-2-2s-2,0.9-2,2v1c-0.55,0-1,0.45-1,1v3 c0,0.55,0.45,1,1,1h4c0.55,0,1-0.45,1-1v-3C16,11.45,15.55,11,15,11z M14,11h-2v-1c0-0.55,0.45-1,1-1s1,0.45,1,1V11z">
-                                </path>
-                            </svg>
-                            <button class="border-2 px-4 py-1 rounded-md">Archive</button>
+                            <a href="update.php?id=' . $item[0] . '" data-toggle="tooltip" data-placement="top" title="Edit" class="px-1 rounded-lg bg-slate-100 text-black">
+                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path><path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path></svg></a>
+                            <a href="delete.php?id=' . $item[0] .'" data-toggle="tooltip" data-placement="top" title="Delete" class="border-2 px-4 py-1 rounded-md">Archive</a>
                         </div>
                     </div>
                 </div>';
                 print_r($cardcontent);
                 }
                 ?>
-
-
-
 </body>
 
 </html>

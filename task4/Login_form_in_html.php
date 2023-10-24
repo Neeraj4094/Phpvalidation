@@ -9,7 +9,7 @@ require 'login_with_php.php';
  <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="dist/output.css">
+     <link rel="stylesheet" href="../dist/output.css">
      <title>Document</title>
  </head>
 
@@ -20,7 +20,7 @@ require 'login_with_php.php';
             if(in_array($_SESSION[$_POST['submit']]["email"],array_keys($_SESSION))){
                 echo "Email is correct but ";
                 if(in_array($_SESSION[$_POST['submit']]["password"],$_SESSION[$email1])){
-                header("location:/phpprogramms/admin3.php");
+                header("location:/phpprogramms/task4/admin3.php");
                 }else{
                     echo "Password is not correct";
                 }
@@ -64,7 +64,7 @@ require 'login_with_php.php';
 
          </form>
          <div class="flex-1">
-             <img src="./Image/Balloon.jpg" alt="Main Image" class="w-full h-full object-cover">
+             <img src="../Image/Balloon.jpg" alt="Main Image" class="w-full h-full object-cover">
          </div>
      </div>
  </body>

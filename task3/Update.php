@@ -1,5 +1,13 @@
 <?php
-include 'registeration_form_with_php.php';
+include './registeration_form_with_php.php';
+include 'dbconnection.php';
+
+
+$id= $_GET['id'];
+$result = "select * from registeration_login where id = $id";
+$result1 = mysqli_query($con,$result);
+$fetchdata = mysqli_fetch_all($result1);
+
 ?>
 
 <!DOCTYPE html>
@@ -8,7 +16,7 @@ include 'registeration_form_with_php.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="dist/output.css">
+    <link rel="stylesheet" href="../dist/output.css">
     <title>Document</title>
 </head>
 
@@ -16,21 +24,41 @@ include 'registeration_form_with_php.php';
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
         if (isset($_POST['submit'])) {
-            if(in_array($email,array_keys($_SESSION))){
-                echo "This email already exists";
-            }else{
-            if ($erremail == null && $erremail1 == null && $errfirstname ==null && $errfirstname1 == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
-                echo "Message sent successfully";
-                // Session in Regesteration form
-                if (isset($_POST['email'])) {
-                    $_SESSION[$_POST['email']] = $_POST;
+            if (empty($fetchdata)) {
+                if ($erremail == null && $erremail1 == null && $errfirstname == null && $errfirstname1 == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
+                    echo "Message sent successfully";
+                    //Database
+                    if(in_array($_POST["email"],$fetchdata)){
+                        
+                    
+                    // $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
+                    $update = "update registeration_login set name= '$firstname', email = '$email', password= '$password', occupation = '$occupation', role = '$role', skills= '$skills' where id= $id";
+                    $result = mysqli_query($con, $update);
+                    header("location: /phpprogramms/task3/admin3.php");
                 }
-                header("location:/phpprogramms/login_form_in_html.php");
+                } else {
+                    echo "Please complete the form";
+                }
             } else {
-                echo "Please complete the form";
+                foreach ($fetchdata as $i => $j) {
+                    if (in_array($email, $j)) {
+                        
+                        if ($erremail == null && $erremail1 == null && $errfirstname == null && $errfirstname1 == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
+                            echo "Message sent successfully";
+                            //Database
+                            // $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
+                            $update = "update registeration_login set name= '$firstname', email = '$email', password= '$password', occupation = '$occupation', role = '$role', skills= '$skills' where id= $id";
+                            $result = mysqli_query($con, $update);
+                            header("location: /phpprogramms/task3/admin3.php");
+                            break;
+                        } else {
+                            echo "Please complete the form";
+                            break;
+                        }
+                    }
+                }
             }
         }
-    }
         ?>
     </h2>
     <div class="flex w-full h-full">
@@ -39,7 +67,7 @@ include 'registeration_form_with_php.php';
                 <div class="flex gap-10">
                     <div class="space-y-2">
                         First Name
-                        <input type="text" name="first_name" id="first_name" placeholder="First Name" class="border rounded-sm w-full p-1">
+                        <input type="text" name="first_name" id="first_name" placeholder="First Name" value="<?php echo $fetchdata[0][1] ?>" class="border rounded-sm w-full p-1">
                         <span class="text-red-600">* <?php echo $errfirstname ?></span>
                     </div>
 
@@ -66,19 +94,19 @@ include 'registeration_form_with_php.php';
                 </div>
                 <div class="">
                     Email
-                    <input type="email" name="email" id="email" placeholder="Email" class="border rounded-sm w-full p-1">
+                    <input type="email" name="email" id="email" placeholder="Email" value="<?php echo $fetchdata[0][2] ?>" class="border rounded-sm w-full p-1">
                     <span class="text-red-600">* <?php echo $erremail ?></span>
                 </div>
                 <div class="">
                     Password
-                    <input type="password" name="password" id="password" placeholder="Password" class="border rounded-sm w-full p-1">
+                    <input type="password" name="password" id="password" placeholder="Password" value="<?php echo $fetchdata[0][3] ?>" class="border rounded-sm w-full p-1">
                     <span class="text-red-600">* <?php echo $errpassword ?></span>
                 </div>
                 <div class="flex items-center justify-between ">
                     <div class="">
                         <div class="flex items-center gap-4">
                             <label class="w-auto">What is your Occupation :-</label>
-                            <select name="occupation" id="role" class="rounded-lg bg-slate-100 text-slate-500 border w-48 p-2 ">
+                            <select name="occupation" id="role"  class="rounded-lg bg-slate-100 text-slate-500 border w-48 p-2 ">
                                 <option value="" class="bg-transparent p-1">Select Your Role</option>
                                 <option value="Testing" class="bg-transparent p-1">Testing</option>
                                 <option value="Designing" class="bg-transparent p-1">Designing</option>
@@ -92,7 +120,7 @@ include 'registeration_form_with_php.php';
                 <div class="flex w-full justify-between">
                     <fieldset class=" space-y-2">
                         <legend>Role :-</legend>
-                        <div class="flex gap-10">
+                        <div class="flex gap-10" >
                             <div>
                                 <input type="radio" name="role" id="employee" value="Employee">
                                 <label for="employee">Employee</label>
@@ -152,13 +180,13 @@ include 'registeration_form_with_php.php';
                     </fieldset>
                 </div>
                 <div class="pt-2">
-                    <input type="submit" name="submit" class="bg-purple-600 rounded-lg text-white border border-white px-8 py-2 cursor-pointer">
+                    <input type="submit" name="submit" value="Update" class="bg-purple-600 rounded-lg text-white border border-white px-8 py-2 cursor-pointer">
                 </div>
             </div>
         </form>
         <div class="flex-1">
 
-            <img src="./Image/Balloon.jpg" alt="Main Image" class="w-full h-full object-cover">
+            <img src="../Image/Balloon.jpg" alt="Main Image" class="w-full h-full object-cover">
         </div>
     </div>
 

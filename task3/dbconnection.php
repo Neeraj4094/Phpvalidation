@@ -18,8 +18,6 @@ if(isset($_POST["skills"])){
 $con = mysqli_connect($server,$username,$password1,$db);
 if ($con->connect_error) {
     die("Connection failed: " . $con->connect_error);
-} else {
-    echo "Connected successfully";
 }
 
 ?>

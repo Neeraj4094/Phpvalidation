@@ -1,5 +1,4 @@
 <?php
-// session_start();
 require './registeration_form_with_php.php';
 include 'dbconnection.php';
 $select = "select * from registeration_login";
@@ -20,7 +19,6 @@ if(isset($_POST['loginemail']) && isset($_POST['loginpassword'])){
         $email1;
     }
     $errpassword = func1($password1, $err, $passlength, $ucase, $lcase, $passnumber, $spchar); // Password
-    
 }
 }
 }
