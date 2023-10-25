@@ -5,6 +5,15 @@ include 'login_with_php.php';
 $select = "select * from registeration_login";
 $query= mysqli_query($con,$select);
 $result = mysqli_fetch_all($query);
+
+foreach($result as $item){
+    if(in_array($_SESSION["submit"]["email"],$item)){
+        $data= $item;
+    }
+//    $username= in_array($_SESSION["submit"]["email"],$item)?$data[1]:$item[1];
+
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -187,7 +196,7 @@ $result = mysqli_fetch_all($query);
 
         <main class="row-span-6 col-span-10 bg-slate-100 sm:col-span-12 lg:col-span-10 ">
             <div class="flex justify-between items-center border-b-2 py-3 px-2">
-                <span>Welcome Admin, <?php print_r(end($result)[1]) ?></span>
+                <span>Welcome Admin, <?php print_r($data[1]) ?></span>
                 <div class="p-2 border rounded-full bg-slate-100">
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM7 6v2a3 3 0 1 0 6 0V6a3 3 0 1 0-6 0zm-3.65 8.44a8 8 0 0 0 13.3 0 15.94 15.94 0 0 0-13.3 0z">
@@ -215,36 +224,43 @@ $result = mysqli_fetch_all($query);
                 $cardcontent ="";
                 
                 foreach($result as $item){
-                    $cardcontent = '<div class="grid gap-2 py-2 sm:block md:grid mt-2 bg-white rounded-md border w-full">
-                    <div class=" flex justify-between items-center p-2 gap-2 w-full">
+                    $username= in_array($_SESSION["submit"]["email"],$item)?$data[1]:$item[1];
+                    $useremail= in_array($_SESSION["submit"]["email"],$item)?$data[2]:$item[2];
+                    $userpassword= in_array($_SESSION["submit"]["email"],$item)?$data[3]: substr($item[3],0,4) ."**********" ;
+                    $userrole= in_array($_SESSION["submit"]["email"],$item)?$data[5]:$item[5];
+                    $userskills= in_array($_SESSION["submit"]["email"],$item)?$data[6]:$item[6];
+                    $usercolor = in_array($_SESSION["submit"]["email"],$item)?'bg-blue-600':'bg-white';
+                    $cardcontent = '<div class="grid gap-2 py-2 sm:block md:grid mt-2  bg-white rounded-md border w-full ">
+                    <div class=" flex justify-between items-center p-2 gap-2 w-full ">
                         <div class=" flex justify-between items-center gap-4">
                             <div class=" p-2 rounded-full bg-blue-600"></div>
                             <div class="ar">
                                 <div class="flex items-center gap-1">
                                     <h2 class="font-bold">'
-                            . $item[1] . '
+                            . $username . '
                                            </h2>
                                     <p class=" px-1 rounded-lg mx-2 bg-purple-600 text-white">'
-                            . $item[5] . '</p>
+                            . $userrole . '</p>
                                 </div>
                                 <div class="email">'
-                            . $item[2] . '</p>
+                            . $useremail . '</p>
                                 </div>
                                 <div class="skills flex justify-between items-center gap-4">
                                     <p>Associated Marketplace: Not Associated</p>
-                                    <p>Service Provider : No</p>
+                                    <p>Provided Password :-'
+                            . $userpassword .'</p>
                                     <p>Skills : '
-                            . $item[6] . '</p>
+                            . $userskills . '</p>
                                 </div>
                             </div>
                         </div>
                         <div class="flex items-center justify-between gap-8">
                             <p class=" bg-indigo-500 text-white px-3 rounded-full">Active</p>
                             <p class=" bg-purple-500 text-white px-3 rounded-full">'
-                            . $item[5] . '</p>
+                            . $userrole . '</p>
                             <a href="update.php?id=' . $item[0] . '" data-toggle="tooltip" data-placement="top" title="Edit" class="px-1 rounded-lg bg-slate-100 text-black">
                             <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path><path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path></svg></a>
-                            <a href="delete.php?id=' . $item[0] .'" data-toggle="tooltip" data-placement="top" title="Delete" class="border-2 px-4 py-1 rounded-md">Archive</a>
+                            <button src="delete.php?id=' . $item[0] .'" data-toggle="tooltip" data-placement="top" title="Delete" class="border-2 px-4 py-1 rounded-md">Archive</button>
                         </div>
                     </div>
                 </div>';
