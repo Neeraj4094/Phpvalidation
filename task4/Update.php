@@ -23,26 +23,21 @@ $fetchdata = mysqli_fetch_all($result1);
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
         if (isset($_POST['submit'])) {
-            //  if(!empty) {
-                foreach ($fetchdata as $i => $j) {
-                    
-
-                        if ($erremail == null && $erremail1 == null && $errfirstname == null && $errfirstname1 == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
-                            echo "Message sent successfully";
-                            //Database
-                            // $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
-                            $update = "update registeration_login set name= '$firstname', email = '$email', password= '$password', occupation = '$occupation', role = '$role', skills= '$skills' where id= $id";
-                            $result = mysqli_query($con, $update);
-                            header("location: /phpprogramms/task4/admin3.php");
-                            break;
-                        } else {
-                            echo "Please complete the form";
-                            break;
-                        }
-                    }
+            foreach ($fetchdata as $i => $j) {
+                if ($erremail == null && $erremail1 == null && $errfirstname == null && $errfirstname1 == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
+                    echo "Message sent successfully";
+                    //Database
+                    // $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
+                    $update = "update registeration_login set name= '$firstname', email = '$email', password= '$password', occupation = '$occupation', role = '$role', skills= '$skills' where id= $id";
+                    $result = mysqli_query($con, $update);
+                    header("location: /phpprogramms/task4/admin3.php");
+                    break;
+                } else {
+                    echo "Please complete the form";
+                    break;
                 }
-            
-        // }
+            }
+        }
         ?>
     </h2>
     <div class="flex w-full h-full">
@@ -88,7 +83,7 @@ $fetchdata = mysqli_fetch_all($result1);
                                 <option value="" class="bg-transparent p-1">Select Your Role</option>
                                 <option value="Testing" <?php echo ($fetchdata[0][4] == 'Testing') ? 'selected' : '' ?> class="bg-transparent p-1">Testing</option>
                                 <option value="Designing" <?php echo ($fetchdata[0][4] == 'Designing') ? 'selected' : '' ?> class="bg-transparent p-1">Designing</option>
-                                <option value="Managining"  <?php echo ($fetchdata[0][4] == 'Managining') ? 'selected' : ''; ?> class="bg-transparent p-1">Managining</option>
+                                <option value="Managining" <?php echo ($fetchdata[0][4] == 'Managining') ? 'selected' : ''; ?> class="bg-transparent p-1">Managining</option>
                             </select>
                         </div>
                         <span class="text-red-600">* <?php echo $erroccupation ?></span>
@@ -118,7 +113,7 @@ $fetchdata = mysqli_fetch_all($result1);
                         <legend>Associated :-</legend>
                         <div class="flex gap-10">
                             <div>
-                                <input type="radio" name="associated" id="associated_yes" value="Yes" >
+                                <input type="radio" name="associated" id="associated_yes" value="Yes">
                                 <label for="associated_yes">Yes</label>
                             </div>
                             <div>
@@ -133,24 +128,24 @@ $fetchdata = mysqli_fetch_all($result1);
                         <legend class="flex">Skills :-</legend>
                         <div class="flex items-center flex-wrap gap-6">
                             <div class="">
-                                <input type="checkbox" name="skills" id="Web_design" value="Web Design" <?php echo ($fetchdata[0][6] == 'Web Design')?'checked':'' ?>>
+                                <input type="checkbox" name="skills" id="Web_design" value="Web Design" <?php echo ($fetchdata[0][6] == 'Web Design') ? 'checked' : '' ?>>
                                 <label for="Web_design">Web Design</label>
                             </div>
                             <div class="">
-                                <input type="checkbox" name="skills" id="ui/ux" value="UI/UX" <?php echo ($fetchdata[0][6] == 'UI/UX')?'checked':'' ?>>
+                                <input type="checkbox" name="skills" id="ui/ux" value="UI/UX" <?php echo ($fetchdata[0][6] == 'UI/UX') ? 'checked' : '' ?>>
                                 <label for="ui/ux">UI/UX</label>
                             </div>
                             <div class="">
-                                <input type="checkbox" name="skills" id="app_design" value="App Design" <?php echo ($fetchdata[0][6] == 'App Design')?'checked':'' ?>>
+                                <input type="checkbox" name="skills" id="app_design" value="App Design" <?php echo ($fetchdata[0][6] == 'App Design') ? 'checked' : '' ?>>
                                 <label for="app_design">App Design</label>
                             </div>
                             <div class="">
-                                <input type="checkbox" name="skills" id="management" value="Management" <?php echo ($fetchdata[0][6] == 'Management')?'checked':'' ?>>
+                                <input type="checkbox" name="skills" id="management" value="Management" <?php echo ($fetchdata[0][6] == 'Management') ? 'checked' : '' ?>>
                                 <label for="management">Management</label>
                             </div>
 
                             <div class="">
-                                <input type="checkbox" name="skills" id="others" value="Other" <?php echo ($fetchdata[0][6] == 'Other')?'checked':'' ?>>
+                                <input type="checkbox" name="skills" id="others" value="Other" <?php echo ($fetchdata[0][6] == 'Other') ? 'checked' : '' ?>>
                                 <label for="others">Others</label>
                             </div>
                         </div>

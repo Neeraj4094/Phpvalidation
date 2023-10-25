@@ -1,5 +1,5 @@
 <?php
-session_start();
+include 'session.php';
 require './registeration_form_with_php.php';
 include 'dbconnection.php';
 $select = "select * from registeration_login";

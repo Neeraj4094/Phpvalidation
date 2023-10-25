@@ -3,17 +3,20 @@
 include 'dbconnection.php';
 include 'login_with_php.php';
 $select = "select * from registeration_login";
-$query= mysqli_query($con,$select);
+$query = mysqli_query($con, $select);
 $result = mysqli_fetch_all($query);
-
-foreach($result as $item){
-    if(in_array($_SESSION["submit"]["email"],$item)){
-        $data= $item;
+if($_SESSION != null){
+foreach ($result as $item) {
+    if (in_array($_SESSION["submit"]["email"], $item)) {
+        $data = $item;
     }
-//    $username= in_array($_SESSION["submit"]["email"],$item)?$data[1]:$item[1];
-
+    
+    $username = in_array($_SESSION["submit"]["email"], $item) ? $data[1] : $item[1];
 }
-
+}else{
+    header("location: ./error.php");
+}
+// echo $data;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -182,7 +185,7 @@ foreach($result as $item){
                     </li>
                     <li>
                         <div class="flex items-center gap-2 relative border-t px-2 py-2">
-                            <a href="../Logout.php" class="absolute inset-0 z-10"></a>
+                            <a href="./Logout.php" class="absolute inset-0 z-10"></a>
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                 <path d="M16.8 2h-2.6C11 2 9 4 9 7.2v4.05h6.25c.41 0 .75.34.75.75s-.34.75-.75.75H9v4.05C9 20 11 22 14.2 22h2.59c3.2 0 5.2-2 5.2-5.2V7.2C22 4 20 2 16.8 2z"></path>
                                 <path d="M4.561 11.25l2.07-2.07c.15-.15.22-.34.22-.53s-.07-.39-.22-.53a.754.754 0 00-1.06 0l-3.35 3.35c-.29.29-.29.77 0 1.06l3.35 3.35c.29.29.77.29 1.06 0 .29-.29.29-.77 0-1.06l-2.07-2.07h4.44v-1.5h-4.44z"></path>
@@ -196,7 +199,7 @@ foreach($result as $item){
 
         <main class="row-span-6 col-span-10 bg-slate-100 sm:col-span-12 lg:col-span-10 ">
             <div class="flex justify-between items-center border-b-2 py-3 px-2">
-                <span>Welcome Admin, <?php print_r($data[1]) ?></span>
+                <span>Welcome Admin, <?php print_r($data[1]); ?></span>
                 <div class="p-2 border rounded-full bg-slate-100">
                     <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM7 6v2a3 3 0 1 0 6 0V6a3 3 0 1 0-6 0zm-3.65 8.44a8 8 0 0 0 13.3 0 15.94 15.94 0 0 0-13.3 0z">
@@ -218,24 +221,24 @@ foreach($result as $item){
                 </div>
             </div>
             <div class="px-2">
-            <div class="px-2 h-96 overflow-y-scroll">
-                <?php
-                // foreach($a as $i=>$j){
-                $cardcontent ="";
-                
-                foreach($result as $item){
-                    $username= in_array($_SESSION["submit"]["email"],$item)?$data[1]:$item[1];
-                    $useremail= in_array($_SESSION["submit"]["email"],$item)?$data[2]:$item[2];
-                    $userpassword= in_array($_SESSION["submit"]["email"],$item)?$data[3]: substr($item[3],0,4) ."**********" ;
-                    $userrole= in_array($_SESSION["submit"]["email"],$item)?$data[5]:$item[5];
-                    $userskills= in_array($_SESSION["submit"]["email"],$item)?$data[6]:$item[6];
-                    $usercolor = in_array($_SESSION["submit"]["email"],$item)?'bg-blue-600':'bg-white';
-                    $cardcontent = '<div class="grid gap-2 py-2 sm:block md:grid mt-2  bg-white rounded-md border w-full ">
-                    <div class=" flex justify-between items-center p-2 gap-2 w-full ">
-                        <div class=" flex justify-between items-center gap-4">
-                            <div class=" p-2 rounded-full bg-blue-600"></div>
-                            <div class="ar">
-                                <div class="flex items-center gap-1">
+                <div class="px-2 h-96 overflow-y-scroll">
+                    <?php
+                    // foreach($a as $i=>$j){
+                    $cardcontent = "";
+                    
+                    foreach ($result as $item) {
+                        $username = in_array($_SESSION["submit"]["email"], $item) ? $data[1] : $item[1];
+                        $useremail = in_array($_SESSION["submit"]["email"], $item) ? $data[2] : $item[2];
+                        $userpassword = in_array($_SESSION["submit"]["email"], $item) ? $data[3] : substr($item[3], 0, 4) . "**********";
+                        $userrole = in_array($_SESSION["submit"]["email"], $item) ? $data[5] : $item[5];
+                        $userskills = in_array($_SESSION["submit"]["email"], $item) ? $data[6] : $item[6];
+                        $usercolor = in_array($_SESSION["submit"]["email"], $item) ? 'bg-blue-600' : 'bg-white';
+                        $cardcontent = '<div class="grid gap-2 py-2 sm:block md:grid mt-2  bg-white rounded-md border w-full ">
+                            <div class=" flex justify-between items-center p-2 gap-2 w-full ">
+                                <div class=" flex justify-between items-center gap-4">
+                                    <div class=" p-2 rounded-full bg-blue-600"></div>
+                                    <div class="ar">
+                                        <div class="flex items-center gap-1">
                                     <h2 class="font-bold">'
                             . $username . '
                                            </h2>
@@ -248,7 +251,7 @@ foreach($result as $item){
                                 <div class="skills flex justify-between items-center gap-4">
                                     <p>Associated Marketplace: Not Associated</p>
                                     <p>Provided Password :-'
-                            . $userpassword .'</p>
+                            . $userpassword . '</p>
                                     <p>Skills : '
                             . $userskills . '</p>
                                 </div>
@@ -260,13 +263,14 @@ foreach($result as $item){
                             . $userrole . '</p>
                             <a href="update.php?id=' . $item[0] . '" data-toggle="tooltip" data-placement="top" title="Edit" class="px-1 rounded-lg bg-slate-100 text-black">
                             <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path><path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path></svg></a>
-                            <button src="delete.php?id=' . $item[0] .'" data-toggle="tooltip" data-placement="top" title="Delete" class="border-2 px-4 py-1 rounded-md">Archive</button>
+                            <a href="delete.php?id=' . $item[0] . '" data-toggle="tooltip" data-placement="top" title="Delete" class="border-2 px-4 py-1 rounded-md">Archive</a>
                         </div>
                     </div>
                 </div>';
-                print_r($cardcontent);
-                }
-                ?>
+                        print_r($cardcontent);
+                    }
+                
+                    ?>
 </body>
 
 </html>
