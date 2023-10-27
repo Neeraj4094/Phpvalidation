@@ -10,13 +10,16 @@ foreach ($result as $item) {
     if (in_array($_SESSION["submit"]["email"], $item)) {
         $data = $item;
     }
-    
-    $username = in_array($_SESSION["submit"]["email"], $item) ? $data[1] : $item[1];
 }
 }else{
     header("location: ./error.php");
 }
-// echo $data;
+$search='';
+
+if(isset($_POST["search"])){
+    $search = $_POST["search"];
+}
+// print_r($search);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -211,11 +214,13 @@ foreach ($result as $item) {
                 <h1 class="text-2xl font-semibold py-2">Manage Customers</h1>
                 <div class="flex items-center justify-between ">
                     <div class="flex items-center relative">
+                        <input type="search" id="search" name="search" class="px-8 py-2 rounded-lg text-slate-400" placeholder="Search..."><?php print_r($search) ?>
+                        <label for="search">
                         <svg class="w-4 h-4 absolute left-2 top-3 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z">
                             </path>
                         </svg>
-                        <input type="search" class="px-10 py-2 rounded-lg text-slate-400" placeholder="Search...">
+                    </label>
                     </div>
                     <a href="Registeration_form_in_html.php" class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg">+ Add Customers</a>
                 </div>
@@ -225,21 +230,37 @@ foreach ($result as $item) {
                     <?php
                     // foreach($a as $i=>$j){
                     $cardcontent = "";
-                    
+                    $color = ["a"=>"bg-blue-600 border shadow","b"=>"bg-indigo-500 border shadow","c"=>"bg-purple-600 border shadow", "d"=>"bg-blue-800", "e"=>"bg-yellow-600 border shadow", "f"=>"bg-green-600 border shadow" ];
+                    // function getcolor(){
+                        //     $red = mt_rand(0,255);
+                        //     $green = mt_rand(0,255);
+                        //     $blue = mt_rand(0,255);
+                        //     $color = sprintf("#%02x%02x%02x", $red, $green, $blue);
+                        //     return $color;
+                        // }
+                        // $selectcolor = getcolor();
+                        // echo $selectcolor;
+                    $color1 = "  bg-violet-9s00";
                     foreach ($result as $item) {
-                        $username = in_array($_SESSION["submit"]["email"], $item) ? $data[1] : $item[1];
-                        $useremail = in_array($_SESSION["submit"]["email"], $item) ? $data[2] : $item[2];
-                        $userpassword = in_array($_SESSION["submit"]["email"], $item) ? $data[3] : substr($item[3], 0, 4) . "**********";
-                        $userrole = in_array($_SESSION["submit"]["email"], $item) ? $data[5] : $item[5];
-                        $userskills = in_array($_SESSION["submit"]["email"], $item) ? $data[6] : $item[6];
-                        $usercolor = in_array($_SESSION["submit"]["email"], $item) ? 'bg-blue-600' : 'bg-white';
-                        $cardcontent = '<div class="grid gap-2 py-2 sm:block md:grid mt-2  bg-white rounded-md border w-full ">
+
+                        $check = in_array($_SESSION["submit"]["email"], $item);
+                        $username = $check ? $data[1] : $item[1];
+                        $useremail = $check ? $data[2] : $item[2];
+                        $userpassword = $check ? $data[3] : substr($item[3], 0, 4) . "**********";
+                        $userrole = $check ? $data[5] : $item[5];
+                        $userskills = $check ? $data[6] : $item[6];
+                        $boxColor = $check ? 'bg-white shadow border' : 'bg-white ';
+                        $textcolor= $check ? 'font-bold' : 'font-semibold';
+                        $circlecolor = $check ? 'bg-blue-800' : 'bg-indigo-600';
+
+
+                        $cardcontent = '<div class="grid gap-2 py-2 sm:block md:grid mt-2 ' . $boxColor . '  rounded-md border w-full ">
                             <div class=" flex justify-between items-center p-2 gap-2 w-full ">
                                 <div class=" flex justify-between items-center gap-4">
-                                    <div class=" p-2 rounded-full bg-blue-600"></div>
-                                    <div class="ar">
+                                    <div class=" p-2 rounded-full ' . ((shuffle($color))?$color[1]:$color[2]) . ' "></div>
+                                    <div class="' . $color1 . '">
                                         <div class="flex items-center gap-1">
-                                    <h2 class="font-bold">'
+                                    <h2 class="' . $textcolor . ' ">'
                             . $username . '
                                            </h2>
                                     <p class=" px-1 rounded-lg mx-2 bg-purple-600 text-white">'

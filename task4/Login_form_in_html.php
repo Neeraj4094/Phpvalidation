@@ -54,7 +54,7 @@ $compare= $res[0][2];
         ?>
     </h2>
     <div class="flex w-full h-screen ">
-        <form action="" method="post" class="grid px-12 py-8 border bg-white shadow-sm text-slate-500" name="login_form">
+        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="grid px-12 py-8 border bg-white shadow-sm text-slate-500" name="login_form">
             <div class="max-w-md space-y-4 px-16">
                 <div class="relative">
                     <svg class="w-12 h-12 text-blue-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="currentColor">

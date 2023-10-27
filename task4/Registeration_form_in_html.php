@@ -70,7 +70,7 @@ $a[] = filt($show, $email);
         ?>
     </h2>
     <div class="flex w-full h-full">
-        <form action="" method="post" class="h-full shadow" name="registeration_form">
+        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="h-full shadow" name="registeration_form">
             <div class="h-full space-y-2 bg-slate-50 shadow-sm py-6 px-10">
                 <div class="flex gap-10">
                     <div class="space-y-2">

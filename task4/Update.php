@@ -1,8 +1,7 @@
 <?php
 include './registeration_form_with_php.php';
 include 'dbconnection.php';
-
-
+include 'session.php';
 $id = $_GET['id'];
 $result = "select * from registeration_login where id = $id";
 $result1 = mysqli_query($con, $result);
@@ -23,25 +22,28 @@ $fetchdata = mysqli_fetch_all($result1);
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
         if (isset($_POST['submit'])) {
-            foreach ($fetchdata as $i => $j) {
+            // foreach ($fetchdata as $i => $j) {
                 if ($erremail == null && $erremail1 == null && $errfirstname == null && $errfirstname1 == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
                     echo "Message sent successfully";
                     //Database
                     // $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
                     $update = "update registeration_login set name= '$firstname', email = '$email', password= '$password', occupation = '$occupation', role = '$role', skills= '$skills' where id= $id";
                     $result = mysqli_query($con, $update);
+                    // print_r($_SESSION["submit"]);
+                    $_SESSION["submit"] = ["email" => $email, "password" => $password];
                     header("location: /phpprogramms/task4/admin3.php");
-                    break;
+                    print_r($_SESSION);
+                    // break;
                 } else {
                     echo "Please complete the form";
-                    break;
+                    // break;
                 }
             }
-        }
+        // }
         ?>
     </h2>
     <div class="flex w-full h-full">
-        <form action="" method="post" class="h-full shadow" name="registeration_form">
+        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="h-full shadow" name="registeration_form">
             <div class="h-full space-y-2 bg-slate-50 shadow-sm py-6 px-10">
                 <div class="flex gap-10">
                     <div class="space-y-2">
