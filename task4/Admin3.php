@@ -1,25 +1,56 @@
 <?php
-// session_start();
 include 'dbconnection.php';
 include 'login_with_php.php';
 $select = "select * from registeration_login";
 $query = mysqli_query($con, $select);
 $result = mysqli_fetch_all($query);
-if($_SESSION != null){
-foreach ($result as $item) {
-    if (in_array($_SESSION["submit"]["email"], $item)) {
-        $data = $item;
+if ($_SESSION != null) {
+    foreach ($result as $item) {
+        if (in_array($_SESSION["submit"]["email"], $item)) {
+            $data = $item;
+        }
     }
-}
-}else{
+} else {
     header("location: ./error.php");
 }
-$search='';
+$search = '';
 
-if(isset($_POST["search"])){
+if (isset($_POST["search"])) {
     $search = $_POST["search"];
 }
-// print_r($search);
+
+
+$leftjoin = "select login.*, user_image from registeration_login as login left join record_of_image as image on (login.id= image.user_id) order by login.id";
+$leftjoinquery = mysqli_query($con, $leftjoin);
+
+
+$selectimagedata = "select * from record_of_image ";
+$imagequery = mysqli_query($con, $selectimagedata);
+
+while ($image = mysqli_fetch_assoc($leftjoinquery)) {
+    $i[] = $image;
+    $id[] = $image['ID'];
+    $imagelist[] = $image["user_image"];
+}
+echo "<pre>";
+echo "</pre>";
+function imageslist($imagelist, $res = null)
+{
+    foreach ($imagelist as $i) {
+        if ($i != "") {
+            $images =  "../Image/" . $i;
+            $res[] = "<img src='$images' alt='Image ' class='w-10 h-10 rounded-full flex items-center justify-center'>";
+            
+        } else {
+            $color = ["a" => "bg-blue-600 border shadow", "b" => "bg-indigo-500 border shadow", "c" => "bg-purple-600 border shadow", "d" => "bg-blue-800", "e" => "bg-yellow-600 border shadow", "f" => "bg-green-600 border shadow"];
+            $res[] = '<div class=" p-2 rounded-full w-10 h-10' . ((shuffle($color)) ? $color[1] : $color[2]) . ' "></div>';
+            
+        }
+    }
+    return $res;
+}
+
+$ilist = imageslist($imagelist);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -216,33 +247,26 @@ if(isset($_POST["search"])){
                     <div class="flex items-center relative">
                         <input type="search" id="search" name="search" class="px-8 py-2 rounded-lg text-slate-400" placeholder="Search..."><?php print_r($search) ?>
                         <label for="search">
-                        <svg class="w-4 h-4 absolute left-2 top-3 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z">
-                            </path>
-                        </svg>
-                    </label>
+                            <svg class="w-4 h-4 absolute left-2 top-3 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z">
+                                </path>
+                            </svg>
+                        </label>
                     </div>
                     <a href="Registeration_form_in_html.php" class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg">+ Add Customers</a>
                 </div>
             </div>
             <div class="px-2">
-                <div class="px-2 h-96 overflow-y-scroll">
+                <div class="px-2 h-96 space-y-3 overflow-y-scroll">
                     <?php
-                    // foreach($a as $i=>$j){
+                    
                     $cardcontent = "";
-                    $color = ["a"=>"bg-blue-600 border shadow","b"=>"bg-indigo-500 border shadow","c"=>"bg-purple-600 border shadow", "d"=>"bg-blue-800", "e"=>"bg-yellow-600 border shadow", "f"=>"bg-green-600 border shadow" ];
-                    // function getcolor(){
-                        //     $red = mt_rand(0,255);
-                        //     $green = mt_rand(0,255);
-                        //     $blue = mt_rand(0,255);
-                        //     $color = sprintf("#%02x%02x%02x", $red, $green, $blue);
-                        //     return $color;
-                        // }
-                        // $selectcolor = getcolor();
-                        // echo $selectcolor;
-                    $color1 = "  bg-violet-9s00";
-                    foreach ($result as $item) {
+                    // $color = ["a" => "bg-blue-600 border shadow", "b" => "bg-indigo-500 border shadow", "c" => "bg-purple-600 border shadow", "d" => "bg-blue-800", "e" => "bg-yellow-600 border shadow", "f" => "bg-green-600 border shadow"];
 
+                    $color1 = "  bg-violet-900";
+                    foreach ($result as $item) {
+                        $key = array_keys($item);
+                        
                         $check = in_array($_SESSION["submit"]["email"], $item);
                         $username = $check ? $data[1] : $item[1];
                         $useremail = $check ? $data[2] : $item[2];
@@ -250,15 +274,17 @@ if(isset($_POST["search"])){
                         $userrole = $check ? $data[5] : $item[5];
                         $userskills = $check ? $data[6] : $item[6];
                         $boxColor = $check ? 'bg-white shadow border' : 'bg-white ';
-                        $textcolor= $check ? 'font-bold' : 'font-semibold';
+                        $textcolor = $check ? 'font-bold' : 'font-semibold';
                         $circlecolor = $check ? 'bg-blue-800' : 'bg-indigo-600';
 
-
-                        $cardcontent = '<div class="grid gap-2 py-2 sm:block md:grid mt-2 ' . $boxColor . '  rounded-md border w-full ">
+                        // <div class=" p-2 rounded-full ' . ((shuffle($color))?$color[1]:$color[2]) . ' "></div>
+                        // <img src="" alt="Image" class=" w-10 h-10 rounded-full flex items-center justify-center">
+                        // foreach($ilist as $list){
+                        $cardcontent = '<div class="grid gap-2 py-2 sm:block md:grid mt-2 ' . $boxColor . '  rounded-md border w-full shadow">
                             <div class=" flex justify-between items-center p-2 gap-2 w-full ">
-                                <div class=" flex justify-between items-center gap-4">
-                                    <div class=" p-2 rounded-full ' . ((shuffle($color))?$color[1]:$color[2]) . ' "></div>
-                                    <div class="' . $color1 . '">
+                                <div class=" flex justify-between items-center gap-4">' .
+                                imageslist($imagelist)[2] .
+                            '<div class="">
                                         <div class="flex items-center gap-1">
                                     <h2 class="' . $textcolor . ' ">'
                             . $username . '
@@ -288,9 +314,11 @@ if(isset($_POST["search"])){
                         </div>
                     </div>
                 </div>';
+                        // }
                         print_r($cardcontent);
                     }
-                
+                    
+
                     ?>
 </body>
 

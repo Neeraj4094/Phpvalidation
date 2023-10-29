@@ -2,10 +2,29 @@
 include './registeration_form_with_php.php';
 include 'dbconnection.php';
 include 'session.php';
+
+$select = "select * from registeration_login";
+$query = mysqli_query($con, $select);
+$data = mysqli_fetch_all($query);
+
+
 $id = $_GET['id'];
 $result = "select * from registeration_login where id = $id";
 $result1 = mysqli_query($con, $result);
 $fetchdata = mysqli_fetch_all($result1);
+
+function filt($array, $email)
+{
+    foreach ($array as $item) {
+        $b = $item[0];
+        if (in_array($email, $item)) {
+            return $item;
+        }
+    }
+    return $array;
+}
+$a[] = filt($show, $email);
+
 ?>
 
 <!DOCTYPE html>
@@ -22,23 +41,66 @@ $fetchdata = mysqli_fetch_all($result1);
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
         if (isset($_POST['submit'])) {
-            // foreach ($fetchdata as $i => $j) {
-                if ($erremail == null && $erremail1 == null && $errfirstname == null && $errfirstname1 == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
-                    echo "Message sent successfully";
-                    //Database
-                    // $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
-                    $update = "update registeration_login set name= '$firstname', email = '$email', password= '$password', occupation = '$occupation', role = '$role', skills= '$skills' where id= $id";
-                    $result = mysqli_query($con, $update);
-                    // print_r($_SESSION["submit"]);
-                    $_SESSION["submit"] = ["email" => $email, "password" => $password];
-                    header("location: /phpprogramms/task4/admin3.php");
-                    print_r($_SESSION);
-                    // break;
+            foreach ($a as $i) {
+                if ($email == $fetchdata[0][2]) {
+                    if ($erremail == null && $erremail1 == null && $errfirstname == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
+                        echo "Message sent successfully";
+                        //Database
+                        // $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
+                        $update = "update registeration_login set name= '$firstname', email = '$email', password= '$password', occupation = '$occupation', role = '$role', skills= '$skills' where id= $id";
+                        $result = mysqli_query($con, $update);
+                        $_SESSION["submit"] = ["email" => $email, "password" => $password];
+                        header("location: /phpprogramms/task4/admin3.php");
+                    } else {
+                        echo "Please complete the form";
+                    }
+                } elseif ($email != isset($i[2])) {
+                    if ($erremail == null && $erremail1 == null && $errfirstname == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
+                        echo "Message sent successfully";
+                        //Database
+                        // $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
+                        $update = "update registeration_login set name= '$firstname', email = '$email', password= '$password', occupation = '$occupation', role = '$role', skills= '$skills' where id= $id";
+                        $result = mysqli_query($con, $update);
+                        $_SESSION["submit"] = ["email" => $email, "password" => $password];
+
+                        if ($size > 0) {
+                            $extension = ["jpg","png","jpeg"];
+                            $ext = pathinfo($image["name"], PATHINFO_EXTENSION);
+                            if (in_array($ext, $extension)) {
+                                $errimage = '';
+                                $newname = uniqid("Img-", true) . '.' . $ext;
+                                $upload = "..\image/" . $newname;
+                                move_uploaded_file($image["tmp_name"], $upload);
+                    
+                                $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
+                                $user_id_result = mysqli_query($con, $user_id_query);
+                                // print_r($user_id_result);
+                                if ($user_id_result) {
+                                    $user_id_row = mysqli_fetch_assoc($user_id_result);
+                                    $user_id = $user_id_row['ID'];
+                                    // Inserting into record_of_image
+                                    $insert = "INSERT INTO record_of_image (user_image, user_id) VALUES ('$newname', '$user_id')";
+                                    $result = mysqli_query($con, $insert);
+                                    if (!$result) {
+                                        echo "Error: " . mysqli_error($con);
+                                    }
+                                } else {
+                                    echo "Error: " . mysqli_error($con);
+                                }
+                            } else {
+                                $errimage = "Only jpg & png files are allowed";
+                            }
+                        }
+                        
+                        header("location: /phpprogramms/task4/admin3.php");
+                    } else {
+                        echo "Please complete the form";
+                    }
                 } else {
-                    echo "Please complete the form";
-                    // break;
+                    echo "This email already exists";
                 }
             }
+        }
         // }
         ?>
     </h2>
@@ -53,16 +115,10 @@ $fetchdata = mysqli_fetch_all($result1);
                     </div>
 
                     <div class="pl-4 pt-2">
-                        <label>Service Provider :-</label>
-                        <div class="flex gap-8">
-                            <div>
-                                <input type="radio" name="service" id="serviceyes" value="Yes">
-                                <label for="serviceyes">Yes</label>
-                            </div>
-                            <div>
-                                <input type="radio" name="service" id="serviceno" value="No">
-                                <label for="serviceno">No</label>
-                            </div>
+                        <label>Upload Your Image :-</label>
+                        <div class="grid ">
+                            <input type="file" name="image" id="image">
+                            <span class="text-red-600">* <?php echo $errimage ?></span>
                         </div>
                     </div>
 

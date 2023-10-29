@@ -64,4 +64,4 @@ use student;
 -- select count(id), email from record group by email having count(id) >=1 order by count(id) desc;
 -- alter table customer add pasword varchar(16);
 -- alter table customer drop column password;
-select * from customer;
+select * from record as r right join rec as i on (r.id=i.id) ;

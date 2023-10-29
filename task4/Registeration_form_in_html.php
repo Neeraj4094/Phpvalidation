@@ -1,12 +1,10 @@
 <?php
 include './registeration_form_with_php.php';
-include 'dbconnection.php';
-$select = "select * from registeration_login";
-$query = mysqli_query($con, $select);
-$show = mysqli_fetch_all($query);
+//Database
 function filt($array, $email)
 {
     foreach ($array as $item) {
+        $b = $item[0];
         if (in_array($email, $item)) {
             return $item;
         }
@@ -14,7 +12,10 @@ function filt($array, $email)
     return $array;
 }
 $a[] = filt($show, $email);
-// print_r($a);
+foreach ($show as $item) {
+    $b[] = $item[0];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -33,44 +34,108 @@ $a[] = filt($show, $email);
         if (isset($_POST['submit'])) {
             if (empty($show)) {
                 foreach ($a as $i) {
-                    print_r($a);
-                    if ($erremail == null && $erremail1 == null && $errfirstname == null && $errfirstname1 == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
-                            if ($email != $i[2]) {
+                    if ($erremail == null && $erremail1 == null && $errfirstname == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
+                        // if (!isset($i[2])) {
+                        if ($email != isset($i[2])) {
                             echo "Message sent successfully";
                             // Database
                             $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
                             $result = mysqli_query($con, $insert);
+
+                            // print_r($size);
+                                if ($size > 0) {
+                                    $extension = ["jpg","png","jpeg"];
+                                    $ext = pathinfo($image["name"], PATHINFO_EXTENSION);
+                                    if (in_array($ext, $extension)) {
+                                        $errimage = '';
+                                        $newname = uniqid("Img-", true) . '.' . $ext;
+                                        $upload = "..\image/" . $newname;
+                                        move_uploaded_file($image["tmp_name"], $upload);
+                            
+                                        $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
+                                        $user_id_result = mysqli_query($con, $user_id_query);
+                                        // print_r($user_id_result);
+                                        if ($user_id_result) {
+                                            $user_id_row = mysqli_fetch_assoc($user_id_result);
+                                            $user_id = $user_id_row['ID'];
+                                            // Inserting into record_of_image
+                                            $insert = "INSERT INTO record_of_image (user_image, user_id) VALUES ('$newname', '$user_id')";
+                                            $result = mysqli_query($con, $insert);
+                                            if (!$result) {
+                                                echo "Error: " . mysqli_error($con);
+                                            }
+                                        } else {
+                                            echo "Error: " . mysqli_error($con);
+                                        }
+                                    } else {
+                                        $errimage = "Only jpg & png files are allowed";
+                                    }
+                                }
+
                             header("location:/phpprogramms/task4/login_form_in_html.php");
                         } else {
                             echo " This email already exists";
                         }
+                        // }
                     } else {
                         echo "Please complete the form";
                     }
                 }
             } else {
                 foreach ($a as $i) {
-                    // print_r($i[2]);
-                    if ($erremail == null && $erremail1 == null && $errfirstname == null && $errfirstname1 == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
+                    if ($erremail == null && $erremail1 == null && $errfirstname == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
+                        // if (!isset($i[2])) {
                         if ($email != $i[2]) {
-                        echo "Message sent successfully";
-                        // Database
-                        $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
-                        $result = mysqli_query($con, $insert);
-                        header("location:/phpprogramms/task4/login_form_in_html.php");
+                            echo "Message sent successfully";
+                            // Database
+                            $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
+                            $result = mysqli_query($con, $insert);
+
+                            // print_r($size);
+                                if ($size > 0) {
+                                    $extension = ["jpg","png","jpeg"];
+                                    $ext = pathinfo($image["name"], PATHINFO_EXTENSION);
+                                    if (in_array($ext, $extension)) {
+                                        $errimage = '';
+                                        $newname = uniqid("Img-", true) . '.' . $ext;
+                                        $upload = "..\image/" . $newname;
+                                        move_uploaded_file($image["tmp_name"], $upload);
+                            
+                                        $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
+                                        $user_id_result = mysqli_query($con, $user_id_query);
+                                        // print_r($user_id_result);
+                                        if ($user_id_result) {
+                                            $user_id_row = mysqli_fetch_assoc($user_id_result);
+                                            $user_id = $user_id_row['ID'];
+                                            // Inserting into record_of_image
+                                            $insert = "INSERT INTO record_of_image (user_image, user_id) VALUES ('$newname', '$user_id')";
+                                            $result = mysqli_query($con, $insert);
+                                            if (!$result) {
+                                                echo "Error: " . mysqli_error($con);
+                                            }
+                                        } else {
+                                            echo "Error: " . mysqli_error($con);
+                                        }
+                                    } else {
+                                        $errimage = "Only jpg & png files are allowed";
+                                    }
+                                }
+
+                            header("location:/phpprogramms/task4/login_form_in_html.php");
+                        } else {
+                            echo " This email already exists";
+                        }
+                        // }
                     } else {
-                        echo " This email already exists";
+                        echo "Please complete the form";
                     }
-                } else {
-                    echo "Please complete the form";
                 }
             }
-        }
         }
         ?>
     </h2>
     <div class="flex w-full h-full">
-        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="h-full shadow" name="registeration_form">
+        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="h-full shadow" name="registeration_form" enctype="multipart/form-data">
             <div class="h-full space-y-2 bg-slate-50 shadow-sm py-6 px-10">
                 <div class="flex gap-10">
                     <div class="space-y-2">
@@ -80,16 +145,10 @@ $a[] = filt($show, $email);
                     </div>
 
                     <div class="pl-4 pt-2">
-                        <label>Service Provider :-</label>
-                        <div class="flex gap-8">
-                            <div>
-                                <input type="radio" name="service" id="serviceyes" value="Yes">
-                                <label for="serviceyes">Yes</label>
-                            </div>
-                            <div>
-                                <input type="radio" name="service" id="serviceno" value="No">
-                                <label for="serviceno">No</label>
-                            </div>
+                        <label>Upload Your Image :-</label>
+                        <div class="grid ">
+                            <input type="file" name="image" id="image">
+                            <span class="text-red-600">* <?php echo $errimage ?></span>
                         </div>
                     </div>
 
