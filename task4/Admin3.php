@@ -29,28 +29,20 @@ $imagequery = mysqli_query($con, $selectimagedata);
 
 while ($image = mysqli_fetch_assoc($leftjoinquery)) {
     $i[] = $image;
-    $id[] = $image['ID'];
-    $imagelist[] = $image["user_image"];
-}
-echo "<pre>";
-echo "</pre>";
-function imageslist($imagelist, $res = null)
-{
-    foreach ($imagelist as $i) {
-        if ($i != "") {
-            $images =  "../Image/" . $i;
-            $res[] = "<img src='$images' alt='Image ' class='w-10 h-10 rounded-full flex items-center justify-center'>";
-            
-        } else {
-            $color = ["a" => "bg-blue-600 border shadow", "b" => "bg-indigo-500 border shadow", "c" => "bg-purple-600 border shadow", "d" => "bg-blue-800", "e" => "bg-yellow-600 border shadow", "f" => "bg-green-600 border shadow"];
-            $res[] = '<div class=" p-2 rounded-full w-10 h-10' . ((shuffle($color)) ? $color[1] : $color[2]) . ' "></div>';
-            
-        }
-    }
-    return $res;
 }
 
-$ilist = imageslist($imagelist);
+// foreach($i as $k){
+//     if ($k["user_image"] != "") {
+//         $images =  "../Image/" . $k["user_image"];
+//         $res = "<img src='$images' alt='Image ' class='w-10 h-10 rounded-full flex items-center justify-center'>";
+//         echo "$res<br>";
+//     }else{
+//         $color = ["a" => "bg-blue-600 border shadow", "b" => "bg-indigo-500 border shadow", "c" => "bg-purple-600 border shadow", "d" => "bg-blue-800", "e" => "bg-yellow-600 border shadow", "f" => "bg-green-600 border shadow"];
+//         $col = '<div class=" p-2 rounded-full w-10 h-10' . ((shuffle($color)) ? $color[1] : $color[2]) . ' "></div>';
+//         echo "$col<br>";
+//     }
+// }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -264,15 +256,15 @@ $ilist = imageslist($imagelist);
                     // $color = ["a" => "bg-blue-600 border shadow", "b" => "bg-indigo-500 border shadow", "c" => "bg-purple-600 border shadow", "d" => "bg-blue-800", "e" => "bg-yellow-600 border shadow", "f" => "bg-green-600 border shadow"];
 
                     $color1 = "  bg-violet-900";
-                    foreach ($result as $item) {
+                    
+                    foreach ($i as $item) {
                         $key = array_keys($item);
-                        
                         $check = in_array($_SESSION["submit"]["email"], $item);
-                        $username = $check ? $data[1] : $item[1];
-                        $useremail = $check ? $data[2] : $item[2];
-                        $userpassword = $check ? $data[3] : substr($item[3], 0, 4) . "**********";
-                        $userrole = $check ? $data[5] : $item[5];
-                        $userskills = $check ? $data[6] : $item[6];
+                        $username = $check ? $data[1] : $item["Name"];
+                        $useremail = $check ? $data[2] : $item["Email"];
+                        $userpassword = $check ? $data[3] : substr($item["Password"], 0, 4) . "**********";
+                        $userrole = $check ? $data[5] : $item["Role"];
+                        $userskills = $check ? $data[6] : $item["Skills"];
                         $boxColor = $check ? 'bg-white shadow border' : 'bg-white ';
                         $textcolor = $check ? 'font-bold' : 'font-semibold';
                         $circlecolor = $check ? 'bg-blue-800' : 'bg-indigo-600';
@@ -283,7 +275,7 @@ $ilist = imageslist($imagelist);
                         $cardcontent = '<div class="grid gap-2 py-2 sm:block md:grid mt-2 ' . $boxColor . '  rounded-md border w-full shadow">
                             <div class=" flex justify-between items-center p-2 gap-2 w-full ">
                                 <div class=" flex justify-between items-center gap-4">' .
-                                imageslist($imagelist)[2] .
+                                // $ilist[4] .
                             '<div class="">
                                         <div class="flex items-center gap-1">
                                     <h2 class="' . $textcolor . ' ">'
@@ -308,18 +300,65 @@ $ilist = imageslist($imagelist);
                             <p class=" bg-indigo-500 text-white px-3 rounded-full">Active</p>
                             <p class=" bg-purple-500 text-white px-3 rounded-full">'
                             . $userrole . '</p>
-                            <a href="update.php?id=' . $item[0] . '" data-toggle="tooltip" data-placement="top" title="Edit" class="px-1 rounded-lg bg-slate-100 text-black">
+                            <a href="update.php?id=' . $item["ID"] . '" data-toggle="tooltip" data-placement="top" title="Edit" class="px-1 rounded-lg bg-slate-100 text-black">
                             <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path><path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path></svg></a>
-                            <a href="delete.php?id=' . $item[0] . '" data-toggle="tooltip" data-placement="top" title="Delete" class="border-2 px-4 py-1 rounded-md">Archive</a>
+                            <a href="delete.php?id=' . $item["ID"] . '" data-toggle="tooltip" data-placement="top" title="Delete" class="border-2 px-4 py-1 rounded-md">Archive</a>
                         </div>
                     </div>
                 </div>';
                         // }
-                        print_r($cardcontent);
+                        // print_r($cardcontent);
                     }
                     
-
+                    foreach($i as $item){
                     ?>
+                            <div class="grid gap-2 py-2 sm:block md:grid mt-2 <?php echo $boxColor  ?>  rounded-md border w-full shadow">
+                            <div class=" flex justify-between items-center p-2 gap-2 w-full ">
+                                <div class=" flex justify-between items-center gap-4">
+                                    <div class=" w-10 h-14 flex items-center justify-center">
+                              <?php 
+                              if ($item["user_image"] != "") {
+                                $images =  "../Image/" . $item["user_image"];
+                                $res = "<img src='$images' alt='Image ' class='w-10 h-10 rounded-full flex items-center justify-center'>";
+                                echo "$res<br>";
+                            }else{
+                                $color = ["a" => "bg-blue-600 border shadow", "b" => "bg-indigo-500 border shadow", "c" => "bg-purple-600 border shadow", "d" => "bg-blue-800", "e" => "bg-yellow-600 border shadow", "f" => "bg-green-600 border shadow"];
+                                $col = '<div class=" p-2 rounded-full ' . ((shuffle($color)) ? $color[1] : $color[2]) . ' "></div>';
+                                echo "$col<br>";
+                            }
+                               ?>
+                                    </div>
+                            <div class="">
+                                        <div class="flex items-center gap-1">
+                                    <h2 class="<?php echo $textcolor  ?> ">
+                            <?php echo $item["Name"]  ?>
+                                           </h2>
+                                    <p class=" px-1 rounded-lg mx-2 bg-purple-600 text-white">
+                            <?php echo $item['Role'] ?></p>
+                                </div>
+                                <div class="email">
+                            <?php echo $item['Email'] ?></p>
+                                </div>
+                                <div class="skills flex justify-between items-center gap-4">
+                                    <p>Associated Marketplace: Not Associated</p>
+                                    <p>Provided Password :-
+                            <?php echo $item['Password'] ?></p>
+                                    <p>Skills : 
+                            <?php echo $item['Skills'] ?></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between gap-8">
+                            <p class=" bg-indigo-500 text-white px-3 rounded-full">Active</p>
+                            <p class=" bg-purple-500 text-white px-3 rounded-full">
+                            <?php echo $item['Role'] ?></p>
+                            <a href="update.php?id=<?php echo $item["ID"] ?>" data-toggle="tooltip" data-placement="top" title="Edit" class="px-1 rounded-lg bg-slate-100 text-black">
+                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path><path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path></svg></a>
+                            <a href="delete.php?id=<?php echo $item["ID"] ?>" data-toggle="tooltip" data-placement="top" title="Delete" class="border-2 px-4 py-1 rounded-md">Archive</a>
+                        </div>
+                    </div>
+                </div>
+                <?php } ?>
 </body>
 
 </html>

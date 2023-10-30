@@ -50,6 +50,35 @@ $a[] = filt($show, $email);
                         $update = "update registeration_login set name= '$firstname', email = '$email', password= '$password', occupation = '$occupation', role = '$role', skills= '$skills' where id= $id";
                         $result = mysqli_query($con, $update);
                         $_SESSION["submit"] = ["email" => $email, "password" => $password];
+                        print_r($_FILES);
+                        if ($size > 0) {
+                            $extension = ["jpg","png","jpeg"];
+                            $ext = pathinfo($image["name"], PATHINFO_EXTENSION);
+                            if (in_array($ext, $extension)) {
+                                $errimage = '';
+                                $newname = uniqid("Img-", true) . '.' . $ext;
+                                $upload = "..\image/" . $newname;
+                                move_uploaded_file($image["tmp_name"], $upload);
+                    
+                                $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
+                                $user_id_result = mysqli_query($con, $user_id_query);
+                                
+                                if ($user_id_result) {
+                                    $user_id_row = mysqli_fetch_assoc($user_id_result);
+                                    $user_id = $user_id_row['ID'];
+                                    // Inserting into record_of_image
+                                    $insert = "INSERT INTO record_of_image (user_image) VALUES ('$newname')";
+                                    $result = mysqli_query($con, $insert);
+                                    if (!$result) {
+                                        echo "Error: " . mysqli_error($con);
+                                    }
+                                } else {
+                                    echo "Error: " . mysqli_error($con);
+                                }
+                            } else {
+                                $errimage = "Only jpg & png files are allowed";
+                            }
+                        }
                         header("location: /phpprogramms/task4/admin3.php");
                     } else {
                         echo "Please complete the form";
@@ -74,12 +103,12 @@ $a[] = filt($show, $email);
                     
                                 $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
                                 $user_id_result = mysqli_query($con, $user_id_query);
-                                // print_r($user_id_result);
+                                
                                 if ($user_id_result) {
                                     $user_id_row = mysqli_fetch_assoc($user_id_result);
                                     $user_id = $user_id_row['ID'];
                                     // Inserting into record_of_image
-                                    $insert = "INSERT INTO record_of_image (user_image, user_id) VALUES ('$newname', '$user_id')";
+                                    $insert = "INSERT INTO record_of_image (user_image) VALUES ('$newname',)";
                                     $result = mysqli_query($con, $insert);
                                     if (!$result) {
                                         echo "Error: " . mysqli_error($con);
@@ -91,7 +120,7 @@ $a[] = filt($show, $email);
                                 $errimage = "Only jpg & png files are allowed";
                             }
                         }
-                        
+
                         header("location: /phpprogramms/task4/admin3.php");
                     } else {
                         echo "Please complete the form";
