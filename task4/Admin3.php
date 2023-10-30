@@ -36,10 +36,9 @@ while ($image = mysqli_fetch_assoc($leftjoinquery)) {
 foreach ($i as $item) {
     if (in_array($_SESSION["submit"]["email"], $item)) {
         $data1 = $item;
-    }else{
+    } else {
         $items[] = $item;
     }
-   
 }
 ?>
 <!DOCTYPE html>
@@ -225,11 +224,11 @@ foreach ($i as $item) {
             <div class="flex justify-between items-center border-b-2 py-3 px-2 ">
                 <p class="font-medium text-lg">Welcome Admin, <span class="font-bold"><?php print_r($data[1]); ?></span></p>
                 <div class="w-10 h-10 rounded-full border">
-                    <?php 
+                    <?php
                     $images =  "../Image/" . $data1['user_image'];
                     $res = "<img src='$images' alt='Image ' class='w-10 h-10 rounded-full flex items-center justify-center'>";
                     echo "$res<br>";
-                     ?>
+                    ?>
                 </div>
             </div>
             <div class="p-2 ">
@@ -251,7 +250,7 @@ foreach ($i as $item) {
                 <div class="px-2 h-96 space-y-3 overflow-y-scroll">
                     <?php
 
-                    
+
 
                     foreach ($i as $item) {
                         $check = in_array($_SESSION["submit"]["email"], $item);
@@ -283,16 +282,16 @@ foreach ($i as $item) {
                                     <div class=" w-full">
                                         <div class="flex gap-20">
                                             <div>
-                                            <div class="flex items-center gap-1">
-                                                <h2 class="<?php echo $textcolor  ?> ">
-                                                    <?php echo $username  ?>
-                                                </h2>
-                                                <p class=" px-1 rounded-lg mx-2 bg-purple-600 text-white">
-                                                    <?php echo $userrole ?></p>
-                                            </div>
-                                            <div class="flex">
-                                                <?php echo $useremail ?></p>
-                                            </div>
+                                                <div class="flex items-center gap-1">
+                                                    <h2 class="<?php echo $textcolor  ?> ">
+                                                        <?php echo $username  ?>
+                                                    </h2>
+                                                    <p class=" px-1 rounded-lg mx-2 bg-purple-600 text-white">
+                                                        <?php echo $userrole ?></p>
+                                                </div>
+                                                <div class="flex">
+                                                    <?php echo $useremail ?></p>
+                                                </div>
                                             </div>
                                             <div class="space-y-1">
                                                 <p>Created :- <?php echo $item['Create_date'] ?></p>
@@ -300,7 +299,7 @@ foreach ($i as $item) {
                                             </div>
                                         </div>
                                         <div class="flex items-center gap-4">
-                                        <!-- <div class="flex">
+                                            <!-- <div class="flex">
                                                 <?php echo $useremail ?></p>
                                             </div> -->
                                             <p>Provided Password :-
