@@ -20,7 +20,7 @@ if (isset($_POST["search"])) {
 }
 
 
-$leftjoin = "select login.*, user_image from registeration_login as login left join record_of_image as image on (login.id= image.user_id) order by login.id";
+$leftjoin = "select login.*, user_image,Create_date, Modified_Date from registeration_login as login left join record_of_image as image on (login.id= image.user_id) order by login.id";
 $leftjoinquery = mysqli_query($con, $leftjoin);
 
 
@@ -29,9 +29,18 @@ $imagequery = mysqli_query($con, $selectimagedata);
 
 while ($image = mysqli_fetch_assoc($leftjoinquery)) {
     $i[] = $image;
+    $create[] = $image['Create_date'];
+    $images[] = $image['user_image'];
 }
 
-
+foreach ($i as $item) {
+    if (in_array($_SESSION["submit"]["email"], $item)) {
+        $data1 = $item;
+    }else{
+        $items[] = $item;
+    }
+   
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,11 +53,11 @@ while ($image = mysqli_fetch_assoc($leftjoinquery)) {
 </head>
 
 <body>
-    <div class="grid grid-cols-12 grid-rows-6  gap-1 w-full h-full">
-        <aside class=" row-span-6 col-span-2 bg-slate-100 px-2 py-2 space-y-3 sm:hidden lg:block">
+    <div class="grid grid-cols-12 grid-rows-6 w-full h-full">
+        <aside class=" row-span-6 col-span-2 border px-2 py-2 space-y-3 sm:hidden lg:block">
             <div class="px-2 flex items-center justify-center w-full">
-                <div class="w-full h-10 rounded-full ">
-                    <img src="../Image/Balloon.jpg" alt="Logo" class="w-full h-full object-cover rounded-lg">
+                <div class="w-full h-7 px-4 py-2  bg-white">
+                    <img src="../Image/listerpros.jpg" alt="Logo" class="w-full h-full rounded-lg">
                 </div>
             </div>
             <div class="flex relative gap-2 pt-1">
@@ -212,21 +221,22 @@ while ($image = mysqli_fetch_assoc($leftjoinquery)) {
             </nav>
         </aside>
 
-        <main class="row-span-6 col-span-10 bg-slate-100 sm:col-span-12 lg:col-span-10 ">
-            <div class="flex justify-between items-center border-b-2 py-3 px-2">
-                <span>Welcome Admin, <?php print_r($data[1]); ?></span>
-                <div class="p-2 border rounded-full bg-slate-100">
-                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM7 6v2a3 3 0 1 0 6 0V6a3 3 0 1 0-6 0zm-3.65 8.44a8 8 0 0 0 13.3 0 15.94 15.94 0 0 0-13.3 0z">
-                        </path>
-                    </svg>
+        <main class="row-span-6 col-span-10  sm:col-span-12 lg:col-span-10 ">
+            <div class="flex justify-between items-center border-b-2 py-3 px-2 ">
+                <p class="font-medium text-lg">Welcome Admin, <span class="font-bold"><?php print_r($data[1]); ?></span></p>
+                <div class="w-10 h-10 rounded-full border">
+                    <?php 
+                    $images =  "../Image/" . $data1['user_image'];
+                    $res = "<img src='$images' alt='Image ' class='w-10 h-10 rounded-full flex items-center justify-center'>";
+                    echo "$res<br>";
+                     ?>
                 </div>
             </div>
             <div class="p-2 ">
                 <h1 class="text-2xl font-semibold py-2">Manage Customers</h1>
                 <div class="flex items-center justify-between ">
                     <div class="flex items-center relative">
-                        <input type="search" id="search" name="search" class="px-8 py-2 rounded-lg text-slate-400" placeholder="Search..."><?php print_r($search) ?>
+                        <input type="search" id="search" name="search" class="px-8 py-2 border rounded-lg text-slate-400" placeholder="Search..."><?php print_r($search) ?>
                         <label for="search">
                             <svg class="w-4 h-4 absolute left-2 top-3 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z">
@@ -237,117 +247,83 @@ while ($image = mysqli_fetch_assoc($leftjoinquery)) {
                     <a href="Registeration_form_in_html.php" class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg">+ Add Customers</a>
                 </div>
             </div>
-            <div class="px-2">
+            <div class="px-2 border-t">
                 <div class="px-2 h-96 space-y-3 overflow-y-scroll">
                     <?php
-                    
-                    $cardcontent = "";
-                    $color = ["a" => "bg-blue-600 border shadow", "b" => "bg-indigo-500 border shadow", "c" => "bg-purple-600 border shadow", "d" => "bg-blue-800", "e" => "bg-yellow-600 border shadow", "f" => "bg-green-600 border shadow"];
 
-                    $color1 = "  bg-violet-900";
                     
+
                     foreach ($i as $item) {
-                        $key = array_keys($item);
                         $check = in_array($_SESSION["submit"]["email"], $item);
-                        $username = $check ? $data[1] : $item["Name"];
-                        $useremail = $check ? $data[2] : $item["Email"];
-                        $userpassword = $check ? $data[3] : substr($item["Password"], 0, 4) . "**********";
-                        $userrole = $check ? $data[5] : $item["Role"];
-                        $userskills = $check ? $data[6] : $item["Skills"];
-                        $boxColor = $check ? 'bg-white shadow border' : 'bg-white ';
+                        $username = $check ? $data1['Name'] : $item["Name"];
+                        $useremail = $check ? $data1["Email"] : $item["Email"];
+                        $userpassword = $check ? $data1['Password'] : substr($item["Password"], 0, 4) . "**********";
+                        $userrole = $check ? $data1['Role'] : $item["Role"];
+                        $userskills = $check ? $data1['Skills'] : $item["Skills"];
+                        $boxColor = $check ? 'bg-white shadow-sm border' : 'bg-white ';
                         $textcolor = $check ? 'font-bold' : 'font-semibold';
                         $circlecolor = $check ? 'bg-blue-800' : 'bg-indigo-600';
-
-                        // <div class=" p-2 rounded-full ' . ((shuffle($color))?$color[1]:$color[2]) . ' "></div>
-                        // <img src="" alt="Image" class=" w-10 h-10 rounded-full flex items-center justify-center">
-                        // foreach($ilist as $list){
-                        $cardcontent = '<div class="grid gap-2 py-2 sm:block md:grid mt-2 ' . $boxColor . '  rounded-md border w-full shadow">
-                            <div class=" flex justify-between items-center p-2 gap-2 w-full ">
-                                <div class=" flex justify-between items-center gap-4">' .
-                                // $ilist[4] .
-                            '<div class="">
-                                        <div class="flex items-center gap-1">
-                                    <h2 class="' . $textcolor . ' ">'
-                            . $username . '
-                                           </h2>
-                                    <p class=" px-1 rounded-lg mx-2 bg-purple-600 text-white">'
-                            . $userrole . '</p>
-                                </div>
-                                <div class="email">'
-                            . $useremail . '</p>
-                                </div>
-                                <div class="skills flex justify-between items-center gap-4">
-                                    <p>Associated Marketplace: Not Associated</p>
-                                    <p>Provided Password :-'
-                            . $userpassword . '</p>
-                                    <p>Skills : '
-                            . $userskills . '</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between gap-8">
-                            <p class=" bg-indigo-500 text-white px-3 rounded-full">Active</p>
-                            <p class=" bg-purple-500 text-white px-3 rounded-full">'
-                            . $userrole . '</p>
-                            <a href="update.php?id=' . $item["ID"] . '" data-toggle="tooltip" data-placement="top" title="Edit" class="px-1 rounded-lg bg-slate-100 text-black">
-                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path><path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path></svg></a>
-                            <a href="delete.php?id=' . $item["ID"] . '" data-toggle="tooltip" data-placement="top" title="Delete" class="border-2 px-4 py-1 rounded-md">Archive</a>
-                        </div>
-                    </div>
-                </div>';
-                        // }
-                        // print_r($cardcontent);
-                    }
-                    
-                    foreach($i as $item){
                     ?>
-                            <div class="grid gap-2 py-2 sm:block md:grid mt-2 <?php echo $boxColor  ?>  rounded-md border w-full shadow">
-                            <div class=" flex justify-between items-center p-2 gap-2 w-full ">
-                                <div class=" flex justify-between items-center gap-4">
+                        <div class="grid gap-2 py-2 sm:block md:grid mt-2 <?php echo $boxColor  ?>  rounded-md border w-full shadow">
+                            <div class=" flex justify-between items-center p-2 gap-4 w-full ">
+                                <div class="w-full flex justify-between items-center gap-4">
                                     <div class=" w-10 h-14 flex items-center justify-center">
-                              <?php 
-                              if ($item["user_image"] != "") {
-                                $images =  "../Image/" . $item["user_image"];
-                                $res = "<img src='$images' alt='Image ' class='w-10 h-10 rounded-full flex items-center justify-center'>";
-                                echo "$res<br>";
-                            }else{
-                                $color = ["a" => "bg-yellow-600 border shadow", "b" => "bg-indigo-500 border shadow", "c" => "bg-blue-800 border shadow", "d" => "bg-blue-600 border shadow", "e" => "bg-green-600 border shadow"];
-                                $col = '<div class=" p-2 rounded-full ' . ((shuffle($color)) ? $color[1] : $color[2]) . ' "></div>';
-                                echo "$col<br>";
-                            }
-                               ?>
+                                        <?php
+                                        if ($item["user_image"] != "") {
+                                            $images =  "../Image/" . $item["user_image"];
+                                            $res = "<img src='$images' alt='Image ' class='w-10 h-10 rounded-full flex items-center justify-center'>";
+                                            echo "$res<br>";
+                                        } else {
+                                            $color = ["a" => "bg-yellow-600 border shadow", "b" => "bg-indigo-500 border shadow", "c" => "bg-blue-800 border shadow", "d" => "bg-blue-600 border shadow", "e" => "bg-green-600 border shadow"];
+                                            $col = '<div class=" p-2 rounded-full ' . ((shuffle($color)) ? $color[1] : $color[2]) . ' "></div>';
+                                            echo "$col<br>";
+                                        }
+                                        ?>
                                     </div>
-                            <div class="">
-                                        <div class="flex items-center gap-1">
-                                    <h2 class="<?php echo $textcolor  ?> ">
-                            <?php echo $item["Name"]  ?>
-                                           </h2>
-                                    <p class=" px-1 rounded-lg mx-2 bg-purple-600 text-white">
-                            <?php echo $item['Role'] ?></p>
+                                    <div class=" w-full">
+                                        <div class="flex gap-20">
+                                            <div>
+                                            <div class="flex items-center gap-1">
+                                                <h2 class="<?php echo $textcolor  ?> ">
+                                                    <?php echo $username  ?>
+                                                </h2>
+                                                <p class=" px-1 rounded-lg mx-2 bg-purple-600 text-white">
+                                                    <?php echo $userrole ?></p>
+                                            </div>
+                                            <div class="flex">
+                                                <?php echo $useremail ?></p>
+                                            </div>
+                                            </div>
+                                            <div class="space-y-1">
+                                                <p>Created :- <?php echo $item['Create_date'] ?></p>
+                                                <p>Modified :- <?php echo $item['Modified_Date'] ?></p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center gap-4">
+                                        <!-- <div class="flex">
+                                                <?php echo $useremail ?></p>
+                                            </div> -->
+                                            <p>Provided Password :-
+                                                <?php echo $userpassword ?></p>
+                                            <p>Skills :
+                                                <?php echo $userskills ?></p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="email">
-                            <?php echo $item['Email'] ?></p>
-                                </div>
-                                <div class="skills flex justify-between items-center gap-4">
-                                    <p>Associated Marketplace: Not Associated</p>
-                                    <p>Provided Password :-
-                            <?php echo $item['Password'] ?></p>
-                                    <p>Skills : 
-                            <?php echo $item['Skills'] ?></p>
+                                <div class="flex items-center justify-between gap-6">
+                                    <p class=" bg-indigo-500 text-white px-3 rounded-full">Active</p>
+                                    <p class=" bg-purple-500 text-white px-3 rounded-full">
+                                        <?php echo $item['Role'] ?></p>
+                                    <a href="update.php?id=<?php echo $item["ID"] ?>" data-toggle="tooltip" data-placement="top" title="Edit" class="px-1 rounded-lg bg-slate-100 text-black">
+                                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24">
+                                            <path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path>
+                                            <path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path>
+                                        </svg></a>
+                                    <a href="delete.php?id=<?php echo $item["ID"] ?>" data-toggle="tooltip" data-placement="top" title="Delete" class="border-2 px-4 py-1 rounded-md">Archive</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex items-center justify-between gap-8">
-                            <p class=" bg-indigo-500 text-white px-3 rounded-full">Active</p>
-                            <p class=" bg-purple-500 text-white px-3 rounded-full">
-                            <?php echo $item['Role'] ?></p>
-                            <a href="update.php?id=<?php echo $item["ID"] ?>" data-toggle="tooltip" data-placement="top" title="Edit" class="px-1 rounded-lg bg-slate-100 text-black">
-                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path><path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path></svg></a>
-                            <a href="delete.php?id=<?php echo $item["ID"] ?>" data-toggle="tooltip" data-placement="top" title="Delete" class="border-2 px-4 py-1 rounded-md">Archive</a>
-                        </div>
-                    </div>
-                </div>
-                <?php } ?>
+                    <?php } ?>
 </body>
 
 </html>

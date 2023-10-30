@@ -64,8 +64,11 @@ $modified_date = date('Y-m-d H:i:s');
                         //Database
                         $update = "update registeration_login set name= '$firstname', email = '$email', password= '$password', occupation = '$occupation', role = '$role', skills= '$skills' where id= $id";
                         $result = mysqli_query($con, $update);
-                        $_SESSION["submit"] = ["email" => $email, "password" => $password];
-                        
+                        if($_SESSION['submit']['email'] == $fetchdata[0][2]){
+                            $_SESSION["submit"] = ["email" => $email, "password" => $password];
+                        }
+
+                        print_r($_SESSION['submit']);
                         if ($size > 0) {
                             
                             $extension = ["jpg","png","jpeg"];
@@ -92,7 +95,7 @@ $modified_date = date('Y-m-d H:i:s');
                                         // echo "<pre>";
                                         // print_r($imagename);
                                         // echo "</pre>";
-                                        $update = "UPDATE record_of_image set user_image = '$newname', Image_name = '$imagename', Modified_Date = '$modified_date' where user_id = '$user_id'";
+                                        $update = "UPDATE record_of_image set user_image = '$newname', Image_name = '$imagename',  Modified_Date = '$modified_date' where user_id = '$user_id'";
                                         $result = mysqli_query($con, $update);
                                         echo "<br>Updated successfully";
                                     }
@@ -116,8 +119,11 @@ $modified_date = date('Y-m-d H:i:s');
                         //Database
                         $update = "update registeration_login set name= '$firstname', email = '$email', password= '$password', occupation = '$occupation', role = '$role', skills= '$skills' where id= $id";
                         $result = mysqli_query($con, $update);
-                        $_SESSION["submit"] = ["email" => $email, "password" => $password];
+                        if($_SESSION['submit']['email']==$fetchdata[0][2]){
+                            $_SESSION["submit"] = ["email" => $email, "password" => $password];
+                        }
 
+                        print_r($_SESSION['submit']);
                         if ($size > 0) {
                             // print_r($_FILES);
                             $extension = ["jpg","png","jpeg"];
