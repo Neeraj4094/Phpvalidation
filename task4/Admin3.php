@@ -31,17 +31,6 @@ while ($image = mysqli_fetch_assoc($leftjoinquery)) {
     $i[] = $image;
 }
 
-// foreach($i as $k){
-//     if ($k["user_image"] != "") {
-//         $images =  "../Image/" . $k["user_image"];
-//         $res = "<img src='$images' alt='Image ' class='w-10 h-10 rounded-full flex items-center justify-center'>";
-//         echo "$res<br>";
-//     }else{
-//         $color = ["a" => "bg-blue-600 border shadow", "b" => "bg-indigo-500 border shadow", "c" => "bg-purple-600 border shadow", "d" => "bg-blue-800", "e" => "bg-yellow-600 border shadow", "f" => "bg-green-600 border shadow"];
-//         $col = '<div class=" p-2 rounded-full w-10 h-10' . ((shuffle($color)) ? $color[1] : $color[2]) . ' "></div>';
-//         echo "$col<br>";
-//     }
-// }
 
 ?>
 <!DOCTYPE html>
@@ -253,7 +242,7 @@ while ($image = mysqli_fetch_assoc($leftjoinquery)) {
                     <?php
                     
                     $cardcontent = "";
-                    // $color = ["a" => "bg-blue-600 border shadow", "b" => "bg-indigo-500 border shadow", "c" => "bg-purple-600 border shadow", "d" => "bg-blue-800", "e" => "bg-yellow-600 border shadow", "f" => "bg-green-600 border shadow"];
+                    $color = ["a" => "bg-blue-600 border shadow", "b" => "bg-indigo-500 border shadow", "c" => "bg-purple-600 border shadow", "d" => "bg-blue-800", "e" => "bg-yellow-600 border shadow", "f" => "bg-green-600 border shadow"];
 
                     $color1 = "  bg-violet-900";
                     
@@ -322,7 +311,7 @@ while ($image = mysqli_fetch_assoc($leftjoinquery)) {
                                 $res = "<img src='$images' alt='Image ' class='w-10 h-10 rounded-full flex items-center justify-center'>";
                                 echo "$res<br>";
                             }else{
-                                $color = ["a" => "bg-blue-600 border shadow", "b" => "bg-indigo-500 border shadow", "c" => "bg-purple-600 border shadow", "d" => "bg-blue-800", "e" => "bg-yellow-600 border shadow", "f" => "bg-green-600 border shadow"];
+                                $color = ["a" => "bg-yellow-600 border shadow", "b" => "bg-indigo-500 border shadow", "c" => "bg-blue-800 border shadow", "d" => "bg-blue-600 border shadow", "e" => "bg-green-600 border shadow"];
                                 $col = '<div class=" p-2 rounded-full ' . ((shuffle($color)) ? $color[1] : $color[2]) . ' "></div>';
                                 echo "$col<br>";
                             }

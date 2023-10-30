@@ -13,6 +13,15 @@ $result = "select * from registeration_login where id = $id";
 $result1 = mysqli_query($con, $result);
 $fetchdata = mysqli_fetch_all($result1);
 
+
+$selectimagedata = "select * from record_of_image where user_id = $id";
+$imagequery = mysqli_query($con, $selectimagedata);
+
+while ($image = mysqli_fetch_assoc($imagequery)) {
+    $im   = $image['user_image'];
+    $ilist[] = $image;
+    $usermainid = $image['user_id'];
+}
 function filt($array, $email)
 {
     foreach ($array as $item) {
@@ -25,6 +34,12 @@ function filt($array, $email)
 }
 $a[] = filt($show, $email);
 
+if(isset($_POST['submit'])){
+    $image = $_FILES['image'];
+    $imagename = $_FILES['image']['name'];
+}
+$created_date= date('Y-m-d H:i:s');
+$modified_date = date('Y-m-d H:i:s');
 ?>
 
 <!DOCTYPE html>
@@ -43,23 +58,25 @@ $a[] = filt($show, $email);
         if (isset($_POST['submit'])) {
             foreach ($a as $i) {
                 if ($email == $fetchdata[0][2]) {
+                    
                     if ($erremail == null && $erremail1 == null && $errfirstname == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
                         echo "Message sent successfully";
                         //Database
-                        // $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
                         $update = "update registeration_login set name= '$firstname', email = '$email', password= '$password', occupation = '$occupation', role = '$role', skills= '$skills' where id= $id";
                         $result = mysqli_query($con, $update);
                         $_SESSION["submit"] = ["email" => $email, "password" => $password];
-                        print_r($_FILES);
+                        
                         if ($size > 0) {
+                            
                             $extension = ["jpg","png","jpeg"];
                             $ext = pathinfo($image["name"], PATHINFO_EXTENSION);
+                            
                             if (in_array($ext, $extension)) {
                                 $errimage = '';
                                 $newname = uniqid("Img-", true) . '.' . $ext;
                                 $upload = "..\image/" . $newname;
                                 move_uploaded_file($image["tmp_name"], $upload);
-                    
+                                
                                 $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
                                 $user_id_result = mysqli_query($con, $user_id_query);
                                 
@@ -67,8 +84,18 @@ $a[] = filt($show, $email);
                                     $user_id_row = mysqli_fetch_assoc($user_id_result);
                                     $user_id = $user_id_row['ID'];
                                     // Inserting into record_of_image
-                                    $insert = "INSERT INTO record_of_image (user_image) VALUES ('$newname')";
-                                    $result = mysqli_query($con, $insert);
+                                    if($id != $usermainid){
+                                        $insert = "INSERT INTO record_of_image (user_image, user_id,Image_name,Create_date,Modified_date) VALUES ('$newname', '$user_id','$imagename','$created_date','$modified_date')";
+                                        $result = mysqli_query($con, $insert);
+                                        echo "<br>Inserted successfully";
+                                    }else{
+                                        // echo "<pre>";
+                                        // print_r($imagename);
+                                        // echo "</pre>";
+                                        $update = "UPDATE record_of_image set user_image = '$newname', Image_name = '$imagename', Modified_Date = '$modified_date' where user_id = '$user_id'";
+                                        $result = mysqli_query($con, $update);
+                                        echo "<br>Updated successfully";
+                                    }
                                     if (!$result) {
                                         echo "Error: " . mysqli_error($con);
                                     }
@@ -83,16 +110,16 @@ $a[] = filt($show, $email);
                     } else {
                         echo "Please complete the form";
                     }
-                } elseif ($email != isset($i[2])) {
+                } elseif ($email != $i[2]) {
                     if ($erremail == null && $erremail1 == null && $errfirstname == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
                         echo "Message sent successfully";
                         //Database
-                        // $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
                         $update = "update registeration_login set name= '$firstname', email = '$email', password= '$password', occupation = '$occupation', role = '$role', skills= '$skills' where id= $id";
                         $result = mysqli_query($con, $update);
                         $_SESSION["submit"] = ["email" => $email, "password" => $password];
 
                         if ($size > 0) {
+                            // print_r($_FILES);
                             $extension = ["jpg","png","jpeg"];
                             $ext = pathinfo($image["name"], PATHINFO_EXTENSION);
                             if (in_array($ext, $extension)) {
@@ -108,8 +135,15 @@ $a[] = filt($show, $email);
                                     $user_id_row = mysqli_fetch_assoc($user_id_result);
                                     $user_id = $user_id_row['ID'];
                                     // Inserting into record_of_image
-                                    $insert = "INSERT INTO record_of_image (user_image) VALUES ('$newname',)";
-                                    $result = mysqli_query($con, $insert);
+                                    if($id != $usermainid){
+                                        $insert = "INSERT INTO record_of_image (user_image, user_id,Image_name,Create_date,Modified_date) VALUES ('$newname', '$user_id','$imagename','$created_date','$modified_date')";
+                                            $result = mysqli_query($con, $insert); 
+                                            echo "<br>Inserted successfully";  
+                                    }else{
+                                        $update = "UPDATE record_of_image set user_image = '$newname', Image_name = '$imagename', Modified_Date = '$modified_date' where user_id = '$user_id'";
+                                        $result = mysqli_query($con, $update);
+                                        echo "<br>Updated successfully";
+                                    }
                                     if (!$result) {
                                         echo "Error: " . mysqli_error($con);
                                     }
@@ -134,7 +168,7 @@ $a[] = filt($show, $email);
         ?>
     </h2>
     <div class="flex w-full h-full">
-        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="h-full shadow" name="registeration_form">
+        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="h-full shadow" name="registeration_form" enctype="multipart/form-data">
             <div class="h-full space-y-2 bg-slate-50 shadow-sm py-6 px-10">
                 <div class="flex gap-10">
                     <div class="space-y-2">

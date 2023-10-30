@@ -54,7 +54,7 @@ foreach ($show as $item) {
                             
                                         $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
                                         $user_id_result = mysqli_query($con, $user_id_query);
-                                        // print_r($user_id_result);
+                                        
                                         if ($user_id_result) {
                                             $user_id_row = mysqli_fetch_assoc($user_id_result);
                                             $user_id = $user_id_row['ID'];
