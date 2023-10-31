@@ -95,7 +95,7 @@ $modified_date = date('Y-m-d H:i:s');
                                         // echo "<pre>";
                                         // print_r($imagename);
                                         // echo "</pre>";
-                                        $update = "UPDATE record_of_image set user_image = '$newname', Image_name = '$imagename',  Modified_Date = '$modified_date' where user_id = '$user_id'";
+                                        $update = "UPDATE record_of_image set user_image = '$newname', Image_name = '$imagename', Modified_Date = '$modified_date' where user_id = '$user_id'";
                                         $result = mysqli_query($con, $update);
                                         echo "<br>Updated successfully";
                                     }

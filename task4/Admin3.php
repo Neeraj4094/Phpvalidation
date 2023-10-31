@@ -41,6 +41,7 @@ foreach ($i as $item) {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -250,8 +251,6 @@ foreach ($i as $item) {
                 <div class="px-2 h-96 space-y-3 overflow-y-scroll">
                     <?php
 
-
-
                     foreach ($i as $item) {
                         $check = in_array($_SESSION["submit"]["email"], $item);
                         $username = $check ? $data1['Name'] : $item["Name"];
@@ -259,9 +258,10 @@ foreach ($i as $item) {
                         $userpassword = $check ? $data1['Password'] : substr($item["Password"], 0, 4) . "**********";
                         $userrole = $check ? $data1['Role'] : $item["Role"];
                         $userskills = $check ? $data1['Skills'] : $item["Skills"];
-                        $boxColor = $check ? 'bg-white shadow-sm border' : 'bg-white ';
+                        $boxColor = $check ? 'bg-white shadow-sm border ' : 'bg-white ';
                         $textcolor = $check ? 'font-bold' : 'font-semibold';
                         $circlecolor = $check ? 'bg-blue-800' : 'bg-indigo-600';
+                        $textcol = $check ? 'font-semibold' : 'font-normal';
                     ?>
                         <div class="grid gap-2 py-2 sm:block md:grid mt-2 <?php echo $boxColor  ?>  rounded-md border w-full shadow">
                             <div class=" flex justify-between items-center p-2 gap-4 w-full ">
@@ -303,7 +303,7 @@ foreach ($i as $item) {
                                                 <?php echo $useremail ?></p>
                                             </div> -->
                                             <p>Provided Password :-
-                                                <?php echo $userpassword ?></p>
+                                               <span class="<?php echo $textcol ?>"><?php echo $userpassword ?></span></p>
                                             <p>Skills :
                                                 <?php echo $userskills ?></p>
                                         </div>

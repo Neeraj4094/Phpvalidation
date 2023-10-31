@@ -16,6 +16,8 @@ foreach ($show as $item) {
     $b[] = $item[0];
 }
 
+$created_date= date('Y-m-d H:i:s');
+$modified_date = date('Y-m-d H:i:s');
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +61,7 @@ foreach ($show as $item) {
                                             $user_id_row = mysqli_fetch_assoc($user_id_result);
                                             $user_id = $user_id_row['ID'];
                                             // Inserting into record_of_image
-                                            $insert = "INSERT INTO record_of_image (user_image, user_id) VALUES ('$newname', '$user_id')";
+                                            $insert = "INSERT INTO record_of_image (user_image, user_id,Create_date,Modified_Date) VALUES ('$newname', '$user_id','$created_date','$modified_date')";
                                             $result = mysqli_query($con, $insert);
                                             if (!$result) {
                                                 echo "Error: " . mysqli_error($con);
@@ -108,7 +110,7 @@ foreach ($show as $item) {
                                             $user_id_row = mysqli_fetch_assoc($user_id_result);
                                             $user_id = $user_id_row['ID'];
                                             // Inserting into record_of_image
-                                            $insert = "INSERT INTO record_of_image (user_image, user_id) VALUES ('$newname', '$user_id')";
+                                            $insert = "INSERT INTO record_of_image (user_image, user_id,Create_date,Modified_Date) VALUES ('$newname', '$user_id','$created_date','$modified_date')";
                                             $result = mysqli_query($con, $insert);
                                             if (!$result) {
                                                 echo "Error: " . mysqli_error($con);
