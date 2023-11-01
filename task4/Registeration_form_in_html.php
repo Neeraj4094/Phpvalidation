@@ -15,7 +15,6 @@ $a[] = filt($show, $email);
 foreach ($show as $item) {
     $b[] = $item[0];
 }
-
 $created_date= date('Y-m-d H:i:s');
 $modified_date = date('Y-m-d H:i:s');
 ?>
@@ -41,9 +40,16 @@ $modified_date = date('Y-m-d H:i:s');
                         if ($email != isset($i[2])) {
                             echo "Message sent successfully";
                             // Database
-                            $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
+                            $insert = "insert into registeration_login (name,email,password,occupation,role,skills,created_date) values ('$firstname','$email','$password','$occupation','$role','$skills','$created_date')";
                             $result = mysqli_query($con, $insert);
-
+                            
+                            $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
+                                        $user_id_result = mysqli_query($con, $user_id_query);
+                                        
+                                        if ($user_id_result) {
+                                            $user_id_row = mysqli_fetch_assoc($user_id_result);
+                                            $user_id = $user_id_row['ID'];
+                                        }
                             // print_r($size);
                                 if ($size > 0) {
                                     $extension = ["jpg","png","jpeg"];
@@ -61,7 +67,7 @@ $modified_date = date('Y-m-d H:i:s');
                                             $user_id_row = mysqli_fetch_assoc($user_id_result);
                                             $user_id = $user_id_row['ID'];
                                             // Inserting into record_of_image
-                                            $insert = "INSERT INTO record_of_image (user_image, user_id,Create_date,Modified_Date) VALUES ('$newname', '$user_id','$created_date','$modified_date')";
+                                            $insert = "INSERT INTO record_of_image (user_image, user_id,Image_name,Modified_Date) VALUES ('$newname', '$user_id','$imagename','$modified_date')";
                                             $result = mysqli_query($con, $insert);
                                             if (!$result) {
                                                 echo "Error: " . mysqli_error($con);
@@ -72,6 +78,10 @@ $modified_date = date('Y-m-d H:i:s');
                                     } else {
                                         $errimage = "Only jpg & png files are allowed";
                                     }
+                                }
+                                else{
+                                    $insert = "INSERT INTO record_of_image (user_image, user_id,Image_name,Modified_Date) VALUES (NULL, '$user_id',Null,'$modified_date')";
+                                    $result = mysqli_query($con, $insert);
                                 }
 
                             header("location:/phpprogramms/task4/login_form_in_html.php");
@@ -90,9 +100,16 @@ $modified_date = date('Y-m-d H:i:s');
                         if ($email != $i[2]) {
                             echo "Message sent successfully";
                             // Database
-                            $insert = "insert into registeration_login (name,email,password,occupation,role,skills) values ('$firstname','$email','$password','$occupation','$role','$skills')";
+                            $insert = "insert into registeration_login (name,email,password,occupation,role,skills,created_date) values ('$firstname','$email','$password','$occupation','$role','$skills','$created_date')";
                             $result = mysqli_query($con, $insert);
 
+                            $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
+                                        $user_id_result = mysqli_query($con, $user_id_query);
+                                        
+                                        if ($user_id_result) {
+                                            $user_id_row = mysqli_fetch_assoc($user_id_result);
+                                            $user_id = $user_id_row['ID'];
+                                        }
                             // print_r($size);
                                 if ($size > 0) {
                                     $extension = ["jpg","png","jpeg"];
@@ -110,7 +127,7 @@ $modified_date = date('Y-m-d H:i:s');
                                             $user_id_row = mysqli_fetch_assoc($user_id_result);
                                             $user_id = $user_id_row['ID'];
                                             // Inserting into record_of_image
-                                            $insert = "INSERT INTO record_of_image (user_image, user_id,Create_date,Modified_Date) VALUES ('$newname', '$user_id','$created_date','$modified_date')";
+                                            $insert = "INSERT INTO record_of_image (user_image, user_id,Image_name,Modified_Date) VALUES ('$newname', '$user_id','$imagename','$modified_date')";
                                             $result = mysqli_query($con, $insert);
                                             if (!$result) {
                                                 echo "Error: " . mysqli_error($con);
@@ -121,6 +138,10 @@ $modified_date = date('Y-m-d H:i:s');
                                     } else {
                                         $errimage = "Only jpg & png files are allowed";
                                     }
+                                }
+                                else{
+                                    $insert = "INSERT INTO record_of_image (user_image, user_id,Image_name,Modified_Date) VALUES (NULL, '$user_id',Null,'$modified_date')";
+                                    $result = mysqli_query($con, $insert);
                                 }
 
                             header("location:/phpprogramms/task4/login_form_in_html.php");
@@ -218,24 +239,24 @@ $modified_date = date('Y-m-d H:i:s');
                         <legend class="flex">Skills :-</legend>
                         <div class="flex items-center flex-wrap gap-6">
                             <div class="">
-                                <input type="checkbox" name="skills" id="Web_design" value="Web Design">
+                                <input type="radio" name="skills" id="Web_design" value="Web Design">
                                 <label for="Web_design">Web Design</label>
                             </div>
                             <div class="">
-                                <input type="checkbox" name="skills" id="ui/ux" value="UI/UX">
+                                <input type="radio" name="skills" id="ui/ux" value="UI/UX">
                                 <label for="ui/ux">UI/UX</label>
                             </div>
                             <div class="">
-                                <input type="checkbox" name="skills" id="app_design" value="App Design">
+                                <input type="radio" name="skills" id="app_design" value="App Design">
                                 <label for="app_design">App Design</label>
                             </div>
                             <div class="">
-                                <input type="checkbox" name="skills" id="management" value="Management">
+                                <input type="radio" name="skills" id="management" value="Management">
                                 <label for="management">Management</label>
                             </div>
 
                             <div class="">
-                                <input type="checkbox" name="skills" id="others" value="Other">
+                                <input type="radio" name="skills" id="others" value="Other">
                                 <label for="others">Others</label>
                             </div>
                         </div>

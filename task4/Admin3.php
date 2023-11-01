@@ -11,7 +11,7 @@ if ($_SESSION != null) {
         }
     }
 } else {
-    header("location: ./error.php");
+    header("location: ./login_form_in_html.php");
 }
 $search = '';
 
@@ -20,7 +20,7 @@ if (isset($_POST["search"])) {
 }
 
 
-$leftjoin = "select login.*, user_image,Create_date, Modified_Date from registeration_login as login left join record_of_image as image on (login.id= image.user_id) order by login.id";
+$leftjoin = "select login.*, user_image, Modified_Date from registeration_login as login left join record_of_image as image on (login.id= image.user_id) order by login.id";
 $leftjoinquery = mysqli_query($con, $leftjoin);
 
 
@@ -29,10 +29,9 @@ $imagequery = mysqli_query($con, $selectimagedata);
 
 while ($image = mysqli_fetch_assoc($leftjoinquery)) {
     $i[] = $image;
-    $create[] = $image['Create_date'];
+    $create[] = $image['created_date'];
     $images[] = $image['user_image'];
 }
-
 foreach ($i as $item) {
     if (in_array($_SESSION["submit"]["email"], $item)) {
         $data1 = $item;
@@ -56,7 +55,7 @@ foreach ($i as $item) {
     <div class="grid grid-cols-12 grid-rows-6 w-full h-full">
         <aside class=" row-span-6 col-span-2 border px-2 py-2 space-y-3 sm:hidden lg:block">
             <div class="px-2 flex items-center justify-center w-full">
-                <div class="w-full h-7 px-4 py-2  bg-white">
+                <div class="w-full h-10 px-4 py-2  bg-white">
                     <img src="../Image/listerpros.jpg" alt="Logo" class="w-full h-full rounded-lg">
                 </div>
             </div>
@@ -208,14 +207,16 @@ foreach ($i as $item) {
                         </ul>
                     </li>
                     <li>
-                        <div class="flex items-center gap-2 relative border-t px-2 py-2">
+                        <form action="./Logout.php" method="post">
+                            <button class="flex items-center gap-2 relative border-t px-2 py-2">
                             <a href="./Logout.php" class="absolute inset-0 z-10"></a>
                             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                 <path d="M16.8 2h-2.6C11 2 9 4 9 7.2v4.05h6.25c.41 0 .75.34.75.75s-.34.75-.75.75H9v4.05C9 20 11 22 14.2 22h2.59c3.2 0 5.2-2 5.2-5.2V7.2C22 4 20 2 16.8 2z"></path>
                                 <path d="M4.561 11.25l2.07-2.07c.15-.15.22-.34.22-.53s-.07-.39-.22-.53a.754.754 0 00-1.06 0l-3.35 3.35c-.29.29-.29.77 0 1.06l3.35 3.35c.29.29.77.29 1.06 0 .29-.29.29-.77 0-1.06l-2.07-2.07h4.44v-1.5h-4.44z"></path>
                             </svg>
                             <span>Log Out</span>
-                        </div>
+                            </button>
+</form>
                     </li>
                 </ul>
             </nav>
@@ -226,9 +227,14 @@ foreach ($i as $item) {
                 <p class="font-medium text-lg">Welcome Admin, <span class="font-bold"><?php print_r($data[1]); ?></span></p>
                 <div class="w-10 h-10 rounded-full border">
                     <?php
-                    $images =  "../Image/" . $data1['user_image'];
-                    $res = "<img src='$images' alt='Image ' class='w-10 h-10 rounded-full flex items-center justify-center'>";
-                    echo "$res<br>";
+                    if ($data1['user_image'] != "") {
+                        $images =  "../Image/" . $data1["user_image"];
+                        $res = "<img src='$images' alt='Image ' class='w-10 h-10 rounded-full flex items-center justify-center'>";
+                        echo "$res<br>";
+                    } else {
+                        $col = '<svg class="w-full h-full object-cover text-slate-500" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"></path></svg>';
+                        echo "$col<br>";
+                    }
                     ?>
                 </div>
             </div>
@@ -266,15 +272,14 @@ foreach ($i as $item) {
                         <div class="grid gap-2 py-2 sm:block md:grid mt-2 <?php echo $boxColor  ?>  rounded-md border w-full shadow">
                             <div class=" flex justify-between items-center p-2 gap-4 w-full ">
                                 <div class="w-full flex justify-between items-center gap-4">
-                                    <div class=" w-10 h-14 flex items-center justify-center">
+                                    <div class=" w-10 h-10 flex items-center justify-center">
                                         <?php
                                         if ($item["user_image"] != "") {
                                             $images =  "../Image/" . $item["user_image"];
-                                            $res = "<img src='$images' alt='Image ' class='w-10 h-10 rounded-full flex items-center justify-center'>";
+                                            $res = "<img src='$images' alt='Image ' class='w-10 h-10 rounded-full object-cover flex items-center justify-center'>";
                                             echo "$res<br>";
                                         } else {
-                                            $color = ["a" => "bg-yellow-600 border shadow", "b" => "bg-indigo-500 border shadow", "c" => "bg-blue-800 border shadow", "d" => "bg-blue-600 border shadow", "e" => "bg-green-600 border shadow"];
-                                            $col = '<div class=" p-2 rounded-full ' . ((shuffle($color)) ? $color[1] : $color[2]) . ' "></div>';
+                                            $col = '<div class= "flex items-center justify-center w-8 h-8"><svg class="w-full h-full text-slate-500" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"></path></svg></div>';
                                             echo "$col<br>";
                                         }
                                         ?>
@@ -294,7 +299,7 @@ foreach ($i as $item) {
                                                 </div>
                                             </div>
                                             <div class="space-y-1">
-                                                <p>Created :- <?php echo $item['Create_date'] ?></p>
+                                                <p>Created :- <?php echo $item['created_date'] ?></p>
                                                 <p>Modified :- <?php echo $item['Modified_Date'] ?></p>
                                             </div>
                                         </div>
@@ -313,12 +318,17 @@ foreach ($i as $item) {
                                     <p class=" bg-indigo-500 text-white px-3 rounded-full">Active</p>
                                     <p class=" bg-purple-500 text-white px-3 rounded-full">
                                         <?php echo $item['Role'] ?></p>
-                                    <a href="update.php?id=<?php echo $item["ID"] ?>" data-toggle="tooltip" data-placement="top" title="Edit" class="px-1 rounded-lg bg-slate-100 text-black">
+
+                                        <form action="update.php?id=<?php echo $item["ID"] ?>" method="post">
+                                    <button type="submit" data-toggle="tooltip" data-placement="top" title="Edit" class="px-1 rounded-lg bg-slate-100 text-black">
                                         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24">
                                             <path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path>
                                             <path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path>
-                                        </svg></a>
-                                    <a href="delete.php?id=<?php echo $item["ID"] ?>" data-toggle="tooltip" data-placement="top" title="Delete" class="border-2 px-4 py-1 rounded-md">Archive</a>
+                                        </svg></button>
+                                        </form>
+                                        <form action="delete.php?id=<?php echo $item["ID"] ?>" method="post">
+                                    <button data-toggle="tooltip" data-placement="top" title="Delete" class="border-2 px-4 py-1 rounded-md">Archive</button>
+                                        </form>
                                 </div>
                             </div>
                         </div>

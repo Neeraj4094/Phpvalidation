@@ -14,12 +14,12 @@ $showimage = mysqli_fetch_all($queryimage);
 foreach ($show as $item) {
     $b[] = $item[0];
 }
-$c = end($b) +1;
+
 // Validation
-$firstname = $image = $email = $password = $occupation = $role = $skills = $passlength = $ucase = $lcase = $passnumber = $spchar = $extension= $ext="";
+$firstname = $image = $imagename = $email = $password = $occupation = $role = $skills = $passlength = $ucase = $lcase = $passnumber = $spchar = $extension= $ext="";
 $err = $errfirstname = $errimage =  $erremail = $erremail1 = $errpassword = $erroccupation = $errrole = $errskills = "";
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    if ($_POST['submit']) {
+    if (isset($_POST['submit'])) {
         if (!empty($_POST['first_name']) || !empty($_POST['email']) || !empty($_POST['password']) || !empty($_POST['occupation'])) {
             $firstname = trim($_POST['first_name']);
             $email = $_POST['email'];
@@ -34,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
         if (!empty($_FILES['image'])) {
             $image = $_FILES['image'];
+            $imagename = $_FILES['image']['name'];
         }
         if(isset($image["size"])){
             $size = $image["size"];
@@ -103,39 +104,3 @@ function func1($value, $err, $passlength, $ucase, $lcase, $passnumber, $spchar)
         return $err;
     }
 }
-// function image($image,$con,$c,$size,$errimage=null,$result=null){
-//     if ($size > 0) {
-//         $extension = ["jpg","png","jpeg"];
-//         $ext = pathinfo($image["name"], PATHINFO_EXTENSION);
-//         if (in_array($ext, $extension)) {
-//             $errimage = '';
-//             $newname = uniqid("Img-", true) . '.' . $ext;
-//             $upload = "..\image/" . $newname;
-//             move_uploaded_file($image["tmp_name"], $upload);
-
-//             $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
-//             $user_id_result = mysqli_query($con, $user_id_query);
-//             // print_r($user_id_result);
-//             if ($user_id_result) {
-//                 $user_id_row = mysqli_fetch_assoc($user_id_result);
-//                 if(isset($user_id_row['ID'])){
-//                 $user_id = $user_id_row['ID'];
-//                 }else{
-//                     echo "No";
-//                 }
-//                 // print_r($user_id_row);
-//                 echo "Ok";
-//                 // Inserting into record_of_image
-//                 // $insert = "INSERT INTO record_of_image (user_image, user_id) VALUES ('$newname', '$user_id')";
-//                 // $result = mysqli_query($con, $insert);
-//                 // if (!$result) {
-//                 //     echo "Error: " . mysqli_error($con);
-//                 // }
-//             } else {
-//                 echo "Error: " . mysqli_error($con);
-//             }
-//         } else {
-//             $errimage = "Only jpg & png files are allowed";
-//         }
-//     }
-// }

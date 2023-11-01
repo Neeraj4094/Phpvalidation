@@ -13,7 +13,7 @@ $result = "select * from registeration_login where id = $id";
 $result1 = mysqli_query($con, $result);
 $fetchdata = mysqli_fetch_all($result1);
 
-
+$usermainid = '';
 $selectimagedata = "select * from record_of_image where user_id = $id";
 $imagequery = mysqli_query($con, $selectimagedata);
 
@@ -34,11 +34,11 @@ function filt($array, $email)
 }
 $a[] = filt($show, $email);
 
-if(isset($_POST['submit'])){
+if (isset($_POST['submit'])) {
     $image = $_FILES['image'];
     $imagename = $_FILES['image']['name'];
 }
-$created_date= date('Y-m-d H:i:s');
+$created_date = date('Y-m-d H:i:s');
 $modified_date = date('Y-m-d H:i:s');
 ?>
 
@@ -58,46 +58,50 @@ $modified_date = date('Y-m-d H:i:s');
         if (isset($_POST['submit'])) {
             foreach ($a as $i) {
                 if ($email == $fetchdata[0][2]) {
-                    
+
                     if ($erremail == null && $erremail1 == null && $errfirstname == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
-                        echo "Message sent successfully";
                         //Database
                         $update = "update registeration_login set name= '$firstname', email = '$email', password= '$password', occupation = '$occupation', role = '$role', skills= '$skills' where id= $id";
                         $result = mysqli_query($con, $update);
-                        if($_SESSION['submit']['email'] == $fetchdata[0][2]){
+                        if ($_SESSION['submit']['email'] == $fetchdata[0][2]) {
                             $_SESSION["submit"] = ["email" => $email, "password" => $password];
                         }
 
-                        print_r($_SESSION['submit']);
+                        $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
+                        $user_id_result = mysqli_query($con, $user_id_query);
+
+                        if ($user_id_result) {
+                            $user_id_row = mysqli_fetch_assoc($user_id_result);
+                            $user_id = $user_id_row['ID'];
+                        }
+
+
                         if ($size > 0) {
-                            
-                            $extension = ["jpg","png","jpeg"];
+                            $extension = ["jpg", "png", "jpeg"];
                             $ext = pathinfo($image["name"], PATHINFO_EXTENSION);
-                            
                             if (in_array($ext, $extension)) {
                                 $errimage = '';
                                 $newname = uniqid("Img-", true) . '.' . $ext;
                                 $upload = "..\image/" . $newname;
                                 move_uploaded_file($image["tmp_name"], $upload);
-                                
+
                                 $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
                                 $user_id_result = mysqli_query($con, $user_id_query);
-                                
+
                                 if ($user_id_result) {
                                     $user_id_row = mysqli_fetch_assoc($user_id_result);
                                     $user_id = $user_id_row['ID'];
                                     // Inserting into record_of_image
-                                    if($id != $usermainid){
-                                        $insert = "INSERT INTO record_of_image (user_image, user_id,Image_name,Create_date,Modified_date) VALUES ('$newname', '$user_id','$imagename','$created_date','$modified_date')";
+                                    if ($id != $usermainid) {
+                                        $insert = "INSERT INTO record_of_image (user_image, user_id,Image_name,Modified_date) VALUES ('$newname', '$user_id','$imagename','$modified_date')";
                                         $result = mysqli_query($con, $insert);
                                         echo "<br>Inserted successfully";
-                                    }else{
-                                        // echo "<pre>";
-                                        // print_r($imagename);
-                                        // echo "</pre>";
+                                        header("location: /phpprogramms/task4/admin3.php");
+                                    } else {
                                         $update = "UPDATE record_of_image set user_image = '$newname', Image_name = '$imagename', Modified_Date = '$modified_date' where user_id = '$user_id'";
                                         $result = mysqli_query($con, $update);
                                         echo "<br>Updated successfully";
+                                        header("location: /phpprogramms/task4/admin3.php");
                                     }
                                     if (!$result) {
                                         echo "Error: " . mysqli_error($con);
@@ -108,47 +112,57 @@ $modified_date = date('Y-m-d H:i:s');
                             } else {
                                 $errimage = "Only jpg & png files are allowed";
                             }
+                        } else {
+                            $update = "UPDATE record_of_image set Modified_Date ='$modified_date'";
+                            $result = mysqli_query($con, $update);
+                            header("location: /phpprogramms/task4/admin3.php");
                         }
-                        header("location: /phpprogramms/task4/admin3.php");
                     } else {
                         echo "Please complete the form";
                     }
                 } elseif ($email != $i[2]) {
                     if ($erremail == null && $erremail1 == null && $errfirstname == null && $errpassword == null && $erroccupation == null && $errrole == "" && $errskills == "") {
-                        echo "Message sent successfully";
                         //Database
                         $update = "update registeration_login set name= '$firstname', email = '$email', password= '$password', occupation = '$occupation', role = '$role', skills= '$skills' where id= $id";
                         $result = mysqli_query($con, $update);
-                        if($_SESSION['submit']['email']==$fetchdata[0][2]){
+                        if ($_SESSION['submit']['email'] == $fetchdata[0][2]) {
                             $_SESSION["submit"] = ["email" => $email, "password" => $password];
                         }
 
-                        print_r($_SESSION['submit']);
+                        $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
+                        $user_id_result = mysqli_query($con, $user_id_query);
+
+                        if ($user_id_result) {
+                            $user_id_row = mysqli_fetch_assoc($user_id_result);
+                            $user_id = $user_id_row['ID'];
+                        }
+
                         if ($size > 0) {
-                            // print_r($_FILES);
-                            $extension = ["jpg","png","jpeg"];
+                            $extension = ["jpg", "png", "jpeg"];
                             $ext = pathinfo($image["name"], PATHINFO_EXTENSION);
                             if (in_array($ext, $extension)) {
                                 $errimage = '';
                                 $newname = uniqid("Img-", true) . '.' . $ext;
                                 $upload = "..\image/" . $newname;
                                 move_uploaded_file($image["tmp_name"], $upload);
-                    
+
                                 $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
                                 $user_id_result = mysqli_query($con, $user_id_query);
-                                
+
                                 if ($user_id_result) {
                                     $user_id_row = mysqli_fetch_assoc($user_id_result);
                                     $user_id = $user_id_row['ID'];
                                     // Inserting into record_of_image
-                                    if($id != $usermainid){
-                                        $insert = "INSERT INTO record_of_image (user_image, user_id,Image_name,Create_date,Modified_date) VALUES ('$newname', '$user_id','$imagename','$created_date','$modified_date')";
-                                            $result = mysqli_query($con, $insert); 
-                                            echo "<br>Inserted successfully";  
-                                    }else{
+                                    if ($id != $usermainid) {
+                                        $insert = "INSERT INTO record_of_image (user_image, user_id,Image_name,Modified_date) VALUES ('$newname', '$user_id','$imagename','$modified_date')";
+                                        $result = mysqli_query($con, $insert);
+                                        echo "<br>Inserted successfully";
+                                        header("location: /phpprogramms/task4/admin3.php");
+                                    } else {
                                         $update = "UPDATE record_of_image set user_image = '$newname', Image_name = '$imagename', Modified_Date = '$modified_date' where user_id = '$user_id'";
                                         $result = mysqli_query($con, $update);
                                         echo "<br>Updated successfully";
+                                        header("location: /phpprogramms/task4/admin3.php");
                                     }
                                     if (!$result) {
                                         echo "Error: " . mysqli_error($con);
@@ -159,9 +173,11 @@ $modified_date = date('Y-m-d H:i:s');
                             } else {
                                 $errimage = "Only jpg & png files are allowed";
                             }
+                        } else {
+                            $update = "UPDATE record_of_image set Modified_Date ='$modified_date'";
+                            $result = mysqli_query($con, $update);
+                            header("location: /phpprogramms/task4/admin3.php");
                         }
-
-                        header("location: /phpprogramms/task4/admin3.php");
                     } else {
                         echo "Please complete the form";
                     }
@@ -255,24 +271,24 @@ $modified_date = date('Y-m-d H:i:s');
                         <legend class="flex">Skills :-</legend>
                         <div class="flex items-center flex-wrap gap-6">
                             <div class="">
-                                <input type="checkbox" name="skills" id="Web_design" value="Web Design" <?php echo ($fetchdata[0][6] == 'Web Design') ? 'checked' : '' ?>>
+                                <input type="radio" name="skills" id="Web_design" value="Web Design" <?php echo ($fetchdata[0][6] == 'Web Design') ? 'checked' : '' ?>>
                                 <label for="Web_design">Web Design</label>
                             </div>
                             <div class="">
-                                <input type="checkbox" name="skills" id="ui/ux" value="UI/UX" <?php echo ($fetchdata[0][6] == 'UI/UX') ? 'checked' : '' ?>>
+                                <input type="radio" name="skills" id="ui/ux" value="UI/UX" <?php echo ($fetchdata[0][6] == 'UI/UX') ? 'checked' : '' ?>>
                                 <label for="ui/ux">UI/UX</label>
                             </div>
                             <div class="">
-                                <input type="checkbox" name="skills" id="app_design" value="App Design" <?php echo ($fetchdata[0][6] == 'App Design') ? 'checked' : '' ?>>
+                                <input type="radio" name="skills" id="app_design" value="App Design" <?php echo ($fetchdata[0][6] == 'App Design') ? 'checked' : '' ?>>
                                 <label for="app_design">App Design</label>
                             </div>
                             <div class="">
-                                <input type="checkbox" name="skills" id="management" value="Management" <?php echo ($fetchdata[0][6] == 'Management') ? 'checked' : '' ?>>
+                                <input type="radio" name="skills" id="management" value="Management" <?php echo ($fetchdata[0][6] == 'Management') ? 'checked' : '' ?>>
                                 <label for="management">Management</label>
                             </div>
 
                             <div class="">
-                                <input type="checkbox" name="skills" id="others" value="Other" <?php echo ($fetchdata[0][6] == 'Other') ? 'checked' : '' ?>>
+                                <input type="radio" name="skills" id="others" value="Other" <?php echo ($fetchdata[0][6] == 'Other') ? 'checked' : '' ?>>
                                 <label for="others">Others</label>
                             </div>
                         </div>
