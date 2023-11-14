@@ -3,7 +3,7 @@ $server = "localhost";
 $username = "root";
 $password1 = "";
 $db = "student";
-class tb{
+class createtable{
     public function createtable($con,$tablename){
         if ($con->query($tablename) === TRUE) {
             // Table created successfully
@@ -38,8 +38,8 @@ try {
         skills VARCHAR(20),
         created_date DATE
     );";
-    $createtable = new tb(); 
-    $registerationtable = $createtable->createtable($con,$reg);//Registeration table created successfully
+    $createtable = new createtable(); 
+    $registerationtable = $createtable->createtable($con,$reg); //Registeration table created successfully
     
     $date = date('Y-m-d H:i:s');
     $imagename = "CREATE TABLE IF NOT EXISTS record_of_image (
