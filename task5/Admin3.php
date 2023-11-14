@@ -1,24 +1,16 @@
 <?php
-include 'dbconnection.php';
 include 'login_with_php.php';
-$select = "select * from registeration_login";
-$query = mysqli_query($con, $select);
-$result = mysqli_fetch_all($query);
+
 if ($_SESSION != null) {
-    foreach ($result as $item) {
-        if (in_array($_SESSION["submit"]["email"], $item)) {
-            $data = $item;
-        }
-    }
+    
 } else {
     header("location: ./login_form_in_html.php");
 }
-$search = '';
 
+$search = '';
 if (isset($_POST["search"])) {
     $search = $_POST["search"];
 }
-
 
 $leftjoin = "select login.*, user_image, Modified_Date from registeration_login as login left join record_of_image as image on (login.id= image.user_id) order by login.id";
 $leftjoinquery = mysqli_query($con, $leftjoin);
@@ -33,7 +25,7 @@ while ($image = mysqli_fetch_assoc($leftjoinquery)) {
     $images[] = $image['user_image'];
 }
 foreach ($i as $item) {
-    if (in_array($_SESSION["submit"]["email"], $item)) {
+    if (in_array($_SESSION['email'], $item)) {
         $data1 = $item;
         
         $dataname = $data1['name'];
@@ -46,13 +38,6 @@ foreach ($i as $item) {
         $itemname = $item['name'];
     }
 }
-// foreach($items as $i){
-// echo "<pre>";
-// // print_r($i);
-// echo "</pre>";
-// $iname[] = $i['name'];
-// }
-// print_r($itemname);
 ?>
 
 <!DOCTYPE html>
@@ -238,7 +223,7 @@ foreach ($i as $item) {
 
         <main class="row-span-6 col-span-10  sm:col-span-12 lg:col-span-10 ">
             <div class="flex justify-between items-center border-b-2 py-3 px-2 ">
-                <p class="font-medium text-lg">Welcome Admin, <span class="font-bold"><?php print_r($data[1]); ?></span></p>
+                <p class="font-medium text-lg">Welcome Admin, <span class="font-bold"><?php print_r($data1['name']); ?></span></p>
                 <div class="w-10 h-10 rounded-full border">
                     <?php
                     if ($data1['user_image'] != "") {
@@ -278,7 +263,7 @@ foreach ($i as $item) {
                         $itemrole = $item['role'];
                         $itemskills = $item['skills'];
 
-                        $check = in_array($_SESSION["submit"]["email"], $item);
+                        $check = in_array($_SESSION["email"], $item);
                         $username = $check ? $dataname : $itemname;
                         $useremail = $check ? $dataemail : $itememail;
                         $userpassword = $check ? $datapassword : substr($itempassword, 0, 4) . "**********";
