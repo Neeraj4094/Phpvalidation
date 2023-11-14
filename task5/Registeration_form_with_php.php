@@ -325,7 +325,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $arr = ['name', 'email', 'password', 'occupation', 'role', 'skills', 'created_date'];
         $data = ["$username", "$email", "$password", "$occupation", "$role", "$skills", "$created_date"];
         if ($errname == '' && $erremail == '' && $errpassword == '' && $erroccupation == '' && $errrole == '' && $errskills == '') {
-
                 // Insert
                 if (empty($registerationdata)) {
                     $sendtodb->insertindb('registeration_login', $arr, $data, $con);
