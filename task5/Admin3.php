@@ -35,9 +35,46 @@ foreach ($i as $item) {
         $dataskills = $data1['skills'];
     } else {
         $items[] = $item;
-        $itemname = $item['name'];
+        $createddatelist[] = $item['created_date'];
+        $modifieddatelist[] = $item['Modified_Date'];
     }
+    
 }
+$modifieddate = [];
+$modifieddate = $date->date_time_in_india($modifieddatelist);
+
+// foreach ($i as $item) {
+//     $createddate[] = $date->date_time_in_india($createddatelist);
+//     foreach($createddate as $create){
+//         $item['created_date'] = $create;
+//     }
+    
+//     if (in_array($_SESSION['email'], $item)) {
+//         $data1 = $item;
+        
+//         $dataname = $data1['name'];
+//         $dataemail = $data1['email'];
+//         $datapassword = $data1['password'];
+//         $datarole = $data1['role'];
+//         $dataskills = $data1['skills'];
+//     } else {
+//         $items[] = $item;
+        
+//         $modifieddatelist[] = $item['Modified_Date'];
+//     }
+// }
+// print_r($item['created_date']);
+
+
+
+// $data = array_push($i,$createddate);
+// echo "<pre>";
+// print_r($i);
+// echo "</pre>";
+// print_r( );
+// print_r($createddate);
+// print_r($createddate);
+
 ?>
 
 <!DOCTYPE html>
@@ -51,6 +88,7 @@ foreach ($i as $item) {
 </head>
 
 <body>
+    
     <div class="grid grid-cols-12 grid-rows-6 w-full h-full">
         <aside class=" row-span-6 col-span-2 border px-2 py-2 space-y-3 sm:hidden lg:block">
             <div class="px-2 flex items-center justify-center w-full">
@@ -255,13 +293,14 @@ foreach ($i as $item) {
             <div class="px-2 border-t">
                 <div class="px-2 h-96 space-y-3 overflow-y-scroll">
                     <?php
-
                     foreach ($i as $item) {
+                        
                         $itemname = $item['name'];
                         $itememail = $item['email'];
                         $itempassword = $item['password'];
                         $itemrole = $item['role'];
                         $itemskills = $item['skills'];
+                        
 
                         $check = in_array($_SESSION["email"], $item);
                         $username = $check ? $dataname : $itemname;

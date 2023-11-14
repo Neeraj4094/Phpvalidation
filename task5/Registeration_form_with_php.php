@@ -98,7 +98,6 @@ class deletefromdb{
         }
     }
     }
-
 }
 class emailcheck{
     public function emailcheck($sendtodb,$imageerror,$arr,$data,$con,$imageid,$id,$name,$image,$size,$email,$registerationidlist,$modified_date)
@@ -119,12 +118,11 @@ $sendtodb = new senddatatodb();
 $dbdata = new dbfetchdata();
 $registerationdata = $dbdata->fetchdatafromdb($con, 'registeration_login');
 
-$firstname = $image = $imagename = $email = $password = $occupation = $role = $skills = $passlength = $ucase = $lcase = $passnumber = $spchar = $extension = $ext = $size = $errormsg = $arr = $data = $id = "";
+$firstname = $image = $imagename = $email = $password = $occupation = $role = $skills = $passlength = $ucase = $lcase = $passnumber = $spchar = $extension = $ext = $size = $errormsg = $arr = $data = $id = $created_date = "";
 $err = $errname = $errimage =  $erremail = $errpassword = $erroccupation = $errrole = $errskills = "";
 $emailinlogin = $passwordinlogin = '';
 $registerationidlist = [];
 $emaillist = [];
-$created_date = date('Y-m-d H:i:s');
 
 //Image
 $showimage = $dbdata->fetchdatafromdb($con, 'record_of_image');
@@ -142,7 +140,29 @@ $querydata = $dbdata->fetchiddata('registeration_login',$id,$con,'ID');
 $fetchdata = mysqli_fetch_all($querydata);
 
 
-$modified_date = date('Y-m-d H:i:s');
+class date{
+    
+    public function date_time_in_us(){
+        date_default_timezone_set("America/New_York");
+    }
+    public function date_time_in_india($datelist){
+        $indian_date_time = [];
+        foreach($datelist as $date){
+        $us_date_time = '';
+        $us_date_time =$date;
+        $date_time = new DateTime($us_date_time,new DateTimeZone('America/New_York'));
+        $date_time->setTimezone(new DateTimeZone('Asia/Kolkata'));
+        $indian_date_time[] = $date_time->format('Y-m-d H:i:s');
+    }
+    return $indian_date_time;
+    }
+    
+}
+$date = new date();
+$date->date_time_in_us();
+$created_date = date('Y-m-d H:i:s') . " " . date("h:i:sa");
+$modified_date = date('Y-m-d H:i:s') . " " . date("h:i:sa");
+
 // Validation in Classes
 trait namevalid1
 {
@@ -222,7 +242,7 @@ trait namevalid1
 
                     if ($user_id_result) {
                         $imagename = isset($image['name']) ? $image['name'] : ''; //Image name
-                        $modified_date = date('Y-m-d H:i:s'); // Modified Date
+                        $modified_date = date('Y-m-d H:i:s') . " " . date("h:i:sa"); // Modified Date
                         $user_id_row = mysqli_fetch_assoc($user_id_result);
                         $user_id = isset($user_id_row['ID']) ? $user_id_row['ID'] : '';
                         $imagecolumn = ['user_image', 'user_id', 'Image_name', 'Modified_Date'];
@@ -308,7 +328,6 @@ if (isset($resultofform[0]) || isset($resultofform[1]) || isset($resultofform[2]
     $emailinlogin = $resultofform[7];
     $passwordinlogin = $resultofform[8];
 }
-
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (isset($_POST['submit'])) {
         $errname = $name->validation_match($username);
@@ -320,12 +339,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $errloginemail = $name->email_match($emailinlogin);
         $errloginpassword = $name->validation_password($passwordinlogin);
         
-        $arr = ['name', 'email', 'password', 'occupation', 'role', 'skills', 'created_date'];
-        $data = ["$username", "$email", "$password", "$occupation", "$role", "$skills", "$created_date"];
+        $column_array = ['name', 'email', 'password', 'occupation', 'role', 'skills','created_date'];
+        $column_data = ["$username", "$email", "$password", "$occupation", "$role", "$skills","$created_date"];
+        $arr = ['name', 'email', 'password', 'occupation', 'role', 'skills'];
+        $data = ["$username", "$email", "$password", "$occupation", "$role", "$skills"];
+
         if ($errname == '' && $erremail == '' && $errpassword == '' && $erroccupation == '' && $errrole == '' && $errskills == '') {
                 // Insert
+                
                 if (empty($registerationdata)) {
-                    $sendtodb->insertindb('registeration_login', $arr, $data, $con);
+                    $sendtodb->insertindb('registeration_login', $column_array, $column_data, $con);
                     $errimage = $name->validation_image($sendtodb,$image, $size, $email, $con, $registerationidlist);
                     if ($errimage == null) {
                         header("location: ./login_form_in_html.php");
@@ -333,7 +356,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 } else {
                     if (!in_array($id, $registerationidlist)) {
                     if (!in_array($email, $emaillist)) {
-                        $sendtodb->insertindb('registeration_login', $arr, $data, $con);
+                        $sendtodb->insertindb('registeration_login', $column_array, $column_data, $con);
 
                         $errimage = $name->validation_image($sendtodb,$image, $size, $email, $con, $registerationidlist);
                         if ($errimage == null) {
