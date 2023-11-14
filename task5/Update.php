@@ -1,7 +1,6 @@
 <?php
 include './registeration_form_with_php.php';
-
-$data = $dbdata->fetchdatafromdb($con, 'registeration_login');
+// $data = $dbdata->fetchdatafromdb($con, 'registeration_login');
 
 ?>
 
