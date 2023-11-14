@@ -143,8 +143,7 @@ $fetchdata = mysqli_fetch_all($querydata);
 
 
 $modified_date = date('Y-m-d H:i:s');
-// Validation
-//  Classes
+// Validation in Classes
 trait namevalid1
 {
     // Name
@@ -321,7 +320,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $errloginemail = $name->email_match($emailinlogin);
         $errloginpassword = $name->validation_password($passwordinlogin);
         
-
         $arr = ['name', 'email', 'password', 'occupation', 'role', 'skills', 'created_date'];
         $data = ["$username", "$email", "$password", "$occupation", "$role", "$skills", "$created_date"];
         if ($errname == '' && $erremail == '' && $errpassword == '' && $erroccupation == '' && $errrole == '' && $errskills == '') {
