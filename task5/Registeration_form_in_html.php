@@ -4,7 +4,7 @@ include '../task5/Registeration_form_with_php.php';
 function filt($array, $email)
 {
     foreach ($array as $item) {
-        
+
         if (in_array($email, $item)) {
             return $item;
         }
@@ -15,7 +15,7 @@ $a[] = filt($registerationdata, $email);
 foreach ($registerationdata as $item) {
     $b[] = $item[0];
 }
-$created_date= date('Y-m-d H:i:s');
+$created_date = date('Y-m-d H:i:s');
 $modified_date = date('Y-m-d H:i:s');
 ?>
 
@@ -33,7 +33,7 @@ $modified_date = date('Y-m-d H:i:s');
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
         echo $errormsg;
-        
+
         ?>
     </h2>
     <div class="flex w-full h-full">

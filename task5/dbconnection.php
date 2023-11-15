@@ -3,8 +3,10 @@ $server = "localhost";
 $username = "root";
 $password1 = "";
 $db = "student";
-class createtable{
-    public function createtable($con,$tablename){
+class createtable
+{
+    public function createtable($con, $tablename)
+    {
         if ($con->query($tablename) === TRUE) {
             // Table created successfully
         } else {
@@ -26,7 +28,7 @@ try {
     }
 
     $con->select_db($db);
-    
+
     $tableName = "registeration_login";
     $reg = "CREATE TABLE IF NOT EXISTS $tableName (
         ID INT(4) PRIMARY KEY AUTO_INCREMENT,
@@ -38,9 +40,9 @@ try {
         skills VARCHAR(20),
         created_date DATETIME
     );";
-    $createtable = new createtable(); 
-    $registerationtable = $createtable->createtable($con,$reg); //Registeration table created successfully
-    
+    $createtable = new createtable();
+    $registerationtable = $createtable->createtable($con, $reg); //Registeration table created successfully
+
     $date = date('Y-m-d H:i:s');
     $imagename = "CREATE TABLE IF NOT EXISTS record_of_image (
         ID int(4) PRIMARY KEY AUTO_INCREMENT,
@@ -51,9 +53,8 @@ try {
         foreign key (user_id) references registeration_login(ID)
     )";
 
-    $imagetable = $createtable->createtable($con,$imagename); //Login table created successfully
+    $imagetable = $createtable->createtable($con, $imagename); //Login table created successfully
 
 } catch (Exception $e) {
     echo "Connection Failed: " . $e->getMessage();
 }
-?>

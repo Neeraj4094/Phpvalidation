@@ -1,7 +1,7 @@
 <?php
 // include 'session.php';
 require './registeration_form_with_php.php';
-$errmsg = $dbfetchdata = $errloginemail = $errloginpassword ='';
+$errmsg = $dbfetchdata = $errloginemail = $errloginpassword = '';
 $dbfetchdata = new dbfetchdata();
 $checkemail = $dbfetchdata->filt($registerationdata, $emailinlogin);
 

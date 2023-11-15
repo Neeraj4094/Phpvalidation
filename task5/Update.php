@@ -17,7 +17,7 @@ include './registeration_form_with_php.php';
 <body class="bg-slate-100">
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
-         echo $errormsg;
+        echo $errormsg;
         ?>
     </h2>
     <div class="flex w-full h-full">

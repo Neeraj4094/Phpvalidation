@@ -2,7 +2,6 @@
 include 'login_with_php.php';
 
 if ($_SESSION != null) {
-    
 } else {
     header("location: ./login_form_in_html.php");
 }
@@ -29,7 +28,7 @@ while ($image = mysqli_fetch_assoc($leftjoinquery)) {
 foreach ($totaldata as $item) {
     if (in_array($_SESSION['email'], $item)) {
         $data1 = $item;
-        
+
         $dataname = $data1['name'];
         $dataemail = $data1['email'];
         $datapassword = $data1['password'];
@@ -42,16 +41,16 @@ foreach ($totaldata as $item) {
     }
 }
 
-$modifieddate = $createddate ='';
+$modifieddate = $createddate = '';
 $createddate = $date->date_time_in_india($create);
 $modifieddate = $date->date_time_in_india($modified);
 
-$datelist = [$createddate,$modifieddate];
+$datelist = [$createddate, $modifieddate];
 
-foreach($totaldata as $item){
-    $list[] = array_merge_recursive($item,$datelist);
+foreach ($totaldata as $item) {
+    $list[] = array_merge_recursive($item, $datelist);
 }
-$dbtotalrows=0;
+$dbtotalrows = 0;
 
 ?>
 
@@ -66,7 +65,7 @@ $dbtotalrows=0;
 </head>
 
 <body>
-    
+
     <div class="grid grid-cols-12 grid-rows-6 w-full h-full">
         <aside class=" row-span-6 col-span-2 border px-2 py-2 space-y-3 sm:hidden lg:block">
             <div class="px-2 flex items-center justify-center w-full">
@@ -224,14 +223,14 @@ $dbtotalrows=0;
                     <li>
                         <form action="./Logout.php" method="post">
                             <button class="flex items-center gap-2 relative border-t px-2 py-2">
-                            <a href="./Logout.php" class="absolute inset-0 z-10"></a>
-                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                <path d="M16.8 2h-2.6C11 2 9 4 9 7.2v4.05h6.25c.41 0 .75.34.75.75s-.34.75-.75.75H9v4.05C9 20 11 22 14.2 22h2.59c3.2 0 5.2-2 5.2-5.2V7.2C22 4 20 2 16.8 2z"></path>
-                                <path d="M4.561 11.25l2.07-2.07c.15-.15.22-.34.22-.53s-.07-.39-.22-.53a.754.754 0 00-1.06 0l-3.35 3.35c-.29.29-.29.77 0 1.06l3.35 3.35c.29.29.77.29 1.06 0 .29-.29.29-.77 0-1.06l-2.07-2.07h4.44v-1.5h-4.44z"></path>
-                            </svg>
-                            <span>Log Out</span>
+                                <a href="./Logout.php" class="absolute inset-0 z-10"></a>
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M16.8 2h-2.6C11 2 9 4 9 7.2v4.05h6.25c.41 0 .75.34.75.75s-.34.75-.75.75H9v4.05C9 20 11 22 14.2 22h2.59c3.2 0 5.2-2 5.2-5.2V7.2C22 4 20 2 16.8 2z"></path>
+                                    <path d="M4.561 11.25l2.07-2.07c.15-.15.22-.34.22-.53s-.07-.39-.22-.53a.754.754 0 00-1.06 0l-3.35 3.35c-.29.29-.29.77 0 1.06l3.35 3.35c.29.29.77.29 1.06 0 .29-.29.29-.77 0-1.06l-2.07-2.07h4.44v-1.5h-4.44z"></path>
+                                </svg>
+                                <span>Log Out</span>
                             </button>
-</form>
+                        </form>
                     </li>
                 </ul>
             </nav>
@@ -277,13 +276,13 @@ $dbtotalrows=0;
                         $itempassword = $item['password'];
                         $itemrole = $item['role'];
                         $itemskills = $item['skills'];
-                        
+
                         $dbtotalrows += count($list);
-                        $date = ($dbtotalrows/2)-1;
-                        
-                        $indiancreatetime = isset($item[0][$date])?$item[0][$date]:'';
-                        $indianmodifytime = isset($item[1][$date])?$item[1][$date]:'';
-                        
+                        $date = ($dbtotalrows / 2) - 1;
+
+                        $indiancreatetime = isset($item[0][$date]) ? $item[0][$date] : '';
+                        $indianmodifytime = isset($item[1][$date]) ? $item[1][$date] : '';
+
                         $check = in_array($_SESSION["email"], $item);
                         $username = $check ? $dataname : $itemname;
                         $useremail = $check ? $dataemail : $itememail;
@@ -334,7 +333,8 @@ $dbtotalrows=0;
                                                 <?php echo $useremail ?></p>
                                             </div> -->
                                             <p>Provided Password :-
-                                               <span class="<?php echo $textcol ?>"><?php echo $userpassword ?></span></p>
+                                                <span class="<?php echo $textcol ?>"><?php echo $userpassword ?></span>
+                                            </p>
                                             <p>Skills :
                                                 <?php echo $userskills ?></p>
                                         </div>
@@ -345,16 +345,16 @@ $dbtotalrows=0;
                                     <p class=" bg-purple-500 text-white px-3 rounded-full">
                                         <?php echo $datarole ?></p>
 
-                                        <form action="update.php?id=<?php echo $item["ID"] ?>" method="post">
-                                    <button type="submit" data-toggle="tooltip" data-placement="top" title="Edit" class="px-1 rounded-lg bg-slate-100 text-black">
-                                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24">
-                                            <path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path>
-                                            <path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path>
-                                        </svg></button>
-                                        </form>
-                                        <form action="delete.php?id=<?php echo $item["ID"] ?>" method="post">
-                                    <button data-toggle="tooltip" data-placement="top" title="Delete" class="border-2 px-4 py-1 rounded-md">Archive</button>
-                                        </form>
+                                    <form action="update.php?id=<?php echo $item["ID"] ?>" method="post">
+                                        <button type="submit" data-toggle="tooltip" data-placement="top" title="Edit" class="px-1 rounded-lg bg-slate-100 text-black">
+                                            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24">
+                                                <path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path>
+                                                <path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path>
+                                            </svg></button>
+                                    </form>
+                                    <form action="delete.php?id=<?php echo $item["ID"] ?>" method="post">
+                                        <button data-toggle="tooltip" data-placement="top" title="Delete" class="border-2 px-4 py-1 rounded-md">Archive</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
