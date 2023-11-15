@@ -18,10 +18,12 @@ $leftjoinquery = mysqli_query($con, $leftjoin);
 
 $selectimagedata = "select * from record_of_image ";
 $imagequery = mysqli_query($con, $selectimagedata);
+$imagedata = mysqli_fetch_all($imagequery);
 
 while ($image = mysqli_fetch_assoc($leftjoinquery)) {
     $i[] = $image;
     $create[] = $image['created_date'];
+    $modified[] = $image['Modified_Date'];
     $images[] = $image['user_image'];
 }
 foreach ($i as $item) {
@@ -38,11 +40,11 @@ foreach ($i as $item) {
         $createddatelist[] = $item['created_date'];
         $modifieddatelist[] = $item['Modified_Date'];
     }
-    
 }
-$modifieddate = [];
-$modifieddate = $date->date_time_in_india($modifieddatelist);
-
+// print_r($modified);
+$modifieddate = '   ';
+$createddate[] = $date->date_time_in_india($create);
+$modifieddate = $date->date_time_in_india($modified);
 // foreach ($i as $item) {
 //     $createddate[] = $date->date_time_in_india($createddatelist);
 //     foreach($createddate as $create){

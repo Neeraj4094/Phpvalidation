@@ -20,16 +20,18 @@ class dbfetchdata
         }
         return $array;
     }
-    public function fetchiddata($dbname,$id=null,$con,$column_id_name){
-        $fetchiddata = $query ='';
+    public function fetchiddata($dbname, $id = null, $con, $column_id_name)
+    {
+        $fetchiddata = $query = '';
         $fetchiddata = "select * from $dbname where $column_id_name = '$id'";
         $query = mysqli_query($con, $fetchiddata);
-        
+
         return $query;
     }
 }
 
-class senddatatodb{
+class senddatatodb
+{
     public function insertindb($dbname, $column_name, $row_data, $con, $result = null)
     {
         $columns = implode(', ', $column_name);
@@ -42,7 +44,7 @@ class senddatatodb{
         }
     }
 
-    public function update($sendtodb,$dbname, $column_name, $column_data, $con, $col_id,$uniqueimagename=null, $id = null)
+    public function update($sendtodb, $dbname, $column_name, $column_data, $con, $col_id, $uniqueimagename = null, $id = null)
     {
         $errormsg = '';
         $updatequery = '';
@@ -51,64 +53,68 @@ class senddatatodb{
             $updateValues[] = " $column_name[$i] =  '$column_data[$i]' ";
         }
         $update = implode(', ', $updateValues);
-        
-            if(is_array($uniqueimagename)){
-                if(!in_array($id,$uniqueimagename)){
-                    $sendtodb->insertindb('record_of_image', $column_name, $column_data, $con);
-                    $errormsg = "Created successfully";
-                    return $errormsg;
-                }else{
-                    $updateindb = "UPDATE $dbname set $update where $col_id = '$id'";
-                    $updatequery = mysqli_query($con, $updateindb);
-                    if (!$updatequery) {
-                        die("Error:" . mysqli_error($con));
-                    }
-                    $errormsg = "Updated successfully";
-                    return $errormsg;
-                }
-            }else{
+
+        if (is_array($uniqueimagename)) {
+            if (!in_array($id, $uniqueimagename)) {
+                $sendtodb->insertindb('record_of_image', $column_name, $column_data, $con);
+                $errormsg = "Created successfully";
+                return $errormsg;
+            } else {
                 $updateindb = "UPDATE $dbname set $update where $col_id = '$id'";
-                    $updatequery = mysqli_query($con, $updateindb);
-                    if (!$updatequery) {
-                        die("Error:" . mysqli_error($con));
-                    }
-                    $errormsg = "Updated successfully";
-                    return $errormsg;
+                $updatequery = mysqli_query($con, $updateindb);
+                if (!$updatequery) {
+                    die("Error:" . mysqli_error($con));
+                }
+                $errormsg = "Updated successfully";
+                return $errormsg;
             }
+        } else {
+            $updateindb = "UPDATE $dbname set $update where $col_id = '$id'";
+            $updatequery = mysqli_query($con, $updateindb);
+            if (!$updatequery) {
+                die("Error:" . mysqli_error($con));
+            }
+            $errormsg = "Updated successfully";
+            return $errormsg;
+        }
         header("location: ./admin3.php");
     }
 }
 
-class deletefromdb{
-    public function deletefromdb($tablename1,$tablename2,$con,$col_id1,$col_id2,$id,$location){
+class deletefromdb
+{
+    public function deletefromdb($tablename1, $tablename2, $con, $col_id1, $col_id2, $id, $location)
+    {
         $deleteImageRecords = "DELETE FROM $tablename1 WHERE $col_id1 = $id";
-    $queryImageRecords = mysqli_query($con, $deleteImageRecords);
+        $queryImageRecords = mysqli_query($con, $deleteImageRecords);
 
-    if (!$queryImageRecords) {
-        echo "Error deleting image records: " . mysqli_error($con);
-    } else {
-        $deleteRegistration = "DELETE FROM $tablename2 WHERE $col_id2 = $id";
-        $queryRegistration = mysqli_query($con, $deleteRegistration);
-
-        if (!$queryRegistration) {
-            echo "Error deleting registration record: " . mysqli_error($con);
+        if (!$queryImageRecords) {
+            echo "Error deleting image records: " . mysqli_error($con);
         } else {
-            echo "Deleted Successfully";
-            header("location: $location");
+            $deleteRegistration = "DELETE FROM $tablename2 WHERE $col_id2 = $id";
+            $queryRegistration = mysqli_query($con, $deleteRegistration);
+
+            if (!$queryRegistration) {
+                echo "Error deleting registration record: " . mysqli_error($con);
+            } else {
+                echo "Deleted Successfully";
+                header("location: $location");
+            }
         }
     }
-    }
 }
-class emailcheck{
-    public function emailcheck($sendtodb,$imageerror,$arr,$data,$con,$imageid,$id,$name,$image,$size,$email,$registerationidlist,$modified_date)
+class emailcheck
+{
+    public function emailcheck($sendtodb, $imageerror, $arr, $data, $con, $imageid, $id, $name, $image, $size, $email, $registerationidlist, $modified_date)
     {
         if ($imageerror == UPLOAD_ERR_OK) {
-            $errimage = $name->validation_image($sendtodb,$image, $size, $email, $con, $registerationidlist,$imageid, $id);
+            $errimage = $name->validation_image($sendtodb, $image, $size, $email, $con, $registerationidlist, $imageid, $id);
             return $errimage;
         } else {
+            $modified_date = date('Y-m-d H:i:s') . " " . date("h:i:sa");
             $imagecolumn = ['Modified_Date'];
             $imagecolumndata = [$modified_date];
-            $sendtodb->update($sendtodb,'record_of_image', $imagecolumn, $imagecolumndata, $con, 'user_id',null, $id);
+            $sendtodb->update($sendtodb, 'record_of_image', $imagecolumn, $imagecolumndata, $con, 'user_id', null, $id);
         }
     }
 }
@@ -131,32 +137,32 @@ foreach ($registerationdata as $item) {
     $emaillist[] = $item[2];
     $passwordlist[] = $item[3];
 }
-foreach($showimage as $item){
+foreach ($showimage as $item) {
     $imageid[] = $item[2];
 }
 
 $id = isset($_GET['id']) ? $_GET['id'] : '';
-$querydata = $dbdata->fetchiddata('registeration_login',$id,$con,'ID');
+$querydata = $dbdata->fetchiddata('registeration_login', $id, $con, 'ID');
 $fetchdata = mysqli_fetch_all($querydata);
 
-
-class date{
-    
-    public function date_time_in_us(){
+class date
+{
+    public function date_time_in_us()
+    {
         date_default_timezone_set("America/New_York");
     }
-    public function date_time_in_india($datelist){
+    public function date_time_in_india($datelist)
+    {
         $indian_date_time = [];
-        foreach($datelist as $date){
-        $us_date_time = '';
-        $us_date_time =$date;
-        $date_time = new DateTime($us_date_time,new DateTimeZone('America/New_York'));
-        $date_time->setTimezone(new DateTimeZone('Asia/Kolkata'));
-        $indian_date_time[] = $date_time->format('Y-m-d H:i:s');
+        foreach ($datelist as $date) {
+            $us_date_time = '';
+            $us_date_time = $date;
+            $date_time = new DateTime($us_date_time, new DateTimeZone('America/New_York'));
+            $date_time->setTimezone(new DateTimeZone('Asia/Kolkata'));
+            $indian_date_time[] = $date_time->format('Y-m-d H:i:s');
+        }
+        return $indian_date_time;
     }
-    return $indian_date_time;
-    }
-    
 }
 $date = new date();
 $date->date_time_in_us();
@@ -225,7 +231,7 @@ trait namevalid1
     }
 
     // Image
-    public function validation_image($sendtodb,$image, $size, $email, $con, $registerationidlist,$imageid=null, $id = null)
+    public function validation_image($sendtodb, $image, $size, $email, $con, $registerationidlist, $imageid = null, $id = null)
     {
         $imageerror = isset($image['error']) ? $image['error'] : '';
         if ($imageerror == UPLOAD_ERR_OK) {
@@ -252,11 +258,10 @@ trait namevalid1
                         if (!in_array($id, $registerationidlist)) {
                             $sendtodb->insertindb('record_of_image', $imagecolumn, $imagecolumndata, $con); // Sending image data on db
                         } else {
-                            $sendtodb->update($sendtodb,'record_of_image', $imagecolumn, $imagecolumndata, $con, 'user_id',$imageid, $id);
+                            $sendtodb->update($sendtodb, 'record_of_image', $imagecolumn, $imagecolumndata, $con, 'user_id', $imageid, $id);
                         }
                         $errimage = '';
                         return $errimage;
-                        
                     } else {
                         echo "Error: " . mysqli_error($con);
                     }
@@ -266,6 +271,17 @@ trait namevalid1
             } else {
                 $errimage = "Only jpg & png files are allowed";
                 return $errimage;
+            }
+        } else {
+            $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
+            $user_id_result = mysqli_query($con, $user_id_query);
+            if ($user_id_result) {
+                $user_id_row = mysqli_fetch_assoc($user_id_result);
+                $user_id = isset($user_id_row['ID']) ? $user_id_row['ID'] : '';
+                $modified_date = date('Y-m-d H:i:s') . " " . date("h:i:sa");
+                $imagecolumn = ['user_id', 'Modified_Date'];
+                $imagecolumndata = [$user_id, $modified_date];
+                $sendtodb->insertindb('record_of_image', $imagecolumn, $imagecolumndata, $con);
             }
         }
     }
@@ -338,82 +354,79 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $errskills = $name->emp($skills);
         $errloginemail = $name->email_match($emailinlogin);
         $errloginpassword = $name->validation_password($passwordinlogin);
-        
-        $column_array = ['name', 'email', 'password', 'occupation', 'role', 'skills','created_date'];
-        $column_data = ["$username", "$email", "$password", "$occupation", "$role", "$skills","$created_date"];
+
+        $column_array = ['name', 'email', 'password', 'occupation', 'role', 'skills', 'created_date'];
+        $column_data = ["$username", "$email", "$password", "$occupation", "$role", "$skills", "$created_date"];
         $arr = ['name', 'email', 'password', 'occupation', 'role', 'skills'];
         $data = ["$username", "$email", "$password", "$occupation", "$role", "$skills"];
 
         if ($errname == '' && $erremail == '' && $errpassword == '' && $erroccupation == '' && $errrole == '' && $errskills == '') {
-                // Insert
-                
-                if (empty($registerationdata)) {
-                    $sendtodb->insertindb('registeration_login', $column_array, $column_data, $con);
-                    $errimage = $name->validation_image($sendtodb,$image, $size, $email, $con, $registerationidlist);
-                    if ($errimage == null) {
-                        header("location: ./login_form_in_html.php");
-                    }
-                } else {
-                    if (!in_array($id, $registerationidlist)) {
+            // Insert
+
+            if (empty($registerationdata)) {
+                $sendtodb->insertindb('registeration_login', $column_array, $column_data, $con);
+                $errimage = $name->validation_image($sendtodb, $image, $size, $email, $con, $registerationidlist);
+                if ($errimage == null) {
+                    header("location: ./login_form_in_html.php");
+                }
+            } else {
+                if (!in_array($id, $registerationidlist)) {
                     if (!in_array($email, $emaillist)) {
                         $sendtodb->insertindb('registeration_login', $column_array, $column_data, $con);
 
-                        $errimage = $name->validation_image($sendtodb,$image, $size, $email, $con, $registerationidlist);
+                        $errimage = $name->validation_image($sendtodb, $image, $size, $email, $con, $registerationidlist);
                         if ($errimage == null) {
                             header("location: ./login_form_in_html.php");
                         }
                     } else {
                         $errormsg = "This email already exists";
                     }
-                
-            } else {
-                // Update
-                $imageerror = isset($image['error']) ? $image['error'] : '';
+                } else {
+                    // Update
+                    $imageerror = isset($image['error']) ? $image['error'] : '';
 
-                $fetchemail = '';
-                $fetchemail = isset($fetchdata[0])?$fetchdata[0]:'';
-                $fetchemaildata = (isset($fetchdata[0][2]))?$fetchdata[0][2]:'';
-                
-                if(in_array($fetchemaildata,$_SESSION)){
-                    
-                    $_SESSION = ['email'=>$email, 'password'=> $password];
-                    if(in_array($email,$fetchemail)){
-                        $sendtodb->update($sendtodb,'registeration_login', $arr, $data, $con, 'ID',null,$id);
-                       $errimage = $checkemail->emailcheck($sendtodb,$imageerror,$arr,$data,$con,$imageid,$id,$name,$image,$size,$email,$registerationidlist,$modified_date);
-                       if ($errimage == null) {
-                        header("location: ./admin3.php");
-                    }
-                    }elseif (!in_array($email, $emaillist)) {
-                        
-                        $sendtodb->update($sendtodb,'registeration_login', $arr, $data, $con, 'ID',null,$id);
-                        $errimage = $checkemail->emailcheck($sendtodb,$imageerror,$arr,$data,$con,$imageid,$id,$name,$image,$size,$email,$registerationidlist,$modified_date);
-                        if ($errimage == null) {
-                            header("location: ./admin3.php");
+                    $fetchemail = '';
+                    $fetchemail = isset($fetchdata[0]) ? $fetchdata[0] : '';
+                    $fetchemaildata = (isset($fetchdata[0][2])) ? $fetchdata[0][2] : '';
+
+                    if (in_array($fetchemaildata, $_SESSION)) {
+
+                        $_SESSION = ['email' => $email, 'password' => $password];
+                        if (in_array($email, $fetchemail)) {
+                            $sendtodb->update($sendtodb, 'registeration_login', $arr, $data, $con, 'ID', null, $id);
+                            $errimage = $checkemail->emailcheck($sendtodb, $imageerror, $arr, $data, $con, $imageid, $id, $name, $image, $size, $email, $registerationidlist, $modified_date);
+                            if ($errimage == null) {
+                                header("location: ./admin3.php");
+                            }
+                        } elseif (!in_array($email, $emaillist)) {
+
+                            $sendtodb->update($sendtodb, 'registeration_login', $arr, $data, $con, 'ID', null, $id);
+                            $errimage = $checkemail->emailcheck($sendtodb, $imageerror, $arr, $data, $con, $imageid, $id, $name, $image, $size, $email, $registerationidlist, $modified_date);
+                            if ($errimage == null) {
+                                header("location: ./admin3.php");
+                            }
+                        } else {
+                            $errormsg = "This email already exists";
                         }
-                    }
-                     else {
-                        $errormsg = "This email already exists";
-                    }
-                }else{
-                    if(in_array($email,$fetchemail)){
-                        $sendtodb->update($sendtodb,'registeration_login', $arr, $data, $con, 'ID',null,$id);
-                        $errimage = $checkemail->emailcheck($sendtodb,$imageerror,$arr,$data,$con,$imageid,$id,$name,$image,$size,$email,$registerationidlist,$modified_date);
-                        if ($errimage == null) {
-                            header("location: ./admin3.php");
+                    } else {
+                        if (in_array($email, $fetchemail)) {
+                            $sendtodb->update($sendtodb, 'registeration_login', $arr, $data, $con, 'ID', null, $id);
+                            $errimage = $checkemail->emailcheck($sendtodb, $imageerror, $arr, $data, $con, $imageid, $id, $name, $image, $size, $email, $registerationidlist, $modified_date);
+                            if ($errimage == null) {
+                                header("location: ./admin3.php");
+                            }
+                        } elseif (!in_array($email, $emaillist)) {
+                            $sendtodb->update($sendtodb, 'registeration_login', $arr, $data, $con, 'ID', null, $id);
+                            $errimage = $checkemail->emailcheck($sendtodb, $imageerror, $arr, $data, $con, $imageid, $id, $name, $image, $size, $email, $registerationidlist, $modified_date);
+                            if ($errimage == null) {
+                                header("location: ./admin3.php");
+                            }
+                        } else {
+                            $errormsg = "This email already exists";
                         }
-                    }elseif (!in_array($email, $emaillist)) {
-                        $sendtodb->update($sendtodb,'registeration_login', $arr, $data, $con, 'ID',null,$id);
-                        $errimage =$checkemail->emailcheck($sendtodb,$imageerror,$arr,$data,$con,$imageid,$id,$name,$image,$size,$email,$registerationidlist,$modified_date);
-                        if ($errimage == null) {
-                            header("location: ./admin3.php");
-                        }
-                    }
-                     else {
-                        $errormsg = "This email already exists";
                     }
                 }
             }
-        }
         } else {
             $errormsg = "Please complete the form";
         }
