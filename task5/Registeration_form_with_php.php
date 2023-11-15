@@ -361,8 +361,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $data = ["$username", "$email", "$password", "$occupation", "$role", "$skills"];
 
         if ($errname == '' && $erremail == '' && $errpassword == '' && $erroccupation == '' && $errrole == '' && $errskills == '') {
+            
             // Insert
-
             if (empty($registerationdata)) {
                 $sendtodb->insertindb('registeration_login', $column_array, $column_data, $con);
                 $errimage = $name->validation_image($sendtodb, $image, $size, $email, $con, $registerationidlist);

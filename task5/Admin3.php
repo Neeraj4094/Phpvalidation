@@ -21,12 +21,12 @@ $imagequery = mysqli_query($con, $selectimagedata);
 $imagedata = mysqli_fetch_all($imagequery);
 
 while ($image = mysqli_fetch_assoc($leftjoinquery)) {
-    $i[] = $image;
+    $totaldata[] = $image;
     $create[] = $image['created_date'];
     $modified[] = $image['Modified_Date'];
     $images[] = $image['user_image'];
 }
-foreach ($i as $item) {
+foreach ($totaldata as $item) {
     if (in_array($_SESSION['email'], $item)) {
         $data1 = $item;
         
@@ -41,41 +41,17 @@ foreach ($i as $item) {
         $modifieddatelist[] = $item['Modified_Date'];
     }
 }
-// print_r($modified);
-$modifieddate = '   ';
-$createddate[] = $date->date_time_in_india($create);
+
+$modifieddate = $createddate ='';
+$createddate = $date->date_time_in_india($create);
 $modifieddate = $date->date_time_in_india($modified);
-// foreach ($i as $item) {
-//     $createddate[] = $date->date_time_in_india($createddatelist);
-//     foreach($createddate as $create){
-//         $item['created_date'] = $create;
-//     }
-    
-//     if (in_array($_SESSION['email'], $item)) {
-//         $data1 = $item;
-        
-//         $dataname = $data1['name'];
-//         $dataemail = $data1['email'];
-//         $datapassword = $data1['password'];
-//         $datarole = $data1['role'];
-//         $dataskills = $data1['skills'];
-//     } else {
-//         $items[] = $item;
-        
-//         $modifieddatelist[] = $item['Modified_Date'];
-//     }
-// }
-// print_r($item['created_date']);
 
+$datelist = [$createddate,$modifieddate];
 
-
-// $data = array_push($i,$createddate);
-// echo "<pre>";
-// print_r($i);
-// echo "</pre>";
-// print_r( );
-// print_r($createddate);
-// print_r($createddate);
+foreach($totaldata as $item){
+    $list[] = array_merge_recursive($item,$datelist);
+}
+$dbtotalrows=0;
 
 ?>
 
@@ -295,15 +271,19 @@ $modifieddate = $date->date_time_in_india($modified);
             <div class="px-2 border-t">
                 <div class="px-2 h-96 space-y-3 overflow-y-scroll">
                     <?php
-                    foreach ($i as $item) {
-                        
+                    foreach ($list as $item) {
                         $itemname = $item['name'];
                         $itememail = $item['email'];
                         $itempassword = $item['password'];
                         $itemrole = $item['role'];
                         $itemskills = $item['skills'];
                         
-
+                        $dbtotalrows += count($list);
+                        $date = ($dbtotalrows/2)-1;
+                        
+                        $indiancreatetime = isset($item[0][$date])?$item[0][$date]:'';
+                        $indianmodifytime = isset($item[1][$date])?$item[1][$date]:'';
+                        
                         $check = in_array($_SESSION["email"], $item);
                         $username = $check ? $dataname : $itemname;
                         $useremail = $check ? $dataemail : $itememail;
@@ -345,8 +325,8 @@ $modifieddate = $date->date_time_in_india($modified);
                                                 </div>
                                             </div>
                                             <div class="space-y-1">
-                                                <p>Created :- <?php echo $item['created_date'] ?></p>
-                                                <p>Modified :- <?php echo $item['Modified_Date'] ?></p>
+                                                <p>Created :- <?php echo $indiancreatetime ?></p>
+                                                <p>Modified :- <?php echo $indianmodifytime ?></p>
                                             </div>
                                         </div>
                                         <div class="flex items-center gap-4">
