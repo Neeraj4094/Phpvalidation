@@ -33,6 +33,7 @@ foreach ($totaldata as $item) {
         $dataemail = $data1['email'];
         $datapassword = $data1['password'];
         $datarole = $data1['role'];
+        $dataoccupation = $data1['occupation'];
         $dataskills = $data1['skills'];
     } else {
         $items[] = $item;
@@ -275,8 +276,9 @@ $dbtotalrows = 0;
                         $itememail = $item['email'];
                         $itempassword = $item['password'];
                         $itemrole = $item['role'];
+                        $itemoccupation = $item['occupation'];
                         $itemskills = $item['skills'];
-
+                        
                         $dbtotalrows += count($list);
                         $date = ($dbtotalrows / 2) - 1;
 
@@ -288,6 +290,7 @@ $dbtotalrows = 0;
                         $useremail = $check ? $dataemail : $itememail;
                         $userpassword = $check ? $datapassword : substr($itempassword, 0, 4) . "**********";
                         $userrole = $check ? $datarole : $itemrole;
+                        $useroccupation = $check ? $dataoccupation : $itemoccupation;
                         $userskills = $check ? $dataskills : $itemskills;
                         $boxColor = $check ? 'bg-white shadow-sm border ' : 'bg-white ';
                         $textcolor = $check ? 'font-bold' : 'font-semibold';
@@ -341,9 +344,9 @@ $dbtotalrows = 0;
                                     </div>
                                 </div>
                                 <div class="flex items-center justify-between gap-6">
-                                    <p class=" bg-indigo-500 text-white px-3 rounded-full">Active</p>
+                                    <p class=" bg-indigo-500 text-white px-3 rounded-full"> <?php echo $useroccupation ?></p>
                                     <p class=" bg-purple-500 text-white px-3 rounded-full">
-                                        <?php echo $datarole ?></p>
+                                        <?php echo $userrole ?></p>
 
                                     <form action="update.php?id=<?php echo $item["ID"] ?>" method="post">
                                         <button type="submit" data-toggle="tooltip" data-placement="top" title="Edit" class="px-1 rounded-lg bg-slate-100 text-black">

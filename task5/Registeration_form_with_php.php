@@ -251,9 +251,9 @@ trait namevalid1
                         $modified_date = date('Y-m-d H:i:s') . " " . date("h:i:sa"); // Modified Date
                         $user_id_row = mysqli_fetch_assoc($user_id_result);
                         $user_id = isset($user_id_row['ID']) ? $user_id_row['ID'] : '';
+
                         $imagecolumn = ['user_image', 'user_id', 'Image_name', 'Modified_Date'];
                         $imagecolumndata = [$newname, $user_id, $imagename, $modified_date];
-
 
                         if (!in_array($id, $registerationidlist)) {
                             $sendtodb->insertindb('record_of_image', $imagecolumn, $imagecolumndata, $con); // Sending image data on db
