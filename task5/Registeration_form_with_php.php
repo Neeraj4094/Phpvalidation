@@ -127,6 +127,7 @@ $registerationdata = $dbdata->fetchdatafromdb($con, 'registeration_login');
 $firstname = $image = $imagename = $email = $password = $occupation = $role = $skills = $passlength = $ucase = $lcase = $passnumber = $spchar = $extension = $ext = $size = $errormsg = $arr = $data = $id = $created_date = "";
 $err = $errname = $errimage =  $erremail = $errpassword = $erroccupation = $errrole = $errskills = "";
 $emailinlogin = $passwordinlogin = '';
+$fetchname = $fetchemail = $fetchpassword = $fetchoccupation = $fetchrole = $fetchskills = '';
 $registerationidlist = [];
 $emaillist = [];
 
@@ -144,6 +145,13 @@ foreach ($showimage as $item) {
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 $querydata = $dbdata->fetchiddata('registeration_login', $id, $con, 'ID');
 $fetchdata = mysqli_fetch_all($querydata);
+
+$fetchname = isset($fetchdata[0][1])?$fetchdata[0][1]:'';
+$fetchemail = isset($fetchdata[0][2])?$fetchdata[0][2]:'';
+$fetchpassword = isset($fetchdata[0][3])?$fetchdata[0][3]:'';
+$fetchoccupation = isset($fetchdata[0][4])?$fetchdata[0][4]:'';
+$fetchrole = isset($fetchdata[0][5])?$fetchdata[0][5]:'';
+$fetchskills = isset($fetchdata[0][6])?$fetchdata[0][6]:'';
 
 class date
 {
@@ -218,7 +226,7 @@ trait namevalid1
         if ($passlength >= 8 && $ucase && $lcase && $passnumber && $spchar && !empty($value)) {
             $value;
         } else {
-            $err = "Invalid";
+            $err = "Must use Upper & lower case letters, number & Special character";
             return $err;
         }
     }
@@ -352,9 +360,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $erroccupation = $name->emp($occupation);
         $errrole = $name->emp($role);
         $errskills = $name->emp($skills);
-        $errloginemail = $name->email_match($emailinlogin);
-        $errloginpassword = $name->validation_password($passwordinlogin);
-
+        
         $column_array = ['name', 'email', 'password', 'occupation', 'role', 'skills', 'created_date'];
         $column_data = ["$username", "$email", "$password", "$occupation", "$role", "$skills", "$created_date"];
         $arr = ['name', 'email', 'password', 'occupation', 'role', 'skills'];

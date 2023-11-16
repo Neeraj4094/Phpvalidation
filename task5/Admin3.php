@@ -278,13 +278,12 @@ $dbtotalrows = 0;
                         $itemrole = $item['role'];
                         $itemoccupation = $item['occupation'];
                         $itemskills = $item['skills'];
-                        
-                        $dbtotalrows += count($list);
-                        $date = ($dbtotalrows / 2) - 1;
 
+                        $dbtotalrows += count($item);
+                        $date = ($dbtotalrows / 12) - 1;
                         $indiancreatetime = isset($item[0][$date]) ? $item[0][$date] : '';
                         $indianmodifytime = isset($item[1][$date]) ? $item[1][$date] : '';
-
+                        
                         $check = in_array($_SESSION["email"], $item);
                         $username = $check ? $dataname : $itemname;
                         $useremail = $check ? $dataemail : $itememail;

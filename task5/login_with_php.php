@@ -7,7 +7,8 @@ $checkemail = $dbfetchdata->filt($registerationdata, $emailinlogin);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['submit'])) {
-
+        $errloginemail = $name->email_match($emailinlogin);
+        $errloginpassword = $name->validation_password($passwordinlogin);
         if (!empty($emailinlogin) && !empty($passwordinlogin)) {
             if (in_array($emailinlogin, $checkemail) && in_array($passwordinlogin, $checkemail)) {
                 $_SESSION = ["email" => $emailinlogin, "password" => $passwordinlogin];

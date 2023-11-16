@@ -32,13 +32,13 @@ require './login_with_php.php';
                 <div class="grid space-y-2 ">
                     <label>Email</label>
                     <input type="email" name="loginemail" id="email" placeholder="Enter email" class="border rounded-lg p-2">
-                    <span class="text-red-600">* <?php echo $errloginemail ?></span>
+                    <span class="text-red-600 text-sm ">* <?php echo $errloginemail ?></span>
                     <!-- <small>(Email must have "alphabets, @ and .")</small> -->
                 </div>
                 <div class="grid space-y-2">
                     <label>Password</label>
                     <input type="password" name="loginpassword" id="password" placeholder="Enter password" class="border rounded-lg p-2">
-                    <span class="text-red-600">* <?php echo $errloginpassword ?></span>
+                    <span class="text-red-600 text-sm w-96">* <?php echo $errloginpassword ?></span>
                     <!-- <small>(Password must have 1 Capital alphabet, 1 small alphabet, 1 special character & 1 number)</small> -->
                 </div>
                 <a href="#" class="text-blue-700 px-1">Forget Password?</a>

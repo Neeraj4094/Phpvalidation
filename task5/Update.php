@@ -26,7 +26,7 @@ include './registeration_form_with_php.php';
                 <div class="flex gap-10">
                     <div class="space-y-2">
                         First Name
-                        <input type="text" name="name" id="name" placeholder="First Name" value="<?php echo $fetchdata[0][1] ?>" class="border rounded-sm w-full p-1">
+                        <input type="text" name="name" id="name" placeholder="First Name" value="<?php echo $fetchname ?>" class="border rounded-sm w-full p-1">
                         <span class="text-red-600">* <?php echo $errname ?></span>
                     </div>
 
@@ -41,12 +41,12 @@ include './registeration_form_with_php.php';
                 </div>
                 <div class="">
                     Email
-                    <input type="email" name="email" id="email" placeholder="Email" value="<?php echo $fetchdata[0][2] ?>" class="border rounded-sm w-full p-1">
+                    <input type="email" name="email" id="email" placeholder="Email" value="<?php echo $fetchemail ?>" class="border rounded-sm w-full p-1">
                     <span class="text-red-600">* <?php echo $erremail ?></span>
                 </div>
                 <div class="">
                     Password
-                    <input type="password" name="password" id="password" placeholder="Password" value="<?php echo $fetchdata[0][3] ?>" class="border rounded-sm w-full p-1">
+                    <input type="password" name="password" id="password" placeholder="Password" value="<?php echo $fetchpassword ?>" class="border rounded-sm w-full p-1">
                     <span class="text-red-600">* <?php echo $errpassword ?></span>
                 </div>
                 <div class="flex items-center justify-between ">
@@ -55,9 +55,9 @@ include './registeration_form_with_php.php';
                             <label class="w-auto">What is your Occupation :-</label>
                             <select name="occupation" id="role" class="rounded-lg bg-slate-100 text-slate-500 border w-48 p-2 ">
                                 <option value="" class="bg-transparent p-1">Select Your Role</option>
-                                <option value="Testing" <?php echo ($fetchdata[0][4] == 'Testing') ? 'selected' : '' ?> class="bg-transparent p-1">Testing</option>
-                                <option value="Designing" <?php echo ($fetchdata[0][4] == 'Designing') ? 'selected' : '' ?> class="bg-transparent p-1">Designing</option>
-                                <option value="Managining" <?php echo ($fetchdata[0][4] == 'Managining') ? 'selected' : ''; ?> class="bg-transparent p-1">Managining</option>
+                                <option value="Testing" <?php echo ($fetchoccupation == 'Testing') ? 'selected' : '' ?> class="bg-transparent p-1">Testing</option>
+                                <option value="Designing" <?php echo ($fetchoccupation == 'Designing') ? 'selected' : '' ?> class="bg-transparent p-1">Designing</option>
+                                <option value="Managining" <?php echo ($fetchoccupation == 'Managining') ? 'selected' : ''; ?> class="bg-transparent p-1">Managining</option>
                             </select>
                         </div>
                         <span class="text-red-600">* <?php echo $erroccupation ?></span>
@@ -69,15 +69,15 @@ include './registeration_form_with_php.php';
                         <legend>Role :-</legend>
                         <div class="flex gap-10">
                             <div>
-                                <input type="radio" name="role" id="employee" value="Employee" <?php echo ($fetchdata[0][5] == 'Employee') ? 'checked' : ''; ?>>
+                                <input type="radio" name="role" id="employee" value="Employee" <?php echo ($fetchrole == 'Employee') ? 'checked' : ''; ?>>
                                 <label for="employee">Employee</label>
                             </div>
                             <div>
-                                <input type="radio" name="role" id="admin" value="Admin" <?php echo ($fetchdata[0][5] == 'Admin') ? 'checked' : ''; ?>>
+                                <input type="radio" name="role" id="admin" value="Admin" <?php echo ($fetchrole == 'Admin') ? 'checked' : ''; ?>>
                                 <label for="admin">Admin</label>
                             </div>
                             <div>
-                                <input type="radio" name="role" id="other_role" value="Other" <?php echo ($fetchdata[0][5] == 'Other') ? 'checked' : ''; ?>>
+                                <input type="radio" name="role" id="other_role" value="Other" <?php echo ($fetchrole == 'Other') ? 'checked' : ''; ?>>
                                 <label for="other_role">Other</label>
                             </div>
                         </div>
@@ -102,24 +102,24 @@ include './registeration_form_with_php.php';
                         <legend class="flex">Skills :-</legend>
                         <div class="flex items-center flex-wrap gap-6">
                             <div class="">
-                                <input type="radio" name="skills" id="Web_design" value="Web Design" <?php echo ($fetchdata[0][6] == 'Web Design') ? 'checked' : '' ?>>
+                                <input type="radio" name="skills" id="Web_design" value="Web Design" <?php echo ($fetchskills == 'Web Design') ? 'checked' : '' ?>>
                                 <label for="Web_design">Web Design</label>
                             </div>
                             <div class="">
-                                <input type="radio" name="skills" id="ui/ux" value="UI/UX" <?php echo ($fetchdata[0][6] == 'UI/UX') ? 'checked' : '' ?>>
+                                <input type="radio" name="skills" id="ui/ux" value="UI/UX" <?php echo ($fetchskills == 'UI/UX') ? 'checked' : '' ?>>
                                 <label for="ui/ux">UI/UX</label>
                             </div>
                             <div class="">
-                                <input type="radio" name="skills" id="app_design" value="App Design" <?php echo ($fetchdata[0][6] == 'App Design') ? 'checked' : '' ?>>
+                                <input type="radio" name="skills" id="app_design" value="App Design" <?php echo ($fetchskills == 'App Design') ? 'checked' : '' ?>>
                                 <label for="app_design">App Design</label>
                             </div>
                             <div class="">
-                                <input type="radio" name="skills" id="management" value="Management" <?php echo ($fetchdata[0][6] == 'Management') ? 'checked' : '' ?>>
+                                <input type="radio" name="skills" id="management" value="Management" <?php echo ($fetchskills == 'Management') ? 'checked' : '' ?>>
                                 <label for="management">Management</label>
                             </div>
 
                             <div class="">
-                                <input type="radio" name="skills" id="others" value="Other" <?php echo ($fetchdata[0][6] == 'Other') ? 'checked' : '' ?>>
+                                <input type="radio" name="skills" id="others" value="Other" <?php echo ($fetchskills == 'Other') ? 'checked' : '' ?>>
                                 <label for="others">Others</label>
                             </div>
                         </div>
