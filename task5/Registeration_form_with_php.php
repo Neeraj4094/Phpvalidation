@@ -34,7 +34,6 @@ class senddatatodb
 {
     public function insertindb($dbname, $column_name, $row_data, $con, $result = null)
     {
-        print_r($column_name);
         $columns = implode(', ', $column_name);
         $values = "'" . implode("', '", $row_data) . "'";
 
@@ -141,6 +140,7 @@ foreach ($registerationdata as $item) {
 }
 foreach ($showimage as $item) {
     $imageid[] = $item[2];
+    $imagecreate = $item[4];
 }
 
 $id = isset($_GET['id']) ? $_GET['id'] : '';
@@ -262,17 +262,55 @@ trait namevalid1
                         $user_id_result = mysqli_query($con, $user_id_query);
                         if ($user_id_result) {
                             $imagename = isset($image['name']) ? $image['name'] : ''; //Image name
+                            $created_date = date('Y-m-d H:i:s') . " " . date("h:i:sa"); //Created Date
                             $modified_date = date('Y-m-d H:i:s') . " " . date("h:i:sa"); // Modified Date
                             $user_id_row = mysqli_fetch_assoc($user_id_result);
                             $user_id = isset($user_id_row['ID']) ? $user_id_row['ID'] : '';
 
-                            $imagecolumn = ['user_image', 'user_id', 'Image_name', 'Modified_Date'];
-                            $imagecolumndata = [$newname, $user_id, $imagename, $modified_date];
+                            $image_created_query = "SELECT created_date from record_of_image where user_id = $user_id";
+                            $image_created_result = mysqli_query($con,$image_created_query);
+                            if(!$image_created_result){
+                                echo "Error:" . mysqli_error($con);
+                            }else{
+                                $image_create_row = mysqli_fetch_assoc($image_created_result);
+                                $image_create = isset($image_create_row['user_id'])?$image_create_row['user_id']:'';
+                                
+                                if (!in_array($image_create, $registerationidlist)) {
+                                    $imagecolumn = ['user_image', 'user_id', 'Image_name','created_date', 'Modified_Date'];
+                                    $imagecolumndata = [$newname, $user_id, $imagename,$created_date,$modified_date];
+                                    $sendtodb->insertindb('record_of_image', $imagecolumn, $imagecolumndata, $con); // Sending image data on db
+                                }else{
+                                    $imagecolumn = ['user_image', 'user_id', 'Image_name', 'Modified_Date'];
+                                    $imagecolumndata = [$newname, $user_id, $imagename, $modified_date];
 
-                            $sendtodb->insertindb('record_of_image', $imagecolumn, $imagecolumndata, $con); // Sending image data on db
+                                    $sendtodb->update($sendtodb, 'record_of_image', $imagecolumn, $imagecolumndata, $con, 'user_id', $imageid, $id);
 
+                                }
+
+                            
                             $errimage = '';
                             return $errimage;
+                            }
+                            if(!$image_created_result){
+                            
+                                $imagecolumn = ['user_image', 'user_id', 'Image_name', 'Modified_Date'];
+                                $imagecolumndata = [$newname, $user_id, $imagename, $modified_date];
+    
+                                $sendtodb->update($sendtodb, 'record_of_image', $imagecolumn, $imagecolumndata, $con, 'user_id', $imageid, $id);
+                                
+                                $errimage = '';
+                                return $errimage;
+                            }else
+                            {
+                            
+                                $imagecolumn = ['user_image', 'user_id', 'Image_name','created_date', 'Modified_Date'];
+                                $imagecolumndata = [$newname, $user_id, $imagename,$created_date,$modified_date];
+                                $sendtodb->insertindb('record_of_image', $imagecolumn, $imagecolumndata, $con); // Sending image data on db
+                                
+    
+                                $errimage = '';
+                                return $errimage;
+                            }
                         } else {
                             echo "Error: " . mysqli_error($con);
                         }
@@ -280,26 +318,43 @@ trait namevalid1
                         
                         $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
                         $user_id_result = mysqli_query($con, $user_id_query);
-                        if($user_id_result){
+                        if(!$user_id_result){
                             echo "Error:" . mysqli_error($con);
-                        }
+                        }else{
 
-                        if ($user_id_result) {
                             $imagename = isset($image['name']) ? $image['name'] : ''; //Image name
+                            $created_date = date('Y-m-d H:i:s') . " " . date("h:i:sa"); //Created Date
                             $modified_date = date('Y-m-d H:i:s') . " " . date("h:i:sa"); // Modified Date
                             $user_id_row = mysqli_fetch_assoc($user_id_result);
                             $user_id = isset($user_id_row['ID']) ? $user_id_row['ID'] : '';
+                            $image_created_query = "SELECT user_id from record_of_image where user_id = $user_id";
+                            $image_created_result = mysqli_query($con,$image_created_query);
+                            if(!$image_created_result){
+                                echo "Error:" . mysqli_error($con);
+                            }else{
+                                $image_create_row = mysqli_fetch_assoc($image_created_result);
+                                $image_create = isset($image_create_row['user_id'])?$image_create_row['user_id']:'';
+                                
+                                if (!in_array($image_create, $registerationidlist)) {
+                                    
+                                    $imagecolumn = ['user_image', 'user_id', 'Image_name','created_date', 'Modified_Date'];
+                                    $imagecolumndata = [$newname, $user_id, $imagename,$created_date,$modified_date];
+                                    $sendtodb->insertindb('record_of_image', $imagecolumn, $imagecolumndata, $con); // Sending image data on db
+                                }else{
+                                
+                                    $imagecolumn = ['user_image', 'user_id', 'Image_name', 'Modified_Date'];
+                                    $imagecolumndata = [$newname, $user_id, $imagename, $modified_date];
 
-                            $imagecolumn = ['user_image', 'user_id', 'Image_name', 'Modified_Date'];
-                            $imagecolumndata = [$newname, $user_id, $imagename, $modified_date];
+                                    $sendtodb->update($sendtodb, 'record_of_image', $imagecolumn, $imagecolumndata, $con, 'user_id', $imageid, $id);
 
-                            $sendtodb->update($sendtodb, 'record_of_image', $imagecolumn, $imagecolumndata, $con, 'user_id', $imageid, $id);
+                                }
 
+                            
                             $errimage = '';
                             return $errimage;
-                        } else {
-                            echo "Error: " . mysqli_error($con);
-                        }
+                            }
+                        
+                    }
                     }
                 } else {
                     echo "Error: " . mysqli_error($con);
@@ -310,16 +365,7 @@ trait namevalid1
             }
         } else {
             $sendtodb->insertindb('registeration_login', $column_array, $column_data, $con);
-            $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
-            $user_id_result = mysqli_query($con, $user_id_query);
-            if ($user_id_result) {
-                $user_id_row = mysqli_fetch_assoc($user_id_result);
-                $user_id = isset($user_id_row['ID']) ? $user_id_row['ID'] : '';
-                $modified_date = date('Y-m-d H:i:s') . " " . date("h:i:sa");
-                $imagecolumn = ['user_id', 'Modified_Date'];
-                $imagecolumndata = [$user_id, $modified_date];
-                $sendtodb->insertindb('record_of_image', $imagecolumn, $imagecolumndata, $con);
-            }
+            
         }
     }
 }
@@ -390,10 +436,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $errrole = $name->emp($role);
         $errskills = $name->emp($skills);
 
-        $column_array = ['name', 'email', 'password', 'occupation', 'role', 'skills', 'created_date'];
-        $column_data = ["$username", "$email", "$password", "$occupation", "$role", "$skills", "$created_date"];
-        $arr = ['name', 'email', 'password', 'occupation', 'role', 'skills'];
-        $data = ["$username", "$email", "$password", "$occupation", "$role", "$skills"];
+        $column_array = ['name', 'email', 'password', 'occupation', 'role', 'skills', 'created_date','modified_date'];
+        $column_data = ["$username", "$email", "$password", "$occupation", "$role", "$skills", "$created_date","$modified_date"];
+        $arr = ['name', 'email', 'password', 'occupation', 'role', 'skills','modified_date'];
+        $data = ["$username", "$email", "$password", "$occupation", "$role", "$skills","$modified_date"];
 
         if ($errname == '' && $erremail == '' && $errpassword == '' && $erroccupation == '' && $errrole == '' && $errskills == '') {
 

@@ -2,6 +2,10 @@
 include './registeration_form_with_php.php';
 // $data = $dbdata->fetchdatafromdb($con, 'registeration_login');
 
+if(!$id){
+    header("location: ./admin3.php");
+    die('Sorry');
+}
 ?>
 
 <!DOCTYPE html>

@@ -1,6 +1,6 @@
 <?php
 include 'login_with_php.php';
-
+define($id,true);
 if ($_SESSION != null) {
 } else {
     header("location: ./login_form_in_html.php");
@@ -11,7 +11,7 @@ if (isset($_POST["search"])) {
     $search = $_POST["search"];
 }
 
-$leftjoin = "select login.*, user_image, Modified_Date from registeration_login as login left join record_of_image as image on (login.id= image.user_id) order by login.id";
+$leftjoin = "select login.*, login.created_date, user_image, image.Modified_Date from registeration_login as login left join record_of_image as image on (login.id= image.user_id) order by login.id";
 $leftjoinquery = mysqli_query($con, $leftjoin);
 
 
@@ -239,7 +239,7 @@ $dbtotalrows = 0;
 
         <main class="row-span-6 col-span-10  sm:col-span-12 lg:col-span-10 ">
             <div class="flex justify-between items-center border-b-2 py-3 px-2 ">
-                <p class="font-medium text-lg">Welcome Admin, <span class="font-bold"><?php print_r($data1['name']); ?></span></p>
+                <p class="font-medium text-lg">Welcome Admin, <span class="font-bold"><?php echo $data1['name'] ?></span></p>
                 <div class="w-10 h-10 rounded-full border">
                     <?php
                     if ($data1['user_image'] != "") {
@@ -257,7 +257,7 @@ $dbtotalrows = 0;
                 <h1 class="text-2xl font-semibold py-2">Manage Customers</h1>
                 <div class="flex items-center justify-between ">
                     <div class="flex items-center relative">
-                        <input type="search" id="search" name="search" class="px-8 py-2 border rounded-lg text-slate-400" placeholder="Search..."><?php print_r($search) ?>
+                        <input type="search" id="search" name="search" class="px-8 py-2 border rounded-lg text-slate-400" placeholder="Search..."><?php echo $search ?>
                         <label for="search">
                             <svg class="w-4 h-4 absolute left-2 top-3 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z">

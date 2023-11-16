@@ -38,7 +38,8 @@ try {
         occupation VARCHAR(20),
         role VARCHAR(20),
         skills VARCHAR(20),
-        created_date DATETIME
+        created_date DATETIME,
+        modified_date DATETIME
     );";
     $createtable = new createtable();
     $registerationtable = $createtable->createtable($con, $reg); //Registeration table created successfully
@@ -49,6 +50,7 @@ try {
         user_image text, 
         user_id int(4),
         Image_name varchar(100),
+        created_date DATETIME,
         Modified_Date datetime,
         foreign key (user_id) references registeration_login(ID)
     )";
