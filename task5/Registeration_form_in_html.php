@@ -43,14 +43,14 @@ $modified_date = date('Y-m-d H:i:s');
                     <div class="space-y-2">
                         First Name
                         <input type="text" name="name" id="first_name" placeholder="First Name" class="border rounded-sm w-full p-1">
-                        <span class="text-red-600 text-sm">* <?php echo $errname ?></span>
+                        <span class="text-red-600 text-sm">* <small><?php echo $errname ?></small></span>
                     </div>
 
                     <div class="pl-4 pt-2">
                         <label>Upload Your Image :-</label>
                         <div class="grid ">
                             <input type="file" name="image" id="image">
-                            <span class="text-red-600 text-sm">* <?php echo $errimage ?></span>
+                            <span class="text-red-600 text-sm">* <small><?php echo $errimage ?></small></span>
                         </div>
                     </div>
 
@@ -58,12 +58,12 @@ $modified_date = date('Y-m-d H:i:s');
                 <div class="">
                     Email
                     <input type="email" name="email" id="email" placeholder="Email" class="border rounded-sm w-full p-1">
-                    <span class="text-red-600 text-sm">* <?php echo $erremail ?></span>
+                    <span class="text-red-600 text-sm">* <small><?php echo $erremail ?></small></span>
                 </div>
                 <div class="">
                     Password
                     <input type="password" name="password" id="password" placeholder="Password" class="border rounded-sm w-full p-1">
-                    <span class="text-red-600 text-sm max-w-xs w-96">* <?php echo $errpassword ?></span>
+                    <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $errpassword ?></small></span>
                 </div>
                 <div class="flex items-center justify-between ">
                     <div class="">
@@ -76,7 +76,7 @@ $modified_date = date('Y-m-d H:i:s');
                                 <option value="Managining" class="bg-transparent p-1">Managining</option>
                             </select>
                         </div>
-                        <span class="text-red-600 text-sm">* <?php echo $erroccupation ?></span>
+                        <span class="text-red-600 text-sm">* <small><?php echo $erroccupation ?></small></span>
                     </div>
 
                 </div>
@@ -97,7 +97,7 @@ $modified_date = date('Y-m-d H:i:s');
                                 <label for="other_role">Other</label>
                             </div>
                         </div>
-                        <span class="text-red-600 text-sm">* <?php echo $errrole ?></span>
+                        <span class="text-red-600 text-sm">* <small><?php echo $errrole ?></small></span>
                     </fieldset>
                     <fieldset class=" space-y-2">
                         <legend>Associated :-</legend>
@@ -139,7 +139,7 @@ $modified_date = date('Y-m-d H:i:s');
                                 <label for="others">Others</label>
                             </div>
                         </div>
-                        <span class="text-red-600 text-sm">* <?php echo $errskills ?></span>
+                        <span class="text-red-600 text-sm">* <small><?php echo $errskills ?></small></span>
                     </fieldset>
                 </div>
                 <div class="pt-2">

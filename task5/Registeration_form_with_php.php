@@ -34,6 +34,7 @@ class senddatatodb
 {
     public function insertindb($dbname, $column_name, $row_data, $con, $result = null)
     {
+        print_r($column_name);
         $columns = implode(', ', $column_name);
         $values = "'" . implode("', '", $row_data) . "'";
 
@@ -108,7 +109,7 @@ class emailcheck
     public function emailcheck($sendtodb, $imageerror, $arr, $data, $con, $imageid, $id, $name, $image, $size, $email, $registerationidlist, $modified_date)
     {
         if ($imageerror == UPLOAD_ERR_OK) {
-            $errimage = $name->validation_image($sendtodb, $image, $size, $email, $con, $registerationidlist, $imageid, $id);
+            $errimage = $name->validation_image($sendtodb, $image, $size,$arr, $data, $email, $con, $registerationidlist, $imageid, $id);
             return $errimage;
         } else {
             $modified_date = date('Y-m-d H:i:s') . " " . date("h:i:sa");
@@ -127,7 +128,7 @@ $registerationdata = $dbdata->fetchdatafromdb($con, 'registeration_login');
 $firstname = $image = $imagename = $email = $password = $occupation = $role = $skills = $passlength = $ucase = $lcase = $passnumber = $spchar = $extension = $ext = $size = $errormsg = $arr = $data = $id = $created_date = "";
 $err = $errname = $errimage =  $erremail = $errpassword = $erroccupation = $errrole = $errskills = "";
 $emailinlogin = $passwordinlogin = '';
-$fetchname = $fetchemail = $fetchpassword = $fetchoccupation = $fetchrole = $fetchskills = '';
+$fetchname = $fetchemaildata = $fetchpassword = $fetchoccupation = $fetchrole = $fetchskills = '';
 $registerationidlist = [];
 $emaillist = [];
 
@@ -146,12 +147,12 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 $querydata = $dbdata->fetchiddata('registeration_login', $id, $con, 'ID');
 $fetchdata = mysqli_fetch_all($querydata);
 
-$fetchname = isset($fetchdata[0][1])?$fetchdata[0][1]:'';
-$fetchemail = isset($fetchdata[0][2])?$fetchdata[0][2]:'';
-$fetchpassword = isset($fetchdata[0][3])?$fetchdata[0][3]:'';
-$fetchoccupation = isset($fetchdata[0][4])?$fetchdata[0][4]:'';
-$fetchrole = isset($fetchdata[0][5])?$fetchdata[0][5]:'';
-$fetchskills = isset($fetchdata[0][6])?$fetchdata[0][6]:'';
+$fetchname = isset($fetchdata[0][1]) ? $fetchdata[0][1] : '';
+$fetchemaildata = isset($fetchdata[0][2]) ? $fetchdata[0][2] : '';
+$fetchpassword = isset($fetchdata[0][3]) ? $fetchdata[0][3] : '';
+$fetchoccupation = isset($fetchdata[0][4]) ? $fetchdata[0][4] : '';
+$fetchrole = isset($fetchdata[0][5]) ? $fetchdata[0][5] : '';
+$fetchskills = isset($fetchdata[0][6]) ? $fetchdata[0][6] : '';
 
 class date
 {
@@ -239,39 +240,66 @@ trait namevalid1
     }
 
     // Image
-    public function validation_image($sendtodb, $image, $size, $email, $con, $registerationidlist, $imageid = null, $id = null)
+    public function validation_image($sendtodb, $image, $size, $column_array, $column_data, $email, $con, $registerationidlist, $imageid = null, $id = null)
     {
         $imageerror = isset($image['error']) ? $image['error'] : '';
         if ($imageerror == UPLOAD_ERR_OK) {
+
+
             $extension = ["jpg", "png", "jpeg"];
             $ext = pathinfo($image["name"], PATHINFO_EXTENSION);
             if (in_array($ext, $extension)) {
+
                 $errimage = '';
                 $newname = uniqid("Img-", true) . '.' . $ext;
                 $upload = "..\image/" . $newname;
 
                 if (move_uploaded_file($image["tmp_name"], $upload)) {
-                    $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
-                    $user_id_result = mysqli_query($con, $user_id_query);
+                    
+                    if (!in_array($id, $registerationidlist)) {
+                        $sendtodb->insertindb('registeration_login', $column_array, $column_data, $con);
+                        $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
+                        $user_id_result = mysqli_query($con, $user_id_query);
+                        if ($user_id_result) {
+                            $imagename = isset($image['name']) ? $image['name'] : ''; //Image name
+                            $modified_date = date('Y-m-d H:i:s') . " " . date("h:i:sa"); // Modified Date
+                            $user_id_row = mysqli_fetch_assoc($user_id_result);
+                            $user_id = isset($user_id_row['ID']) ? $user_id_row['ID'] : '';
 
-                    if ($user_id_result) {
-                        $imagename = isset($image['name']) ? $image['name'] : ''; //Image name
-                        $modified_date = date('Y-m-d H:i:s') . " " . date("h:i:sa"); // Modified Date
-                        $user_id_row = mysqli_fetch_assoc($user_id_result);
-                        $user_id = isset($user_id_row['ID']) ? $user_id_row['ID'] : '';
+                            $imagecolumn = ['user_image', 'user_id', 'Image_name', 'Modified_Date'];
+                            $imagecolumndata = [$newname, $user_id, $imagename, $modified_date];
 
-                        $imagecolumn = ['user_image', 'user_id', 'Image_name', 'Modified_Date'];
-                        $imagecolumndata = [$newname, $user_id, $imagename, $modified_date];
-
-                        if (!in_array($id, $registerationidlist)) {
                             $sendtodb->insertindb('record_of_image', $imagecolumn, $imagecolumndata, $con); // Sending image data on db
+
+                            $errimage = '';
+                            return $errimage;
                         } else {
-                            $sendtodb->update($sendtodb, 'record_of_image', $imagecolumn, $imagecolumndata, $con, 'user_id', $imageid, $id);
+                            echo "Error: " . mysqli_error($con);
                         }
-                        $errimage = '';
-                        return $errimage;
                     } else {
-                        echo "Error: " . mysqli_error($con);
+                        
+                        $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
+                        $user_id_result = mysqli_query($con, $user_id_query);
+                        if($user_id_result){
+                            echo "Error:" . mysqli_error($con);
+                        }
+
+                        if ($user_id_result) {
+                            $imagename = isset($image['name']) ? $image['name'] : ''; //Image name
+                            $modified_date = date('Y-m-d H:i:s') . " " . date("h:i:sa"); // Modified Date
+                            $user_id_row = mysqli_fetch_assoc($user_id_result);
+                            $user_id = isset($user_id_row['ID']) ? $user_id_row['ID'] : '';
+
+                            $imagecolumn = ['user_image', 'user_id', 'Image_name', 'Modified_Date'];
+                            $imagecolumndata = [$newname, $user_id, $imagename, $modified_date];
+
+                            $sendtodb->update($sendtodb, 'record_of_image', $imagecolumn, $imagecolumndata, $con, 'user_id', $imageid, $id);
+
+                            $errimage = '';
+                            return $errimage;
+                        } else {
+                            echo "Error: " . mysqli_error($con);
+                        }
                     }
                 } else {
                     echo "Error: " . mysqli_error($con);
@@ -281,6 +309,7 @@ trait namevalid1
                 return $errimage;
             }
         } else {
+            $sendtodb->insertindb('registeration_login', $column_array, $column_data, $con);
             $user_id_query = "SELECT ID FROM registeration_login WHERE email = '$email'";
             $user_id_result = mysqli_query($con, $user_id_query);
             if ($user_id_result) {
@@ -360,7 +389,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $erroccupation = $name->emp($occupation);
         $errrole = $name->emp($role);
         $errskills = $name->emp($skills);
-        
+
         $column_array = ['name', 'email', 'password', 'occupation', 'role', 'skills', 'created_date'];
         $column_data = ["$username", "$email", "$password", "$occupation", "$role", "$skills", "$created_date"];
         $arr = ['name', 'email', 'password', 'occupation', 'role', 'skills'];
@@ -370,17 +399,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             // Insert
             if (empty($registerationdata)) {
-                $sendtodb->insertindb('registeration_login', $column_array, $column_data, $con);
-                $errimage = $name->validation_image($sendtodb, $image, $size, $email, $con, $registerationidlist);
+                // $sendtodb->insertindb('registeration_login', $column_array, $column_data, $con);
+                $errimage = $name->validation_image($sendtodb, $image, $size, $column_array, $column_data, $email, $con, $registerationidlist);
                 if ($errimage == null) {
                     header("location: ./login_form_in_html.php");
                 }
             } else {
                 if (!in_array($id, $registerationidlist)) {
                     if (!in_array($email, $emaillist)) {
-                        $sendtodb->insertindb('registeration_login', $column_array, $column_data, $con);
+                        // $sendtodb->insertindb('registeration_login', $column_array, $column_data, $con);
 
-                        $errimage = $name->validation_image($sendtodb, $image, $size, $email, $con, $registerationidlist);
+                        $errimage = $name->validation_image($sendtodb, $image, $size, $column_array, $column_data, $email, $con, $registerationidlist);
                         if ($errimage == null) {
                             header("location: ./login_form_in_html.php");
                         }
@@ -395,11 +424,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     $fetchemail = isset($fetchdata[0]) ? $fetchdata[0] : '';
                     $fetchemaildata = (isset($fetchdata[0][2])) ? $fetchdata[0][2] : '';
 
+                    
                     if (in_array($fetchemaildata, $_SESSION)) {
-
                         $_SESSION = ['email' => $email, 'password' => $password];
                         if (in_array($email, $fetchemail)) {
                             $sendtodb->update($sendtodb, 'registeration_login', $arr, $data, $con, 'ID', null, $id);
+
                             $errimage = $checkemail->emailcheck($sendtodb, $imageerror, $arr, $data, $con, $imageid, $id, $name, $image, $size, $email, $registerationidlist, $modified_date);
                             if ($errimage == null) {
                                 header("location: ./admin3.php");
@@ -415,6 +445,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             $errormsg = "This email already exists";
                         }
                     } else {
+                       
                         if (in_array($email, $fetchemail)) {
                             $sendtodb->update($sendtodb, 'registeration_login', $arr, $data, $con, 'ID', null, $id);
                             $errimage = $checkemail->emailcheck($sendtodb, $imageerror, $arr, $data, $con, $imageid, $id, $name, $image, $size, $email, $registerationidlist, $modified_date);

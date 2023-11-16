@@ -27,27 +27,27 @@ include './registeration_form_with_php.php';
                     <div class="space-y-2">
                         First Name
                         <input type="text" name="name" id="name" placeholder="First Name" value="<?php echo $fetchname ?>" class="border rounded-sm w-full p-1">
-                        <span class="text-red-600">* <?php echo $errname ?></span>
+                        <span class="text-red-600">* <small><?php echo $errname ?></small></span>
                     </div>
 
                     <div class="pl-4 pt-2">
                         <label>Upload Your Image :-</label>
                         <div class="grid ">
                             <input type="file" name="image" id="image">
-                            <span class="text-red-600">* <?php echo $errimage ?></span>
+                            <span class="text-red-600">* <small><?php echo $errimage ?></small></span>
                         </div>
                     </div>
 
                 </div>
                 <div class="">
                     Email
-                    <input type="email" name="email" id="email" placeholder="Email" value="<?php echo $fetchemail ?>" class="border rounded-sm w-full p-1">
-                    <span class="text-red-600">* <?php echo $erremail ?></span>
+                    <input type="email" name="email" id="email" placeholder="Email" value="<?php echo $fetchemaildata ?>" class="border rounded-sm w-full p-1">
+                    <span class="text-red-600">* <small><?php echo $erremail ?></small></span>
                 </div>
                 <div class="">
                     Password
                     <input type="password" name="password" id="password" placeholder="Password" value="<?php echo $fetchpassword ?>" class="border rounded-sm w-full p-1">
-                    <span class="text-red-600">* <?php echo $errpassword ?></span>
+                    <span class="text-red-600">* <small><?php echo $errpassword ?></small></span>
                 </div>
                 <div class="flex items-center justify-between ">
                     <div class="">
@@ -60,7 +60,7 @@ include './registeration_form_with_php.php';
                                 <option value="Managining" <?php echo ($fetchoccupation == 'Managining') ? 'selected' : ''; ?> class="bg-transparent p-1">Managining</option>
                             </select>
                         </div>
-                        <span class="text-red-600">* <?php echo $erroccupation ?></span>
+                        <span class="text-red-600">* <small><?php echo $erroccupation ?></small></span>
                     </div>
 
                 </div>
@@ -81,7 +81,7 @@ include './registeration_form_with_php.php';
                                 <label for="other_role">Other</label>
                             </div>
                         </div>
-                        <span class="text-red-600">* <?php echo $errrole ?></span>
+                        <span class="text-red-600">* <small><?php echo $errrole ?></small></span>
                     </fieldset>
                     <fieldset class=" space-y-2">
                         <legend>Associated :-</legend>
@@ -123,7 +123,7 @@ include './registeration_form_with_php.php';
                                 <label for="others">Others</label>
                             </div>
                         </div>
-                        <span class="text-red-600">* <?php echo $errskills ?></span>
+                        <span class="text-red-600">* <small><?php echo $errskills ?></small></span>
                     </fieldset>
                 </div>
                 <div class="pt-2">

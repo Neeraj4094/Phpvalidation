@@ -347,7 +347,7 @@ $dbtotalrows = 0;
                                     <p class=" bg-purple-500 text-white px-3 rounded-full">
                                         <?php echo $userrole ?></p>
 
-                                    <form action="update.php?id=<?php echo $item["ID"] ?>" method="post">
+                                    <form action="update.php?id=<?php echo $item["ID"] ?>" <?php $currentid = $item["ID"] ?> method="post">
                                         <button type="submit" data-toggle="tooltip" data-placement="top" title="Edit" class="px-1 rounded-lg bg-slate-100 text-black">
                                             <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24">
                                                 <path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path>
