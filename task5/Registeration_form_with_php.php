@@ -128,9 +128,10 @@ $firstname = $image = $imagename = $email = $password = $occupation = $role = $s
 $err = $errname = $errimage =  $erremail = $errpassword = $erroccupation = $errrole = $errskills = "";
 $emailinlogin = $passwordinlogin = '';
 $fetchname = $fetchemaildata = $fetchpassword = $fetchoccupation = $fetchrole = $fetchskills = '';
+$totaldata = $dataname = $dataimage ='';
 $registerationidlist = [];
 $emaillist = [];
-
+$create= $modified = $totaldata = $list = [];
 //Image
 $showimage = $dbdata->fetchdatafromdb($con, 'record_of_image');
 foreach ($registerationdata as $item) {
@@ -156,17 +157,17 @@ $fetchskills = isset($fetchdata[0][6]) ? $fetchdata[0][6] : '';
 
 class date
 {
-    public function date_time_in_us()
-    {
-        date_default_timezone_set("America/New_York");
-    }
+    // public function date_time_in_us()
+    // {
+    //     date_default_timezone_set("America/New_York");
+    // }
     public function date_time_in_india($datelist)
     {
         $indian_date_time = [];
         foreach ($datelist as $date) {
             $us_date_time = '';
             $us_date_time = $date;
-            $date_time = new DateTime($us_date_time, new DateTimeZone('America/New_York'));
+            $date_time = new DateTime($us_date_time, new DateTimeZone('UTC'));
             $date_time->setTimezone(new DateTimeZone('Asia/Kolkata'));
             $indian_date_time[] = $date_time->format('Y-m-d H:i:s');
         }
@@ -174,9 +175,10 @@ class date
     }
 }
 $date = new date();
-$date->date_time_in_us();
-$created_date = date('Y-m-d H:i:s') . " " . date("h:i:sa");
-$modified_date = date('Y-m-d H:i:s') . " " . date("h:i:sa");
+// $date->date_time_in_us();
+date_default_timezone_set('UTC');
+$created_date = date("Y-m-d H:i:s A"); 
+$modified_date = date("Y-m-d H:i:s A"); 
 
 // Validation in Classes
 trait namevalid1
@@ -262,8 +264,8 @@ trait namevalid1
                         $user_id_result = mysqli_query($con, $user_id_query);
                         if ($user_id_result) {
                             $imagename = isset($image['name']) ? $image['name'] : ''; //Image name
-                            $created_date = date('Y-m-d H:i:s') . " " . date("h:i:sa"); //Created Date
-                            $modified_date = date('Y-m-d H:i:s') . " " . date("h:i:sa"); // Modified Date
+                            $created_date = date("Y-m-d H:i:s A");  //Created Date
+                            $modified_date = date("Y-m-d H:i:s A");  // Modified Date
                             $user_id_row = mysqli_fetch_assoc($user_id_result);
                             $user_id = isset($user_id_row['ID']) ? $user_id_row['ID'] : '';
 
@@ -323,8 +325,8 @@ trait namevalid1
                         }else{
 
                             $imagename = isset($image['name']) ? $image['name'] : ''; //Image name
-                            $created_date = date('Y-m-d H:i:s') . " " . date("h:i:sa"); //Created Date
-                            $modified_date = date('Y-m-d H:i:s') . " " . date("h:i:sa"); // Modified Date
+                            $created_date = date("Y-m-d H:i:s A"); //Created Date
+                            $modified_date =date("Y-m-d H:i:s A");  // Modified Date
                             $user_id_row = mysqli_fetch_assoc($user_id_result);
                             $user_id = isset($user_id_row['ID']) ? $user_id_row['ID'] : '';
                             $image_created_query = "SELECT user_id from record_of_image where user_id = $user_id";

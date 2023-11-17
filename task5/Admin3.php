@@ -29,12 +29,13 @@ foreach ($totaldata as $item) {
     if (in_array($_SESSION['email'], $item)) {
         $data1 = $item;
 
-        $dataname = $data1['name'];
+        $dataname = isset($data1['name'])?$data1['name']:'';
         $dataemail = $data1['email'];
         $datapassword = $data1['password'];
         $datarole = $data1['role'];
         $dataoccupation = $data1['occupation'];
         $dataskills = $data1['skills'];
+        $dataimage = isset($data1["user_image"])?$data1["user_image"]:'';
     } else {
         $items[] = $item;
         $createddatelist[] = $item['created_date'];
@@ -239,11 +240,11 @@ $dbtotalrows = 0;
 
         <main class="row-span-6 col-span-10  sm:col-span-12 lg:col-span-10 ">
             <div class="flex justify-between items-center border-b-2 py-3 px-2 ">
-                <p class="font-medium text-lg">Welcome Admin, <span class="font-bold"><?php echo $data1['name'] ?></span></p>
+                <p class="font-medium text-lg">Welcome Admin, <span class="font-bold"><?php echo $dataname ?></span></p>
                 <div class="w-10 h-10 rounded-full border">
                     <?php
-                    if ($data1['user_image'] != "") {
-                        $images =  "../Image/" . $data1["user_image"];
+                    if ($dataimage != "") {
+                        $images =  "../Image/" . $dataimage;
                         $res = "<img src='$images' alt='Image ' class='w-10 h-10 rounded-full flex items-center justify-center'>";
                         echo "$res<br>";
                     } else {
