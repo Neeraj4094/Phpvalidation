@@ -1,7 +1,10 @@
 <?php
 include '../task5/Registeration_form_with_php.php';
-
+if(!$id){
+    header("location: ./admin3.php");
+}
 $id = isset($_GET['id']) ? $_GET['id'] : '';
+
 $querydata = $dbdata->fetchiddata('registeration_login', $id, $con, 'ID');
 $fetchdata = mysqli_fetch_all($querydata);
 $delete = new deletefromdb();

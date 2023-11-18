@@ -3,7 +3,7 @@
 require './registeration_form_with_php.php';
 $errmsg = $dbfetchdata = $errloginemail = $errloginpassword = '';
 $dbfetchdata = new dbfetchdata();
-$checkemail = $dbfetchdata->filt($registerationdata, $emailinlogin);
+$checkemail = $dbfetchdata->searchemail($registerationdata, $emailinlogin);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['submit'])) {

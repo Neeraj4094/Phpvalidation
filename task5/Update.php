@@ -4,7 +4,6 @@ include './registeration_form_with_php.php';
 
 if(!$id){
     header("location: ./admin3.php");
-    die('Sorry');
 }
 ?>
 
