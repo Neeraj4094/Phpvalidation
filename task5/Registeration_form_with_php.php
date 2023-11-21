@@ -177,7 +177,6 @@ $date = new date();
 
 date_default_timezone_set('UTC');
 // $created_date = date("Y-m-d H:i:s A"); 
-// $modified_date = date("Y-m-d H:i:s A"); 
 
 // Validation in Classes
 trait namevalid1
