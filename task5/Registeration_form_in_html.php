@@ -1,7 +1,10 @@
 <?php
 include '../task5/Registeration_form_with_php.php';
 //Database
-function filt($array, $email)
+/**
+ * @param array|null $array This will contains the array 
+ */
+function searchemail($array, $email)
 {
     foreach ($array as $item) {
 
@@ -11,7 +14,7 @@ function filt($array, $email)
     }
     return $array;
 }
-$a[] = filt($registerationdata, $email);
+$a[] = searchemail($registerationdata, $email);
 foreach ($registerationdata as $item) {
     $b[] = $item[0];
 }

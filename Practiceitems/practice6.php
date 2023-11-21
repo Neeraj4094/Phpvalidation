@@ -201,6 +201,22 @@ echo "<br>";
 
 
 
+class profile{
+    /** This function sets the values
+     * @param mixed $profile The user will sets the languages in the $profile
+     * @return array This will return array of languages
+     */
+    private $profile;
+    public function setlang(?array $profile): ?array {
+        $this->profile=$profile;
+        return $this->profile;
+    }
+}
+
+$profile = new profile();
+$language = ['HTML','CSS','PHP','JS'];
+print_r($profile->setlang($language));
+// print_r($profile->getlang());
 
 // Abstraction
 // abstract class bank{
