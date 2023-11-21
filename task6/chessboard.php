@@ -18,9 +18,9 @@
                 <?php for ($column = 1; $column < $number_of_box; $column++): ?>
                     <div class="w-12 h-12 border">
                         <?php
-                        $class = ($row + $column) % 2 == 0 ? 'bg-white' : 'bg-slate-600';
+                        $bg_color = ($row + $column) % 2 == 0 ? 'bg-white' : 'bg-slate-600';
 
-                        echo '<div class=" w-full h-full border shadow ' . $class . '"></div>';
+                        echo '<div class=" w-full h-full border shadow ' . $bg_color . '"></div>';
                         ?>
                     </div>
                 <?php endfor; ?>
