@@ -77,7 +77,7 @@ class senddatatodb
             $errormsg = "Updated successfully";
             return $errormsg;
         }
-        header("location: ./admin3.php");
+        // header("location: ./admin3.php");
     }
 }
 
@@ -104,7 +104,7 @@ class deletefromdb
     }
 }
 
-class emailcheck
+class emailscheck
 {
     public function emailcheck($sendtodb, $imageerror, $arr, $data, $con, $imageid, $id, $name, $image, $size, $email, $registerationidlist)
     {
@@ -120,7 +120,7 @@ class emailcheck
     }
 }
 
-$checkemail = new emailcheck();
+$checkemail = new emailscheck();
 $sendtodb = new senddatatodb();
 $dbdata = new dbfetchdata();
 $registerationdata = $dbdata->fetchdatafromdb($con, 'registeration_login');
