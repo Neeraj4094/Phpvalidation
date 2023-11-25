@@ -3,12 +3,13 @@ $server = "localhost";
 $username = "root";
 $password1 = "";
 $db = "student";
-class createtable
+class create_table
 {
-    public function createtable($con, $tablename)
+    public function createtable(mixed $con,mixed $tablename): bool
     {
         if ($con->query($tablename) === TRUE) {
             // Table created successfully
+            return true;
         } else {
             die("Error: " . $con->error . "<br>");
         }
@@ -41,7 +42,7 @@ try {
         created_date DATETIME,
         modified_date DATETIME
     );";
-    $createtable = new createtable();
+    $createtable = new create_table();
     $registerationtable = $createtable->createtable($con, $reg); //Registeration table created successfully
 
     $date = date('Y-m-d H:i:s');

@@ -83,7 +83,7 @@ class senddatatodb
 
 class deletefromdb
 {
-    public function deletefromdb($tablename1, $tablename2, $con, $col_id1, $col_id2, $id, $location)
+    public function deletefromdb(mixed $tablename1, mixed $tablename2, mixed $con, mixed $col_id1, mixed $col_id2, mixed $id, mixed $location): string
     {
         $deleteImageRecords = "DELETE FROM $tablename1 WHERE $col_id1 = $id";
         $queryImageRecords = mysqli_query($con, $deleteImageRecords);
@@ -97,10 +97,10 @@ class deletefromdb
             if (!$queryRegistration) {
                 echo "Error deleting registration record: " . mysqli_error($con);
             } else {
-                echo "Deleted Successfully";
                 header("location: $location");
             }
         }
+        return 0;
     }
 }
 
@@ -376,7 +376,7 @@ class validation
     public $errpassword = '';
     public $name, $email, $password, $occupation, $role, $skills, $image;
     public $loginemail, $loginpassword;
-    public function getname($con)
+    public function getname()
     {
         $submitname = $submitemail = $submitpassword = $submitoccupation = $submitrole = $submitskill = $submitimage = '';
         if (!empty($_POST['name']) || !empty($_POST['email']) || !empty($_POST['password']) || !empty($_POST['occupation']) || !empty($_POST['role']) || !empty($_POST['skills']) || isset($_FILES['image']) || isset($_POST['loginemail'])) {
@@ -410,7 +410,7 @@ class validation
 }
 
 $name = new validation();
-$resultofform = $name->getname($con);
+$resultofform = $name->getname();
 if (isset($resultofform[0]) || isset($resultofform[1]) || isset($resultofform[2]) || isset($resultofform[3]) || isset($resultofform[4]) || isset($resultofform[5]) || isset($resultofform[6])) {
     $username = $resultofform[0];
     $email = $resultofform[1];
