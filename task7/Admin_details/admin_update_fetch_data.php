@@ -3,28 +3,10 @@
 // include ("send_fetch_data_from_db.php");
 include 'admin_login_validation.php';
 
-class updatatodb {
-    public function update_to_tb($dbname,$column_name,$column_data,$col_id,$id,$con){
-        $errmsg = '';
-        $updatequery = '';
-        $updateValues = array();
-        for ($i = 0; $i < count($column_name); $i++) {
-            $updateValues[] = " $column_name[$i] =  '$column_data[$i]' ";
-        }
-        $update = implode(', ', $updateValues);
-        $updateindb = "UPDATE $dbname set $update where $col_id = $id";
-        
-        $updatequery = mysqli_query($con, $updateindb);
-        if (!$updatequery) {
-            die("Error:" . mysqli_error($con));
-        }
-        $errmsg = "Updated successfully";
-        return $errmsg;
-    }
-}
+
 
 $fetch_data_from_db = new fetch_data_from_db();
-$updateobject = new updatatodb();
+$updateobject = new send_data_to_db();
 
 $id = isset($_GET['id'])? $_GET['id'] : '';
 

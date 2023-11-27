@@ -1,3 +1,42 @@
+<?php
+include 'database_connection.php';
+include 'send_fetch_data_from_db.php';
+
+
+$fetch_data_from_db = new fetch_data_from_db ();
+$fetch_book_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
+
+foreach($fetch_book_data_from_db as $key => $value) { 
+    $actual_category_name = ucwords(isset($value[3])?$value[3]:'');
+    $books_category_data_query = $fetch_data_from_db->fetchiddata('books_details',$actual_category_name, $conn, 'book_category');
+    $books_category_data = mysqli_fetch_all($books_category_data_query);
+
+    $actual_book_images[] = isset($books_category_data[0][5])?$books_category_data[0][5]:'';
+    $actual_book_category_name[] = isset($books_category_data[0][3])?$books_category_data[0][3]:'';
+    
+}
+$category_image_data = array_unique($actual_book_images);
+$image_array = array_values($category_image_data);
+
+$book_category_data = array_unique($actual_book_category_name);
+$category_array = array_values($book_category_data);
+$maxCount = max(count($image_array), count($category_array));
+// for ($row = 0; $row <= $maxCount; $row++) {
+//     // echo $row;
+//     echo "<pre>";
+//     // print_r($image_array);
+//     if (isset($image_array[$row])) {
+//         echo $image_array[$row];
+//     }
+
+    
+//     if (isset($category_array[$row])) {
+//         echo $category_array[$row];
+//     }
+//     echo "</pre>";
+// }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +49,7 @@
     <title>Document</title>
 </head>
 
-<body class="relative">
+<body class="relative w-full h-full">
     <header class="w-full p-2 px-4 flex justify-between items-center border">
         <div class="w-16 h-16 ">
             <img src="../Image/Ucodelogo.png" alt="Ucodelogo"
@@ -19,7 +58,7 @@
         <nav>
             <ul class="flex gap-6">
                 <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#">Home</a></li>
-                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#">Categories</a></li>
+                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#category">Categories</a></li>
                 <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#">Books</a></li>
                 <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#">Sign Up</a></li>
 
@@ -87,36 +126,27 @@
                 </button>
             </div>
         </section>
-        <section class="w-full h-full px-2 py-8 grid place-items-center space-y-8">
+        <section class="w-full h-full px-2 py-10 grid place-items-center space-y-8" id="category">
             <h2 class="font-bold text-3xl">Books Categories</h2>
-            <div class="grid gap-20 grid-cols-3 py-6">
-                <article class="w-60 h-80 border text-center">
+            <div class=" flex items-center justify-center flex-wrap gap-20 p-6">
+                <?php for ($row = 0; $row <= $maxCount; $row++) {
+                    if (isset($image_array[$row])) {
+
+                    ?>
+                <article class="w-60 h-80 border text-center rounded-xl relative ">
                     <div class="w-full h-full rounded-xl">
-                        <img src="../Image/book2.jpg" alt="Book1" class="w-full h-full object-cover rounded-xl">
-                    </div>
-                    <h2 class="font-bold text-2xl">Spiderman</h2>
-                    <p class="font-medium ">Peter Parker</p>
-                    <span class="font-bold text-xl">$200</span>
+                        <img src="../Image/<?php echo  $image_array[$row] ?>" alt="Book1" class="w-full h-full object-cover rounded-xl">
+                        <?php } if (isset($category_array[$row])) { ?>
+                        </div>
+                        <h2 class="font-bold text-2xl"><?php echo $category_array[$row];  ?></h2>
+                        <a href="categories_books.php?book_category=<?php echo $category_array[$row]; ?>" class=" absolute inset-0 z-10"></a>
+                    
                 </article>
-                <article class="w-60 h-80 border text-center">
-                    <div class="w-full h-full rounded-xl">
-                        <img src="../Image/book3.jpg" alt="Book1" class="w-full h-full object-cover rounded-xl">
-                    </div>
-                    <h2 class="font-bold text-2xl">Spiderman</h2>
-                    <p class="font-medium ">Peter Parker</p>
-                    <span class="font-bold text-xl">$200</span>
-                </article>
-                <article class="w-60 h-80 border text-center">
-                    <div class="w-full h-full rounded-xl">
-                        <img src="../Image/book2.jpg" alt="Book1" class="w-full h-full object-cover rounded-xl">
-                    </div>
-                    <h2 class="font-bold text-2xl">Spiderman</h2>
-                    <p class="font-medium ">Peter Parker</p>
-                    <span class="font-bold text-xl">$200</span>
-                </article>
+                <?php } } ?>
+                
             </div>
         </section>
-        <section class="w-full h-full grid place-items-center py-16 px-6 mt-14 bg-slate-50 space-y-6">
+        <section class="w-full h-full grid place-items-center py-16 px-6 mt-12 bg-slate-50 space-y-6">
             <h2 class="font-bold text-3xl">User Reviews</h2>
             <div class=" overflow-x-scroll flex items-center justify-self-center gap-4 p-4">
             <article class="w-full h-full border rounded-xl flex flex-col justify-center px-5 py-8 space-y-3 bg-slate-100 relative">
@@ -125,12 +155,7 @@
                 </div>
                 <span class="absolute bottom-0 right-0 px-4 py-1">---- by <i class="font-bold">Raj Kumar</i></span>
                 </article>
-            <!-- <article class="w-full max-w-sm h-full border rounded-xl flex flex-col justify-center px-5 py-8 space-y-3 bg-slate-100 relative">
-                <div class="h-full">
-                <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem provident dolor eius est vel atque amet aut voluptatibus reiciendis voluptatum fuga tenetur quaerat dolores enim nostrum, sed ab quisquam veritatis cum. Eaque quaerat fugit sapiente.</h3>
-                </div>
-                <span class="absolute bottom-0 right-0 px-4 py-1">---- by <i class="font-bold">Raj Kumar</i></span>
-            </article> -->
+            
             <article class="w-full h-full border rounded-xl flex flex-col justify-center px-5 py-8 space-y-3 bg-slate-100 relative">
                 <div class="h-full">
                 <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem provident dolor eius est vel atque amet aut voluptatibus reiciendis voluptatum fuga tenetur quaerat dolores enim nostrum, sed ab quisquam veritatis cum. Eaque quaerat fugit sapiente.</h3>

@@ -1,5 +1,5 @@
 <?php
-include ("validation.php");
+include ("../validation.php");
 include ("admin_session.php");
 include ("../send_fetch_data_from_db.php");
 
@@ -18,6 +18,8 @@ if($err_login_email == null && $err_login_password == null){
     } else {
         $errmsg = "Email & password not matched";
     }
+}else{
+    $errmsg = "Please complete the form";
 }
 }
 

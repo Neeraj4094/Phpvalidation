@@ -54,15 +54,17 @@ try{
         echo "Error:" . mysqli_error($conn);
     }
     
-    $books_table_name = "books_list";
+    $books_table_name = "books_details";
     $books_tablecolumn_name = "CREATE TABLE IF NOT EXISTS $books_table_name(
-    ID INT(4) PRIMARY KEY AUTO_INCREMENT,
+    book_id INT(4) PRIMARY KEY AUTO_INCREMENT,
     book_name VARCHAR(255),
     book_author VARCHAR(20),
     book_category VARCHAR(20),
     book_copies INT(3),
     book_unique_image_name TEXT(40),
-    book_image_name VARCHAR(35)
+    book_image_name VARCHAR(35),
+    created_date datetime,
+    modified_date datetime
     )";
     
     $create_book_table = $createtable->create_table($conn, $books_tablecolumn_name); //Create table of books

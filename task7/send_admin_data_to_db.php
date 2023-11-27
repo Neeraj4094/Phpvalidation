@@ -1,13 +1,14 @@
 <?php
-include ("./validation.php");
+include ("validation.php");
+// include 'database_connection.php';
 include ("send_fetch_data_from_db.php");
 
 $send_data_to_db = new send_data_to_db();
 $fetch_data_from_db = new fetch_data_from_db();
 
-$tablename = "admin_data";
+
 $fetch_data_from_db = new fetch_data_from_db ();
-$admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablename);
+$admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'admin_data');
 $check_email = $fetch_data_from_db->searchemail($admin_fetch_data_from_db,$admin_email);
 
 
