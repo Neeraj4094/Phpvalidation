@@ -3,24 +3,41 @@ include 'database_connection.php';
 include 'send_fetch_data_from_db.php';
 
 
-$fetch_data_from_db = new fetch_data_from_db ();
-$fetch_book_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
+$fetch_data_from_db = new fetch_data_from_db();
+$fetch_book_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'category_details');
 
-foreach($fetch_book_data_from_db as $key => $value) { 
-    $actual_category_name = ucwords(isset($value[3])?$value[3]:'');
-    $books_category_data_query = $fetch_data_from_db->fetchiddata('books_details',$actual_category_name, $conn, 'book_category');
-    $books_category_data = mysqli_fetch_all($books_category_data_query);
+// $book_category_data = array_unique($actual_book_category_name);
+// $category_array = array_values($book_category_data);
 
-    $actual_book_images[] = isset($books_category_data[0][5])?$books_category_data[0][5]:'';
-    $actual_book_category_name[] = isset($books_category_data[0][3])?$books_category_data[0][3]:'';
+// $users = [
+//     [
+//         'id' => 1,
+//         'name' => 'sajal'
+//     ],
+//     [
+//         'id' => 2,
+//         'name' => 'nneraj'
+//         ]
+//     ];
     
-}
-$category_image_data = array_unique($actual_book_images);
-$image_array = array_values($category_image_data);
+// $books = [
+//     [
+//         'userid' => 1,
+//         'book' => 'abc',
+//     ],
+//     [
+//         'userid' => 1,
+//         'book' => 'xyz',
+//     ],
+//     [
+//         'userid' => 2,
+//         'book' => 'mno',
+//         ]
+//     ];
+        
+// $maxCount = max(count($user), count($books));
+// echo $maxCount;
 
-$book_category_data = array_unique($actual_book_category_name);
-$category_array = array_values($book_category_data);
-$maxCount = max(count($image_array), count($category_array));
 // for ($row = 0; $row <= $maxCount; $row++) {
 //     // echo $row;
 //     echo "<pre>";
@@ -29,7 +46,7 @@ $maxCount = max(count($image_array), count($category_array));
 //         echo $image_array[$row];
 //     }
 
-    
+
 //     if (isset($category_array[$row])) {
 //         echo $category_array[$row];
 //     }
@@ -58,7 +75,8 @@ $maxCount = max(count($image_array), count($category_array));
         <nav>
             <ul class="flex gap-6">
                 <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#">Home</a></li>
-                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#category">Categories</a></li>
+                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#category">Categories</a>
+                </li>
                 <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#">Books</a></li>
                 <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#">Sign Up</a></li>
 
@@ -129,46 +147,60 @@ $maxCount = max(count($image_array), count($category_array));
         <section class="w-full h-full px-2 py-10 grid place-items-center space-y-8" id="category">
             <h2 class="font-bold text-3xl">Books Categories</h2>
             <div class=" flex items-center justify-center flex-wrap gap-20 p-6">
-                <?php for ($row = 0; $row <= $maxCount; $row++) {
-                    if (isset($image_array[$row])) {
-
+                <?php foreach ($fetch_book_data_from_db as $item) {
+                    $category_name = isset($item[1]) ? $item[1] : "";
+                    $image = isset($item[3]) ? $item[3] : "";
+                    // $more_images = '<svg class="w-20 h-20 absolute top-0 right-0 inset-0 text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. --><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM200 344V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H248v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"></path></svg>'
                     ?>
-                <article class="w-60 h-80 border text-center rounded-xl relative ">
-                    <div class="w-full h-full rounded-xl">
-                        <img src="../Image/<?php echo  $image_array[$row] ?>" alt="Book1" class="w-full h-full object-cover rounded-xl">
-                        <?php } if (isset($category_array[$row])) { ?>
+                    <article class="w-60 h-80 text-center relative ">
+                        <div class="w-full h-full rounded-xl space-y-4">
+                            <a href="fetch_categories_books.php?book_category=<?php echo $category_name ?>"
+                                class=" absolute inset-0 z-10"></a>
+                            <img src="../Image/<?php echo $image ?>" alt="Book1"
+                                class="w-full h-full object-cover rounded-xl">
+
+                            <h2 class="font-bold text-2xl">
+                                <?php echo $category_name ?>
+                            </h2>
+
                         </div>
-                        <h2 class="font-bold text-2xl"><?php echo $category_array[$row];  ?></h2>
-                        <a href="categories_books.php?book_category=<?php echo $category_array[$row]; ?>" class=" absolute inset-0 z-10"></a>
-                    
-                </article>
-                <?php } } ?>
-                
+                    </article>
+                <?php } ?>
+
             </div>
         </section>
         <section class="w-full h-full grid place-items-center py-16 px-6 mt-12 bg-slate-50 space-y-6">
             <h2 class="font-bold text-3xl">User Reviews</h2>
             <div class=" overflow-x-scroll flex items-center justify-self-center gap-4 p-4">
-            <article class="w-full h-full border rounded-xl flex flex-col justify-center px-5 py-8 space-y-3 bg-slate-100 relative">
-                <div class="h-full">
-                <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem provident dolor eius est vel atque amet aut voluptatibus reiciendis voluptatum fuga tenetur quaerat dolores enim nostrum, sed ab quisquam veritatis cum. Eaque quaerat fugit sapiente.</h3>
-                </div>
-                <span class="absolute bottom-0 right-0 px-4 py-1">---- by <i class="font-bold">Raj Kumar</i></span>
+                <article
+                    class="w-full h-full border rounded-xl flex flex-col justify-center px-5 py-8 space-y-3 bg-slate-100 relative">
+                    <div class="h-full">
+                        <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem provident dolor eius est
+                            vel atque amet aut voluptatibus reiciendis voluptatum fuga tenetur quaerat dolores enim
+                            nostrum, sed ab quisquam veritatis cum. Eaque quaerat fugit sapiente.</h3>
+                    </div>
+                    <span class="absolute bottom-0 right-0 px-4 py-1">---- by <i class="font-bold">Raj Kumar</i></span>
                 </article>
-            
-            <article class="w-full h-full border rounded-xl flex flex-col justify-center px-5 py-8 space-y-3 bg-slate-100 relative">
-                <div class="h-full">
-                <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem provident dolor eius est vel atque amet aut voluptatibus reiciendis voluptatum fuga tenetur quaerat dolores enim nostrum, sed ab quisquam veritatis cum. Eaque quaerat fugit sapiente.</h3>
-                </div>
-                <span class="absolute bottom-0 right-0 px-4 py-1">---- by <i class="font-bold">Raj Kumar</i></span>
-            </article>
-            <article class="w-full h-full border rounded-xl flex flex-col justify-center px-5 py-8 space-y-3 bg-slate-100 relative">
-                <div class="h-full">
-                <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem provident dolor eius est vel atque amet aut voluptatibus reiciendis voluptatum fuga tenetur quaerat dolores enim nostrum, sed ab quisquam veritatis cum. Eaque quaerat fugit sapiente.</h3>
-                </div>
-                <span class="absolute bottom-0 right-0 px-4 py-1">---- by <i class="font-bold">Raj Kumar</i></span>
-            </article>
-        </div>
+
+                <article
+                    class="w-full h-full border rounded-xl flex flex-col justify-center px-5 py-8 space-y-3 bg-slate-100 relative">
+                    <div class="h-full">
+                        <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem provident dolor eius est
+                            vel atque amet aut voluptatibus reiciendis voluptatum fuga tenetur quaerat dolores enim
+                            nostrum, sed ab quisquam veritatis cum. Eaque quaerat fugit sapiente.</h3>
+                    </div>
+                    <span class="absolute bottom-0 right-0 px-4 py-1">---- by <i class="font-bold">Raj Kumar</i></span>
+                </article>
+                <article
+                    class="w-full h-full border rounded-xl flex flex-col justify-center px-5 py-8 space-y-3 bg-slate-100 relative">
+                    <div class="h-full">
+                        <h3>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quidem provident dolor eius est
+                            vel atque amet aut voluptatibus reiciendis voluptatum fuga tenetur quaerat dolores enim
+                            nostrum, sed ab quisquam veritatis cum. Eaque quaerat fugit sapiente.</h3>
+                    </div>
+                    <span class="absolute bottom-0 right-0 px-4 py-1">---- by <i class="font-bold">Raj Kumar</i></span>
+                </article>
+            </div>
         </section>
     </main>
 

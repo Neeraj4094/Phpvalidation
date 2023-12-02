@@ -1,19 +1,19 @@
 <?php
 include ("../validation.php");
-include ("admin_session.php");
+include ("../admin_session.php");
 include ("../send_fetch_data_from_db.php");
 
 $tablename = "admin_data";
 $fetch_data_from_db = new fetch_data_from_db ();
 $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablename);
-$check_email = $fetch_data_from_db->searchemail($admin_fetch_data_from_db,$admin_login_email);
+$check_email = $fetch_data_from_db->searchemail($admin_fetch_data_from_db,$login_email);
 
 if(isset($_POST['submit'])){
-$err_login_email = $admin_entered_details->email_match($admin_login_email);
-$err_login_password = $admin_entered_details->validation_password($admin_login_password);
+$err_login_email = $admin_entered_details->email_match($login_email);
+$err_login_password = $admin_entered_details->validation_password($login_password);
 if($err_login_email == null && $err_login_password == null){
-    if (in_array($admin_login_email, $check_email) && in_array($admin_login_password, $check_email)) {
-        $_SESSION = ["email" => $admin_login_email, "password" => $admin_login_password];
+    if (in_array($login_email, $check_email) && in_array($login_password, $check_email)) {
+        $_SESSION = ["email" => $login_email, "password" => $login_password];
         header("location: ./admin_dashboard.php");
     } else {
         $errmsg = "Email & password not matched";

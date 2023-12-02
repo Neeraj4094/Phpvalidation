@@ -25,6 +25,14 @@ class fetch_data_from_db{
 
         return $query;
     }
+    public function fetch_data($dbname,$column_name, $id = null, $con, $column_id_name)
+    {
+        $fetchiddata = $query = '';
+        $fetchiddata = "select $column_name from $dbname where $column_id_name = '$id'";
+        $query = mysqli_query($con, $fetchiddata);
+        $data = mysqli_fetch_all($query);
+        return $data;
+    }
 }
 class send_data_to_db{
     public function insertindb(mixed $dbname,mixed $column_name,mixed $row_data,mixed $con)
@@ -38,7 +46,7 @@ class send_data_to_db{
         if (!$result) {
             die("Error:" . mysqli_error($con));
         }
-        return false;
+        return true;
     }
     public function update_to_tb($dbname,$column_name,$column_data,$col_id,$id,$con){
         $errmsg = '';
@@ -48,7 +56,7 @@ class send_data_to_db{
             $updateValues[] = " $column_name[$i] =  '$column_data[$i]' ";
         }
         $update = implode(', ', $updateValues);
-        $updateindb = "UPDATE $dbname set $update where $col_id = $id";
+        $updateindb = "UPDATE $dbname set $update where $col_id = '$id'";
         
         $updatequery = mysqli_query($con, $updateindb);
         if (!$updatequery) {
@@ -57,7 +65,50 @@ class send_data_to_db{
         $errmsg = "Updated successfully";
         return $errmsg;
     }
+    
 }
+
+class image{
+    public function image_upload($dbname,$err_image,$book_image,$id,$sendtodb,$book_column,$book_details_array,$conn,$column_id,$location){
+        if(!empty($err_image)) {
+        if(is_array($err_image)){
+            $ext = isset($err_image[0]) ? $err_image[0] :"";
+
+            $book_unique_image_name = uniqid("Img-", true) . '.' . $ext;
+            $upload = "../../Image/" . $book_unique_image_name;
+            if (move_uploaded_file($book_image["tmp_name"], $upload)) {
+                if($id == null){
+                    array_push($book_details_array, $book_unique_image_name);
+                    $sendtodb->insertindb($dbname, $book_column, $book_details_array, $conn); // Sending image data on db
+                    
+                    header("location: $location");
+                }else{
+                    $book_details_array[count($book_details_array)-1] = $book_unique_image_name;
+                    $update =$sendtodb->update_to_tb($dbname,$book_column,$book_details_array,$column_id,$id,$conn);
+                    if(!$update){
+                        echo "Error: " . mysqli_error($conn);
+                    }
+                    header("location: $location");
+                    return false;
+                }
+            } else {
+                echo "Error: " . mysqli_error($conn);
+            }
+            return $err_image = '';
+        }
+        }else{
+            if($id != null){
+                $update =$sendtodb->update_to_tb($dbname,$book_column,$book_details_array,$column_id,$id,$conn);
+                if(!$update){       
+                    echo "Error: " . mysqli_error($conn);
+                }
+                header("location: $location");
+                return false;
+            }
+        }
+    }
+}
+
 class delete_from_db
 {
     public function deletefromdb(mixed $tablename1, mixed $con, mixed $col_id1, mixed $id, mixed $location): string
@@ -67,7 +118,7 @@ class delete_from_db
 
         if (!$queryImageRecords) {
             echo "Error deleting image records: " . mysqli_error($con);
-        } 
+        }
         // else {
         //     if($tablename2 != null){
         //     $deleteRegistration = "DELETE FROM $tablename2 WHERE $col_id2 = $id";

@@ -49,7 +49,7 @@ if(!$id){
                 </div>
                 <div class="">
                     Phone Number
-                    <input type="number" name="phone_number" id="number" placeholder="Phone number" class="border rounded-sm w-full p-1" value="<?php echo $fetch_phone_number_from_id ?>">
+                    <input type="text" name="phone_number" id="number" placeholder="Phone number" class="border rounded-sm w-full p-1" value="<?php echo $fetch_phone_number_from_id ?>">
                     <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_phone_number ?></small></span>
                 </div>
                 <div class="flex items-center justify-between ">

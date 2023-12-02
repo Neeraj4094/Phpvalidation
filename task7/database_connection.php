@@ -61,14 +61,30 @@ try{
     book_author VARCHAR(20),
     book_category VARCHAR(20),
     book_copies INT(3),
-    book_unique_image_name TEXT(40),
+    book_price text(10),
+    book_description text(255),
     book_image_name VARCHAR(35),
     created_date datetime,
-    modified_date datetime
+    modified_date datetime,
+    book_unique_image_name TEXT(40)
     )";
     
     $create_book_table = $createtable->create_table($conn, $books_tablecolumn_name); //Create table of books
     if(!$create_book_table){
+        echo "Error:" . mysqli_error($conn);
+    }
+
+    $category_table_name = "category_details";
+    $category_tablecolumn_name = "CREATE TABLE IF NOT EXISTS $category_table_name(
+    category_id INT(4) PRIMARY KEY AUTO_INCREMENT,
+    category_name VARCHAR(255),
+    category_image_name VARCHAR(35),
+    category_unique_image_name TEXT(40),
+    book_quantity INT(3)
+    )";
+    
+    $create_category_table = $createtable->create_table($conn, $category_tablecolumn_name); //Create table of books
+    if(!$create_category_table){
         echo "Error:" . mysqli_error($conn);
     }
 
@@ -85,6 +101,30 @@ try{
 
     $create_user_table = $createtable->create_table($conn,$user_tablecolumn_name); //Create table of users
     if(!$create_user_table){
+        echo "Error:" . mysqli_error($conn);
+    }
+
+    $rented_book_table_name = "rented_book_details";
+    $rented_book_tablecolumn_name = "CREATE TABLE IF NOT EXISTS $rented_book_table_name(
+        rented_id INT(4) PRIMARY KEY AUTO_INCREMENT,
+        user_email VARCHAR(40),
+        rented_days int(3),
+        user_address VARCHAR(50),
+        user_state varchar(20),
+        user_city varchar(20),
+        user_pin_code int(6),
+        book_id int(3),
+        issue_date date,
+        returned_date date,
+        renting_charges int(5),
+        user_name_on_card varchar(40),
+        user_card_number int(16),
+        user_card_expiration_date date,
+        user_card_cvc int(4)
+    )";
+
+    $create_rented_book_table = $createtable->create_table($conn,$rented_book_tablecolumn_name); //Create table of users
+    if(!$create_rented_book_table){
         echo "Error:" . mysqli_error($conn);
     }
 
