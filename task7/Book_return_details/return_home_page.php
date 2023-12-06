@@ -1,25 +1,30 @@
 <?php
-// include 'database_connection.php';
-include 'send_fetch_data_from_db.php';
-include 'admin_session.php';
-
+// include '../database_connection.php';
+include '../send_fetch_data_from_db.php';
+include '../admin_session.php';
 
 $fetch_data_from_db = new fetch_data_from_db();
-$category_name = isset($_GET['book_category']) ? $_GET['book_category'] :'';
+$user_email = isset($_GET['email']) ? $_GET['email'] :'';
 
-$fetch_category_name_query = $fetch_data_from_db->fetchiddata('books_details', $category_name, $conn, 'book_category');
+// $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
+$fetch_category_name_query = $fetch_data_from_db->fetchiddata('rented_book_details', $user_email, $conn, 'user_email');
 $fetch_category_name_data = mysqli_fetch_all($fetch_category_name_query);
-
+foreach($fetch_category_name_data as $data){
+    $id = isset($data[7]) ? $data[7] :'';
+    $payment_details = isset($data[15]) ? $data[15] :'';
+    
+    if($payment_details != 'Success'){
+    $fetch_id_query = $fetch_data_from_db->fetchiddata('books_details', $id, $conn, 'book_id');
+    $fetch_id_data[] = mysqli_fetch_all($fetch_id_query);
+    }
+}
 $fetch_id_query = '';
-$show_login_data = '';
 $login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] : '';
-
-$cancel_login = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["login_page"])) {
         if(empty($login_email)){
         $show_login_data = '<div class="grid font-semibold place-items-center w-60 h-60 border rounded-xl shadow z-20 bg-black/40 fixed right-2 top-1 text-black">
-        <a href="fetch_categories_books.php?book_category=' . $category_name . '"><span class=" text-white font-bold text-2xl absolute top-2 right-2">
+        <a href="return_home_page.php?email=' . $user_email . '"><span class=" text-white font-bold text-2xl absolute top-2 right-2">
         <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
         </span></a>
         <div class="grid place-items-center gap-4">
@@ -31,12 +36,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </svg>
             </button>
             <h2 class=" text-lg font-semibold text-white">Hello User</h2>
-        <a href="user_details/user_login.php" class=" bg-slate-100 p-2 rounded-lg">Click to Login</a>
+        <a href="../user_details/user_login.php" class=" bg-slate-100 p-2 rounded-lg">Click to Login</a>
         </div>
         </div>';
         } else {
             $show_login_data = '<div class="grid font-semibold place-items-center w-60 h-60 border rounded-xl shadow z-20 bg-black/40 fixed right-2 top-1 text-black">
-        <a href="fetch_categories_books.php?book_category=' . $category_name . '"><span class=" text-white font-bold text-2xl absolute top-2 right-2">
+        <a href="return_home_page.php?email=' . $user_email . '"><span class=" text-white font-bold text-2xl absolute top-2 right-2">
         <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
         </span></a>
         <div class="grid place-items-center gap-4">
@@ -48,16 +53,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </svg>
             </button>
             <h2 class=" text-lg font-semibold text-white">Hello User</h2>
-        <a href="user_details/user_logout.php" class=" bg-slate-100 p-2 rounded-lg">Click to Logout</a>
+        <a href="../user_details/user_logout.php" class=" bg-slate-100 p-2 rounded-lg">Click to Logout</a>
         </div>
         </div>';
         }
     }
 }
 
-$fetch_id_query = $fetch_data_from_db->fetchiddata('user_details', $login_email, $conn, 'user_email');
-$fetch_id_data = mysqli_fetch_all($fetch_id_query);
-$user_name = isset($fetch_id_data[0][1]) ? $fetch_id_data[0][1] : '';
+$fetch_query = $fetch_data_from_db->fetchiddata('user_details', $login_email, $conn, 'user_email');
+$fetch_data = mysqli_fetch_all($fetch_query);
+$user_name = isset($fetch_data[0][1]) ? $fetch_data[0][1] : '';
 
 if(!empty($_SESSION['login'])){
     $login_user_name = substr($user_name,0,1);
@@ -75,7 +80,6 @@ if(!empty($_SESSION['login'])){
     </svg>
     </button>';
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,15 +87,15 @@ if(!empty($_SESSION['login'])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../dist/output.css">
+    <link rel="stylesheet" href="../../dist/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Document</title>
 </head>
 
 <body class=" w-full h-full bg-slate-100">
-<header class="w-full p-2 px-4 flex justify-between items-center border shadow">
+<header class="w-full p-2 px-4 flex justify-between items-center border">
         <div class="w-16 h-16 ">
-            <img src="../Image/Ucodelogo.png" alt="Ucodelogo"
+            <img src="../../Image/Ucodelogo.png" alt="Ucodelogo"
                 class="w-full h-full object-cover border rounded-full shadow shadow-black">
         </div>
         <nav>
@@ -101,7 +105,7 @@ if(!empty($_SESSION['login'])){
                 </li>
                 <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#">Books</a></li>
                 <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
-                        href="book_return_details/return_home_page.php?email=<?php echo $login_email ?>">Your Orders</a></li>
+                        href="#">Your Orders</a></li>
                 <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="user_details/user_login.php">Sign Up</a></li>
 
             </ul>
@@ -131,9 +135,6 @@ if(!empty($_SESSION['login'])){
                     </svg>
                 </div>
             </button>
-            <!-- <button data-toggle="tooltip" data-placement="top" title="Return" class="p-1 border rounded-full shadow">
-            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M7 5C7 6.10457 6.10457 7 5 7C3.89543 7 3 6.10457 3 5C3 3.89543 3.89543 3 5 3C6.10457 3 7 3.89543 7 5ZM21 5C21 6.10457 20.1046 7 19 7C17.8954 7 17 6.10457 17 5C17 3.89543 17.8954 3 19 3C20.1046 3 21 3.89543 21 5ZM7 19C7 20.1046 6.10457 21 5 21C3.89543 21 3 20.1046 3 19C3 17.8954 3.89543 17 5 17C6.10457 17 7 17.8954 7 19ZM8 5C8 5.35064 7.93985 5.68722 7.82929 6H12.5C12.7761 6 13 6.22386 13 6.5V9H11.5C10.1193 9 9 10.1193 9 11.5V13H6.5C6.22386 13 6 12.7761 6 12.5V7.82929C5.68722 7.93985 5.35064 8 5 8C4.64936 8 4.31278 7.93985 4 7.82929V12.5C4 13.8807 5.11929 15 6.5 15H9V17.5C9 18.8801 10.1183 19.999 11.4982 20C11.1772 19.2304 11 18.3859 11 17.5V11.5C11 11.2239 11.2239 11 11.5 11H17.5C18.3859 11 19.2304 11.1772 20 11.4982C19.999 10.1183 18.8801 9 17.5 9H15V6.5C15 5.11929 13.8807 4 12.5 4H7.82929C7.93985 4.31278 8 4.64936 8 5ZM23 17.5C23 20.5376 20.5376 23 17.5 23C14.4624 23 12 20.5376 12 17.5C12 14.4624 14.4624 12 17.5 12C20.5376 12 23 14.4624 23 17.5ZM15.7071 16L16.3536 15.3536C16.5488 15.1583 16.5488 14.8417 16.3536 14.6464C16.1583 14.4512 15.8417 14.4512 15.6464 14.6464L14.1464 16.1464C13.9512 16.3417 13.9512 16.6583 14.1464 16.8536L15.6464 18.3536C15.8417 18.5488 16.1583 18.5488 16.3536 18.3536C16.5488 18.1583 16.5488 17.8417 16.3536 17.6464L15.7071 17H17.75C18.9926 17 20 18.0074 20 19.25V19.5C20 19.7761 20.2239 20 20.5 20C20.7761 20 21 19.7761 21 19.5V19.25C21 17.4551 19.5449 16 17.75 16H15.7071Z" fill="currentColor"></path></svg>
-            </button> -->
             <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
                 <?php echo $login_image ?>
             </form>
@@ -143,30 +144,34 @@ if(!empty($_SESSION['login'])){
     <section class="w-full h-full px-2 py-7 mb-12 grid place-items-center space-y-6 ">
         <h2 class="font-bold text-3xl">Categories Books</h2>
         <div class="flex gap-40 flex-wrap items-center justify-center py-2 mb-10 h-full">
-            <?php foreach ($fetch_category_name_data as $key => $value) {
-                $category_id = isset($value[0]) ? $value[0] : '';
-                $actual_book_name = ucwords(isset($value[1]) ? $value[1] : '');
-                $actual_author_name = ucwords(isset($value[2]) ? $value[2] : '');
-                $actual_book_image = isset($value[10]) ? $value[10] : '';
-                $book_price = isset($value[5]) ? $value[5] :'';
-                
+            <?php 
+            if(empty($fetch_id_data)){
+                $add_books = '<div class="flex pt-32 items-center justify-center"> <a href="./add_books.php" class=" px-8 py-2 font-semibold text-xl text-slate-600">No orders </a> </div>';
+                echo $add_books;
+            }else{
+            foreach($fetch_id_data as $id_data){
+                    $book_id = isset($id_data[0][0]) ? $id_data[0][0] :'';
+                    $book_name = isset($id_data[0][1]) ? ucwords($id_data[0][1]) :'';
+                    $book_author = isset($id_data[0][2]) ? $id_data[0][2] :'';
+                    $book_price = isset($id_data[0][5]) ? $id_data[0][5] :'';
+                    $book_image = isset($id_data[0][10]) ? $id_data[0][10] :'';
                 
                 ?>
                 <article class="w-60 h-80 border text-center rounded-xl cursor-pointer relative">
-                    <a href="renting_books/buy_book.php?book_id=<?php echo $category_id ?>" class=" absolute inset-0 z-10"></a>
+                    <a href="./book_return_form.php?user_email=<?php echo $user_email ?>" class=" absolute inset-0 z-10"></a>
                     <div class="w-full h-full rounded-xl relative">
-                        <img src="../Image/<?php echo $actual_book_image ?>" alt="Book1"
+                        <img src="../../Image/<?php echo $book_image ?>" alt="Books"
                             class="w-full h-full object-cover rounded-xl">
                     </div>
                     <h2 class="font-bold text-2xl">
-                        <?php echo $actual_book_name ?>
+                        <?php echo $book_name ?>
                     </h2>
                     <p class="font-medium ">
-                        <?php echo $actual_author_name ?>
+                        <?php echo $book_author ?>
                     </p>
                     <span class="font-bold text-xl pb-6"><?php echo "$" . $book_price ?></span>
                 </article>
-            <?php } ?>
+            <?php } } ?>
 
         </div>
     </section>

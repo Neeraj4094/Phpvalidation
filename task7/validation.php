@@ -1,5 +1,5 @@
 <?php
-include 'database_connection.php';
+// include 'database_connection.php';
 
 trait errorhandler
 {
@@ -121,7 +121,7 @@ trait errorhandler
 class admin_data_validation{
     use errorhandler;
     public $name, $email , $password, $occupation, $phone_number,$login_email,$login_password, $book_category_name,$book_name,$author_name,$book_copies,$book_image,$category_image,$user_gender,$user_address,$book_return_date,$book_price,$book_description;
-    public $user_adress,$user_state,$user_city,$user_postal_code,$user_name_on_card,$user_card_number,$user_card_expiration_date,$user_card_cvc,$user_payment_method;
+    public $user_adress,$user_state,$user_city,$user_postal_code,$user_name_on_card,$user_card_number,$user_card_expiration_date,$user_card_cvc,$user_payment_method,$review,$user_review;
     public function admin_data_validation(){
         $submitname = $submitemail = $submitpassword= $submitphone_number = $submitoccupation= $submit_login_email = $submit_login_password = $submit_user_gender = $submit_address ='';
         if(!empty($_POST['name']) || !empty($_POST['email']) || !empty($_POST['password']) || !empty($_POST['phone_number']) || !empty($_POST['occupation']) || !empty($_POST['gender']) || !empty($_POST['address'])){
@@ -171,17 +171,18 @@ class admin_data_validation{
         }
 
         // Category_name
-        $submit_category_image = $submit_book_return_date = $submit_user_adress =$submit_user_state= $submit_user_city = $submit_user_postal_code= $submit_user_name_on_card = $submit_user_card_number = $submit_user_card_expiration_date = $submit_user_card_cvc = $submit_user_payment_method = '';
+        $submit_category_image = $submit_book_return_date = $submit_user_adress =$submit_user_state= $submit_user_city = $submit_user_postal_code= $submit_user_name_on_card = $submit_user_card_number = $submit_user_card_expiration_date = $submit_user_card_cvc = $submit_review = $submit_user_review = '';
         if(isset($_FILES['category_image'])){
             $this->category_image = (isset($_FILES['category_image'])) ? $_FILES['category_image'] : '';
             $submit_category_image = $this->category_image;
         }
+
         if(isset($_POST['return_date'])){
         $this->book_return_date = $_POST['return_date'];
         $submit_book_return_date = $this->book_return_date;
         }
 
-        if(!empty($_POST['state']) || !empty($_POST['city']) || !empty($_POST['postal_code']) || !empty($_POST['name_on_card']) || !empty($_POST['card_number']) || !empty($_POST['card_expiration_date']) || !empty($_POST['cvc'])){
+        if(!empty($_POST['state']) || !empty($_POST['city']) || !empty($_POST['postal_code'])){
         // $this->user_adress = $_POST['address'];
         // $submit_user_adress = $this->user_adress;
         $this->user_state = $_POST['state'];
@@ -190,6 +191,8 @@ class admin_data_validation{
         $submit_user_city = $this->user_city;
         $this->user_postal_code = $_POST['postal_code'];
         $submit_user_postal_code = $this->user_postal_code;
+        }
+        if(!empty($_POST['name_on_card']) || !empty($_POST['card_number']) || !empty($_POST['card_expiration_date']) || !empty($_POST['cvc'])){
         $this->user_name_on_card = $_POST['name_on_card'];
         $submit_user_name_on_card = $this->user_name_on_card;
         $this->user_card_number = $_POST['card_number'];
@@ -203,7 +206,13 @@ class admin_data_validation{
         // $submit_user_payment_method = $this->user_payment_method;
         }
 
-        return array($submitname,$submitemail,$submitpassword,$submitphone_number,$submitoccupation,$submit_login_email,$submit_login_password,$submit_book_category_name,$submit_book_name,$submit_author_name,$submit_book_copies,$submit_book_image,$submit_category_image,$submit_user_gender,$submit_address,$submit_book_return_date,$submit_book_price,$submit_book_description,$submit_user_state,$submit_user_city,$submit_user_postal_code,$submit_user_name_on_card,$submit_user_card_number,$submit_user_card_expiration_date,$submit_user_card_cvc);
+        if(!empty($_POST['user_review']) || !empty($_POST['review'])){
+            $this->user_review = isset($_POST['user_review']) ? $_POST['user_review'] : '';
+            $submit_user_review = $this->user_review;
+            $this->review = isset($_POST['review']) ? $_POST['review'] : '';
+            $submit_review = $this->review;
+        }
+        return array($submitname,$submitemail,$submitpassword,$submitphone_number,$submitoccupation,$submit_login_email,$submit_login_password,$submit_book_category_name,$submit_book_name,$submit_author_name,$submit_book_copies,$submit_book_image,$submit_category_image,$submit_user_gender,$submit_address,$submit_book_return_date,$submit_book_price,$submit_book_description,$submit_user_state,$submit_user_city,$submit_user_postal_code,$submit_user_name_on_card,$submit_user_card_number,$submit_user_card_expiration_date,$submit_user_card_cvc,$submit_review,$submit_user_review);
     }
 }
 
@@ -243,9 +252,11 @@ if(!empty($resultofform)){
     $user_card_number = $resultofform[22];
     $user_card_expiration_date = $resultofform[23];
     $user_card_cvc = $resultofform[24];
-    // $user_payment_method = $resultofform[26];
+    $user_rating = $resultofform[25];
+    $user_review = $resultofform[26];
     $book_image_name = isset($book_image['name']) ? $book_image['name'] : '';
     // $category_image_name = isset($category_image['name'])? $category_image['name'] :'';
 }
+$user_password = $password;
 
 ?>

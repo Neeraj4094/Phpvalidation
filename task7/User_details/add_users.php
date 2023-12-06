@@ -28,30 +28,30 @@ include './user_validation.php';
             <div class="space-y-1  py-6 px-10 w-full">
                 <div class="flex gap-4">
                     <div class="">
-                        Name
+                        <label for="name">Name</label>
                         <input type="text" name="name" id="name" placeholder="Name" class="border rounded-sm w-full p-1">
                         <span class="text-red-600 text-sm">* <small><?php echo $err_name ?></small></span>
                     </div>
                     <div class="">
-                    Phone Number
+                    <label for="number">Phone Number</label>
                     <input type="text" name="phone_number" id="number" placeholder="Phone number" class="border rounded-sm w-full p-1">
                     <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_phone_number ?></small></span>
                 </div>
                 </div>
                 <div class="">
-                    Email
+                    <label for="email">Email</label>
                     <input type="email" name="email" id="email" placeholder="Email" class="border rounded-sm w-full p-1">
                     <span class="text-red-600 text-sm">* <small><?php echo $err_email ?></small></span>
                 </div>
                 <div class="">
-                    Password
+                    <label for="password">Password</label>
                     <input type="password" name="password" id="password" placeholder="Password" class="border rounded-sm w-full p-1">
                     <span class="text-red-600 text-sm max-w-xs w-60">* <small><?php echo $err_password ?></small></span>
                 </div>
                 
                 <div class="">
-                    Address
-                    <input type="text" name="user_address" id="user_address" placeholder="Address" class="border rounded-sm w-full p-1">
+                    <label for="address">Address</label>
+                    <input type="text" name="address" id="address" placeholder="Address" class="border rounded-sm w-full p-1">
                     <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_user_address ?></small></span>
                 </div>
                 <div class="flex items-center justify-between ">

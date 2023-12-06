@@ -1,9 +1,9 @@
 <?php
-// include ("./validation.php");
-// include ("send_fetch_data_from_db.php");
-include 'admin_login_validation.php';
+// include '../send_admin_data_to_db.php';
+// include ("../send_fetch_data_from_db.php");
 
-
+include ("../admin_session.php");
+include '../send_admin_data_to_db.php';
 
 $fetch_data_from_db = new fetch_data_from_db();
 $updateobject = new send_data_to_db();
@@ -24,47 +24,47 @@ $fetch_data_from_db = new fetch_data_from_db ();
 $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablename);
 $check_email = $fetch_data_from_db->searchemail($admin_fetch_data_from_db,$login_email);
 
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    if(isset($_POST['update'])){
+        $err_name = $admin_entered_details->name_validation($name);
+        $err_email = $admin_entered_details->email_match($email);
+        $err_password = $admin_entered_details->validation_password($password);
+        $err_phone_number = $admin_entered_details->phone_length($phone_number,10);
+        $err_occupation = $admin_entered_details->emp($occupation);
 
-
-if(isset($_POST['update'])){
-    $err_name = $admin_entered_details->name_validation($name);
-    $err_email = $admin_entered_details->email_match($email);
-    $err_password = $admin_entered_details->validation_password($password);
-    $err_phone_number = $admin_entered_details->phone_length($phone_number,10);
-    $err_occupation = $admin_entered_details->emp($occupation);
-
-    
-    if(($err_name == null && $err_email == null && $err_password == null && $err_phone_number == null && $err_occupation == null)){
-        $admin_table_columns_name = ['admin_name','admin_email','admin_password','admin_phone_number','admin_occupation'];
-        $admin_table_columns_data = [$name,$email,$password,$phone_number,$occupation];
-        $column_id_name = 'admin_id';
         
-        // header("location: ./admin_login.php");
-        if(in_array($fetch_email_from_id,$_SESSION)){
-            if(!in_array($email,$_SESSION) || !in_array($password,$_SESSION)){
+        if(($err_name == null && $err_email == null && $err_password == null && $err_phone_number == null && $err_occupation == null)){
+            $admin_table_columns_name = ['admin_name','admin_email','admin_password','admin_phone_number','admin_occupation'];
+            $admin_table_columns_data = [$name,$email,$password,$phone_number,$occupation];
+            $column_id_name = 'admin_id';
+            
+            // header("location: ./admin_login.php");
+            if(in_array($fetch_email_from_id,$_SESSION)){
+                if(!in_array($email,$_SESSION) || !in_array($password,$_SESSION)){
 
-                if(!in_array($email,$check_email) || !in_array($password,$check_email)){
+                    if(!in_array($email,$check_email) || !in_array($password,$check_email)){
 
-                $_SESSION = ["email" => $email, "password" => $password];
+                    $_SESSION = ["email" => $email, "password" => $password];
+                    $updated_data = $updateobject->update_to_tb('admin_data',$admin_table_columns_name,$admin_table_columns_data,$column_id_name,$id,$conn);
+                    if(!$updated_data){
+                        echo "Error: " . mysqli_error($conn);
+                    }
+                    header("location: ./admin_dashboard.php");
+                }else{
+                    echo "This email already exists";
+                }
+            }else{
                 $updated_data = $updateobject->update_to_tb('admin_data',$admin_table_columns_name,$admin_table_columns_data,$column_id_name,$id,$conn);
                 if(!$updated_data){
                     echo "Error: " . mysqli_error($conn);
                 }
                 header("location: ./admin_dashboard.php");
-            }else{
-                echo "This email already exists";
             }
-        }else{
-            $updated_data = $updateobject->update_to_tb('admin_data',$admin_table_columns_name,$admin_table_columns_data,$column_id_name,$id,$conn);
-            if(!$updated_data){
-                echo "Error: " . mysqli_error($conn);
             }
-            header("location: ./admin_dashboard.php");
         }
+        else{
+            $errmsg = "Please complete the form";
         }
-    }
-    else{
-        $errmsg = "Please complete the form";
     }
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-require './user_validation.php';
+require 'user_validation.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,21 +33,25 @@ require './user_validation.php';
                     <p class="text-lg">Not a member? Start a 14 day free trial</p>
                 </div>
                 <div class="grid space-y-2 ">
-                    <label>Email</label>
+                    <label for="email">Email</label>
                     <input type="email" name="login_email" id="email" placeholder="Enter email" class="border rounded-lg p-2">
                     <span class="text-red-600 text-sm ">* <small><?php echo $err_login_email ?></small></span>
                     <!-- <small>(Email must have "alphabets, @ and .")</small> -->
                 </div>
                 <div class="grid space-y-2">
-                    <label>Password</label>
+                    <label for="password">Password</label>
                     <input type="password" name="login_password" id="password" placeholder="Enter password" class="border rounded-lg p-2">
                     <span class="text-red-600 w-96">* <small><?php echo $err_login_password ?></small></span>
                     <!-- <small>(Password must have 1 Capital alphabet, 1 small alphabet, 1 special character & 1 number)</small> -->
                 </div>
                 <a href="#" class="text-blue-700 px-1">Forget Password?</a>
-
+                <div class="flex items-center justify-center gap-4 w-96 p-2">
                 <div>
                     <input type="submit" name="user_login" id="user_login" class="bg-indigo-500 text-white px-10 py-2 rounded-lg cursor-pointer" value="Login">
+                </div>
+                <div>
+                    <a href="./add_users.php" class="bg-indigo-500 text-white px-10 py-2 rounded-lg cursor-pointer">Create New Account</a>
+                </div>
                 </div>
             </div>
 

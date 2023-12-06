@@ -1,5 +1,5 @@
 <?php
-include '../database_connection.php';
+// include '../database_connection.php';
 include '../send_fetch_data_from_db.php';
 
 if(empty($id)){
@@ -135,7 +135,7 @@ $actual_book_renting_charges = ($book_renting_amount - 10);
                 </div>
                 <div class="relative py-10 flex items-center justify-center h-10">
                 <div class="absolute right-0 bottom-0 flex gap-2 items-center text-blue-800 py-12">
-                    <a href="/Products.html">Continue Shopping</a>
+                    <a href="../book_home.php">Continue Shopping</a>
                     <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. --><path d="M334.5 414c8.8 3.8 19 2 26-4.6l144-136c4.8-4.5 7.5-10.8 7.5-17.4s-2.7-12.9-7.5-17.4l-144-136c-7-6.6-17.2-8.4-26-4.6s-14.5 12.5-14.5 22l0 72L32 192c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l288 0 0 72c0 9.6 5.7 18.2 14.5 22z"></path></svg>
                 </div>
                 </div>

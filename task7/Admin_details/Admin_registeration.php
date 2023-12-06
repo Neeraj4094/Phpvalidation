@@ -15,7 +15,7 @@ include '../send_admin_data_to_db.php';
 <body class="bg-slate-100">
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
-        echo $errmsg;
+        // echo $errmsg;
 
         ?>
     </h2>
@@ -28,30 +28,30 @@ include '../send_admin_data_to_db.php';
             <div class=" space-y-1 bg-slate-50 rounded-xl shadow py-6 px-10">
                 <div class="flex gap-10">
                     <div class=" w-full">
-                        Name
+                        <label for="name">Name</label>
                         <input type="text" name="name" id="first_name" placeholder="Name" class="border rounded-sm w-full p-1">
                         <span class="text-red-600 text-sm">* <small><?php echo $err_name ?></small></span>
                     </div>
 
                 </div>
                 <div class="">
-                    Email
+                    <label for="email">Email</label>
                     <input type="email" name="email" id="email" placeholder="Email" class="border rounded-sm w-full p-1">
                     <span class="text-red-600 text-sm">* <small><?php echo $err_email ?></small></span>
                 </div>
                 <div class="">
-                    Password
+                    <label for="password">Password</label>
                     <input type="password" name="password" id="password" placeholder="Password" class="border rounded-sm w-full p-1">
                     <span class="text-red-600 text-sm max-w-xs w-60">* <small><?php echo $err_password ?></small></span>
                 </div>
                 <div class="">
-                    Phone Number
+                    <label for="number">Phone Number</label>
                     <input type="text" name="phone_number" id="number" placeholder="Phone number" class="border rounded-sm w-full p-1">
                     <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_phone_number ?></small></span>
                 </div>
                 <div class="grid ">
                         <div class="flex items-center gap-4">
-                            <label class="w-auto">What is your Occupation :-</label>
+                            <label for="role" class="w-auto">What is your Occupation :-</label>
                             <select name="occupation" id="role" class="rounded-lg bg-slate-100 text-slate-500 border w-48 p-2 ">
                                 <option value="" class="bg-transparent p-1">Select Your Role</option>
                                 <option value="Testing" class="bg-transparent p-1">Testing</option>

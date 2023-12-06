@@ -1,27 +1,41 @@
 <!--
-    Category db
-    books price & description
-    admin
-    user
-    router
-    class of crud
-    convert dbname to tablename
+    //books price & description
+    //class of crud
+    //convert dbname to tablename
+    //label should be used in the form
+    //* if (empty($book_image_name)) { if (!empty($id)) { $book_image_name = $fetch_book_image_name; }
+    //use if ($_SERVER["REQUEST_METHOD"] == "POST") in all form
+    //use js for show boxes
     search
-    label should be used in the form
     remove isset from validation
     remove class of validation for isset or empty
-    * if (empty($book_image_name)) {
-        if (!empty($id)) {
-            $book_image_name = $fetch_book_image_name;
-        }
     names of pages
+    set link of anchor in header
+    add radio button for choosing plan for days in buy_books.php
+    using of foreach more times in payment successfull message
+    encrypt payment card number
+    handle payment option and show error if already show
+    mistake in add to cart
+    half payment advance
+    add session['admin']
+    password not show in update admin data
+
+    do not delete user, show active/ in-active
+    Category db
     Password hash
-    use if ($_SERVER["REQUEST_METHOD"] == "POST") in all form
+    admin
+    user
     add column "book_id" in rented_book table for checking double entry
+    router
     forget password
-    use js for show boxes
+    lock user and can't login again
+    timing of return and if late send a mail to user
+    Add rounter and make a class of authentication and handle errors whenever edit , update are used
+    handle copies of books
 }
  -->
+
+ 
  <?php
 
 

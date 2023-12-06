@@ -1,10 +1,12 @@
 <?php
 include '../validation.php';
 include '../send_fetch_data_from_db.php';
+include '../admin_session.php';
 
 $err_category = $err_book = $err_author = $err_book_copies = $err_image = $err_days = '';
-$rented_book_id = $rented_book_name = $rented_book_author = $rented_book_category = $rented_book_price = $rented_book_description = $rented_book_image = '';
+$rented_book_id = $rented_book_name = $rented_book_author = $rented_book_category = $rented_book_price = $rented_book_description = $rented_book_image = $user_email ='';
 
+$login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] : '';
 $send_data_to_db = new send_data_to_db();
 $fetch_data_from_db = new fetch_data_from_db();
 $issue_date = date('Y-m-d');
@@ -38,13 +40,17 @@ foreach($fetch_buy_book_id_data as $key => $value) {
 }
 
 $err_returned_date = $err_address = $err_state = $err_city = $err_postal_code = $err_payment_method = $err_name_on_card= $err_card_number = $err_card_expiration_date = $err_cvc = '';
-echo $user_card_number;
-// if($_SERVER["REQUEST_METHOD"] == "POST"){
-if(isset($_POST['rent_now'])){
 
-    
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    if(isset($_POST['rent_now'])){
+        
+        if($email != $login_email){
+            $err_email = "Email not matched with login email";
+        }else{
+            $user_email = $email;
+            $err_email = $admin_entered_details->email_match($user_email);
+        }
     // $err_name = $admin_entered_details->name_validation($name);
-    $err_email = $admin_entered_details->email_match($email);
     $err_returned_date = $admin_entered_details->emp($book_return_date);
     $err_address = $admin_entered_details->emp($address);
     $err_state = $admin_entered_details->name_validation($user_state);
@@ -65,7 +71,7 @@ if(isset($_POST['rent_now'])){
             $book_renting_charges = ($book_return_date * $book_charges) + 10;
             $returned_date = date('Y-m-d', strtotime($issue_date . " + $book_return_date days"));
             $column_name = ['user_email', 'rented_days', 'user_address', 'user_state', 'user_city', 'user_pin_code','book_id','issue_date','returned_date','renting_charges', 'user_name_on_card', 'user_card_number', 'user_card_expiration_date', 'user_card_cvc'];
-            $column_data = [$email,$book_return_date,$address,$user_state,$user_city,$user_postal_code,$rented_book_id,$issue_date,$returned_date,$book_renting_charges,$user_name_on_card,$user_card_number,$user_card_expiration_date,$user_card_cvc];
+            $column_data = [$user_email,$book_return_date,$address,$user_state,$user_city,$user_postal_code,$rented_book_id,$issue_date,$returned_date,$book_renting_charges,$user_name_on_card,$user_card_number,$user_card_expiration_date,$user_card_cvc];
             $insert_rented_book_details = $send_data_to_db->insertindb('rented_book_details', $column_name, $column_data, $conn);
             if(!$insert_rented_book_details){
                 echo "Error: " . mysqli_error($conn);
@@ -76,6 +82,7 @@ if(isset($_POST['rent_now'])){
             $errmsg = "Please complete the form";
         }
     }
+}
 // }
 // }
 //     if(isset($_POST['rent_now'])){

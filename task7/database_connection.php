@@ -44,7 +44,7 @@ try{
         admin_name VARCHAR(30),
         admin_email VARCHAR(35),
         admin_password VARCHAR(20),
-        admin_phone_number int(10),
+        admin_phone_number text(255),
         admin_occupation varchar(20)
     )";
 
@@ -128,6 +128,31 @@ try{
         echo "Error:" . mysqli_error($conn);
     }
 
+    $cart_table_name = "cart_details";
+    $cart_tablecolumn_name = "CREATE TABLE IF NOT EXISTS $cart_table_name(
+        cart_id INT(4) PRIMARY KEY AUTO_INCREMENT,
+        book_id int(4),
+        user_email varchar(40)
+    )";
+
+    $create_cart_table = $createtable->create_table($conn,$cart_tablecolumn_name); //Create table of users
+    if(!$create_cart_table){
+        echo "Error:" . mysqli_error($conn);
+    }
+
+    $user_review_table_name = "user_review_details";
+    $user_review_tablecolumn_name = "CREATE TABLE IF NOT EXISTS $user_review_table_name(
+        review_id INT(4) PRIMARY KEY AUTO_INCREMENT,
+        user_email varchar(30),
+        user_name varchar(40),
+        user_review varchar(100),
+        user_rating int(2)
+    )";
+
+    $create_user_review_table = $createtable->create_table($conn,$user_review_tablecolumn_name); //Create table of users
+    if(!$create_user_review_table){
+        echo "Error:" . mysqli_error($conn);
+    }
 }catch(Exception $e){
     echo "Connection Failed:" . $e->getMessage();
 }

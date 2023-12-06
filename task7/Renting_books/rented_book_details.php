@@ -35,9 +35,9 @@ $three_week_charges = 21 * $book_charges;
     <title>Document</title>
 </head>
 <body class=" bg-slate-100">
-<h2 class="w-full border text-center text-slate-800 fixed top-0 shadow">
+    <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
-        // echo $errmsg;
+        echo $errmsg;
 
         ?>
     </h2>
@@ -55,7 +55,7 @@ $three_week_charges = 21 * $book_charges;
                             <span class="text-red-600 text-sm max-w-xs w-64">* <small><?php echo $err_email ?></small></span>
                         </div>
                         <div class="grid pt-2 space-y-2">
-                            <label for="return_date" class="">No of Days for Purchase</label>
+                            <label for="days" class="">No of Days for Purchase</label>
                             <select name="return_date" id="days" class=" text-slate-500 border py-2 px-1 rounded-lg">
                                 <option value="" class="bg-transparent p-1">Select Days</option>
                                 <option value="7" class="bg-transparent p-1">1 week</option>
@@ -74,9 +74,9 @@ $three_week_charges = 21 * $book_charges;
                         </div>
                     </div>
                     <div class="flex w-full justify-between">
-                        <div class="grid py-1 space-y-1">
-                            <label for="address" class="py-1">Residential Address</label>
-                            <input type="text" name="address" id="address" placeholder="Your Address" class="border rounded-lg p-2">
+                        <div class="grid pt-2">
+                            <label for="address" class="">Residential Address</label>
+                            <input type="text" name="address" id="address" placeholder="Your Address" class="border rounded-lg px-2">
                             <span class="text-red-600 text-sm max-w-xs w-64">* <small><?php echo $err_address ?></small></span>
                         </div>
                         <div class="">
@@ -95,41 +95,13 @@ $three_week_charges = 21 * $book_charges;
                         </div>
                     </div>
                     
-                    <div class="flex gap-4">
-                        
-                        
-                        <!-- <div class="flex-1">
-                            <div class="grid py-4 space-y-2">
-                                <label for="postal_code" class="py-1">Pin Code</label>
-                                <input type="text" name="postal_code" id="postal_code" placeholder="Postal Code" class="border rounded-lg p-2">
-                            </div>
-                            <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_postal_code ?></small></span>
-                        </div> -->
-                    </div>
+                    
                 </div>
                 <div class="py-6 space-y-2">
                     <div class="px-1">
                         <h2 class="font-semibold text-xl">Payment Method</h2>
                     </div>
-                    <!-- <div class="flex justify-between px-2">
-                        <div class="flex gap-2 py-4">
-                            <input type="radio" name="payment" id="credit" value="credit card" class="border rounded-lg py-2">
-                            <label for="credit" class="py-1">Credit/Debit Card</label>
-                        </div>
-                        <div class="flex gap-2 py-4">
-                            <input type="radio" name="payment" id="wallet" value="wallet" class="border rounded-lg py-2">
-                            <label for="wallet" class="py-1">Wallet</label>
-                        </div>
-                        <div class="flex gap-2 py-4">
-                            <input type="radio" name="payment" id="Net_Banking" value="net banking" class="border rounded-lg py-2">
-                            <label for="Net_Banking" class="py-1">Net Banking</label>
-                        </div>
-                        <div class="flex gap-2 py-4">
-                            <input type="radio" name="payment" id="Cash_on_Delivery" value="cash on delivery" class="border rounded-lg py-2">
-                            <label for="Cash_on_Delivery" class="py-1">Cash on Delivery</label>
-                        </div>
-                    </div> -->
-                    <!-- <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_payment_method ?></small></span> -->
+                    
                     <div class="flex">
                     <div class="grid py-4 px-2">
                         <label for="name_on_card" class="py-1">Name on Card</label>

@@ -19,6 +19,8 @@ foreach ($fetch_category_data_from_db as $row) {
     $category_name_array[] = ucfirst($row[1]);
 }
 
+
+
 $fetch_id_query = $fetch_data_from_db->fetchiddata('category_details', $id, $conn, 'category_id');
 $fetch_id_data = mysqli_fetch_all($fetch_id_query);
 
@@ -26,57 +28,78 @@ $fetch_category_name = isset( $fetch_id_data[0][1] ) ? $fetch_id_data[0][1] :'';
 $fetch_category_image_name = isset( $fetch_id_data[0][2] ) ? $fetch_id_data[0][2] :'';
 $fetch_category_unique_image = isset( $fetch_id_data[0][3] ) ? $fetch_id_data[0][3] :'';
 
-if(isset($_POST["add_categories"])){    
-    $err_category = $admin_entered_details->emp($category_name);
-    $err_image =  $admin_entered_details->image_validation($category_image,$id);
-    $category_image_name = isset($category_image['name'])? $category_image['name'] :'';
-    
 
-    $dbname = 'category_details';
-    if(empty($err_category)){
-       if(empty($category_name_array)){
-        $location = '../books_details/add_books.php';
-        $column_name = ['category_name','category_image_name','category_unique_image_name'];
-        $row_data = [ $category_name,$category_image_name];
-        $image_upload->image_upload($dbname,$err_image,$category_image,$id,$send_data_to_db,$column_name,$row_data,$conn,'category_id',$location);
-        }else{
-            if ($category_name == $fetch_category_name) {
-                if(!empty($category_image_name)){
-                    $location = './category_dashboard.php';
-                    $column_name = ['category_name','category_image_name','category_unique_image_name'];
-                    $row_data = [ $category_name,$category_image_name,$fetch_category_unique_image];
-                    $image_upload->image_upload($dbname,$err_image,$category_image,$id,$send_data_to_db,$column_name,$row_data,$conn,'category_id',$location);
-                }else{
-                    $location = './category_dashboard.php';
-                    $column_name = ['category_name','category_image_name','category_unique_image_name'];
-                    $row_data = [$category_name,$fetch_category_image_name,$fetch_category_unique_image];
-                    $image_upload->image_upload($dbname,$err_image,$category_image,$id,$send_data_to_db,$column_name,$row_data,$conn,'category_id',$location);
-                }
-            }
-            elseif (!in_array($category_name, $category_name_array)) {
-                if($id == null){
-                $location = '../books_details/add_books.php';
-                $column_name = ['category_name','category_image_name','category_unique_image_name'];
-                $row_data = [$category_name,$category_image_name];
-                $image_upload->image_upload($dbname,$err_image,$category_image,$id,$send_data_to_db,$column_name,$row_data,$conn,'category_id',$location);
-                }else{
+if (empty($book_image_name)) {
+    if (!empty($id)) {
+        $category_image_name = $fetch_category_image_name;
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    if(isset($_POST["add_categories"])){    
+        $err_category = $admin_entered_details->emp($category_name);
+        $err_image =  $admin_entered_details->image_validation($category_image,$id);
+        $category_image_name = isset($category_image['name'])? $category_image['name'] :'';
+        
+
+        $tablename = 'category_details';
+    
+        if(empty($err_category)){
+        if(empty($category_name_array)){
+            $location = '../books_details/add_books.php';
+            $column_name = ['category_name','category_image_name','category_unique_image_name'];
+            $row_data = [ $category_name,$category_image_name];
+            $image_upload->image_upload($tablename,$err_image,$category_image,$id,$send_data_to_db,$column_name,$row_data,$conn,'category_id',$location);
+            }else{
+                if ($category_name == $fetch_category_name) {
                     if(!empty($category_image_name)){
                         $location = './category_dashboard.php';
                         $column_name = ['category_name','category_image_name','category_unique_image_name'];
-                        $row_data = [$category_name,$fetch_category_image_name,$fetch_category_unique_image];
-                        $image_upload->image_upload($dbname,$err_image,$category_image,$id,$send_data_to_db,$column_name,$row_data,$conn,'category_id',$location);
+                        $row_data = [$category_name,$category_image_name,$fetch_category_unique_image];
+                        $image_upload->image_upload($tablename,$err_image,$category_image,$id,$send_data_to_db,$column_name,$row_data,$conn,'category_id',$location);
                     }else{
                         $location = './category_dashboard.php';
                         $column_name = ['category_name','category_image_name','category_unique_image_name'];
                         $row_data = [$category_name,$fetch_category_image_name,$fetch_category_unique_image];
-                        $image_upload->image_upload($dbname,$err_image,$category_image,$id,$send_data_to_db,$column_name,$row_data,$conn,'category_id',$location);
+                        $image_upload->image_upload($tablename,$err_image,$category_image,$id,$send_data_to_db,$column_name,$row_data,$conn,'category_id',$location);
                     }
                 }
-            }else{
-                $errmsg = "This category already exists";
+                elseif (!in_array($category_name, $category_name_array)) {
+                    if(empty($id)){
+                    $location = '../books_details/add_books.php';
+                    $column_name = ['category_name','category_image_name','category_unique_image_name'];
+                    $row_data = [$category_name,$category_image_name];
+                    $image_upload->image_upload($tablename,$err_image,$category_image,$id,$send_data_to_db,$column_name,$row_data,$conn,'category_id',$location);
+                    }else{
+                        if(!empty($category_image_name)){
+                            $location = './category_dashboard.php';
+                            $column_name = ['category_name','category_image_name','category_unique_image_name'];
+                            $row_data = [$category_name,$fetch_category_image_name,$fetch_category_unique_image];
+                            $image_upload->image_upload($tablename,$err_image,$category_image,$id,$send_data_to_db,$column_name,$row_data,$conn,'category_id',$location);
+                        }else{
+                            $location = './category_dashboard.php';
+                            $column_name = ['category_name','category_image_name','category_unique_image_name'];
+                            $row_data = [$category_name,$fetch_category_image_name,$fetch_category_unique_image];
+                            // echo $category_name;
+                            $update_category = $image_upload->image_upload($tablename,$err_image,$category_image,$id,$send_data_to_db,$column_name,$row_data,$conn,'category_id',$location);
+                            if(!$update_category){
+                                echo "Error:" . mysqli_error($conn);
+                            }
+                            
+                        }
+                    }
+                }else{
+                    $errmsg = "This category already exists";
+                }
             }
         }
+        $column = ['book_category'];
+        $data = [$category_name];
+        
+        $update_book_details_category_name = $send_data_to_db->update_to_tb('books_details',$column,$data,'book_category',$fetch_category_name,$conn);
+        if(!$update_book_details_category_name){
+            echo "Error:" . mysqli_error($conn);
+        }
     }
-    
 }
 ?>

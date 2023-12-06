@@ -1,5 +1,5 @@
 <?php
 require '../admin_session.php';
 unset($_SESSION['login']);
-header("location: ./user_login.php");
+header("location: ../book_home.php");
 ?>
