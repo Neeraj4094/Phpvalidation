@@ -115,7 +115,7 @@ if (!empty($_SESSION['login'])) {
                 class="w-full h-full object-cover border rounded-full shadow shadow-black">
         </div>
         <nav>
-            <ul class="flex gap-6">
+            <ul class="flex items-center gap-2">
                 <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#">Home</a></li>
                 <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#category">Categories</a>
                 </li>
@@ -210,7 +210,7 @@ if (!empty($_SESSION['login'])) {
                     ?>
                     <article class="w-60 h-80 text-center relative ">
                         <div class="w-full h-full rounded-xl space-y-4">
-                            <a href="fetch_categories_books.php?book_category=<?php echo $category_name ?>"
+                            <a href="../fetch_categories_books?book_category=<?php echo $category_name ?>"
                                 class=" absolute inset-0 z-10"></a>
                             <img src="../Image/<?php echo $image ?>" alt="Book1"
                                 class="w-full h-full object-cover rounded-xl">

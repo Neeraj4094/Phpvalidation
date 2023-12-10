@@ -60,7 +60,7 @@ class send_data_to_db{
         }
         $update = implode(', ', $updateValues);
         $updateindb = "UPDATE $tablename set $update where $col_id = '$id'";
-        
+        // print_r($updateindb);
         $updatequery = mysqli_query($con, $updateindb);
         if (!$updatequery) {
             die("Error:" . mysqli_error($con));
@@ -138,6 +138,12 @@ class date
         $date_time->setTimezone(new DateTimeZone('Asia/Kolkata'));
         $indian_date_time = $date_time->format('Y-m-d H:i:s A');
         return $indian_date_time;
+    }
+}
+
+class crud{
+    public function crud_operation(){
+        
     }
 }
 $fetch_data_from_db = new fetch_data_from_db();

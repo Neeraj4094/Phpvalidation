@@ -10,13 +10,13 @@
     <title>Document</title>
 </head>
 <body>
-        <div class=" px-3 space-y-3">
+        <div class=" px-3">
             <div class="px-2 flex items-center justify-center w-full">
                 <div class="w-full h-10 px-4 py-2  bg-white">
                     <img src="../../Image/listerpros.jpg" alt="Logo" class="w-full h-full rounded-lg">
                 </div>
             </div>
-            <div class="flex relative gap-2 pt-1">
+            <div class="flex relative gap-2 py-2">
                 <a href="#" class="absolute inset-0 z-10"></a>
                 <svg class="w-5 h-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                     <path
@@ -32,7 +32,7 @@
                         <ul class="px-2 space-y-2">
                             <li>
                                 <div class="flex items-center gap-2 relative pt-2">
-                                    <a href="../admin_details/admin_dashboard.php" class="absolute inset-0 z-10"></a>
+                                    <a href="../admin_details/admin" class="absolute inset-0 z-10"></a>
                                     <svg class="w-5 h-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 576 512">
                                         <path
@@ -44,7 +44,7 @@
                             </li>
                             <li>
                                 <div class="flex items-center gap-2 relative">
-                                    <a href="../books_details/books_dashboard.php" class="absolute inset-0 z-10"></a>
+                                    <a href="../books_details/books" class="absolute inset-0 z-10"></a>
                                     <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                         fill="currentColor">
                                         <path
@@ -57,7 +57,7 @@
                             <li>
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center gap-2 relative">
-                                        <a href="../books_categories_details/category_dashboard.php" class="absolute inset-0 z-10"></a>
+                                        <a href="../categories_details/category" class="absolute inset-0 z-10"></a>
                                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg"
                                             enable-background="new 0 0 24 24" viewBox="0 0 24 24" fill="currentColor">
                                             <g>
@@ -83,7 +83,7 @@
                             </li>
                             <li>
                                 <div class="flex items-center gap-2 relative">
-                                    <a href="../user_details/user_dashboard.php" class="absolute inset-0 z-10"></a>
+                                    <a href="../user_details/users" class="absolute inset-0 z-10"></a>
                                     <svg class="w-5 h-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 448 512">
                                         <path
@@ -96,7 +96,7 @@
                             <li>
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center gap-2 relative">
-                                        <a href="../renting_books/rented_book_dashboard.php" class="absolute inset-0 z-10"></a>
+                                        <a href="../rented_book_details/rented_book" class="absolute inset-0 z-10"></a>
                                         <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 640 512">
                                             <path
@@ -166,18 +166,6 @@
                                 </div>
                             </li>
                             <li>
-                                <div class="flex items-center gap-2 relative">
-                                    <a href="#" class="absolute inset-0 z-10"></a>
-                                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                        stroke="none" viewBox="0 0 24 24">
-                                        <path
-                                            d="M20 3H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-9 14H5v-2h6v2zm8-4H5v-2h14v2zm0-4H5V7h14v2z">
-                                        </path>
-                                    </svg>
-                                    <span>Details</span>
-                                </div>
-                            </li>
-                            <li>
                                 <div class="flex justify-between items-center">
                                     <div class="flex items-center gap-2 relative">
                                         <a href="#" class="absolute inset-0 z-10"></a>
@@ -196,13 +184,12 @@
                                     </svg>
                                 </div>
                             </li>
-
                         </ul>
                     </li>
                     <li class="border-t px-2 py-2">
-                        <form action="../admin_details/admin_logout.php" method="post">
+                        <form action="../admin_details/admin_logout" method="post">
                             <button class="flex items-center gap-2 relative ">
-                                <a href="../admin_details/admin_logout.php" class="absolute inset-0 z-10"></a>
+                                <a href="../admin_details/admin_logout" class="absolute inset-0 z-10"></a>
                                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                     fill="currentColor" aria-hidden="true">
                                     <path
@@ -220,37 +207,6 @@
             </nav>
         </div>
 
-        <!-- <main class="row-span-6 col-span-10  sm:col-span-12 lg:col-span-10 ">
-            <div class="flex justify-between items-center border-b-2 py-3 px-2 ">
-                <p class="font-medium text-lg">Welcome Admin, <span class="font-bold">
-                        
-                    </span></p>
-                <div class="w-10 h-10 rounded-full border">
-                    
-                </div>
-            </div>
-            <div class="p-2 ">
-                <h1 class="text-2xl font-semibold py-2">Manage Customers</h1>
-                <div class="flex items-center justify-between ">
-                    <div class="flex items-center relative">
-                        <form action="" method="post" class="flex items-center gap-1 relative">
-                            <input type="search" name="search" id="search"
-                                class="border shadow rounded-lg outline-none p-2 w-96" placeholder="Search...">
-                            <button type="submit"
-                                class="p-2 pt-3 bg-slate-50 border rounded-r-lg absolute right-0 top-0">
-                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" viewBox="0 0 16 16">
-                                    <path
-                                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
-                                    </path>
-                                </svg>
-                            </button>
-                        </form>
-                    </div>
-                    <a href="add_books.php"
-                        class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg"><span class="font-bold text-xl">+</span> Add Books</a>
-                </div>
-            </div>
-        </main> -->
+ 
 </body>
 </html>

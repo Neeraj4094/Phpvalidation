@@ -1,5 +1,5 @@
 <?php
-require './admin_login_validation.php';
+include 'admin_update_fetch_data.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,20 +35,20 @@ require './admin_login_validation.php';
                 </div>
                 <div class="grid space-y-2 ">
                     <label for="email">Email</label>
-                    <input type="email" name="login_email" id="email" placeholder="Enter email" class="border rounded-lg p-2">
+                    <input type="email" name="login_email" id="email" placeholder="Enter email" class="border rounded-lg p-2" value="<?php echo $login_email ?>">
                     <span class="text-red-600 text-sm ">* <small><?php echo $err_login_email ?></small></span>
                     <!-- <small>(Email must have "alphabets, @ and .")</small> -->
                 </div>
                 <div class="grid space-y-2">
                     <label for="password">Password</label>
-                    <input type="password" name="login_password" id="password" placeholder="Enter password" class="border rounded-lg p-2">
+                    <input type="password" name="login_password" id="password" placeholder="Enter password" class="border rounded-lg p-2" value="<?php echo $login_password ?>">
                     <span class="text-red-600 w-96">* <small><?php echo $err_login_password ?></small></span>
                     <!-- <small>(Password must have 1 Capital alphabet, 1 small alphabet, 1 special character & 1 number)</small> -->
                 </div>
                 <a href="#" class="text-blue-700 px-1">Forget Password?</a>
 
                 <div>
-                    <input type="submit" name="submit" id="submit" class="bg-indigo-500 text-white px-10 py-2 rounded-lg cursor-pointer" value="Login">
+                    <input type="submit" name="login" id="submit" class="bg-indigo-500 text-white px-10 py-2 rounded-lg cursor-pointer" value="Login">
                 </div>
             </div>
 

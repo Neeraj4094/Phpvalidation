@@ -94,9 +94,10 @@ try{
         user_name VARCHAR(30),
         user_email VARCHAR(40),
         user_password VARCHAR(20),
-        user_phone_no int(10),
+        user_phone_no text(255),
         user_address VARCHAR(50),
-        gender varchar(10)
+        gender varchar(10),
+        user_status varchar(20)
     )";
 
     $create_user_table = $createtable->create_table($conn,$user_tablecolumn_name); //Create table of users

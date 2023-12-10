@@ -1,7 +1,7 @@
 <?php
 // include "../database_connection.php";
 // include "../send_fetch_data_from_db.php";
-include "../admin_details/admin_login_validation.php";
+include "../admin_details/admin_update_fetch_data.php";
 
 if ($_SESSION == null) {
     header("location: ../admin_details/admin_login.php");
@@ -14,6 +14,12 @@ $tablename = "books_details";
 $fetch_data_from_db = new fetch_data_from_db ();
 $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablename);
 
+
+$search = $dataimage = $data_not_found = $not_found = '';
+$data = [];
+if(isset($_POST['search'])){
+    $search = strtolower($_POST['search']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +38,7 @@ $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablena
 
 
     <main class="row-span-6 col-span-10  sm:col-span-12 lg:col-span-10 ">
-        <div class="flex justify-between items-center border-b-2 py-3 px-2 ">
+        <div class="flex justify-between items-center border-b-2 py-2 px-2 ">
             <p class="font-medium text-lg">Welcome Admin, <span class="font-bold">
                     <?php echo $admin_logged_in_name ?>
                 </span></p>
@@ -48,7 +54,7 @@ $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablena
             <h1 class="text-2xl font-semibold py-2">Manage Customers</h1>
             <div class="flex items-center justify-between ">
                 <div class="flex items-center relative">
-                    <form action="" method="post" class="flex items-center gap-1 relative">
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="flex items-center gap-1 relative">
                         <input type="search" name="search" id="search"
                             class="border shadow rounded-lg outline-none p-2 w-96" placeholder="Search...">
                         <button type="submit"
@@ -62,17 +68,17 @@ $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablena
                         </button>
                     </form>
                 </div>
-                <a href="add_books.php"
+                <a href="add_books"
                     class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg"><span class="font-bold text-xl">+</span> Add Books</a>
             </div>
         </div>
         <div class="px-2 border-t">
-            <div class="px-2 h-96 space-y-3 overflow-y-scroll">
+            <div class="px-2 h-80 space-y-3 overflow-y-scroll">
                 
                 <form action="#" method="post">
                     
                     <?php 
-                    $add_books = '<div class="flex w-full h-full items-center justify-center"> <a href="./add_books.php" class="bg-blue-600 text-white rounded-lg shadow px-8 py-2 cursor-pointer">Add Books</a> </div>';
+                    $add_books = '<div class="flex w-full h-full items-center justify-center"> <a href="./add_books" class="bg-blue-600 text-white rounded-lg shadow px-8 py-2 cursor-pointer">Add Books</a> </div>';
                     ?>
                     
                 </form>
@@ -103,9 +109,18 @@ $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablena
                     $create_date = $date->date_time_in_india($book_created_date);
                     $modify_date = $date->date_time_in_india($book_modified_date);
                     
+                    if(!empty($search)){
+                        if( ($search == strtolower($book_name_in_db)) || ($search == strtolower($author_name_in_db)) || ($search == strtolower($category_name_in_db))){
+                            $searchdata = "visible";
+                            $data[] = $searchdata;
+                        }else{
+                            $searchdata = "hidden";
+                            $data[] = $searchdata;
+                        }
+                    }
                     ?>
                     <div
-                        class="grid gap-2 py-2 sm:block md:grid mt-2 <?php ?>  rounded-md border w-full shadow">
+                        class="<?php echo $searchdata ?> py-2 mt-2 <?php ?>  rounded-md border w-full shadow">
                         <div class=" flex justify-between items-center p-2 gap-4 w-full ">
                             <div class=" flex justify-between items-center gap-4">
                                 <div class=" w-10 h-10 flex items-center justify-center">
@@ -150,21 +165,22 @@ $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablena
                                 </div>
                             </div>
                             <div class="flex items-center justify-between gap-6">
+                                <div class="grid gap-2">
                                 <p class=" bg-indigo-500 text-white px-3 py-1 rounded-md">
                                     <?php echo "Copies:-" . $total_book_copies ?>
                                 </p>
                                 <p class=" bg-purple-500 text-white px-3 py-1 rounded-md">
-                                    <?php echo "Price :- " . $book_price ?>
+                                    <?php echo "Price:-" . $book_price ?>
                                 </p>
-
-                                <form action="books_update_data.php?id=<?php echo $book_id ?>" method="post">
+                                </div>
+                                <form action="books_update_data?id=<?php echo $book_id ?>" method="post">
                                     <button type="submit" data-toggle="tooltip" data-placement="top" title="Edit"
                                         class="px-1 rounded-lg bg-slate-100 text-black">
                                         <?php echo $edit ?>
 
                                     </button>
                                 </form>
-                                <form action="delete_books.php?id=<?php echo $book_id ?>" method="post">
+                                <form action="delete_books?id=<?php echo $book_id ?>" method="post">
                                     <button data-toggle="tooltip" data-placement="top" title="Delete"
                                         class="border-2 px-4 py-1 rounded-md">
                                         <?php echo $delete ?>
@@ -174,6 +190,9 @@ $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablena
                         </div>
                     </div>
                 <?php } } ?>
+                <span><?php if(!empty($data)){if(!in_array('visible',$data)){
+                            $data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>';
+                        } echo $data_not_found; } ?></span>
             </div>
         </div>
     </main>

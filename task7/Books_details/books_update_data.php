@@ -101,7 +101,7 @@ if(!empty($err_image)) {
 <body class="bg-slate-100 h-full">
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
-        // echo $errmsg;
+        echo $errmsg;
 
         ?>
     </h2>

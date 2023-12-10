@@ -258,5 +258,4 @@ if(!empty($resultofform)){
     // $category_image_name = isset($category_image['name'])? $category_image['name'] :'';
 }
 $user_password = $password;
-
 ?>

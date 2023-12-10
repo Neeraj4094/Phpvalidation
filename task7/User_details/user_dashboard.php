@@ -1,10 +1,10 @@
 <?php
 // include "../database_connection.php";
 // include "../send_fetch_data_from_db.php";
-include "../admin_details/admin_login_validation.php";
+include "../admin_details/admin_update_fetch_data.php";
 
 if ($_SESSION == null) {
-    header("location: ../admin_details/admin_login.php");
+    header("location: ../admin_details/admin_login");
 }else{
     $page = "Details";
 }
@@ -13,6 +13,13 @@ $create_date = $modify_date = '';
 $tablename = "user_details";
 $fetch_data_from_db = new fetch_data_from_db ();
 $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablename);
+
+
+$search = $dataimage = $data_not_found = $not_found ='';
+$data = [];
+if(isset($_POST['search'])){
+    $search = strtolower($_POST['search']);
+}
 
 ?>
 
@@ -28,10 +35,10 @@ $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablena
 
 <body class="grid grid-cols-12 grid-rows-6 w-full h-full">
 
-    <aside class=" row-span-6 col-span-2 border h-full sm:hidden lg:block"><?php include '../controller/app.php' ?></aside>
+    <aside class=" row-span-6 col-span-2 border sm:hidden lg:block"><?php include '../controller/app.php' ?></aside>
 
     <main class="row-span-6 col-span-10  sm:col-span-12 lg:col-span-10 ">
-        <div class="flex justify-between items-center border-b-2 py-3 px-2 ">
+        <div class="flex justify-between items-center border-b-2 py-2 px-2 ">
             <p class="font-medium text-lg">Welcome Admin, <span class="font-bold">
                     <?php echo $admin_logged_in_name ?>
                 </span></p>
@@ -47,31 +54,31 @@ $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablena
             <h1 class="text-2xl font-semibold py-2">Manage Customers</h1>
             <div class="flex items-center justify-between ">
                 <div class="flex items-center relative">
-                    <form action="" method="post" class="flex items-center gap-1 relative">
-                        <input type="search" name="search" id="search"
-                            class="border shadow rounded-lg outline-none p-2 w-96" placeholder="Search...">
-                        <button type="submit"
-                            class="p-2 pt-3 bg-slate-50 border rounded-r-lg absolute right-0 top-0">
-                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                fill="currentColor" viewBox="0 0 16 16">
-                                <path
-                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
-                                </path>
-                            </svg>
-                        </button>
-                    </form>
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="flex items-center gap-1 relative">
+                    <input type="search" name="search" id="search"
+                        class="border shadow rounded-lg outline-none p-2 w-96" placeholder="Search...">
+                    <button type="submit"
+                        class="p-2 pt-3 bg-slate-50 border rounded-r-lg absolute right-0 top-0">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            fill="currentColor" viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
+                            </path>
+                        </svg>
+                    </button>
+                </form>
                 </div>
-                <a href="add_users.php"
+                <a href="add_users"
                     class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg"><span class="font-bold text-xl">+</span> Add Users</a>
             </div>
         </div>
         <div class="px-2 border-t">
-            <div class="px-2 h-96 space-y-3 overflow-y-scroll">
+            <div class="px-2 h-80 space-y-3 overflow-y-scroll">
                 
                 <form action="#" method="post">
                     
                     <?php 
-                    $add_books = '<div class="flex w-full h-full items-center justify-center"> <a href="./add_users.php" class="bg-blue-600 text-white rounded-lg shadow px-8 py-2 cursor-pointer">Add Users</a> </div>';
+                    $add_books = '<div class="flex w-full h-full items-center justify-center"> <a href="./add_users" class="bg-blue-600 text-white rounded-lg shadow px-8 py-2 cursor-pointer">Add Users</a> </div>';
                     ?>
                     
                 </form>
@@ -80,6 +87,8 @@ $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablena
                 if($admin_fetch_data_from_db == null){
                     echo $add_books;
                 }else{
+                $active = '<svg class="w-5 h-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M400 256H152V152.9c0-39.6 31.7-72.5 71.3-72.9 40-.4 72.7 32.1 72.7 72v16c0 13.3 10.7 24 24 24h32c13.3 0 24-10.7 24-24v-16C376 68 307.5-.3 223.5 0 139.5.3 72 69.5 72 153.5V256H48c-26.5 0-48 21.5-48 48v160c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V304c0-26.5-21.5-48-48-48zM264 408c0 22.1-17.9 40-40 40s-40-17.9-40-40v-48c0-22.1 17.9-40 40-40s40 17.9 40 40v48z"></path></svg>';
+                $block = '<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-4.42 3.58-8 8-8 1.85 0 3.55.63 4.9 1.69L5.69 16.9C4.63 15.55 4 13.85 4 12zm8 8c-1.85 0-3.55-.63-4.9-1.69L18.31 7.1C19.37 8.45 20 10.15 20 12c0 4.42-3.58 8-8 8z"></path></svg>';
                 $edit = '<svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24">
                 <path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path>
                 <path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path>
@@ -95,17 +104,26 @@ $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablena
                     $user_phone_number = $item[4];
                     $user_address = $item[5];
                     $user_gender = $item[6];
-                    
+                    $user_status = $item[7];
+                    $status = ($user_status == 'Active')? $active : $block;
+                    if(!empty($search)){
+                        if( ($search == strtolower($user_name)) || ($search == strtolower($user_email)) || ($search == strtolower($user_phone_number)) || ($search == strtolower($user_address)) || ($search == strtolower($user_gender))){
+                            $searchdata = "visible";
+                            $data[] = $searchdata;
+                        }else{
+                            $searchdata = "hidden";
+                            $data[] = $searchdata;
+                        }
+                    }
                     // $book_modified_date = $item[7];
                     // $book_unique_image_in_db = $item[8];
                     
                     // $date = new date();
                     // $create_date = $date->date_time_in_india($book_created_date);
                     // $modify_date = $date->date_time_in_india($book_modified_date);
-                    
                     ?>
                     <div
-                        class="grid gap-2 py-2 sm:block md:grid mt-2 <?php ?>  rounded-md border w-full shadow">
+                        class="<?php echo $searchdata ?> py-2 mt-2 <?php ?>  rounded-md border w-full shadow">
                         <div class=" flex justify-between items-center p-2 gap-4 w-full ">
                             <div class=" flex justify-between items-center gap-4">
                                 <div class=" w-10 h-10 flex items-center justify-center">
@@ -147,18 +165,23 @@ $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablena
                                 <p class=" bg-indigo-500 text-white px-3 py-1 rounded-md">
                                     <?php echo "Address:-" . $user_address ?>
                                 </p>
-                                <p class=" bg-purple-500 text-white px-3 py-1 rounded-md">
-                                    <?php echo $user_password ?>
-                                </p>
+                                <form action="lock_user?id=<?php echo $book_id ?>" method="post">
+                                <button type="submit" data-toggle="tooltip" data-placement="top" title="Edit"
+                                    class="px-1 rounded-lg bg-slate-100 text-black">
+                                    <span><?php echo $status ?></span>
+                                </button>
+                                </form>
+                                <!-- <p class=" bg-purple-500 text-white px-3 py-1 rounded-md">
+                                </p> -->
 
-                                <form action="update_users_data.php?id=<?php echo $book_id ?>" method="post">
+                                <form action="update_users_data?id=<?php echo $book_id ?>" method="post">
                                     <button type="submit" data-toggle="tooltip" data-placement="top" title="Edit"
                                         class="px-1 rounded-lg bg-slate-100 text-black">
                                         <?php echo $edit ?>
 
                                     </button>
                                 </form>
-                                <form action="delete_user.php?id=<?php echo $book_id ?>" method="post">
+                                <form action="delete_user?id=<?php echo $book_id ?>" method="post">
                                     <button data-toggle="tooltip" data-placement="top" title="Delete"
                                         class="border-2 px-4 py-1 rounded-md">
                                         <?php echo $delete ?>
@@ -168,6 +191,9 @@ $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablena
                         </div>
                     </div>
                 <?php } } ?>
+                <span><?php if(!empty($data)){if(!in_array('visible',$data)){
+                            $data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>';
+                        } echo $data_not_found; } ?></span>
             </div>
         </div>
     </main>

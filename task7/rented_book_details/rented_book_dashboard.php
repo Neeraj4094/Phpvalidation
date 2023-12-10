@@ -1,7 +1,7 @@
 <?php
 // include "../database_connection.php";
 // include "../send_fetch_data_from_db.php";
-include "../admin_details/admin_login_validation.php";
+include "../admin_details/admin_update_fetch_data.php";
 
 if ($_SESSION == null) {
     header("location: ../admin_details/admin_login.php");
@@ -30,12 +30,12 @@ foreach ($fetch_right_join_data as $data) {
     $issue_date = isset($data[8]) ? $data[8] : '';
     $return_date = isset($data[9]) ? $data[9] : '';
     $charges = isset($data[10]) ? $data[10] : '';
-    $book_name = isset($data[16]) ? $data[16] : '';
-    $book_category = isset($data[17]) ? $data[17] : '';
-    $book_author = isset($data[18]) ? $data[18] : '';
-    $user_name = isset($data[19]) ? $data[19] : '';
-    $user_phone_number = isset($data[20]) ? $data[20] : '';
-    $user_gender = isset($data[21]) ? $data[21] : '';
+    $book_name = isset($data[15]) ? $data[15] : '';
+    $book_category = isset($data[16]) ? $data[16] : '';
+    $book_author = isset($data[17]) ? $data[17] : '';
+    $user_name = isset($data[18]) ? $data[18] : '';
+    $user_phone_number = isset($data[19]) ? $data[19] : '';
+    $user_gender = isset($data[20]) ? $data[20] : '';
 
     // Initializing variables
     $book_data = [
@@ -65,9 +65,13 @@ foreach ($fetch_right_join_data as $data) {
 
     $email_list[] = $email;
 }
-
 $email_list = array_unique($email_list);
 
+$search = $dataimage = $data_not_found = $not_found ='';
+$data = [];
+if(isset($_POST['search'])){
+    $search = strtolower($_POST['search']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -86,7 +90,7 @@ $email_list = array_unique($email_list);
 
 
     <main class="row-span-6 col-span-10  sm:col-span-12 lg:col-span-10 ">
-        <div class="flex justify-between items-center border-b-2 py-3 px-2 ">
+        <div class="flex justify-between items-center border-b-2 py-2 px-2 ">
             <p class="font-medium text-lg">Welcome Admin, <span class="font-bold">
                     <?php echo $admin_logged_in_name ?>
                 </span></p>
@@ -102,30 +106,31 @@ $email_list = array_unique($email_list);
             <h1 class="text-2xl font-semibold py-2">Manage Customers</h1>
             <div class="flex items-center justify-between ">
                 <div class="flex items-center relative">
-                    <form action="" method="post" class="flex items-center gap-1 relative">
-                        <input type="search" name="search" id="search"
-                            class="border shadow rounded-lg outline-none p-2 w-96" placeholder="Search...">
-                        <button type="submit" class="p-2 pt-3 bg-slate-50 border rounded-r-lg absolute right-0 top-0">
-                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                fill="currentColor" viewBox="0 0 16 16">
-                                <path
-                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
-                                </path>
-                            </svg>
-                        </button>
-                    </form>
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="flex items-center gap-1 relative">
+                    <input type="search" name="search" id="search"
+                        class="border shadow rounded-lg outline-none p-2 w-96" placeholder="Search...">
+                    <button type="submit"
+                        class="p-2 pt-3 bg-slate-50 border rounded-r-lg absolute right-0 top-0">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            fill="currentColor" viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
+                            </path>
+                        </svg>
+                    </button>
+                </form>
                 </div>
-                <a href="add_books.php" class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg"><span
-                        class="font-bold text-xl">+</span> Add Books</a>
+                <a href="../home_page" class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg"><span
+                        class="font-bold text-xl">+</span> Go to home page</a>
             </div>
         </div>
         <div class="px-2 border-t">
-            <div class="px-2 h-96 space-y-3 overflow-y-scroll">
+            <div class="px-2 h-80 space-y-3 overflow-y-scroll">
 
-                <form action="#" method="post">
+                <form action="../home_page" method="post">
 
                     <?php
-                    $add_books = '<div class="flex w-full h-full items-center justify-center"> <a href="./add_books.php" class="bg-blue-600 text-white rounded-lg shadow px-8 py-2 cursor-pointer">Add Books</a> </div>';
+                    $add_books = '<div class="flex w-full h-full items-center justify-center"> <a href="../home_page" class="bg-blue-600 text-white rounded-lg shadow px-8 py-2 cursor-pointer">Go to home Page</a> </div>';
                     ?>
 
                 </form>
@@ -142,8 +147,8 @@ $email_list = array_unique($email_list);
                     $no_delete = '<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M3.93931 5L2.21966 3.28032C1.92677 2.98743 1.92678 2.51255 2.21968 2.21966C2.51257 1.92677 2.98745 1.92678 3.28034 2.21968L21.7801 20.7198C22.073 21.0127 22.073 21.4876 21.7801 21.7805C21.4872 22.0734 21.0123 22.0734 20.7194 21.7805L18.5293 19.5903C17.9867 21.0098 16.6131 22 15.0263 22H8.97369C7.04254 22 5.42715 20.5334 5.24113 18.6112L4.06908 6.5H2.75C2.33579 6.5 2 6.16421 2 5.75C2 5.33579 2.33579 5 2.75 5H3.93931ZM17.2782 18.3392L15 16.0609V17.25C15 17.6642 14.6642 18 14.25 18C13.8358 18 13.5 17.6642 13.5 17.25V14.5609L10.5 11.5608V17.25C10.5 17.6642 10.1642 18 9.75 18C9.33579 18 9 17.6642 9 17.25V10.0608L5.59074 6.65147L6.73416 18.4667C6.84577 19.62 7.815 20.5 8.97369 20.5H15.0263C16.185 20.5 17.1542 19.62 17.2658 18.4667L17.2782 18.3392ZM13.5 10.3185L15 11.8186V9.75C15 9.33579 14.6642 9 14.25 9C13.8358 9 13.5 9.33579 13.5 9.75V10.3185ZM18.4239 6.5L17.6525 14.4711L19.0265 15.8452L19.9309 6.5H21.25C21.6642 6.5 22 6.16421 22 5.75C22 5.33579 21.6642 5 21.25 5H15.5C15.5 3.067 13.933 1.5 12 1.5C10.067 1.5 8.5 3.067 8.5 5H8.18156L9.68153 6.5H18.4239ZM14 5H10C10 3.89543 10.8954 3 12 3C13.1046 3 14 3.89543 14 5Z" fill="currentColor"></path></svg>';
                     foreach ($email_list as $email) {
                         $rented_data[] = $book_rented_data[$email];
-
                         $book = end($rented_data);
+
                         $user_rented_id = $book[0];
                         $user_name = $book[1];
                         $user_email = $book[2];
@@ -153,11 +158,33 @@ $email_list = array_unique($email_list);
                         $user_city = $book[7];
                         $user_rented_book_details = $book[8];
 
+                        foreach ($user_rented_book_details as $user_rented_book_data) {
+                            $book_name = ucwords($user_rented_book_data[0]);
+                            $book_category = $user_rented_book_data[1];
+                            $book_author = $user_rented_book_data[2];
+                            $book_issue_date = $user_rented_book_data[3];
+                            $book_return_date = $user_rented_book_data[4];
+                            $book_charges = $user_rented_book_data[5];
+                        
+                        if(!empty($search)){
+                            if( ($search == strtolower($user_name)) || ($search == strtolower($user_email)) || ($search == strtolower($user_address)) || ($search == strtolower($user_gender)) || ($search == strtolower($user_state)) || ($search == strtolower($user_city)) || ($search == strtolower($book_name)) || ($search == strtolower($book_category)) || ($search == strtolower($book_author))){
+                                $searchdata = "visible";
+                                $data[] = $searchdata;
+                            }else{
+                                $searchdata = "hidden";
+                                $data[] = $searchdata;
+                            }
+                        }
+                    }  
+                    if(!empty($data)){if(in_array('visible',$data)){
+                        $searchdata = "visible";
+                    }
                         ?>
-                        <div class="grid gap-2 py-2 sm:block md:grid mt-2 <?php ?>  rounded-md border w-full shadow">
-                                <div class=" flex justify-between items-center p-2 w-full ">
-                                    <div class=" flex justify-between items-center gap-4">
-                                        <div class=" w-10 h-10 flex items-center justify-center">
+                        <?php }  ?>
+                        <div class="<?php echo $searchdata ?> gap-2 py-2 mt-2 <?php ?> rounded-md border shadow">
+                            <div class="flex justify-between items-center p-2 gap-4 w-full">
+                                <div class=" flex justify-between items-center gap-4 h-20">
+                                    <div class=" w-10 h-10 flex items-center justify-center">
                                             <?php
                                             // if ($book_unique_image_in_db != "") {
                                             //     $images =  "../../Image/" . $book_unique_image_in_db;
@@ -226,7 +253,7 @@ $email_list = array_unique($email_list);
                                                     </span>
                                                 </p>
                                             </div>
-                                        <?php } ?>
+                                        <?php  } ?>
                                     </div>
                                     <form action="books_update_data.php?id=<?php echo $user_rented_id ?>" method="post"
                                         class="pt-2">
@@ -245,8 +272,11 @@ $email_list = array_unique($email_list);
                                 </div>
                                 </div>
                             </div>
-                    <?php }
+                    <?php } 
                 } ?>
+                 <span><?php if(!empty($data)){if(!in_array('visible',$data)){
+                            $data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>';
+                        } echo $data_not_found; } ?></span>
             </div>
         </div>
     </main>

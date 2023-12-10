@@ -18,7 +18,7 @@ if(!$id){
 <body class="bg-slate-100">
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
-        // echo $errmsg;
+        echo $errmsg;
 
         ?>
     </h2>
@@ -63,7 +63,7 @@ if(!$id){
                                 <option value="Managining" class="bg-transparent p-1" value="Managining" <?php echo ($fetch_occupation_from_id == 'Managining') ? 'selected' : '' ?> >Managining</option>
                             </select>
                         </div>
-                        <span class="text-red-600 text-sm">* <small><?php echo $err_occupation ?></small></span>
+                        <span class="text-red-600 text-sm">* <small><?php echo $err_role ?></small></span>
                     </div>
 
                 </div>

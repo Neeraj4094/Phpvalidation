@@ -1,5 +1,5 @@
 <?php
-include '../send_admin_data_to_db.php';
+include 'admin_update_fetch_data.php';
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +15,7 @@ include '../send_admin_data_to_db.php';
 <body class="bg-slate-100">
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
-        // echo $errmsg;
+        echo $errmsg;
 
         ?>
     </h2>
@@ -29,24 +29,24 @@ include '../send_admin_data_to_db.php';
                 <div class="flex gap-10">
                     <div class=" w-full">
                         <label for="name">Name</label>
-                        <input type="text" name="name" id="first_name" placeholder="Name" class="border rounded-sm w-full p-1">
+                        <input type="text" name="name" id="first_name" placeholder="Name" class="border rounded-sm w-full p-1" value="<?php echo $name ?>">
                         <span class="text-red-600 text-sm">* <small><?php echo $err_name ?></small></span>
                     </div>
 
                 </div>
                 <div class="">
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" placeholder="Email" class="border rounded-sm w-full p-1">
+                    <input type="email" name="email" id="email" placeholder="Email" class="border rounded-sm w-full p-1" value="<?php echo $email ?>">
                     <span class="text-red-600 text-sm">* <small><?php echo $err_email ?></small></span>
                 </div>
                 <div class="">
                     <label for="password">Password</label>
-                    <input type="password" name="password" id="password" placeholder="Password" class="border rounded-sm w-full p-1">
+                    <input type="password" name="password" id="password" placeholder="Password" class="border rounded-sm w-full p-1" value="<?php echo $user_password ?>">
                     <span class="text-red-600 text-sm max-w-xs w-60">* <small><?php echo $err_password ?></small></span>
                 </div>
                 <div class="">
                     <label for="number">Phone Number</label>
-                    <input type="text" name="phone_number" id="number" placeholder="Phone number" class="border rounded-sm w-full p-1">
+                    <input type="text" name="phone_number" id="number" placeholder="Phone number" class="border rounded-sm w-full p-1" value="<?php echo $phone_number ?>">
                     <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_phone_number ?></small></span>
                 </div>
                 <div class="grid ">
@@ -54,12 +54,12 @@ include '../send_admin_data_to_db.php';
                             <label for="role" class="w-auto">What is your Occupation :-</label>
                             <select name="occupation" id="role" class="rounded-lg bg-slate-100 text-slate-500 border w-48 p-2 ">
                                 <option value="" class="bg-transparent p-1">Select Your Role</option>
-                                <option value="Testing" class="bg-transparent p-1">Testing</option>
-                                <option value="Designing" class="bg-transparent p-1">Designing</option>
-                                <option value="Managining" class="bg-transparent p-1">Managining</option>
+                                <option value="Testing" <?php echo ($occupation == 'Testing') ? 'selected' : '' ?>  class="bg-transparent p-1">Testing</option>
+                                <option value="Designing" <?php echo ($occupation == 'Designing') ? 'selected' : '' ?> class="bg-transparent p-1">Designing</option>
+                                <option value="Managining" <?php echo ($occupation == 'Managining') ? 'selected' : '' ?> class="bg-transparent p-1">Managining</option>
                             </select>
                         </div>
-                        <span class="text-red-600 text-sm">* <small><?php echo $err_occupation ?></small></span>
+                        <span class="text-red-600 text-sm">* <small><?php echo $err_role ?></small></span>
                 </div>
                 <div>
                     <input type="submit" name="submit" class="bg-purple-600 rounded-lg text-white border border-white px-8 py-2 cursor-pointer">

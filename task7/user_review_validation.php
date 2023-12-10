@@ -37,7 +37,7 @@ $success = '<div class="w-full h-full absolute top-0 flex items-center justify-c
     </div>
     </div>';
 
-
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
 if(isset($_POST['add_reviews'])){
     $err_name = $admin_entered_details->name_validation($name);
     $err_review = $admin_entered_details->emp($user_review); //Provides best books to the students and others peoples
@@ -58,5 +58,6 @@ if(isset($_POST['add_reviews'])){
             // }
         
     }
+}
 }
 ?>

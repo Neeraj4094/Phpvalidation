@@ -1,11 +1,11 @@
 <?php
 // include "../database_connection.php";
 // include "../send_fetch_data_from_db.php";
-include "../admin_details/admin_login_validation.php";
+include "../admin_details/admin_update_fetch_data.php";
 
 
 if ($_SESSION == null) {
-    header("location: ../admin_details/admin_login.php");
+    header("location: ../admin_details/admin_login");
 } else {
     $page = "Details";
 }
@@ -24,6 +24,11 @@ foreach($admin_fetch_data_from_db as $row){
 // print_r($admin_fetch_data_from_db);
 // echo "</pre>";
 
+$search = $dataimage = $data_not_found = $not_found = '';
+$data = [];
+if(isset($_POST['search'])){
+    $search = strtolower($_POST['search']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +46,7 @@ foreach($admin_fetch_data_from_db as $row){
     <aside class=" row-span-6 col-span-2 border h-full sm:hidden lg:block"><?php include '../controller/app.php' ?></aside>
 
     <main class="row-span-6 col-span-10  sm:col-span-12 lg:col-span-10 ">
-        <div class="flex justify-between items-center border-b-2 py-3 px-2 ">
+        <div class="flex justify-between items-center border-b-2 py-2 px-2 ">
             <p class="font-medium text-lg">Welcome Admin, <span class="font-bold">
                     <?php echo $admin_logged_in_name ?>
                 </span></p>
@@ -57,36 +62,36 @@ foreach($admin_fetch_data_from_db as $row){
             <h1 class="text-2xl font-semibold py-2">Manage Customers</h1>
             <div class="flex items-center justify-between ">
                 <div class="flex items-center relative">
-                    <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="flex items-center gap-1 relative">
-                        <input type="search" name="search" id="search"
-                                class="border shadow rounded-lg outline-none p-2 w-96" placeholder="Search...">
-                            <button type="submit"
-                                class="p-2 pt-3 bg-slate-50 border rounded-r-lg absolute right-0 top-0">
-                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                    fill="currentColor" viewBox="0 0 16 16">
-                                    <path
-                                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
-                                    </path>
-                                </svg>
-                            </button>
-                    </form>
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="flex items-center gap-1 relative">
+                    <input type="search" name="search" id="search"
+                        class="border shadow rounded-lg outline-none p-2 w-96" placeholder="Search...">
+                    <button type="submit"
+                        class="p-2 pt-3 bg-slate-50 border rounded-r-lg absolute right-0 top-0">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            fill="currentColor" viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
+                            </path>
+                        </svg>
+                    </button>
+                </form>
                 </div>
-                <a href="add_categories.php" class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg"><span
+                <a href="add_categories" class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg"><span
                         class="font-bold text-xl">+</span> Add Categories</a>
             </div>
         </div>
         <div class="px-2 border-t">
-            <div class="px-2 h-96 overflow-y-scroll gap-2">
+            <div class="px-2 h-80 overflow-y-scroll gap-2">
 
                 <!-- <form action="#" method="post">
 
                     </form> -->
                     <?php
-                    $add_books = '<div class="flex items-center justify-center"> <a href="./add_categories.php" class="bg-blue-600 text-white rounded-lg shadow px-8 py-2 cursor-pointer">Add Categories</a> </div>';
+                    $add_books = '<div class="flex items-center justify-center"> <a href="./add_categories" class="bg-blue-600 text-white rounded-lg shadow px-8 py-2 cursor-pointer">Add Categories</a> </div>';
                     ?>
 
                 <?php
-                if ($admin_fetch_data_from_db == null) {
+                if (empty($admin_fetch_data_from_db)) {
                     echo $add_books;
                 } else {
                     $edit = '<svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24">
@@ -102,19 +107,27 @@ foreach($admin_fetch_data_from_db as $row){
                         $book_image_name = $item[2];
                         $category_image_in_db = $item[3];
                         $total_book_copies = $item[4];
-                        if ($_SERVER["REQUEST_METHOD"] == "POST"){
-                            if(isset($_POST["submit"])) {
-                                $search = $_POST["search"];
-                                echo $search;
+                        
+                        
+                        if(!empty($search)){
+                            if( ($search == strtolower($book_category_name))){
+                                $searchdata = "visible";
+                                $data[] = $searchdata;
+                            }else{
+                                $searchdata = "hidden";
+                                $data[] = $searchdata;
                             }
                         }
-                        
+                        // if(!in_array('visible',$data)){
+                        //     $data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>';
+                        // }
+
                         $fetch_book_copies = $fetch_data_from_db->fetch_data('books_details','book_copies', $book_category_name, $conn, 'book_category');
                         $total = count($fetch_book_copies);
                         $book_copies = array_sum(array_map('array_sum', $fetch_book_copies));
                         
                         ?>
-                        <div class="flex gap-2 py-2 sm:block md:flex mt-2 <?php ?> rounded-md border shadow">
+                        <div class="<?php echo $searchdata ?> gap-2 py-2 mt-2 <?php ?> rounded-md border shadow">
                             <div class="flex justify-between items-center p-2 gap-4 w-full">
                                 <div class=" flex justify-between items-center gap-4 h-20">
                                     <div class=" w-10 h-10 flex items-center justify-center">
@@ -140,7 +153,7 @@ foreach($admin_fetch_data_from_db as $row){
                                                 </div>
 
                                                 <p>
-                                                    <?php echo "Author :- " . $book_image_name ?>
+                                                    <?php echo "Book Image Name :- " . $book_image_name ?>
                                                 </p>
                                                 <div class="flex gap-6 items-center ">
                                                     <p>Books :-
@@ -159,14 +172,14 @@ foreach($admin_fetch_data_from_db as $row){
                                         <?php echo "Copies:-" . $book_copies ?>
                                     </p>
 
-                                    <form action="update_categories_data.php?id=<?php echo $book_id ?>" method="post">
+                                    <form action="update_categories_data?id=<?php echo $book_id ?>" method="post">
                                         <button type="submit" data-toggle="tooltip" data-placement="top" title="Edit"
                                             class="px-1 rounded-lg bg-slate-100 text-black">
                                             <?php echo $edit ?>
 
                                         </button>
                                     </form>
-                                    <form action="delete_categories.php?id=<?php echo $book_id ?>" method="post">
+                                    <form action="delete_categories?id=<?php echo $book_id ?>" method="post">
                                         <button data-toggle="tooltip" data-placement="top" title="Delete"
                                             class="border-2 px-4 py-1 rounded-md">
                                             <?php echo $delete ?>
@@ -177,6 +190,9 @@ foreach($admin_fetch_data_from_db as $row){
                         </div>
                     <?php }
                 } ?>
+                <span><?php if(!empty($data)){if(!in_array('visible',$data)){
+                            $data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>';
+                        } echo $data_not_found;} ?></span>
             </div>
         </div>
     </main>

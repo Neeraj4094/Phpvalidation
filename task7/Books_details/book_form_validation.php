@@ -5,6 +5,7 @@ $err_category = $err_book = $err_author = $err_book_copies = $err_image = $err_b
 $total_book_copies = 0;
 $book_name_array = [];
 
+$fetch_get_category_name = isset( $_GET["category_name"] ) ? $_GET["category_name"] :"";
 $fetch_books_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
 foreach ($fetch_books_data_from_db as $row) {
     $book_name_array_list = strtolower($row[1]);
@@ -59,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
         if ($err_category == null && $err_book == null && $err_author == null && $err_book_copies == null &&$err_book_price == null && $err_book_desciption == null) {
             $tablename = 'books_details';
-            $location = './books_dashboard.php';
+            $location = './books';
             if (empty($book_name_array)) {
                 $book_column = ['book_name', 'book_author', 'book_category', 'book_copies','book_price','book_description', 'book_image_name', 'created_date', 'modified_Date', 'book_unique_image_name'];
                 $book_details_array = [$book_name, $author_name, $category_name, $book_copies,$book_price,$book_description, $book_image_name, $created_date, $modified_date];
@@ -72,22 +73,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                         $update_book_column = ['book_name', 'book_author', 'book_category', 'book_copies','book_price','book_description', 'book_image_name', 'modified_Date', 'book_unique_image_name'];
                         $update_book_column_data = [$book_name, $author_name, $category_name,$book_copies,$book_price,$book_description, $book_image_name, $modified_date, $fetch_unique_image];
                         $image_upload->image_upload($tablename, $err_image, $book_image, $id, $send_data_to_db, $update_book_column, $update_book_column_data, $conn, 'book_id', $location);
-                        header('location: ./books_dashboard.php');
+                        header('location: ./books');
                     } elseif (!in_array($actual_book_name, $book_name_array)) {
 
                         $book_column = ['book_name', 'book_author', 'book_category', 'book_copies','book_price','book_description', 'book_image_name', 'created_date', 'modified_Date', 'book_unique_image_name'];
                         $book_details_array = [$book_name, $author_name, $category_name, $book_copies,$book_price,$book_description, $book_image_name, $created_date, $modified_date,$fetch_unique_image];
                         $image_upload->image_upload($tablename, $err_image, $book_image, $id, $send_data_to_db, $book_column, $book_details_array, $conn, 'book_id', $location);
-                        header('location: ./books_dashboard.php');
+                        header('location: ./books');
                     } else {
                         $errmsg = "This book already exists";
                         return $errmsg;
                     }
                 } else {
                     if (!empty($book_image_name)) {
+                        if(!in_array($actual_book_name, $book_name_array)){
                         $book_column = ['book_name', 'book_author', 'book_category', 'book_copies','book_price','book_description', 'book_image_name', 'created_date', 'modified_Date', 'book_unique_image_name'];
                         $book_details_array = [$book_name, $author_name, $category_name, $book_copies,$book_price,$book_description, $book_image_name, $created_date, $modified_date];
                         $image_upload->image_upload($tablename, $err_image, $book_image, $id, $send_data_to_db, $book_column, $book_details_array, $conn, 'book_id', $location);
+                        }else{
+                            $errmsg = 'This book already exist';
+                        }
                     } else {
                         $err_image = "Please Select Image";
                     }

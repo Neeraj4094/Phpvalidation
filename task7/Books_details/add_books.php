@@ -5,6 +5,8 @@ if (!empty($err_image)) {
         $err_image = '';
     }
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +22,7 @@ if (!empty($err_image)) {
 <body class="bg-slate-100 h-full">
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
-        // echo $errmsg;
+        echo $errmsg;
 
         ?>
     </h2>
@@ -31,41 +33,48 @@ if (!empty($err_image)) {
         <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="h-full shadow flex-1 "
             name="registeration_form" enctype="multipart/form-data">
             <div class="flex items-center justify-center w-full h-full">
-                <div class="space-y-1 bg-slate-50 rounded-xl shadow py-6 px-10 h-full w-full">
-                    <div class=" gap-10">
-                        <div class=" w-full">
-                            Category Name
-                            <input type="text" name="category_name" id="first_name" placeholder="Category Name"
-                                class="border rounded-sm w-full p-1">
+                <div class="space-y-3 bg-slate-50 rounded-lg shadow py-6 h-full px-10">
+                    <div class=" space-y-3 gap-10">
+                        <div class="grid">
+                        <div class="flex gap-2 items-center w-full">
+                            <label for="category">Category Name :-</label>
+                            <select name="category_name" id="category" class="rounded-lg bg-slate-100 text-slate-500 border w-60 p-2 ">
+                                <option value="" class="bg-transparent p-1">Select Category</option>
+                                    <option value="<?php echo $fetch_get_category_name ?>" selected class="bg-transparent p-1"><?php echo $fetch_get_category_name ?></option>
+                                <?php  ?>
+                            </select>
+                        </div>
+                            <!-- <input type="text" name="category_name" id="first_name" placeholder="Category Name"
+                                class="border rounded-sm w-full p-1"> -->
                             <span class="text-red-600 text-sm">* <small>
                                     <?php echo $err_category ?>
                                 </small></span>
                         </div>
-
-                        <div class="">
-                            <div class="">
-                                Book Name/Book Title
-                                <input type="text" name="book_name" id="email" placeholder="Book Name"
-                                    class="border rounded-sm w-full p-1">
+                       
+                        <div class="flex gap-4 items-center">
+                            <div class=" space-y-2">
+                                <label for="book_name">Book Name/Book Title</label>
+                                <input type="text" name="book_name" id="book_name" placeholder="Book Name"
+                                    class="border rounded-sm w-full p-1" value="<?php echo $book_name ?>">
                                 <span class="text-red-600 text-sm">* <small>
                                         <?php echo $err_book ?>
                                     </small></span>
                             </div>
-
-                        </div>
-                        <div class="">
-                            Author Name
+                            <div class="space-y-2">
+                            <label for="author_name">Author Name</label>
                             <input type="text" name="author_name" id="author_name" placeholder="Author Name"
-                                class="border rounded-sm w-full p-1">
+                                class="border rounded-sm w-full p-1" value="<?php echo $author_name ?>">
                             <span class="text-red-600 text-sm max-w-xs w-60">* <small>
                                     <?php echo $err_author ?>
                                 </small></span>
                         </div>
+                        </div>
+                        
                         <div class="flex items-center gap-2 w-full">
                             <div class="">
-                                Description
+                                <label for="description">Description</label>
                                 <textarea name="description" id="description" cols="30" rows="4"
-                                    placeholder="Description" class="border rounded-sm w-full p-1"></textarea>
+                                    placeholder="Description" class="border rounded-sm w-full p-1"><?php echo $book_description ?></textarea>
 
                                 <span class="text-red-600 text-sm">* <small>
                                         <?php echo $err_book_desciption ?>
@@ -73,9 +82,9 @@ if (!empty($err_image)) {
                             </div>
                             <div class="flex-1">
                                 <div class="">
-                                    Quantity/Copies
+                                    <label for="copies">Quantity/Copies</label>
                                     <input type="number" name="copies" id="copies" placeholder="Copies"
-                                        class="border rounded-sm w-full p-1">
+                                        class="border rounded-sm w-full p-1" value="<?php echo $book_copies ?>">
                                     <span class="text-red-600 text-sm">* <small>
                                             <?php echo $err_book_copies ?>
                                         </small></span>
@@ -83,7 +92,7 @@ if (!empty($err_image)) {
                                 <div class="grid">
                                     <label for="book_price">Book Price:</label>
                                     <input type="number" name="book_price" id="book_price" step="0.01" min="0"
-                                        placeholder="Enter Price" class="border rounded-sm p-1">
+                                        placeholder="Enter Price" class="border rounded-sm p-1" value="<?php echo $book_price ?>">
                                     <span class="text-red-600 text-sm">* <small>
                                             <?php echo $err_book_price ?>
                                         </small></span>

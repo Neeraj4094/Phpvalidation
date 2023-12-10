@@ -8,7 +8,9 @@
     //use js for show boxes
     search
     remove isset from validation
-    remove class of validation for isset or empty
+    //remove class of validation for isset or empty
+    //do not delete user, show active/ in-active
+    //lock user and can't login again
     names of pages
     set link of anchor in header
     add radio button for choosing plan for days in buy_books.php
@@ -19,8 +21,8 @@
     half payment advance
     add session['admin']
     password not show in update admin data
-
-    do not delete user, show active/ in-active
+    
+    add checkbox in add to cart
     Category db
     Password hash
     admin
@@ -28,10 +30,12 @@
     add column "book_id" in rented_book table for checking double entry
     router
     forget password
-    lock user and can't login again
     timing of return and if late send a mail to user
     Add rounter and make a class of authentication and handle errors whenever edit , update are used
     handle copies of books
+    set router paths and specially for values passed in url
+    book already exist
+    ********** add comments in all files
 }
  -->
 

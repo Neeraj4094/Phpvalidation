@@ -28,15 +28,15 @@ if(!empty($err_image)) {
         <div class="flex-1 h-full">
             <img src="../../Image/book3.jpg" alt="Main Image" class="w-full h-full object-cover">
         </div>
-        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="h-full shadow flex-1 "
+        <form action="add_categories" method="post" class="h-full shadow flex-1 "
             name="registeration_form" enctype="multipart/form-data">
             <div class="flex items-center justify-center w-full h-full">
                 <div class="space-y-3 bg-slate-50 rounded-xl shadow p-10">
                     <div class="flex gap-10">
                         <div class=" w-full border p-2 rounded-lg shadow">
-                            Category Name
-                            <input type="text" name="category_name" id="first_name" placeholder="Category Name"
-                                class="border rounded-sm w-full p-1">
+                           <label for="category">Category Name</label>
+                            <input type="text" name="category_name" id="category" placeholder="Category Name"
+                                class="border rounded-sm w-full p-1" value="<?php echo $category_name ?>">
                             <span class="text-red-600 text-sm">* <small>
                                     <?php echo $err_category ?>
                                 </small></span>
