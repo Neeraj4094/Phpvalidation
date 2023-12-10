@@ -64,6 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                         $image_upload->image_upload($tablename,$err_image,$category_image,$id,$send_data_to_db,$column_name,$row_data,$conn,'category_id',$location);
                     }
                 }
+                
                 elseif (!in_array($category_name, $category_name_array)) {
                     if(empty($id)){
                     $location = '../books_details/add_books?category_name=' . $category_name . '';
