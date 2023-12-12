@@ -31,7 +31,7 @@ foreach($fetch_id_data as $value){
 
 class book_payment{
     public function payment($id,$con,$user_email){
-        $updateindb = "UPDATE rented_book_details SET payment_record = 'Success' WHERE book_id = '$id' AND user_email = '$user_email'";
+        $updateindb = "UPDATE rented_book_details SET payment_status = 'Success' WHERE book_id = '$id' AND user_email = '$user_email'";
 
         // $updateindb = "UPDATE rented_book_details set 'payment_record' = 'Success' where 'book_id' = '$id' AND 'user_email' = '$user_email'";
         
@@ -56,7 +56,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" ){
         if(empty($err_name_on_card) && empty($err_card_number) && empty($err_card_expiration_date) && empty($err_cvc)){
             
             foreach($fetch_category_name_data as $data){
-                $column_name = ['payment_record'];
+                $column_name = ['payment_status'];
                 $column_data = ['Pending'];
                 $email = isset($data[1]) ? $data[1] :'';
                 $id = isset($data[7]) ? $data[7] :'';

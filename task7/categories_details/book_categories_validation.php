@@ -53,12 +53,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             }else{
                 if ($category_name == $fetch_category_name) {
                     if(!empty($category_image_name)){
-                        $location = './category';
+                        $location = 'category';
                         $column_name = ['category_name','category_image_name','category_unique_image_name'];
                         $row_data = [$category_name,$category_image_name,$fetch_category_unique_image];
                         $image_upload->image_upload($tablename,$err_image,$category_image,$id,$send_data_to_db,$column_name,$row_data,$conn,'category_id',$location);
                     }else{
-                        $location = './category';
+                        $location = 'category';
                         $column_name = ['category_name','category_image_name','category_unique_image_name'];
                         $row_data = [$category_name,$fetch_category_image_name,$fetch_category_unique_image];
                         $image_upload->image_upload($tablename,$err_image,$category_image,$id,$send_data_to_db,$column_name,$row_data,$conn,'category_id',$location);
@@ -67,11 +67,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                 
                 elseif (!in_array($category_name, $category_name_array)) {
                     if(empty($id)){
-                    $location = '../books_details/add_books?category_name=' . $category_name . '';
+                    $location = '../books_details/add_books?category_name=' . $category_name;
                     $column_name = ['category_name','category_image_name','category_unique_image_name'];
                     $row_data = [$category_name,$category_image_name];
-                    // $image_upload->image_upload($tablename,$err_image,$category_image,$id,$send_data_to_db,$column_name,$row_data,$conn,'category_id',$location);
-                    header("location: $location");
+                    $image_upload->image_upload($tablename,$err_image,$category_image,$id,$send_data_to_db,$column_name,$row_data,$conn,'category_id',$location);
+                    // header("location: $location");
                     }else{
                         if(!empty($category_image_name)){
                             $location = './category';

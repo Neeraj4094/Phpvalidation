@@ -43,7 +43,7 @@ try{
         admin_id INT(4) PRIMARY KEY AUTO_INCREMENT,
         admin_name VARCHAR(30),
         admin_email VARCHAR(35),
-        admin_password VARCHAR(20),
+        admin_password VARCHAR(100),
         admin_phone_number text(255),
         admin_occupation varchar(20)
     )";
@@ -93,7 +93,7 @@ try{
         user_id INT(4) PRIMARY KEY AUTO_INCREMENT,
         user_name VARCHAR(30),
         user_email VARCHAR(40),
-        user_password VARCHAR(20),
+        user_password VARCHAR(100),
         user_phone_no text(255),
         user_address VARCHAR(50),
         gender varchar(10),
@@ -120,8 +120,9 @@ try{
         renting_charges int(5),
         user_name_on_card varchar(40),
         user_card_number int(16),
-        user_card_expiration_date date,
-        user_card_cvc int(4)
+        user_card_expiration_date varchar(35),
+        user_card_cvc int(4),
+        payment_status varchar(10)
     )";
 
     $create_rented_book_table = $createtable->create_table($conn,$rented_book_tablecolumn_name); //Create table of users

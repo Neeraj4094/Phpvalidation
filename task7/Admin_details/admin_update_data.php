@@ -44,7 +44,7 @@ if(!$id){
                 </div>
                 <div class="">
                     <label for="password">Password</label>
-                    <input type="password" name="password" id="password" placeholder="Password" class="border rounded-sm w-full p-1" value="<?php echo $fetch_password_from_id ?>">
+                    <input type="password" name="password" id="password" placeholder="Password" class="border rounded-sm w-full p-1" value="<?php echo $login_password ?>">
                     <span class="text-red-600 text-sm max-w-xs w-60">* <small><?php echo $err_password ?></small></span>
                 </div>
                 <div class="">

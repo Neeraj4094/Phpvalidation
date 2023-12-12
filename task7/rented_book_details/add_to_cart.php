@@ -1,7 +1,8 @@
 <?php
 // include 'database_connection.php';
-include '../send_fetch_data_from_db.php';
-include '../admin_session.php';
+// include '../send_fetch_data_from_db.php';
+// include '../admin_session.php';
+include 'book_fetch_validation.php';
 
 
 $fetch_data_from_db = new fetch_data_from_db();
@@ -88,6 +89,12 @@ if (!empty($_SESSION['login'])) {
 </head>
 
 <body class=" w-full h-full bg-slate-100">
+    <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 z-10 shadow">
+        <?php
+        echo $errmsg;
+
+        ?>
+    </h2>
     <header class="w-full p-2 px-4 flex justify-between items-center border shadow bg-white">
         <div class="w-16 h-16 ">
             <img src="../../Image/Ucodelogo.png" alt="Ucodelogo"
@@ -144,6 +151,7 @@ if (!empty($_SESSION['login'])) {
     <section class="w-full h-full py-7 mb-12 grid place-items-center gap-8 px-20">
         <h2 class="font-bold text-3xl">My Cart</h2>
         <div class=" w-3/5 border p-4 rounded-xl bg-white space-y-6">
+        <form action="add_to_cart" method="post" class="space-y-2">
             <?php
             $edit = '<svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24">
             <path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path>
@@ -175,63 +183,66 @@ if (!empty($_SESSION['login'])) {
                         $book_image = isset($value[10]) ? $value[10] : "";
 
                         ?>
-                        <div class=" w-full grid gap-2 py-2 sm:block md:grid mt-2 rounded-md border shadow">
-                            <div class=" flex justify-between items-start p-2 gap-4 relative">
-                                <div class=" flex justify-between items-start gap-4 ">
-                                    <div class=" w-28 h-40 flex items-center justify-center rounded-md">
-                                        <?php
-                                        if ($book_image != "") {
-                                            $images = "../../Image/" . $book_image;
-                                            $res = "<img src='$images' alt='Image ' class='w-full h-full rounded-md object-cover flex items-center justify-center'>";
-                                            echo "$res<br>";
-                                        } else {
-                                            $col = '<div class= "flex items-center justify-center w-8 h-8"><svg class="w-full h-full text-slate-500" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"></path></svg></div>';
-                                            echo "$col<br>";
-                                        }
-                                        ?>
-                                    </div>
-                                    <div class=" space-y-8">
-                                        <div class="flex gap-8 items-start ">
-                                            <div>
-                                                <div class="font-semibold">
-                                                    <h2 class="">
-                                                        <?php echo "Book: " . $book_name ?>
-                                                    </h2>
-                                                    <p class="">
-                                                        <?php echo "Category :- " . $book_category ?>
-                                                    </p>
-                                                    <p>
-                                                        <?php echo "Author :- " . $book_author ?>
+                        <div class="flex items-center gap-4">
+                        <input type="checkbox" value="<?php echo $book_id ?>" name="select_to_cart[]" id="<?php echo $book_id ?>" class="w-4 h-4">
+                        <label for="<?php echo $book_id ?>">
+                            <div class=" w-full grid gap-2 py-2 sm:block md:grid mt-2 rounded-md border shadow">
+                                <div class=" flex justify-between items-start p-2 gap-4 relative">
+                                    <div class=" flex justify-between items-start gap-4 ">
+                                        <div class=" w-28 h-40 flex items-center justify-center rounded-md">
+                                            <?php
+                                            if ($book_image != "") {
+                                                $images = "../../Image/" . $book_image;
+                                                $res = "<img src='$images' alt='Image ' class='w-full h-full rounded-md object-cover flex items-center justify-center'>";
+                                                echo "$res<br>";
+                                            } else {
+                                                $col = '<div class= "flex items-center justify-center w-8 h-8"><svg class="w-full h-full text-slate-500" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"></path></svg></div>';
+                                                echo "$col<br>";
+                                            }
+                                            ?>
+                                        </div>
+                                        <div class=" space-y-8">
+                                            <div class="flex gap-8 items-start ">
+                                                <div>
+                                                    <div class="font-semibold">
+                                                        <h2 class="">
+                                                            <?php echo "Book: " . $book_name ?>
+                                                        </h2>
+                                                        <p class="">
+                                                            <?php echo "Category :- " . $book_category ?>
+                                                        </p>
+                                                        <p>
+                                                            <?php echo "Author :- " . $book_author ?>
+                                                        </p>
+                                                    </div>
+                                                    <p class=" font-normal">
+                                                        <?php echo "Available :- " . $book_copies . " copies" ?>
                                                     </p>
                                                 </div>
-                                                <p class=" font-normal">
-                                                    <?php echo "Available :- " . $book_copies . " copies" ?>
-                                                </p>
-                                            </div>
-                                            <div class="flex items-start justify-between gap-6 pt-1 absolute top-2 right-2">
-                                                <p class=" bg-purple-500 text-white px-3 py-1 rounded-md">
-                                                    <?php echo "Price :- " . $book_price ?>
-                                                </p>
-                                                <form action="delete_cart.php?book_id=<?php echo $book_id ?>" method="post">
-                                                    <button data-toggle="tooltip" data-placement="top" title="Delete"
+                                                <div class="flex items-start justify-between gap-3 pt-1 ">
+                                                    <p class=" bg-purple-500 text-white px-3 py-1 rounded-md">
+                                                        <?php echo "Price:-" . $book_price ?>
+                                                    </p>
+                                                    <a href="delete_cart.php?book_id=<?php echo $book_id ?>" data-toggle="tooltip" data-placement="top" title="Delete"
                                                         class="border-2 px-4 py-1 rounded-md">
                                                         <?php echo $delete ?>
-                                                    </button>
-                                                </form>
-                                            </div>
+                                                    </a>
+                                                </div>
+                                        </div>
+                                        </div>
                                     </div>
-                                    </div>
+                                    
                                 </div>
-                                
                             </div>
+                        </label>
                         </div>
                     <?php }
                 }
             } ?>
-            <form action="delete_books.php?id=<?php echo $book_id ?>" method="post">
-            <button class=" bg-blue-600 text-white px-3 py-1 rounded-md text-center font-semibold">Buy Now</button>
-            </form>
+            
+            <input type="submit" name="select_cart" value="Buy Now" class=" bg-blue-600 text-white px-3 py-1 cursor-pointer rounded-md text-center font-semibold">
             <?php } ?>
+        </form>
         </div>
     </section>
 </body>

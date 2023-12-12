@@ -11,7 +11,7 @@ if(!empty($user_email)){
         echo "Error: " . mysqli_error($conn);
     }
 }else{
-    $delete_from_db = $delete_cart_data->deletefromdb('cart_details', $conn, 'book_id', $book_id, 'buy_book.php?book_id=' . $book_id . '');
+    $delete_from_db = $delete_cart_data->deletefromdb('cart_details', $conn, 'book_id', $book_id, 'buy_book?book_id=' . $book_id . '');
     if(!$delete_from_db){
         echo "Error: " . mysqli_error($conn);
     }

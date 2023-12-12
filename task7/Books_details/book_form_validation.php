@@ -6,13 +6,16 @@ $total_book_copies = 0;
 $book_name_array = [];
 
 $fetch_get_category_name = isset( $_GET["category_name"] ) ? $_GET["category_name"] :"";
+
 $fetch_books_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
 foreach ($fetch_books_data_from_db as $row) {
     $book_name_array_list = strtolower($row[1]);
     $book_name_array[] = ucfirst($book_name_array_list);
     $fetch_all_book_categories[] = $row[3];   
 }
-
+if(empty($fetch_get_category_name)){
+    $fetch_category_name_array = $fetch_all_book_categories;
+}
 $fetch_book_copies = $fetch_data_from_db->fetch_data('books_details','book_copies', $category_name, $conn, 'book_category');
 $total = count($fetch_book_copies);
 $total_book_copies = array_sum(array_map('array_sum', $fetch_book_copies));

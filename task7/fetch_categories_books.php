@@ -3,7 +3,6 @@
 include 'send_fetch_data_from_db.php';
 include 'admin_session.php';
 
-
 $fetch_data_from_db = new fetch_data_from_db();
 $category_name = isset($_GET['book_category']) ? $_GET['book_category'] :'';
 
@@ -83,7 +82,7 @@ if(!empty($_SESSION['login'])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../dist/output.css">
+    <link rel="stylesheet" href="../../dist/output.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Document</title>
 </head>
@@ -91,7 +90,7 @@ if(!empty($_SESSION['login'])){
 <body class=" w-full h-full bg-slate-100">
 <header class="w-full p-2 px-4 flex justify-between items-center border shadow">
         <div class="w-16 h-16 ">
-            <img src="../Image/Ucodelogo.png" alt="Ucodelogo"
+            <img src="../../Image/Ucodelogo.png" alt="Ucodelogo"
                 class="w-full h-full object-cover border rounded-full shadow shadow-black">
         </div>
         <nav>
@@ -150,12 +149,11 @@ if(!empty($_SESSION['login'])){
                 $actual_book_image = isset($value[10]) ? $value[10] : '';
                 $book_price = isset($value[5]) ? $value[5] :'';
                 
-                
                 ?>
                 <article class="w-60 h-80 border text-center rounded-xl cursor-pointer relative">
-                    <a href="renting_books/buy_book.php?book_id=<?php echo $category_id ?>" class=" absolute inset-0 z-10"></a>
+                    <a href="../rented_book_details/buy_book?book_id=<?php echo $category_id ?>" class=" absolute inset-0 z-10"></a>
                     <div class="w-full h-full rounded-xl relative">
-                        <img src="../Image/<?php echo $actual_book_image ?>" alt="Book1"
+                        <img src="../../Image/<?php echo $actual_book_image ?>" alt="Book1"
                             class="w-full h-full object-cover rounded-xl">
                     </div>
                     <h2 class="font-bold text-2xl">

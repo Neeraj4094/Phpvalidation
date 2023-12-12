@@ -1,7 +1,7 @@
 <?php
 include 'admin_update_fetch_data.php';
 
-if ($_SESSION == null) {
+if ($_SESSION['admin'] == null) {
     header("location: ./admin_login");
 }else{
     $page = "Details";
@@ -16,6 +16,7 @@ if(isset($_POST['search'])){
     $search = strtolower($_POST['search']);
 }
 
+$hashed_password = password_hash($admin_logged_in_password, PASSWORD_DEFAULT);
 
 ?>
 
@@ -89,13 +90,15 @@ if(isset($_POST['search'])){
                         $itemoccupation = $item[5];
 
                         $registerid = $item[0];
-
-                        
-                        $check = in_array($_SESSION["email"], $item);
+                        // print_r($session_email);
+                        $check = in_array($session_email, $item);
                         $checkid = $check ? $admin_logged_in_id : $itemid;
                         $username = $check ? $admin_logged_in_name : $itemname;
                         $useremail = $check ? $admin_logged_in_email : $itememail;
-                        $userpassword = $check ? $admin_logged_in_password : substr($itempassword, 0, 4) . "**********";
+                        
+                        // $admin_password = password_verify($_SESSION['admin']['password'], $admin_logged_in_password);
+                        // echo $login_password;
+                        // $userpassword = $check ? $login_password : substr($itempassword, 0, 4) . "**********";
                         $user_phone_number = $check ? $admin_logged_in_phone_number : $item_phone_number;
                         // $useroccupation = $check ? $admin_logged_in_occupation : $itemoccupation;
                         // $userskills = $check ? $dataskills : $itemskills;
@@ -146,12 +149,12 @@ if(isset($_POST['search'])){
                                                 </p>
                                             </div>
                                             <div class="space-y-1">
-                                                <p>Email :-
+                                                <!-- <p>Email :-
                                                     <?php echo $useremail ?>
-                                                </p>
-                                                <p>Password :-
+                                                </p> -->
+                                                <!-- <p>Password :-
                                                     <span class="<?php  echo $textcolor ?>"><?php echo $userpassword ?></span>
-                                                </p>
+                                                </p> -->
                                             </div>
                                         </div>
 

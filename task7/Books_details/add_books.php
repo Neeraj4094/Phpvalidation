@@ -7,6 +7,7 @@ if (!empty($err_image)) {
 }
 
 
+
 ?>
 
 <!DOCTYPE html>
@@ -40,8 +41,13 @@ if (!empty($err_image)) {
                             <label for="category">Category Name :-</label>
                             <select name="category_name" id="category" class="rounded-lg bg-slate-100 text-slate-500 border w-60 p-2 ">
                                 <option value="" class="bg-transparent p-1">Select Category</option>
+                                <?php if(!empty($fetch_category_name_array)){
+                                    foreach($fetch_category_name_array as $category_name){
+                                     ?>
+                                    <option value="<?php echo $category_name ?>" class="bg-transparent p-1"><?php echo $category_name ?></option>
+                                <?php } }else{ ?>
                                     <option value="<?php echo $fetch_get_category_name ?>" selected class="bg-transparent p-1"><?php echo $fetch_get_category_name ?></option>
-                                <?php  ?>
+                               <?php } ?>
                             </select>
                         </div>
                             <!-- <input type="text" name="category_name" id="first_name" placeholder="Category Name"

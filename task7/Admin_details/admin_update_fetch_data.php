@@ -3,8 +3,13 @@
 include ("../admin_session.php");
 include '../send_admin_data_to_db.php';
 
-
 $password = $user_password;
+$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+// if (password_verify($password, $hashed_password)) {
+//         echo "Login successful!";
+// } else {
+//             echo "Login failed.";
+// }
 $send_data_to_db = new send_data_to_db();
 // $fetch_data_from_db = new fetch_data_from_db();
 
@@ -32,10 +37,11 @@ $tablename = "admin_data";
 $fetch_data_from_db = new fetch_data_from_db ();
 $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablename);
 $check_email = $fetch_data_from_db->searchemail($admin_fetch_data_from_db,$login_email);
-
-
-$session_email = isset($_SESSION['email']) ? $_SESSION['email'] : '';
+$session_email = isset($_SESSION['admin']['email']) ? $_SESSION['admin']['email'] : '';
+$login_password = isset($_SESSION['admin']['password']) ? $_SESSION['admin']['password'] : '';
 $logged_in_data = $fetch_data_from_db->searchemail($admin_fetch_data_from_db, $session_email);
+
+$check_login_password = isset($check_email[3]) ? $check_email[3] :'';
 
 $admin_logged_in_id = isset($logged_in_data[0]) ? $logged_in_data[0] : '';
 $admin_logged_in_name = isset($logged_in_data[1]) ? $logged_in_data[1] : '';
@@ -45,6 +51,8 @@ $admin_logged_in_phone_number = isset($logged_in_data[4]) ? $logged_in_data[4] :
 $admin_logged_in_occupation = isset($logged_in_data[5]) ? $logged_in_data[5] : '';
 
 
+// $admin_password = password_verify($admin_logged_in_password,$login_password);
+// echo $admin_password;
 $fetch_all_admin_data = $fetch_data_from_db->fetchdatafromdb($conn, $tablename);
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
     if(isset($_POST['submit'])){
@@ -57,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         if(($err_name == null && $err_email == null && $err_password == null && $err_phone_number == null && $err_role == null)){
             $admin_data = "admin_data";
             $column_name = ['admin_name','admin_email','admin_password','admin_phone_number','admin_occupation'];
-            $row_data = [$name,$email,$password,$phone_number,$occupation];
+            $row_data = [$name,$email,$hashed_password,$phone_number,$occupation];
             
             if(!in_array($email,$check_email_exists)){
                 $admin_register_data = $send_data_to_db->insertindb($admin_data, $column_name, $row_data, $conn);
@@ -77,55 +85,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $err_phone_number = $admin_entered_details->phone_length($phone_number,10);
         $err_roles = $admin_entered_details->emp($occupation);
 
-        
         if(($err_name == null && $err_email == null && $err_password == null && $err_phone_number == null && $err_occupation == null)){
             $admin_table_columns_name = ['admin_name','admin_email','admin_password','admin_phone_number','admin_occupation'];
-            $admin_table_columns_data = [$name,$email,$password,$phone_number,$occupation];
+            $admin_table_columns_data = [$name,$email,$hashed_password,$phone_number,$occupation];
             $column_id_name = 'admin_id';
             
             // header("location: ./admin_login.php");
-            if(in_array($fetch_email_from_id,$_SESSION)){
-                if(!in_array($email,$_SESSION) || !in_array($password,$_SESSION)){
-
-                    if(!in_array($email,$check_email_exists) || !in_array($password,$check_email_exists)){
-
-                    $_SESSION = ["email" => $email, "password" => $password];
-                    $updated_data = $send_data_to_db->update_to_tb('admin_data',$admin_table_columns_name,$admin_table_columns_data,$column_id_name,$id,$conn);
-                    if(!$updated_data){
-                        echo "Error: " . mysqli_error($conn);
+            // print_r($fetch_email_from_id);
+            if(in_array($fetch_email_from_id,$_SESSION['admin'])){
+                    if(!in_array($email,$_SESSION['admin']) || !password_verify($password,$login_password)){
+                        if(!in_array($email,$check_email_exists) || !password_verify($password,$login_password)){
+                            
+                            $_SESSION['admin'] = ["email" => $email, "password" => $password];
+                            // print_r($_SESSION);
+                        $updated_data = $send_data_to_db->update_to_tb('admin_data',$admin_table_columns_name,$admin_table_columns_data,$column_id_name,$id,$conn);
+                        if(!$updated_data){
+                            echo "Error: " . mysqli_error($conn);
+                        }
+                        header("location: ./admin");
+                        }else{
+                            echo "This email already exists";
+                        }
+                    }else{
+                        $updated_data = $send_data_to_db->update_to_tb('admin_data',$admin_table_columns_name,$admin_table_columns_data,$column_id_name,$id,$conn);
+                        if(!$updated_data){
+                            echo "Error: " . mysqli_error($conn);
+                        }
+                        header("location: ./admin");
                     }
-                    header("location: ./admin");
-                }else{
-                    echo "This email already exists";
                 }
-            }else{
-                $updated_data = $send_data_to_db->update_to_tb('admin_data',$admin_table_columns_name,$admin_table_columns_data,$column_id_name,$id,$conn);
-                if(!$updated_data){
-                    echo "Error: " . mysqli_error($conn);
-                }
-                header("location: ./admin");
             }
-            }
-        }
-        else{
-            $errmsg = "Please complete the form";
-        }
-    }else{
-        if(isset($_POST['login'])) {
-            $err_login_email = $admin_entered_details->email_match($login_email);
-            $err_login_password = $admin_entered_details->validation_password($login_password);
-            if($err_login_email == null && $err_login_password == null) {
-                if(in_array($login_email, $check_email) && in_array($login_password, $check_email)) {
-                    $_SESSION = ["email" => $login_email, "password" => $login_password];
-                    header("location: ./admin");
-                } else {
-                    $errmsg = "Email & password not matched";
-                }
-            } else {
+            else{
                 $errmsg = "Please complete the form";
             }
+        }else{
+            if(isset($_POST['login'])) {
+                $err_login_email = $admin_entered_details->email_match($login_email);
+                $err_login_password = $admin_entered_details->validation_password($admin_password);
+                
+                $login_hashed_password = password_hash($admin_password, PASSWORD_DEFAULT);
+                // print_r($check_email);
+                // if(password_hash($admin_password, $check_email)){
+                //     echo "Ok";
+                // }else{
+                //     echo "No";
+                // }
+                if($err_login_email == null && $err_login_password == null) {
+                    if(in_array($login_email, $check_email) && password_verify($admin_password, $check_login_password)) {
+                        $_SESSION['admin'] = ["email" => $login_email, "password" => $admin_password];
+                        header("location: ./admin");
+                    } else {
+                        $errmsg = "Email & password not matched";
+                    }
+                } else {
+                    $errmsg = "Please complete the form";
+                }
+            }
         }
-    }
 }
 
 ?>

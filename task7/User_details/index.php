@@ -13,6 +13,14 @@ if(!empty($id)){
     $delete_path = '';
     $update_page_url = '';
     $delete_page_url = '';
+    $category_path = '';
+    $category_page_url = '';
+    $rented_book_url = '';
+    $rented_book_path = '';
+    $thanks_page_url = '';
+    $thanks_path = '';
+    $book_page_url = '';
+    $book_path = '';
 }
 include '../view/index.php';
 ?>

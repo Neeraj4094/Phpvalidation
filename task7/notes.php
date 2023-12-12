@@ -11,6 +11,7 @@
     //remove class of validation for isset or empty
     //do not delete user, show active/ in-active
     //lock user and can't login again
+    //Category db
     names of pages
     set link of anchor in header
     add radio button for choosing plan for days in buy_books.php
@@ -21,14 +22,15 @@
     half payment advance
     add session['admin']
     password not show in update admin data
+    if user has already purchase the book then show an error
+    auto complete when submit
     
-    add checkbox in add to cart
-    Category db
+    //admin
+    //user
+    //router
+    //add column "book_id" in rented_book table for checking double entry
+    **add checkbox in add to cart
     Password hash
-    admin
-    user
-    add column "book_id" in rented_book table for checking double entry
-    router
     forget password
     timing of return and if late send a mail to user
     Add rounter and make a class of authentication and handle errors whenever edit , update are used
@@ -36,6 +38,9 @@
     set router paths and specially for values passed in url
     book already exist
     ********** add comments in all files
+    handle ordering books
+    add remove button for ordering book through cart
+    add a modal for showing fine details
 }
  -->
 

@@ -10,6 +10,9 @@ $tablename = "user_details";
 if(empty($check_email)){
     $check_email = [];
 }
+
+$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
 $user_status = $user_actual_status = '';
 $send_data_to_db = new send_data_to_db();
 $fetch_data_from_db = new fetch_data_from_db ();
@@ -18,7 +21,7 @@ $check_email = $fetch_data_from_db->searchemail($admin_fetch_data_from_db,$email
 
 $check_user_email = $fetch_data_from_db->searchemail($admin_fetch_data_from_db,$login_email);
 $user_status = isset($check_user_email[7])? $check_user_email[7] :'';
-
+$user_login_password = isset( $check_user_email[3])? $check_user_email[3] :'';
 $id = isset($_GET['id']) ? intval($_GET['id']) : '';
 $image_upload = new image();
 
@@ -51,7 +54,7 @@ if(isset($_POST['add_users'])){
             if(($email == $fetch_user_email) && ($password == $fetch_user_password)){
                 // echo "ok";
                 $column_name = ['user_name','user_email','user_password','user_phone_no','gender'];
-                $column_data = [$name,$email,$password,$phone_number,$gender];
+                $column_data = [$name,$email,$hashed_password,$phone_number,$gender];
                 $update_user = $send_data_to_db->update_to_tb($tablename,$column_name,$column_data,'user_id',$id,$conn);
                 if(!$update_user){
                     echo "Error: " . mysqli_error($conn);
@@ -60,7 +63,7 @@ if(isset($_POST['add_users'])){
                 }
             }elseif((!in_array($email,$check_email)) || (!in_array($password,$check_email))){
                 $column_name = ['user_name','user_email','user_password','user_phone_no','gender'];
-                $column_data = [$name,$email,$password,$phone_number,$gender];
+                $column_data = [$name,$email,$hashed_password,$phone_number,$gender];
                 
                 $session_login[] = isset($_SESSION['login'])?$_SESSION['login']:'';
                 if(in_array($fetch_user_email,$session_login)){
@@ -80,7 +83,7 @@ if(isset($_POST['add_users'])){
         }else{
             if(!in_array($email,$check_email)){
                 $column_name = ['user_name','user_email','user_password','user_phone_no','user_address','gender','user_status'];
-                $row_data = [$name,$email,$password,$phone_number,$address,$gender,$lock_user];
+                $row_data = [$name,$email,$hashed_password,$phone_number,$address,$gender,$lock_user];
                 $insert_user = $send_data_to_db->insertindb($tablename, $column_name, $row_data, $conn);
                 if(!$insert_user){
                     echo "Error: " . mysqli_error($conn);
@@ -102,7 +105,7 @@ if(isset($_POST['add_users'])){
             foreach($admin_fetch_data_from_db as $data){
                 $user_actual_status = isset( $data[7] ) ? $data[7] :'';
             if($user_status != 'Blocked'){
-            if (in_array($login_email, $check_user_email) && in_array($login_password, $check_user_email)) {
+            if (in_array($login_email, $check_user_email) && password_verify($login_password, $user_login_password)) {
                 $_SESSION['login'] = ["email" => $login_email, "password" => $login_password];
                 header("location: ../home_page");
             } else {

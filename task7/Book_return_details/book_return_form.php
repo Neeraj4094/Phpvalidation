@@ -17,7 +17,7 @@ include 'books_return_validation.php';
 <body class=" bg-slate-100">
 <h2 class="w-full border text-center bg-green-50 text-green-800 fixed top-0 shadow">
         <?php
-        echo $errmsg;
+        // echo $errmsg;
 
         ?>
     </h2>

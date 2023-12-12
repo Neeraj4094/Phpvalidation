@@ -1,39 +1,90 @@
 <?php
 // include '../database_connection.php';
-include '../send_fetch_data_from_db.php';
+// include '../send_fetch_data_from_db.php';
+include './book_fetch_validation.php';
+
 
 if(empty($id)){
 $book_renting_amount = $book_price = 0;
 $book_name = $book_author = $book_category = $book_issue_date = $book_returned_date = $user_address = $user_city = $user_state = '';
 }
-$buy_book_id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : '';
+// $buy_book_id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : '';
 $fetch_data_from_db = new fetch_data_from_db();
 $fetch_buy_book_id_query = $fetch_data_from_db->fetchiddata('books_details', $buy_book_id, $conn, 'book_id');
 $fetch_buy_book_id_data = mysqli_fetch_all($fetch_buy_book_id_query);
 
 $fetch_rented_book_id_query = $fetch_data_from_db->fetchiddata('rented_book_details', $buy_book_id, $conn, 'book_id');
 $fetch_rented_book_id_data = mysqli_fetch_all($fetch_rented_book_id_query);
-
-foreach($fetch_buy_book_id_data as $key => $value) {
-    // $book_id = isset($value[0]) ? ucwords($value[0]) : '';
-    $book_name = isset($value[1]) ? ucwords($value[1]) : '';
-    $book_author = isset($value[2]) ? $value[2] :'';
-    $book_category = isset($value[3]) ? $value[3] :'';
-    $book_price = isset($value[5]) ? $value[5] :'';
-    // $book_description = isset($value[6]) ? $value[6] :'';
-    $book_image = isset($value[10]) ? $value[10] :'';
-}
+// foreach($fetch_buy_book_id_data as $key => $value) {
+//     // $book_id = isset($value[0]) ? ucwords($value[0]) : '';
+//     $book_name = isset($value[1]) ? ucwords($value[1]) : '';
+//     $book_author = isset($value[2]) ? $value[2] :'';
+//     $book_category = isset($value[3]) ? $value[3] :'';
+//     $book_price = isset($value[5]) ? $value[5] :'';
+//     // $book_description = isset($value[6]) ? $value[6] :'';
+//     $book_image = isset($value[10]) ? $value[10] :'';
+// }
 
 foreach($fetch_rented_book_id_data as $value){
     $user_address =  isset($value[3]) ? $value[3] : '';
     $user_state =  isset($value[4]) ? $value[4] : '';
     $user_city =  isset($value[5]) ? $value[5] : '';
     $book_issue_date =  isset($value[8]) ? $value[8] : '';
-    $book_returned_date =  isset($value[9]) ? $value[9] : '';
+    $book_return_date =  isset($value[9]) ? $value[9] : '';
     $book_renting_amount = isset($value[10]) ? $value[10] : '';
 }
 $actual_book_renting_charges = ($book_renting_amount - 10);
 
+$fetch_rented_book_data = $fetch_data_from_db->fetchdatafromdb($conn,'rented_book_details');
+
+foreach($cart_item_array as $item){
+    $fetch_rented_book_id_query = $fetch_data_from_db->fetchiddata('rented_book_details', $item, $conn, 'book_id');
+    $fetch_cart_rented_book_data[] = mysqli_fetch_all($fetch_rented_book_id_query);
+}
+
+function match_id($item,$fetch_rented_book_data,$login_email){
+    $book_price='';
+    foreach($fetch_rented_book_data as $data){
+        $rented_book_table_useremail = isset($data[1]) ? $data[1] : '';
+        $rented_book_table_bookid = isset($data[7]) ? $data[7] : '';
+        
+        // echo $rented_book_table_useremail;
+        if($item == $rented_book_table_bookid && $login_email == $rented_book_table_useremail){    
+        $book_price = $data;
+        }
+    }
+    return $book_price;
+}
+foreach($cart_item_array as $item){
+    $rented_books_price_array[] = match_id($item,$fetch_rented_book_data,$login_email);
+}
+// echo $price;
+// foreach($cart_book_id_data as $data){
+//     foreach($rented_books_price_array as $price){
+//     $data[0][11] = isset( $price ) ? $price :'';
+// }
+
+// echo "<pre>";
+// // print_r($cart_book_id_data);
+// print_r($rented_books_price_array);
+// echo "</pre>";
+// }
+// }
+// $book_price = 0;
+
+if(!empty($get_selected_cart_item)){
+    foreach($rented_books_price_array as $data){
+        $actual_book_renting_charges += isset($data[10]) ? $data[10] :"";
+        $book_issue_date = isset($data[8]) ? $data[8] :"";
+        $book_return_date = isset($data[9]) ? $data[9] :"";
+    }
+}
+    // $book_issue_date =  isset($value[8]) ? $value[8] : '';
+    // $book_returned_date =  isset($value[9]) ? $value[9] : '';
+    // $book_renting_amount = isset($value[10]) ? $value[10] : '';
+
+// echo $book_renting_amount;
+$book_renting_amount = 10 + $actual_book_renting_charges;
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +101,7 @@ $actual_book_renting_charges = ($book_renting_amount - 10);
 </head>
 
 <body>
-    <section class="h-full w-full bg-slate-50 py-8">
+    <section class="h-full w-full  py-8">
         <div class="px-4 flex gap-2 ">
             <div class="px-2 w-full flex-1">
                 <img src="https://tailwindui.com/img/ecommerce-images/confirmation-page-06-hero.jpg" alt="TODO" class="w-full h-full object-cover">
@@ -67,6 +118,14 @@ $actual_book_renting_charges = ($book_renting_amount - 10);
                     <a href="" class="text-blue-600">51547878755545848512</a>
                 </div>
                 <div class="py-4">
+                <?php foreach($cart_book_id_data as $data){ 
+                        $book_name = !empty($data[0][1]) ? ucwords($data[0][1]) : '';
+                        $book_author = !empty($data[0][2]) ? $data[0][2] : '';
+                        $book_category = !empty($data[0][3]) ? $data[0][3] : '';
+                        $book_price = !empty($data[0][5]) ? $data[0][5] : '';
+                        $book_image = !empty($data[0][10]) ? $data[0][10] : '';
+                        ?>
+                        
                     <article class="flex w-full border-b py-2">
                         <div class=" w-32 h-40 p-2">
                             <img src="../../Image/<?php echo $book_image ?>" alt="" class=" w-full h-full object-cover rounded-lg">
@@ -86,7 +145,7 @@ $actual_book_renting_charges = ($book_renting_amount - 10);
 
                         </div>
                     </article>
-                    
+                    <?php } ?>
                 </div>
                 <div class=" border-b">
                     <div class="flex justify-between px-4  py-2">
@@ -109,7 +168,7 @@ $actual_book_renting_charges = ($book_renting_amount - 10);
                 </div>
                 <div class="flex justify-between px-3">
                     <p class="text-slate-800 font-semibold text-xl bg-slate-100 rounded-lg px-2">Book Returned date</p>
-                    <span><?php echo $book_returned_date ?></span>
+                    <span><?php echo $book_return_date ?></span>
                 </div>
                 <div class="py-6 px-4 flex justify-between border-b">
                     <div class="px-2">

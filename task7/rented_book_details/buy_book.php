@@ -27,12 +27,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["save_to_cart"])) {
         $tablename = 'cart_details';
 
+        $column_name = ['book_id', 'user_email'];
+        $row_data = [$book_id, $login_email];
         if (!in_array($book_id, $cart_book_id) && !in_array($login_email, $cart_user_email)) {
-            $column_name = ['book_id', 'user_email'];
-            $row_data = [$book_id, $login_email];
             $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
             // $cart_msg = '<a href="delete_cart.php?book_id=' . $book_id . '">Delete from Cart</a>';
-            header("location: ./buy_book.php?book_id=" . $book_id);
+            header("location: ./buy_book?book_id=" . $book_id);
+        }elseif(in_array($book_id, $cart_book_id) && !in_array($login_email, $cart_user_email)){
+            $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
+            // $cart_msg = '<a href="delete_cart.php?book_id=' . $book_id . '">Delete from Cart</a>';
+            header("location: ./buy_book?book_id=" . $book_id);
+        }else{
+            $errmsg = "Sorry";
         }
     }
 }
@@ -191,7 +197,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <?php 
                  if (!in_array($book_id, $cart_data) && !in_array($login_email, $cart_data)) { ?>
-                    <form action="buy_book.php?book_id=<?php echo $book_id ?>" method="post"
+                    <form action="buy_book?book_id=<?php echo $book_id ?>" method="post"
                         class="absolute right-2 top-2 ">
                         <button type="submit" name="save_to_cart"><svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -208,7 +214,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </form>
                 <?php } else { 
                     if (in_array($book_id, $cart_data) && !in_array($login_email, $cart_data)) { ?>
-                    <form action="buy_book.php?book_id=<?php echo $book_id ?>" method="post"
+                    <form action="buy_book?book_id=<?php echo $book_id ?>" method="post"
                         class="absolute right-2 top-2 ">
                         <button type="submit" name="save_to_cart"><svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -358,12 +364,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </details>
                         </div>
                     </div>
-                    <form class="flex flex-col space-y-6 py-6">
+                    <!-- <form class="flex flex-col space-y-6 py-6"> -->
 
-                        <a href="./rented_book_details.php?buy_book_id=<?php echo $book_id ?>"
+                        <a href="rented_books?buy_book_id=<?php echo $book_id ?>"
                             class="py-3 border flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-lg">Buy
                             Now</a>
-                    </form>
+                    <!-- </form> -->
                 </div>
             </div>
     </main>

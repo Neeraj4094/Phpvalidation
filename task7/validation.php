@@ -121,7 +121,7 @@ trait errorhandler
 class admin_data_validation{
     use errorhandler;
     public $name, $email , $password, $occupation, $phone_number,$login_email,$login_password, $book_category_name,$book_name,$author_name,$book_copies,$book_image,$category_image,$user_gender,$user_address,$book_return_date,$book_price,$book_description;
-    public $user_adress,$user_state,$user_city,$user_postal_code,$user_name_on_card,$user_card_number,$user_card_expiration_date,$user_card_cvc,$user_payment_method,$review,$user_review;
+    public $user_adress,$user_state,$user_city,$user_postal_code,$user_name_on_card,$user_card_number,$user_card_expiration_date,$user_card_cvc,$user_payment_method,$review,$user_review,$select_to_cart;
     public function admin_data_validation(){
         $submitname = $submitemail = $submitpassword= $submitphone_number = $submitoccupation= $submit_login_email = $submit_login_password = $submit_user_gender = $submit_address ='';
         if(!empty($_POST['name']) || !empty($_POST['email']) || !empty($_POST['password']) || !empty($_POST['phone_number']) || !empty($_POST['occupation']) || !empty($_POST['gender']) || !empty($_POST['address'])){
@@ -171,7 +171,7 @@ class admin_data_validation{
         }
 
         // Category_name
-        $submit_category_image = $submit_book_return_date = $submit_user_adress =$submit_user_state= $submit_user_city = $submit_user_postal_code= $submit_user_name_on_card = $submit_user_card_number = $submit_user_card_expiration_date = $submit_user_card_cvc = $submit_review = $submit_user_review = '';
+        $submit_category_image = $submit_book_return_date = $submit_user_adress =$submit_user_state= $submit_user_city = $submit_user_postal_code= $submit_user_name_on_card = $submit_user_card_number = $submit_user_card_expiration_date = $submit_user_card_cvc = $submit_review = $submit_user_review = $submit_select_to_cart = '';
         if(isset($_FILES['category_image'])){
             $this->category_image = (isset($_FILES['category_image'])) ? $_FILES['category_image'] : '';
             $submit_category_image = $this->category_image;
@@ -212,7 +212,14 @@ class admin_data_validation{
             $this->review = isset($_POST['review']) ? $_POST['review'] : '';
             $submit_review = $this->review;
         }
-        return array($submitname,$submitemail,$submitpassword,$submitphone_number,$submitoccupation,$submit_login_email,$submit_login_password,$submit_book_category_name,$submit_book_name,$submit_author_name,$submit_book_copies,$submit_book_image,$submit_category_image,$submit_user_gender,$submit_address,$submit_book_return_date,$submit_book_price,$submit_book_description,$submit_user_state,$submit_user_city,$submit_user_postal_code,$submit_user_name_on_card,$submit_user_card_number,$submit_user_card_expiration_date,$submit_user_card_cvc,$submit_review,$submit_user_review);
+        if(!empty($_POST['select_to_cart'])){
+            $cart = $_POST['select_to_cart'];
+            foreach($cart as $cart_item){
+            $this->select_to_cart[] = $cart_item;
+            $submit_select_to_cart = $this->select_to_cart;
+            }
+        }
+        return array($submitname,$submitemail,$submitpassword,$submitphone_number,$submitoccupation,$submit_login_email,$submit_login_password,$submit_book_category_name,$submit_book_name,$submit_author_name,$submit_book_copies,$submit_book_image,$submit_category_image,$submit_user_gender,$submit_address,$submit_book_return_date,$submit_book_price,$submit_book_description,$submit_user_state,$submit_user_city,$submit_user_postal_code,$submit_user_name_on_card,$submit_user_card_number,$submit_user_card_expiration_date,$submit_user_card_cvc,$submit_review,$submit_user_review,$submit_select_to_cart);
     }
 }
 
@@ -254,8 +261,10 @@ if(!empty($resultofform)){
     $user_card_cvc = $resultofform[24];
     $user_rating = $resultofform[25];
     $user_review = $resultofform[26];
+    $user_selected_cart_item = $resultofform[27];
     $book_image_name = isset($book_image['name']) ? $book_image['name'] : '';
     // $category_image_name = isset($category_image['name'])? $category_image['name'] :'';
 }
 $user_password = $password;
+$admin_password = $login_password;
 ?>
