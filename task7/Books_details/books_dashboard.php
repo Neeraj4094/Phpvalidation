@@ -54,7 +54,7 @@ if(isset($_POST['search'])){
             <h1 class="text-2xl font-semibold py-2">Manage Customers</h1>
             <div class="flex items-center justify-between ">
                 <div class="flex items-center relative">
-                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="flex items-center gap-1 relative">
+                    <form action="books" method="post" class="flex items-center gap-1 relative">
                         <input type="search" name="search" id="search"
                             class="border shadow rounded-lg outline-none p-2 w-96" placeholder="Search...">
                         <button type="submit"
@@ -118,6 +118,7 @@ if(isset($_POST['search'])){
                             $data[] = $searchdata;
                         }
                     }
+                    
                     ?>
                     <div
                         class="<?php echo $searchdata ?> py-2 mt-2 <?php ?>  rounded-md border w-full shadow">

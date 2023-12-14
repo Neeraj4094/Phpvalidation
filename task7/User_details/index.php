@@ -20,7 +20,7 @@ if(!empty($id)){
     $thanks_page_url = '';
     $thanks_path = '';
     $book_page_url = '';
-    $book_path = '';
+    $book_path = $reset_password_path = $reset_password_url = '';
 }
 include '../view/index.php';
 ?>

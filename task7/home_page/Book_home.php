@@ -7,69 +7,6 @@ $fetch_data_from_db = new fetch_data_from_db();
 $fetch_book_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'category_details');
 $fetch_user_review_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'user_review_details');
 $show_login_data = '';
-$login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] : '';
-
-$cancel_login = '';
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["login_page"])) {
-        if (empty($login_email)) {
-            $show_login_data = '<div class="grid font-semibold place-items-center w-60 h-60 border rounded-xl shadow z-20 bg-black/40 fixed right-2 top-1 text-black">
-        <a href="../home_page"><span class=" text-white font-bold text-2xl absolute top-2 right-2">
-        <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
-        </span></a>
-        <div class="grid place-items-center gap-4">
-        <button type="submit" name="login_page" data-toggle="tooltip" data-placement="top" title="Login" class="w-auto p-1 border rounded-full shadow">
-        <svg class="w-8 h-8 text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
-                <path
-                    d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z">
-                </path>
-            </svg>
-            </button>
-            <h2 class=" text-lg font-semibold text-white">Hello User</h2>
-        <a href="user_login" class=" bg-slate-100 p-2 rounded-lg">Click to Login</a>
-        </div>
-        </div>';
-        } else {
-            $show_login_data = '<div class="grid font-semibold place-items-center w-60 h-60 border rounded-xl shadow z-20 bg-black/40 fixed right-2 top-1 text-black">
-        <a href="../home_page"><span class=" text-white font-bold text-2xl absolute top-2 right-2">
-        <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
-        </span></a>
-        <div class="grid place-items-center gap-4">
-        <button type="submit" name="login_page" data-toggle="tooltip" data-placement="top" title="Login" class="w-auto p-1 border rounded-full shadow">
-        <svg class="w-8 h-8 text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
-                <path
-                    d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z">
-                </path>
-            </svg>
-            </button>
-            <h2 class=" text-lg font-semibold text-white">Hello User</h2>
-        <a href="user_logout" class=" bg-slate-100 p-2 rounded-lg">Click to Logout</a>
-        </div>
-        </div>';
-        }
-    }
-}
-
-$fetch_id_query = $fetch_data_from_db->fetchiddata('user_details', $login_email, $conn, 'user_email');
-$fetch_id_data = mysqli_fetch_all($fetch_id_query);
-$user_name = isset($fetch_id_data[0][1]) ? $fetch_id_data[0][1] : '';
-
-if (!empty($_SESSION['login'])) {
-    $login_user_name = substr($user_name, 0, 1);
-    $login_image = '<button type="submit" name="login_page" data-toggle="tooltip" data-placement="top" title="Login"
-    class="p-1 border rounded-full shadow"><div class="w-10 h-10 rounded-full border grid place-items-center bg-slate-200 shadow font-bold text-2xl">' .
-        $login_user_name .
-        '</div></button>';
-} else {
-    $login_image = '<button type="submit" name="login_page" data-toggle="tooltip" data-placement="top" title="Login"
-    class="p-1 border rounded-full shadow">
-    <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
-        <path
-            d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z">
-        </path>
-    </svg>
-    </button>';
-}
 
 // $background = '<svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M14.1996 12.3415C13.5685 12.7577 12.8125 13 12 13C9.79086 13 8 11.2091 8 9C8 6.79086 9.79086 5 12 5C14.029 5 15.7051 6.51068 15.965 8.46862C16.3297 10.2611 16.4722 12.416 15.7577 14.3665C14.9923 16.4562 13.2939 18.1714 10.2533 18.9674C9.71898 19.1073 9.17247 18.7875 9.0326 18.2533C8.89273 17.719 9.21246 17.1725 9.74674 17.0326C12.2061 16.3887 13.3577 15.1039 13.8798 13.6786C14.0354 13.2536 14.1391 12.8047 14.1996 12.3415Z" fill="currentColor"></path></svg>';
 
@@ -109,69 +46,7 @@ if (!empty($_SESSION['login'])) {
 </head>
 
 <body class="relative w-full h-full">
-    <header class="w-full p-2 px-4 flex justify-between items-center border shadow">
-        <div class="w-16 h-16 ">
-            <img src="../../Image/Ucodelogo.png" alt="Ucodelogo"
-                class="w-full h-full object-cover border rounded-full shadow shadow-black">
-        </div>
-        <nav>
-            <ul class="flex items-center gap-2">
-                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#">Home</a></li>
-                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#category">Categories</a>
-                </li>
-                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#">Books</a></li>
-                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
-                        href="../book_return_details/return_home_page.php?email=<?php echo $login_email ?>">User
-                        Details</a></li>
-                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
-                        href="user_details/user_login.php">Sign Up</a></li>
-
-            </ul>
-        </nav>
-        <div class="px-1 relative flex items-center gap-4">
-            <form action="" method="post" class="flex items-center gap-1 relative">
-                <input type="search" name="search" id="search" class="border shadow rounded-lg outline-none p-2 w-96"
-                    placeholder="Search...">
-                <button type="submit" class="p-2 pt-3 bg-slate-100 border rounded-r-lg absolute right-0 top-0">
-                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        viewBox="0 0 16 16">
-                        <path
-                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
-                        </path>
-                    </svg>
-                </button>
-            </form>
-            <a href="add_to_cart" class="p-2 border rounded-lg hover:bg-slate-100">
-                <svg class="w-6 h-6  " xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    viewBox="0 0 16 16">
-                    <path
-                        d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z">
-                    </path>
-                </svg>
-            </a>
-            <form action="../user_reviews.php" method="post">
-                <button data-toggle="tooltip" data-placement="top" title="Review" class="border-2 px-4 py-1 rounded-md">
-                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor">
-                        <defs></defs>
-                        <title>Review</title>
-                        <rect x="18" y="26" width="8" height="2"></rect>
-                        <rect x="18" y="22" width="12" height="2"></rect>
-                        <rect x="18" y="18" width="12" height="2"></rect>
-                        <polygon
-                            points="20.549 11.217 16 2 11.451 11.217 1.28 12.695 8.64 19.87 6.902 30 14 26.269 14 24.009 9.559 26.344 10.611 20.208 10.789 19.171 10.036 18.438 5.578 14.091 11.739 13.196 12.779 13.045 13.245 12.102 16 6.519 18.755 12.102 19.221 13.045 20.261 13.196 27.715 14.281 28 12.3 20.549 11.217">
-                        </polygon>
-                        <rect id="_Transparent_Rectangle_" data-name="<Transparent Rectangle>" class="cls-1" width="32"
-                            height="32" style="fill: none"></rect>
-                    </svg>
-                </button>
-            </form>
-            <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
-                <?php echo $login_image ?>
-            </form>
-
-            <?php echo $show_login_data ?>
-        </div>
-    </header>
+    <header><?php include 'home_header.php' ?></header>
     <main class="w-full h-full">
         <section class="grid place-items-center text-center text-white w-full h-full py-44 relative">
             <div

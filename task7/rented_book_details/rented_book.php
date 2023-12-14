@@ -1,7 +1,12 @@
 <?php
 include './book_fetch_validation.php';
 
-
+if($book_copies != 0){
+    $book_quantity = 1;
+    
+    }else{
+        $errmsg = "Out of Stock";
+    }
 // Check if the form is submitted
 // $selectedColor = '';
 // if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -12,6 +17,7 @@ include './book_fetch_validation.php';
 // onchange="this.form.submit()"
 
 // $charges = ($rented_book_price * $selectedColor);
+$low_charges= $mid_charges = $normal_charges = 0;
 ?>
 
 <!DOCTYPE html>
@@ -89,8 +95,9 @@ include './book_fetch_validation.php';
                     
                 </div>
                 <div class="py-6 space-y-2">
-                    <div class="px-1">
+                    <div class="px-1 flex items-center gap-3">
                         <h2 class="font-semibold text-xl">Payment Method</h2>
+                        <span class="font-semibold text-sm">(Pay half payment advance)</span>
                     </div>
                     
                     <div class="flex">
@@ -100,7 +107,7 @@ include './book_fetch_validation.php';
                         <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_name_on_card ?></small></span>
                     </div>
                     <div class="grid py-4 px-2">
-                        <label for="card_number" class="py-1">Card Number</label>
+                        <label for="card_number" class="py-1 flex items-center gap-2"><h3>Card Number</h3><small>(Enter your 16 digit card number)</small></label>
                         <input type="text" name="card_number" id="card_number" placeholder="Card Number" class="border rounded-lg p-2" value="<?php echo $user_card_number ?>">
                         <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_card_number ?></small></span>
                     </div>
@@ -110,14 +117,21 @@ include './book_fetch_validation.php';
                             <div class="grid py-4 px-2">
                                 <label for="card_expiration_date" class="py-1">Expiration date (MM/YY)</label>
                                 <input type="month" name="card_expiration_date" id="card_expiration_date"  class="border rounded-lg p-2" value=" <?php ($user_card_expiration_date) ?>">
-                                <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_card_expiration_date ?></small></span>
+                                <span class="text-red-600 text-sm">* <small><?php echo $err_card_expiration_date ?></small></span>
                             </div>
                         </div>
+                        <div class="flex-1">
                         <div class="grid py-4">
                             <label for="cvc" class="py-1">CVC</label>
-                            <input type="text" name="cvc" id="cvc" placeholder="CVC" class="border rounded-lg p-2" value="<?php echo $user_card_cvc ?>">
-                            <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_cvc ?></small></span>
+                            <input type="password" name="cvc" id="cvc" placeholder="CVC" class="border rounded-lg p-2" value="<?php echo $user_card_cvc ?>">
+                            <span class="text-red-600 text-sm">* <small><?php echo $err_cvc ?></small></span>
                         </div>
+                        </div>
+                        <!-- <div class="grid py-4">
+                            <label for="charges" class="py-1">Pay Charges</label>
+                            <input type="number" name="charges" id="charges" placeholder="Charges" class="border rounded-lg p-2" value="<?php echo $user_card_cvc ?>">
+                            <span class="text-red-600 text-sm ">* <small><?php echo $err_charges ?></small></span>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -129,6 +143,7 @@ include './book_fetch_validation.php';
             </div>
             <div class="grid bg-white shadow border rounded-lg py-6">
                     <?php foreach($cart_book_id_data as $data){ 
+                        $book_id = !empty($data[0][0]) ? ucwords($data[0][0]) : '';
                         $book_name = !empty($data[0][1]) ? ucwords($data[0][1]) : '';
                         $book_author_name = !empty($data[0][2]) ? $data[0][2] : '';
                         $book_category_name = !empty($data[0][3]) ? $data[0][3] : '';
@@ -140,6 +155,12 @@ include './book_fetch_validation.php';
                             $one_week_charges = 7 * $book_charges;
                             $two_week_charges = 14 * $book_charges;
                             $three_week_charges = 21 * $book_charges;
+                            $low_charges += $one_week_charges;
+                            $mid_charges += $two_week_charges;
+                            $normal_charges += $three_week_charges;
+                            // echo $low_term_charges; 
+                            $book_actual_charges = [[1,$low_charges],[2,$mid_charges],[3,$normal_charges]];
+                            
                             // }else{
                             //     $one_week_charges = $two_week_charges = $three_week_charges = 0;
                             // }
@@ -165,25 +186,48 @@ include './book_fetch_validation.php';
                     </article>
                 </div>
                 
+                <?php } ?>
                 
                 <div class="px-4 py-2 border-b-2">
-                    <h3 class="text-lg font-semibold py-2">Ordinary Summary</h3>
-                    <dl class="rounded-lg px-1 space-y-2">
-                        <div class="flex justify-between py-3 border-b">
-                            <dt class=" text-base">Book Charges + Shipping <small>(For 1 week)</small></dt>
-                            <dd class=""><?php echo "$" . $one_week_charges . "+ $10 = " ?><span class="font-semibold"><?php echo "$" .($one_week_charges + 10) ?></span></dd>
+                <div class="grid items-center gap-1">
+                            <h2 for="role" class="w-auto font-semibold">Days for Purchase</h2>
+                            <!-- <select name="occupation" id="role" class="rounded-lg bg-slate-100 text-slate-500 border w-full p-2 ">
+                            <option value="" class="bg-transparent p-1">Select Your Role</option> -->
+                            <?php foreach($book_actual_charges as $charges){
+                                
+                                $week = isset($charges[0]) ? $charges[0] : '';
+                                $book_without_shipping_charges = isset($charges[1]) ? $charges[1] : '';
+                                $book_charges_with_shipping = $book_without_shipping_charges + 10;
+                                ?>
+                                <div class="flex items-center gap-2">
+                                    <input type="radio" name="days_charges"  value="<?php echo $book_charges_with_shipping ?>" id="<?php echo $book_charges_with_shipping ?>">
+                                    <label for="<?php echo $book_charges_with_shipping ?>">
+                                        <div class="flex justify-between gap-4 py-3 border-b">
+                                            <dt class="grid text-sm "><span>Book Charges + Shipping</span> <small>(For <?php echo $week ?> week)</small></dt>
+                                            <dd class=""><?php echo "$" . $book_without_shipping_charges . "+ $10 = " ?><span class="font-semibold flex"><?php echo "$" .($book_without_shipping_charges + 10) ?></span></dd>
+                                        </div>
+                                    </label>
+                                </div>
+                            <?php } ?>
+                            <!-- </select> -->
+                            <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_charges_days ?></small></span>
                         </div>
-                        <div class="flex justify-between py-3 border-b">
+                    <!-- <h3 class="text-lg font-semibold py-2"></h3>
+                    <dl class="rounded-lg px-1 space-y-2"> -->
+                        <!-- <div class="flex justify-between py-3 border-b">
+                            <dt class=" text-sm grid place-items-center"><span>Book Charges</span> + <span>Shipping</span> <small>(For <?php echo $week ?> week)</small></dt>
+                            <dd class="flex"><?php echo "$" . $book_without_shipping_charges . "+ $10 = " ?><span class="font-semibold"><?php echo "$" .($book_without_shipping_charges + 10) ?></span></dd>
+                        </div> -->
+                        <!-- <div class="flex justify-between py-3 border-b">
                             <dt class=" text-base">Book Charges + Shipping <small>(For 2 weeks)</small></dt>
                             <dd class="flex"><?php echo "$" . $two_week_charges ."+ $10 = "  ?><span class="font-semibold"><?php echo "$" .($two_week_charges + 10) ?></span></dd>
                         </div>
                         <div class="flex justify-between py-3">
                             <dt class=" text-base">Book Charges + Shipping <small>(For 3 weeks)</small></dt>
                             <dd class="flex"><?php echo "$" . $three_week_charges . "+ $10 = "  ?><span class="font-semibold"><?php echo "$" .($three_week_charges + 10) ?></span></dd>
-                        </div>
-                    </dl>
+                        </div> -->
+                    <!-- </dl> -->
                 </div>
-                <?php } ?>
                 <div class="p-4">
                        <input type="submit" name="rent_now" value="Submit" class="border w-full py-2 bg-blue-600 cursor-pointer text-center text-white text-lg font-semibold rounded-lg">
                 </div>

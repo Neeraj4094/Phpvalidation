@@ -117,7 +117,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+$book_id = isset( $_GET['book_id'] ) ? intval( $_GET['book_id'] ) : '';
+$fetch_id_query = $fetch_data_from_db->fetchiddata('books_details', $book_id, $conn, 'book_id');
+$fetch_id_data = mysqli_fetch_all($fetch_id_query);
 
+
+foreach($fetch_id_data as $key => $value) {
+    $book_id = isset($value[0]) ? ucwords($value[0]) : '';
+    $book_name = isset($value[1]) ? ucwords($value[1]) : '';
+    $book_author = isset($value[2]) ? $value[2] :'';
+    $book_category = isset($value[3]) ? $value[3] :'';
+    $book_copies = isset($value[4]) ? $value[4] :'';
+    $book_price = isset($value[5]) ? $value[5] :'';
+    $book_description = isset($value[6]) ? $value[6] :'';
+    $book_image = isset($value[10]) ? $value[10] :'';
+}
 
 ?>
 
@@ -134,62 +148,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Document</title>
 </head>
 
-<body class=" w-full h-full text-slate-600 ">
-    <header class="w-full p-2 px-4 flex justify-between items-center border shadow">
-        <div class="w-16 h-16 ">
-            <img src="../../Image/Ucodelogo.png" alt="Ucodelogo"
-                class="w-full h-full object-cover border rounded-full shadow shadow-black">
-        </div>
-        <nav>
-            <ul class="flex gap-6">
-                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#">Home</a></li>
-                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#category">Categories</a>
-                </li>
-                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="#">Books</a></li>
-                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
-                        href="book_return_details/return_home_page.php?email=<?php echo $login_email ?>">Your Orders</a>
-                </li>
-                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
-                        href="user_details/user_login.php">Sign Up</a></li>
-
-            </ul>
-        </nav>
-        <div class="px-1 relative flex items-center gap-4">
-            <form action="" method="post" class="flex items-center gap-1 relative">
-                <input type="search" name="search" id="search" class="border shadow rounded-lg outline-none p-2 w-96"
-                    placeholder="Search...">
-                <button type="submit" class="p-2 pt-3 bg-slate-100 border rounded-r-lg absolute right-0 top-0">
-                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        viewBox="0 0 16 16">
-                        <path
-                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
-                        </path>
-                    </svg>
-                </button>
-            </form>
-            <button class=" shadow rounded-lg" aria-label="Cart" data-toggle="tooltip" data-placement="left"
-                title="View Cart">
-
-                <div class="p-2 border rounded-lg hover:bg-slate-100">
-                    <svg class="w-6 h-6  " xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        viewBox="0 0 16 16">
-                        <path
-                            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z">
-                        </path>
-                    </svg>
-                </div>
-            </button>
-            <!-- <button data-toggle="tooltip" data-placement="top" title="Return" class="p-1 border rounded-full shadow">
-            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M7 5C7 6.10457 6.10457 7 5 7C3.89543 7 3 6.10457 3 5C3 3.89543 3.89543 3 5 3C6.10457 3 7 3.89543 7 5ZM21 5C21 6.10457 20.1046 7 19 7C17.8954 7 17 6.10457 17 5C17 3.89543 17.8954 3 19 3C20.1046 3 21 3.89543 21 5ZM7 19C7 20.1046 6.10457 21 5 21C3.89543 21 3 20.1046 3 19C3 17.8954 3.89543 17 5 17C6.10457 17 7 17.8954 7 19ZM8 5C8 5.35064 7.93985 5.68722 7.82929 6H12.5C12.7761 6 13 6.22386 13 6.5V9H11.5C10.1193 9 9 10.1193 9 11.5V13H6.5C6.22386 13 6 12.7761 6 12.5V7.82929C5.68722 7.93985 5.35064 8 5 8C4.64936 8 4.31278 7.93985 4 7.82929V12.5C4 13.8807 5.11929 15 6.5 15H9V17.5C9 18.8801 10.1183 19.999 11.4982 20C11.1772 19.2304 11 18.3859 11 17.5V11.5C11 11.2239 11.2239 11 11.5 11H17.5C18.3859 11 19.2304 11.1772 20 11.4982C19.999 10.1183 18.8801 9 17.5 9H15V6.5C15 5.11929 13.8807 4 12.5 4H7.82929C7.93985 4.31278 8 4.64936 8 5ZM23 17.5C23 20.5376 20.5376 23 17.5 23C14.4624 23 12 20.5376 12 17.5C12 14.4624 14.4624 12 17.5 12C20.5376 12 23 14.4624 23 17.5ZM15.7071 16L16.3536 15.3536C16.5488 15.1583 16.5488 14.8417 16.3536 14.6464C16.1583 14.4512 15.8417 14.4512 15.6464 14.6464L14.1464 16.1464C13.9512 16.3417 13.9512 16.6583 14.1464 16.8536L15.6464 18.3536C15.8417 18.5488 16.1583 18.5488 16.3536 18.3536C16.5488 18.1583 16.5488 17.8417 16.3536 17.6464L15.7071 17H17.75C18.9926 17 20 18.0074 20 19.25V19.5C20 19.7761 20.2239 20 20.5 20C20.7761 20 21 19.7761 21 19.5V19.25C21 17.4551 19.5449 16 17.75 16H15.7071Z" fill="currentColor"></path></svg>
-            </button> -->
-            <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post">
-                <?php echo $login_image ?>
-            </form>
-            <?php echo $show_login_data ?>
-        </div>
-    </header>
-    <main class="flex h-full w-full gap-4">
-        <div class="flex-1 w-full h-full bg-slate-50 py-20 relative">
+<body class=" w-full h-full text-slate-600">
+    
+    <header><?php include '../home_page/home_header.php' ?></header>
+    <main class="flex w-full gap-4 py-1">
+        <div class="flex-1 w-full h-full bg-slate-50 py-10 relative">
             <div class="grid place-items-center ">
                 <div class="w-60 h-80 border rounded-xl ">
                     <img src="../../Image/<?php echo $book_image ?>" alt="Book1"

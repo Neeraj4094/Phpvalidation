@@ -54,15 +54,25 @@ trait errorhandler
         }
     }
     // Phone Number
-    // public function phone_length($value, $err = null , $length=null){
-    //     $length = strlen($value);
-    //     $err = is_numeric($value) ? '' : 'invalid';
-    //     if($length != 10){
-    //         $err = "Invalid";
-    //     }
-    //     $pattern="[0-9]+(\.[0-9]+)?";
-    //     return $err;
-    // }
+    public function card_expiry_check($user_card_expiration_date, $err = null , $length=null){
+        $current_month = date("m");
+        $current_year = date("Y");
+        if(!empty($user_card_expiration_date)){
+            $expiry = explode("-", $user_card_expiration_date);
+            $expiry_year = $expiry[0];
+            $expiry_month = $expiry[1];
+        }else{
+            $errmsg = "Invalid";
+            $expiry_month = $expiry_year = '';
+        }
+
+        if((($current_month <= $expiry_month) && ($current_year <= $expiry_year)) || (($current_month <= $expiry_month) || ($current_year < $expiry_year))){
+            $errmsg = '';
+        }else{
+            $errmsg = "Invalid";
+        }
+        return $errmsg;
+    }
 
     public function image_validation($book_image,$id,$err_image = null){
         $imageerror = isset($book_image['error']) ? $book_image['error'] : '';
@@ -121,7 +131,7 @@ trait errorhandler
 class admin_data_validation{
     use errorhandler;
     public $name, $email , $password, $occupation, $phone_number,$login_email,$login_password, $book_category_name,$book_name,$author_name,$book_copies,$book_image,$category_image,$user_gender,$user_address,$book_return_date,$book_price,$book_description;
-    public $user_adress,$user_state,$user_city,$user_postal_code,$user_name_on_card,$user_card_number,$user_card_expiration_date,$user_card_cvc,$user_payment_method,$review,$user_review,$select_to_cart;
+    public $user_adress,$user_state,$user_city,$user_postal_code,$user_name_on_card,$user_card_number,$user_card_expiration_date,$user_card_cvc,$user_payment_method,$review,$user_review,$select_to_cart,$days_charges,$advance_charges,$new_password,$confirm_password;
     public function admin_data_validation(){
         $submitname = $submitemail = $submitpassword= $submitphone_number = $submitoccupation= $submit_login_email = $submit_login_password = $submit_user_gender = $submit_address ='';
         if(!empty($_POST['name']) || !empty($_POST['email']) || !empty($_POST['password']) || !empty($_POST['phone_number']) || !empty($_POST['occupation']) || !empty($_POST['gender']) || !empty($_POST['address'])){
@@ -151,7 +161,7 @@ class admin_data_validation{
         }
 
         // Add Books
-        $submit_book_category_name= $submit_book_name = $submit_author_name = $submit_book_copies =$submit_book_image = $submit_book_price = $submit_book_description ='';
+        $submit_book_category_name= $submit_book_name = $submit_author_name = $submit_book_copies =$submit_book_image = $submit_book_price = $submit_book_description = $submit_advance_charges = '';
         if(!empty($_POST['category_name']) || !empty($_POST['book_name']) || !empty($_POST['author_name']) || !empty($_POST['copies']) || isset($_FILES['book_image']) || !empty($_POST['book_price']) || !empty($_POST['description'])){
             $this->book_category_name = (isset($_POST['category_name'])) ? $_POST['category_name'] : '';
             $submit_book_category_name = $this->book_category_name;
@@ -171,7 +181,7 @@ class admin_data_validation{
         }
 
         // Category_name
-        $submit_category_image = $submit_book_return_date = $submit_user_adress =$submit_user_state= $submit_user_city = $submit_user_postal_code= $submit_user_name_on_card = $submit_user_card_number = $submit_user_card_expiration_date = $submit_user_card_cvc = $submit_review = $submit_user_review = $submit_select_to_cart = '';
+        $submit_category_image = $submit_book_return_date = $submit_user_adress =$submit_user_state= $submit_user_city = $submit_user_postal_code= $submit_user_name_on_card = $submit_user_card_number = $submit_user_card_expiration_date = $submit_user_card_cvc = $submit_review = $submit_user_review = $submit_select_to_cart = $submit_days_charges = $submit_new_password = $submit_confirm_password = '';
         if(isset($_FILES['category_image'])){
             $this->category_image = (isset($_FILES['category_image'])) ? $_FILES['category_image'] : '';
             $submit_category_image = $this->category_image;
@@ -182,7 +192,7 @@ class admin_data_validation{
         $submit_book_return_date = $this->book_return_date;
         }
 
-        if(!empty($_POST['state']) || !empty($_POST['city']) || !empty($_POST['postal_code'])){
+        if(!empty($_POST['state']) || !empty($_POST['city']) || !empty($_POST['postal_code']) || !empty($_POST['days_charges'])){
         // $this->user_adress = $_POST['address'];
         // $submit_user_adress = $this->user_adress;
         $this->user_state = $_POST['state'];
@@ -191,8 +201,10 @@ class admin_data_validation{
         $submit_user_city = $this->user_city;
         $this->user_postal_code = $_POST['postal_code'];
         $submit_user_postal_code = $this->user_postal_code;
+        $this->days_charges = isset($_POST['days_charges']) ? $_POST['days_charges'] : '';
+        $submit_days_charges = $this->days_charges;
         }
-        if(!empty($_POST['name_on_card']) || !empty($_POST['card_number']) || !empty($_POST['card_expiration_date']) || !empty($_POST['cvc'])){
+        if(!empty($_POST['name_on_card']) || !empty($_POST['card_number']) || !empty($_POST['card_expiration_date']) || !empty($_POST['cvc']) || !empty($_POST['charges'])){
         $this->user_name_on_card = $_POST['name_on_card'];
         $submit_user_name_on_card = $this->user_name_on_card;
         $this->user_card_number = $_POST['card_number'];
@@ -201,6 +213,8 @@ class admin_data_validation{
         $submit_user_card_expiration_date = $this->user_card_expiration_date;
         $this->user_card_cvc = $_POST['cvc'];
         $submit_user_card_cvc = $this->user_card_cvc;
+        // $this->advance_charges = $_POST['charges'];
+        // $submit_advance_charges = $this->advance_charges;
         
         // $this->user_payment_method = $_POST['payment'];
         // $submit_user_payment_method = $this->user_payment_method;
@@ -219,7 +233,13 @@ class admin_data_validation{
             $submit_select_to_cart = $this->select_to_cart;
             }
         }
-        return array($submitname,$submitemail,$submitpassword,$submitphone_number,$submitoccupation,$submit_login_email,$submit_login_password,$submit_book_category_name,$submit_book_name,$submit_author_name,$submit_book_copies,$submit_book_image,$submit_category_image,$submit_user_gender,$submit_address,$submit_book_return_date,$submit_book_price,$submit_book_description,$submit_user_state,$submit_user_city,$submit_user_postal_code,$submit_user_name_on_card,$submit_user_card_number,$submit_user_card_expiration_date,$submit_user_card_cvc,$submit_review,$submit_user_review,$submit_select_to_cart);
+        if(isset($_POST["new_password"]) && isset($_POST["confirm_password"])){
+            $this->new_password = isset($_POST['new_password']) ? $_POST['new_password'] : '';
+            $submit_new_password = $this->new_password;
+            $this->confirm_password = isset($_POST['confirm_password']) ? $_POST['confirm_password'] : '';
+            $submit_confirm_password = $this->confirm_password;
+        }
+        return array($submitname,$submitemail,$submitpassword,$submitphone_number,$submitoccupation,$submit_login_email,$submit_login_password,$submit_book_category_name,$submit_book_name,$submit_author_name,$submit_book_copies,$submit_book_image,$submit_category_image,$submit_user_gender,$submit_address,$submit_book_return_date,$submit_book_price,$submit_book_description,$submit_user_state,$submit_user_city,$submit_user_postal_code,$submit_user_name_on_card,$submit_user_card_number,$submit_user_card_expiration_date,$submit_user_card_cvc,$submit_review,$submit_user_review,$submit_select_to_cart,$submit_days_charges,$submit_new_password,$submit_confirm_password);
     }
 }
 
@@ -262,6 +282,10 @@ if(!empty($resultofform)){
     $user_rating = $resultofform[25];
     $user_review = $resultofform[26];
     $user_selected_cart_item = $resultofform[27];
+    $book_rented_days_charges = $resultofform[28];
+    // $advance_charges = $resultofform[29];
+    $new_password = $resultofform[29];
+    $confirm_password = $resultofform[30];
     $book_image_name = isset($book_image['name']) ? $book_image['name'] : '';
     // $category_image_name = isset($category_image['name'])? $category_image['name'] :'';
 }

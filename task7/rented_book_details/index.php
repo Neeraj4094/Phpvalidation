@@ -15,6 +15,8 @@ if(!empty($id)){
     $rented_book_url = "rented_book.php";
     $thanks_path = "/thankspage?".$id;
     $thanks_page_url = "thankspage.php";
+    $delete_cart_path = '/delete_cart?' . $id;
+    $delete_cart_url = 'delete_cart.php';
 }else{
     $update_path = '';
     $delete_path = '';
@@ -27,7 +29,7 @@ if(!empty($id)){
     $thanks_page_url = '';
     $thanks_path = '';
     $book_page_url = '';
-    $book_path = '';
+    $book_path = $reset_password_path = $reset_password_url = '';
 }
 
 include '../view/index.php';

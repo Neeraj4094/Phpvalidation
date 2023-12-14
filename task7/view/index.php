@@ -2,20 +2,21 @@
 $request = $_SERVER['REQUEST_URI'];
 // $path= isset(parse_url($router)['path']) ? parse_url($router)['path'] : '';
 // $id= isset(parse_url($router)['query']) ? parse_url($router)['query'] : '';
-if(empty($category_path) || empty($rented_book_path) || empty($rented_book_url) || empty($category_page_url) || empty($thanks_path) || empty($thanks_page_url)) {
-    $rented_book_path = "";
-    $rented_book_url = "";
-    $category_path = "";
-    $category_page_url = "";
-    $thanks_path = '';
-    $thanks_page_url = '';
-    $book_path = '';
-    $book_page_url = '';
+if(empty($category_path) || empty($update_path) || empty($update_page_url) || empty($rented_book_path) || empty($rented_book_url) || empty($category_page_url) || empty($thanks_path) || empty($thanks_page_url) || empty($delete_page_url) || empty($delete_path)) {
+    
+    $category_path = $category_page_url = $update_page_url = $update_path = $rented_book_url = $rented_book_path = $thanks_page_url = $thanks_path = '';
+    $book_page_url = $book_path = $delete_cart_path = $delete_cart_url = $delete_page_url = $delete_path = '';
 }
-if(empty($book_page_url)){
+if(empty($book_page_url) || empty($reset_password_path) || empty($reset_password_url)){
     $book_page_url = '';
     $book_path = '';
 }
+if(empty($reset_password_path)){
+    $reset_password_path = $reset_password_url= '';
+
+}
+
+// echo $delete_cart_path;
 // else{
 //     $update_path = '';
 //     $delete_path = '';
@@ -33,6 +34,8 @@ $routes = [
     $rented_book_path => $rented_book_url,
     $thanks_path => $thanks_page_url,
     $book_path => $book_page_url,
+    $delete_cart_path => $delete_cart_url,
+    $reset_password_path => $reset_password_url,
     '/admin_registeration' => 'admin_registeration.php',
     '/books'=> 'books_dashboard.php',
     '/add_books'=> 'add_books.php',
@@ -46,6 +49,8 @@ $routes = [
     '/add_to_cart'=> 'add_to_cart.php',
     '/buy_book' => 'buy_book.php',
     '/rented_books'=> 'rented_book.php',
+    '/new_password'=> 'new_password.php',
+    '/recover_email'=> 'recover_email.php',
 ];
 // echo "<pre>";
 // print_r($routes);

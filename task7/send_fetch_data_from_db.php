@@ -122,9 +122,9 @@ class delete_from_db
         if (!$queryImageRecords) {
             echo "Error deleting image records: " . mysqli_error($con);
         }
-        
+        print_r($deleteImageRecords);
         header("location: $location");
-        return 0;
+        return true;
     }
 }
 

@@ -12,35 +12,43 @@
     //do not delete user, show active/ in-active
     //lock user and can't login again
     //Category db
+    //add radio button for choosing plan for days in buy_books.php
+    //encrypt payment card number
+    //handle payment option and show error if already show
+    //password not show in update admin data
+    //if user has already purchase the book then show an error
+    //half payment advance
+    //mistake in add to cart
     names of pages
     set link of anchor in header
-    add radio button for choosing plan for days in buy_books.php
     using of foreach more times in payment successfull message
-    encrypt payment card number
-    handle payment option and show error if already show
-    mistake in add to cart
-    half payment advance
     add session['admin']
-    password not show in update admin data
-    if user has already purchase the book then show an error
     auto complete when submit
+    show user to update data
     
     //admin
     //user
     //router
     //add column "book_id" in rented_book table for checking double entry
-    **add checkbox in add to cart
-    Password hash
-    forget password
-    timing of return and if late send a mail to user
-    Add rounter and make a class of authentication and handle errors whenever edit , update are used
-    handle copies of books
+    //Password hash
+    //timing of return and if late send a mail to user
+    //Add rounter and make a class of authentication and handle errors whenever edit , update are used
+    //**add checkbox in add to cart
+    //out of stock
+    //forget password
+    //book already exist
+    //handle ordering books (buy_books.php)
+    //add a modal for showing fine details
     set router paths and specially for values passed in url
-    book already exist
     ********** add comments in all files
-    handle ordering books
     add remove button for ordering book through cart
-    add a modal for showing fine details
+    remove classes of validation 
+    add are you sure u want to delete
+    remove nested if
+    add mysqli_num_rows in sql syntax
+    pagination
+
+
 }
  -->
 

@@ -30,12 +30,12 @@ foreach ($fetch_right_join_data as $data) {
     $issue_date = isset($data[8]) ? $data[8] : '';
     $return_date = isset($data[9]) ? $data[9] : '';
     $charges = isset($data[10]) ? $data[10] : '';
-    $book_name = isset($data[15]) ? $data[15] : '';
-    $book_category = isset($data[16]) ? $data[16] : '';
-    $book_author = isset($data[17]) ? $data[17] : '';
-    $user_name = isset($data[18]) ? $data[18] : '';
-    $user_phone_number = isset($data[19]) ? $data[19] : '';
-    $user_gender = isset($data[20]) ? $data[20] : '';
+    $book_name = isset($data[16]) ? $data[16] : '';
+    $book_category = isset($data[17]) ? $data[17] : '';
+    $book_author = isset($data[18]) ? $data[18] : '';
+    $user_name = isset($data[19]) ? $data[19] : '';
+    $user_phone_number = isset($data[20]) ? $data[20] : '';
+    $user_gender = isset($data[21]) ? $data[21] : '';
 
     // Initializing variables
     $book_data = [
@@ -106,7 +106,7 @@ if(isset($_POST['search'])){
             <h1 class="text-2xl font-semibold py-2">Manage Customers</h1>
             <div class="flex items-center justify-between ">
                 <div class="flex items-center relative">
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="flex items-center gap-1 relative">
+                <form action="rented_book" method="post" class="flex items-center gap-1 relative">
                     <input type="search" name="search" id="search"
                         class="border shadow rounded-lg outline-none p-2 w-96" placeholder="Search...">
                     <button type="submit"
@@ -148,7 +148,7 @@ if(isset($_POST['search'])){
                     foreach ($email_list as $email) {
                         $rented_data[] = $book_rented_data[$email];
                         $book = end($rented_data);
-
+                        
                         $user_rented_id = $book[0];
                         $user_name = $book[1];
                         $user_email = $book[2];
@@ -157,7 +157,7 @@ if(isset($_POST['search'])){
                         $user_state = $book[6];
                         $user_city = $book[7];
                         $user_rented_book_details = $book[8];
-
+                        
                         foreach ($user_rented_book_details as $user_rented_book_data) {
                             $book_name = ucwords($user_rented_book_data[0]);
                             $book_category = $user_rented_book_data[1];
@@ -165,9 +165,8 @@ if(isset($_POST['search'])){
                             $book_issue_date = $user_rented_book_data[3];
                             $book_return_date = $user_rented_book_data[4];
                             $book_charges = $user_rented_book_data[5];
-                        
-                        if(!empty($search)){
-                            if( ($search == strtolower($user_name)) || ($search == strtolower($user_email)) || ($search == strtolower($user_address)) || ($search == strtolower($user_gender)) || ($search == strtolower($user_state)) || ($search == strtolower($user_city)) || ($search == strtolower($book_name)) || ($search == strtolower($book_category)) || ($search == strtolower($book_author))){
+                            if(!empty($search)){
+                                if( ($search == strtolower($user_name)) || ($search == strtolower($user_email)) || ($search == strtolower($user_address)) || ($search == strtolower($user_gender)) || ($search == strtolower($user_state)) || ($search == strtolower($user_city)) || ($search == strtolower($book_name)) || ($search == strtolower($book_category)) || ($search == strtolower($book_author))){
                                 $searchdata = "visible";
                                 $data[] = $searchdata;
                             }else{
@@ -176,11 +175,12 @@ if(isset($_POST['search'])){
                             }
                         }
                     }  
-                    if(!empty($data)){if(in_array('visible',$data)){
-                        $searchdata = "visible";
-                    }
+                    
+                    // if(!empty($data)){if(in_array('visible',$data)){
+                    //     $searchdata = "visible";
+                    // }
                         ?>
-                        <?php }  ?>
+                        <?php // }  ?>
                         <div class="<?php echo $searchdata ?> gap-2 py-2 mt-2 <?php ?> rounded-md border shadow">
                             <div class="flex justify-between items-center p-2 gap-4 w-full">
                                 <div class=" flex justify-between items-center gap-4 h-20">

@@ -1,5 +1,6 @@
 <?php
 include 'admin_update_fetch_data.php';
+// echo $admin_password;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,11 +42,11 @@ include 'admin_update_fetch_data.php';
                 </div>
                 <div class="grid space-y-2">
                     <label for="password">Password</label>
-                    <input type="password" name="login_password" id="password" placeholder="Enter password" class="border rounded-lg p-2" value="<?php echo $login_password ?>">
+                    <input type="password" name="login_password" id="password" placeholder="Enter password" class="border rounded-lg p-2" value="<?php echo $admin_password ?>">
                     <span class="text-red-600 w-96">* <small><?php echo $err_login_password ?></small></span>
                     <!-- <small>(Password must have 1 Capital alphabet, 1 small alphabet, 1 special character & 1 number)</small> -->
                 </div>
-                <a href="#" class="text-blue-700 px-1">Forget Password?</a>
+                <a href="../forget_password/recover_email" class="text-blue-700 px-1">Forget Password?</a>
 
                 <div>
                     <input type="submit" name="login" id="submit" class="bg-indigo-500 text-white px-10 py-2 rounded-lg cursor-pointer" value="Login">

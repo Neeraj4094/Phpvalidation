@@ -17,7 +17,7 @@ include 'books_return_validation.php';
 <body class=" bg-slate-100">
 <h2 class="w-full border text-center bg-green-50 text-green-800 fixed top-0 shadow">
         <?php
-        // echo $errmsg;
+        echo $errmsg;
 
         ?>
     </h2>
@@ -45,17 +45,17 @@ include 'books_return_validation.php';
                     </div>
                     </div>
                     <div class="flex gap-4">
-                        <div class="flex-1">
+                        <div class=" w-full">
                             <div class="grid py-4 px-2">
                                 <label for="card_expiration_date" class="py-1">Expiration date (MM/YY)</label>
                                 <input type="month" name="card_expiration_date" id="card_expiration_date"  class="border rounded-lg p-2">
                                 <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_card_expiration_date ?></small></span>
                             </div>
                         </div>
-                        <div class="grid py-4">
+                        <div class="grid w-full py-4">
                             <label for="cvc" class="py-1">CVC</label>
-                            <input type="text" name="cvc" id="cvc" placeholder="CVC" class="border rounded-lg p-2">
-                            <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_cvc ?></small></span>
+                            <input type="password" name="cvc" id="cvc" placeholder="CVC" class="border rounded-lg p-2" value="<?php echo $user_card_cvc ?>">
+                            <span class="text-red-600 text-sm">* <small><?php echo $err_cvc ?></small></span>
                         </div>
                     </div>
                     <div class="py-4">
@@ -69,13 +69,13 @@ include 'books_return_validation.php';
             <div class="">
                 <h2 class="px-4 font-semibold text-xl">Order Summary</h2>
             </div>
-            <div class="grid bg-white shadow border rounded-lg py-6">
+            <div class="grid bg-white shadow border rounded-lg py-4">
                 <div class="px-6 border-b">
-                    <article class="flex w-full py-2">
-                        <div class="w-32 h-44 p-2">
+                    <article class="flex w-full">
+                        <div class="w-40 h-44 p-2">
                             <img src="../../Image/<?php echo $return_book_image ?>" alt="" class="w-full h-full object-cover  rounded-lg">
                         </div>
-                        <div class="px-4 flex flex-col w-full">
+                        <div class="p-2 w-full">
                             <div class="">
                                 <div class=" flex justify-between items-center">
                                     <h3 class="font-semibold text-xl"><?php echo $return_book_name ?></h3>
@@ -91,8 +91,41 @@ include 'books_return_validation.php';
                     </article>
                 </div>
                 
-                <div class="px-4 py-2 font-semibold">
-                    <?php echo "Book Charges :- " . $book_charges; ?>
+                <div class="px-4 py-2 font-semibold space-y-2">
+                    <div class=" border-b py-1 pb-2">
+                    <div class="flex justify-between">
+                        <h3>Issue Date</h3>
+                        <span>
+                            <?php echo $rented_book_issue_date ?>
+                        </span>
+                    </div>
+                    <div class="flex justify-between">
+                        <h3>Book returning Date</h3>
+                        <span>
+                            <?php echo $rented_book_return_date ?>
+                        </span>
+                    </div>
+                    </div>
+                    <div class="border-b pt-1 pb-2 space-y-1">
+                    <div class="flex justify-between">
+                        <h3>Book Charges</h3>
+                        <span>
+                            <?php echo $return_book_charges ?>
+                        </span>
+                    </div>
+                    <div class="flex justify-between">
+                        <h3>Fine</h3>
+                        <span>
+                            <?php echo $fine ?>
+                        </span>
+                    </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <h3>Total Charges</h3>
+                        <span>
+                            <?php echo $total_book_charges ?>
+                        </span>
+                    </div>
                 </div>
             </div>
             <?php echo $success ?>

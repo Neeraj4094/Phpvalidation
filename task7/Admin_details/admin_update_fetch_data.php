@@ -12,7 +12,6 @@ $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 // }
 $send_data_to_db = new send_data_to_db();
 // $fetch_data_from_db = new fetch_data_from_db();
-
 $fetch_data_from_db = new fetch_data_from_db ();
 $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'admin_data');
 $check_admin_email = $fetch_data_from_db->searchemail($admin_fetch_data_from_db,$email);
