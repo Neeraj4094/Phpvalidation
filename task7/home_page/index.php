@@ -20,49 +20,5 @@ if(!empty($id)){
     $category_page_url = '';
     $return_path = $return_page_url = '';
 }
-
-// $request = $_SERVER['REQUEST_URI'];
-// $path= isset(parse_url($router)['path']) ? parse_url($router)['path'] : '';
-// $id= isset(parse_url($router)['query']) ? parse_url($router)['query'] : '';
-// if(!empty($id)){
-//     $update_path = "/admin_update?".$id;
-//     $delete_path = "/delete_admin_account?" . $id;
-// }else{
-//     $update_path = '';
-//     $delete_path = '';
-// }
-// if(empty($category_path)){
-//     $category_path = $category_page_url= "";
-// }
-
-// $routes = [
-//     '/' => 'book_home.php',
-//     '/user_login'=> '../user_details/user_login.php',
-//     '/user_logout'=> '../user_details/user_logout.php',
-//     '/add_to_cart'=> '../rented_book_details/add_to_cart.php',
-//     $category_path => $category_page_url,
-//     $return_path => $return_page_url,
-// ];
-// function error_msg(){
-//     http_response_code(404);
-//     require '../not_found.php';
-// }
-
-// echo "<pre>";
-// print_r($router);
-// print_r($routes);
-// echo "</pre>";
-
-
-// function router_control($router,$routes){
-  
-// if(array_key_exists($router, $routes)) {
-//     require $routes[$router];
-// }else{
-//     error_msg();
-// }
-// }
-
-// router_control($router,$routes)
 include '../view/home_index.php';
 ?>

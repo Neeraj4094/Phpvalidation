@@ -20,15 +20,7 @@ $fetch_buy_book_id_data = mysqli_fetch_all($fetch_buy_book_id_query);
 
 $fetch_rented_book_id_query = $fetch_data_from_db->fetchiddata('rented_book_details', $buy_book_id, $conn, 'book_id');
 $fetch_rented_book_id_data = mysqli_fetch_all($fetch_rented_book_id_query);
-// foreach($fetch_buy_book_id_data as $key => $value) {
-//     // $book_id = isset($value[0]) ? ucwords($value[0]) : '';
-//     $book_name = isset($value[1]) ? ucwords($value[1]) : '';
-//     $book_author = isset($value[2]) ? $value[2] :'';
-//     $book_category = isset($value[3]) ? $value[3] :'';
-//     $book_price = isset($value[5]) ? $value[5] :'';
-//     // $book_description = isset($value[6]) ? $value[6] :'';
-//     $book_image = isset($value[10]) ? $value[10] :'';
-// }
+
 
 foreach($fetch_rented_book_id_data as $value){
     $user_address =  isset($value[3]) ? $value[3] : '';
@@ -63,19 +55,6 @@ function match_id($item,$fetch_rented_book_data,$login_email){
 foreach($cart_item_array as $item){
     $rented_books_price_array[] = match_id($item,$fetch_rented_book_data,$login_email);
 }
-// echo $price;
-// foreach($cart_book_id_data as $data){
-//     foreach($rented_books_price_array as $price){
-//     $data[0][11] = isset( $price ) ? $price :'';
-// }
-
-// echo "<pre>";
-// // print_r($cart_book_id_data);
-// print_r($rented_books_price_array);
-// echo "</pre>";
-// }
-// }
-// $book_price = 0;
 
 if(!empty($get_selected_cart_item)){
     if(!$rented_books_price_array){

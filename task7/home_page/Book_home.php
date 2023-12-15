@@ -24,36 +24,6 @@ foreach($fetch_book_data_from_db as $data){
     
 }
 
-// foreach ($fetch_book_data_from_db as $item) {
-    // $book_name = isset($item[1]) ? $item[1] : "";
-    // $book_author_name = isset($item[2]) ? $item[2] : "";
-    // $book_category_name = isset($item[3]) ? $item[3] : "";
-    // $book_image = isset($item[10]) ? $item[10] : "";
-
-// }
-// $background = '<svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M14.1996 12.3415C13.5685 12.7577 12.8125 13 12 13C9.79086 13 8 11.2091 8 9C8 6.79086 9.79086 5 12 5C14.029 5 15.7051 6.51068 15.965 8.46862C16.3297 10.2611 16.4722 12.416 15.7577 14.3665C14.9923 16.4562 13.2939 18.1714 10.2533 18.9674C9.71898 19.1073 9.17247 18.7875 9.0326 18.2533C8.89273 17.719 9.21246 17.1725 9.74674 17.0326C12.2061 16.3887 13.3577 15.1039 13.8798 13.6786C14.0354 13.2536 14.1391 12.8047 14.1996 12.3415Z" fill="currentColor"></path></svg>';
-
-// $book_category_data = array_unique($actual_book_category_name);
-// $category_array = array_values($book_category_data);
-
-// 
-// $maxCount = max(count($user), count($books));
-// echo $maxCount;
-
-// for ($row = 0; $row <= $maxCount; $row++) {
-//     // echo $row;
-//     echo "<pre>";
-//     // print_r($image_array);
-//     if (isset($image_array[$row])) {
-//         echo $image_array[$row];
-//     }
-
-
-//     if (isset($category_array[$row])) {
-//         echo $category_array[$row];
-//     }
-//     echo "</pre>";
-// }
 ?>
 
 <!DOCTYPE html>
@@ -133,16 +103,7 @@ foreach($fetch_book_data_from_db as $data){
                     $book_author_name = isset($item[2]) ? $item[2] : "";
                     $book_category_name = isset($item[3]) ? $item[3] : "";
                     $book_image = isset($item[10]) ? $item[10] : "";
-                    
-                    // if(!empty($searched_data)){
-                    //     foreach($searched_data as $compare){
-                    //         $db_book_name = isset( $compare[1] ) ? strtolower($compare[1]) :'';
-                    //         $compare_data = ($user_searched_data == $db_book_name) ? "visible" : "hidden";
-                    //         $data_not_found = ($user_searched_data == $db_book_name) ? "" : "Data Not found";
-                    //         // echo $compare_data;
-                    //     }
-                    //     }
-
+                   
                     if(!empty($search)){
                         if( ($search == strtolower($book_name)) ){
                             $searchdata = "visible";

@@ -75,12 +75,7 @@ include 'book_fetch_validation.php';
                                 </div>
                                 <span class="text-red-600 text-sm">* <small><?php echo $err_days ?></small></span>
                             </div>
-                            <!-- <div class="grid items-center gap-2 w-full">
-                                <label for="return_date">Last Returned Date:</label>
-                                <input type="date" name="return_date" id="return_date" 
-                                    class="border rounded-sm  p-1">
-                                <span class="text-red-600 text-sm">* <small><?php echo $err_book_copies ?></small></span>
-                            </div> -->
+                            
                         </div>
                         <div class="flex items-center justify-center gap-4 ">
                             <div class="grid w-full">
