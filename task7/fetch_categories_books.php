@@ -3,7 +3,7 @@
 include 'send_fetch_data_from_db.php';
 include 'admin_session.php';
 
-$fetch_data_from_db = new fetch_data_from_db();
+// $fetch_data_from_db = new fetch_data_from_db();
 $category_name = isset($_GET['book_category']) ? $_GET['book_category'] :'';
 
 $fetch_category_name_query = $fetch_data_from_db->fetchiddata('books_details', $category_name, $conn, 'book_category');

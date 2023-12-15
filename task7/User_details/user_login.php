@@ -14,7 +14,7 @@ require 'user_validation.php';
 <body>
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
-        echo $errmsg;
+        // echo $errmsg;
         ?>
     </h2>
     <div class="flex w-full h-screen ">

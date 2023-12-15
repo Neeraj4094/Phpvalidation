@@ -16,14 +16,17 @@ if(empty($update_page_url)){
 if(empty($category_path)){
     $category_path = $category_page_url= "";
 }
-if(empty($return_path)){
-    $return_path = $return_page_url = '';
+if(empty($user_order_page_url)){
+    $user_order_page_url = $user_orders_path = '';
 }
 if(empty($lock_user_path)){
     $lock_user_path = $lock_user_url ='';
 }
 if(empty($delete_path)){
     $delete_path = $delete_page_url= '';
+}
+if(empty($book_return_path)){
+    $book_return_path = $book_return_page_url = '';
 }
 
 $routes = [
@@ -35,7 +38,8 @@ $routes = [
     '/user_review'=> 'user_reviews.php',
     '/add_users'=> 'add_users.php',
     $category_path => $category_page_url,
-    $return_path => $return_page_url,
+    $user_orders_path => $user_order_page_url,
+    $book_return_path => $book_return_page_url,
     $update_path => $update_page_url,
     $lock_user_path => $lock_user_url,
     $delete_path => $delete_page_url,

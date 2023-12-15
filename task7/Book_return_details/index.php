@@ -8,8 +8,10 @@ $id= isset(parse_url($router)['query']) ? parse_url($router)['query'] : '';
 // echo $categoryName;
 
 if(!empty($id)){
-    $return_path = '/return_home_page?' . $id;
-    $return_page_url = "return_home_page.php";
+    $user_orders_path = '/return_home_page?' . $id;
+    $user_order_page_url = "return_home_page.php";
+    $book_return_path = '/book_return_form?'.$id;
+    $book_return_page_url = 'book_return_form.php';
 }else{
     $update_path = '';
     $delete_path = '';

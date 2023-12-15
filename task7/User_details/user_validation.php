@@ -16,7 +16,7 @@ $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
 $user_status = $user_actual_status = '';
 $send_data_to_db = new send_data_to_db();
-$fetch_data_from_db = new fetch_data_from_db ();
+$fetch_data_from_db = new fetch_db_data ();
 $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablename);
 $check_email = $fetch_data_from_db->searchemail($admin_fetch_data_from_db,$email);
 foreach($check_email as $email_data){
@@ -35,7 +35,7 @@ $user_login_password = isset( $check_user_email[3])? $check_user_email[3] :'';
 $id = isset($_GET['id']) ? intval($_GET['id']) : '';
 $user_loggedin_email = isset($_GET['email']) ? $_GET['email'] : '';
 
-$image_upload = new image();
+$image_upload = new upload_image();
 
 $fetch_id_query = $fetch_data_from_db->fetchiddata('user_details', $user_loggedin_email, $conn, 'user_email');
 $fetch_id_data = mysqli_fetch_all($fetch_id_query);
@@ -56,8 +56,8 @@ if(isset($_POST['add_users'])){
     $err_email = $admin_entered_details->email_match($email);
     $err_password = $admin_entered_details->validation_password($password);
     $err_phone_number = $admin_entered_details->phone_length($phone_number,10);
-    $err_gender = $admin_entered_details->emp($gender);
-    $err_user_address = $admin_entered_details->emp($address);
+    $err_gender = $admin_entered_details->check_empty($gender);
+    $err_user_address = $admin_entered_details->check_empty($address);
     
     if(empty($err_name) && empty($err_email) && empty($err_password) && empty($err_phone_number) && empty($err_gender) && empty($err_user_address)){
         // echo $user_loggedin_password;

@@ -5,12 +5,22 @@ $password = '';
 $dbname = 'book_renting_system';
 $booklist ='';
 
+/**
+ * class create_tb
+ *
+ * This is a brief description of the create_tb class.
+ * This class is used to create table in database
+ */
 class create_tb
 {
     /**
+     * Create a new table in the database.
+     *
+     * This function takes a database connection and a table name as parameters and it attempts to create a new table with the specified name.
      * This function is used to create table which takes two parameters 
-     * @param mixed $conn This firstly checks the connection is established or not and if it is true then it is used to send data to database
-     * @param mixed $tablename This is a table that we want to create and it has different type of values e.g. int, varchar, etc.
+     * @param mixed $conn The database connection object. This is used for checking the connection
+     * @param mixed $tablename The name of the table to be created.
+     * @return bool Returns true if the table creation was successful, false otherwise.
      */
     public function create_table(mixed $conn,mixed $tablename): bool
     {
@@ -23,7 +33,9 @@ class create_tb
     }
 }
 
+// Used for creating database & tables, checking conection with the databse & also checks that the table or database is already created or not
 try{
+    
     $conn = new mysqli($server,$username,$password);
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);

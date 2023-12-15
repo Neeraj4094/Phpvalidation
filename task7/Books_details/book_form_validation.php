@@ -23,7 +23,7 @@ $total_book_copies = array_sum(array_map('array_sum', $fetch_book_copies));
 // $total_book_copies = ($total_book_copies + $book_copies); 
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : '';
-$image_upload = new image();
+$image_upload = new upload_image();
 
 $fetch_id_query = $fetch_data_from_db->fetchiddata('books_details', $id, $conn, 'book_id');
 $fetch_id_data = mysqli_fetch_all($fetch_id_query);
@@ -45,7 +45,6 @@ if (empty($book_image_name)) {
         $book_image_name = $fetch_book_image_name;
     }
 }
-
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
     if(isset($_POST["add_books"])) {
         date_default_timezone_set('UTC');
@@ -53,13 +52,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $modified_date = date("Y-m-d H:i:s A");  // Modified Date
 
 
-        $err_category = $admin_entered_details->emp($category_name);
-        $err_book = $admin_entered_details->emp($book_name);
+        $err_category = $admin_entered_details->check_empty($category_name);
+        $err_book = $admin_entered_details->check_empty($book_name);
         $err_author = $admin_entered_details->name_validation($author_name);
-        $err_book_copies = $admin_entered_details->emp($book_copies);
+        $err_book_copies = $admin_entered_details->check_empty($book_copies);
         $err_image = $admin_entered_details->image_validation($book_image, $id);
-        $err_book_price = $admin_entered_details->emp($book_price);
-        $err_book_desciption = $admin_entered_details->emp($book_description);
+        $err_book_price = $admin_entered_details->check_empty($book_price);
+        $err_book_desciption = $admin_entered_details->check_empty($book_description);
 
         if ($err_category == null && $err_book == null && $err_author == null && $err_book_copies == null &&$err_book_price == null && $err_book_desciption == null) {
             $tablename = 'books_details';

@@ -3,7 +3,7 @@
 include 'send_fetch_data_from_db.php';
 include 'admin_session.php';
 
-$fetch_data_from_db = new fetch_data_from_db();
+$fetch_data_from_db = new fetch_db_data();
 $fetch_book_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'category_details');
 $fetch_user_review_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'user_review_details');
 $show_login_data = '';

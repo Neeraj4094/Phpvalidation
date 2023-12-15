@@ -4,7 +4,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 if(!$id){
     header("location: ./admin");
 }
-$fetch_db_data = new fetch_data_from_db();
+$fetch_db_data = new fetch_db_data();
 $querydata = $fetch_db_data->fetchiddata('admin_data', $id, $conn, 'admin_id');
 $fetch_id_data = mysqli_fetch_all($querydata);
 $delete_admin_account = new delete_from_db();

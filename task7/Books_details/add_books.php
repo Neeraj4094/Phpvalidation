@@ -1,9 +1,8 @@
 <?php
 include 'book_form_validation.php';
-
-
-
-
+if(is_array($err_image)){
+    $err_image ='';
+}
 ?>
 
 <!DOCTYPE html>

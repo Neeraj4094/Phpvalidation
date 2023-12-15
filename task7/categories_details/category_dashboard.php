@@ -15,7 +15,7 @@ if ($_SESSION['admin'] == null) {
 // echo $search;
 $create_date = $modify_date = '';
 $tablename = "category_details";
-$fetch_data_from_db = new fetch_data_from_db();
+$fetch_data_from_db = new fetch_db_data();
 $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablename);
 foreach($admin_fetch_data_from_db as $row){
     $category[] = isset($row[1])? $row[1]: '';
@@ -83,9 +83,6 @@ if(isset($_POST['search'])){
         <div class="px-2 border-t">
             <div class="px-2 h-80 overflow-y-scroll gap-2">
 
-                <!-- <form action="#" method="post">
-
-                    </form> -->
                     <?php
                     $add_books = '<div class="flex items-center justify-center"> <a href="./add_categories" class="bg-blue-600 text-white rounded-lg shadow px-8 py-2 cursor-pointer">Add Categories</a> </div>';
                     ?>
@@ -118,9 +115,6 @@ if(isset($_POST['search'])){
                                 $data[] = $searchdata;
                             }
                         }
-                        // if(!in_array('visible',$data)){
-                        //     $data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>';
-                        // }
 
                         $fetch_book_copies = $fetch_data_from_db->fetch_data('books_details','book_copies', $book_category_name, $conn, 'book_category');
                         $total = count($fetch_book_copies);

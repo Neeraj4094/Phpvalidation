@@ -11,7 +11,7 @@ if ($_SESSION == null) {
 
 $create_date = $modify_date = '';
 $tablename = "user_details";
-$fetch_data_from_db = new fetch_data_from_db ();
+$fetch_data_from_db = new fetch_db_data ();
 $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablename);
 
 

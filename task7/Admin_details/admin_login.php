@@ -15,14 +15,14 @@ include 'admin_update_fetch_data.php';
 <body>
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
-        // echo $errmsg;
+        echo $errmsg;
         ?>
     </h2>
     <div class="flex w-full h-screen ">
         <div class="flex-1 h-full">
             <img src="../../Image/book3.jpg" alt="Main Image" class="w-full h-full object-cover">
         </div>
-        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="grid px-12 py-8 border bg-white shadow-sm text-slate-500 flex-1" name="login_form">
+        <form action="admin_login" method="post" class="grid px-12 py-8 border bg-white shadow-sm text-slate-500 flex-1" name="login_form">
             <div class="max-w-md space-y-4 px-16">
                 
             <div class="relative">
@@ -30,22 +30,22 @@ include 'admin_update_fetch_data.php';
                 </div>
                 <div>
                     <h2 class="font-semibold text-2xl">Sign in to your account</h2>
-                    <!-- <p class="text-lg">Not a member? Start a 14 day free trial</p> -->
+                    
                 </div>
                 <div class="grid space-y-2 ">
                     <label for="email">Email</label>
                     <input type="email" name="login_email" id="email" placeholder="Enter email" class="border rounded-lg p-2" value="<?php echo $login_email ?>">
                     <span class="text-red-600 text-sm ">* <small><?php echo $err_login_email ?></small></span>
-                    <!-- <small>(Email must have "alphabets, @ and .")</small> -->
+                    
                 </div>
                 <div class="grid space-y-2">
                     <label for="password">Password</label>
                     <input type="password" name="login_password" id="password" placeholder="Enter password" class="border rounded-lg p-2" value="<?php echo $admin_password ?>">
                     <span class="text-red-600 w-96">* <small><?php echo $err_login_password ?></small></span>
-                    <!-- <small>(Password must have 1 Capital alphabet, 1 small alphabet, 1 special character & 1 number)</small> -->
+                    
                 </div>
-                <!-- <a href="../forget_password/recover_email" class="text-blue-700 px-1">Forget Password?</a> -->
-
+                
+                <p class="flex items-center text-md"><small>Don't have any account?<a href="../admin_details/admin_registeration" class=" text-sm text-blue-700 font-medium">Create New Account</a></small></p>
                 <div>
                     <input type="submit" name="login" id="submit" class="bg-indigo-500 text-white px-10 py-2 rounded-lg cursor-pointer" value="Login">
                 </div>

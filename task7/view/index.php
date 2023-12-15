@@ -25,6 +25,9 @@ if(empty($book_path)){
     $book_page_url = '';
     $book_path = '';
 }
+if(empty($category_page_url)){
+    $category_page_url= '';
+}
 if(empty($update_path)){
     $update_page_url = $update_path = '';
 }

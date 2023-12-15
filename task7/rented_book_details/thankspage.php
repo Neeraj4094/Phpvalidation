@@ -14,7 +14,7 @@ $book_renting_amount = $book_price = 0;
 $book_name = $book_author = $book_category = $book_issue_date = $book_returned_date = $user_address = $user_city = $user_state = '';
 }
 // $buy_book_id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : '';
-$fetch_data_from_db = new fetch_data_from_db();
+$fetch_data_from_db = new fetch_db_data();
 $fetch_buy_book_id_query = $fetch_data_from_db->fetchiddata('books_details', $buy_book_id, $conn, 'book_id');
 $fetch_buy_book_id_data = mysqli_fetch_all($fetch_buy_book_id_query);
 

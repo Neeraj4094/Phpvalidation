@@ -1,38 +1,16 @@
 <?php
-// include 'database_connection.php';
 include '../send_fetch_data_from_db.php';
 include '../admin_session.php';
 
-$fetch_data_from_db = new fetch_data_from_db();
+$fetch_data_from_db = new fetch_db_data();
 $fetch_category_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'category_details');
 foreach($fetch_category_data_from_db as $data){
     $category_name_list[] = isset($data[1]) ? $data[1] :'';
 }
-// echo "<pre>";
-// print_r($category_name_list);
-// echo "</pre>";
-// $category_name = isset($_GET['book_category']) ? $_GET['book_category'] :'';
-
-// $fetch_category_name_query = $fetch_data_from_db->fetchiddata('books_details', $category_name, $conn, 'book_category');
-// $fetch_category_name_data = mysqli_fetch_all($fetch_category_name_query);
-
-// $fetch_id_query = '';
-// $show_login_data = '';
-// $login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] : '';
-
-// $cancel_login = '';
 
 if(isset($_POST['search'])){
     $search = strtolower($_POST['search']);
 }
-// echo "<pre>";
-// // print_r($fetch_category_name_data);
-// echo "</pre>";
-
-// $fetch_id_query = $fetch_data_from_db->fetchiddata('user_details', $login_email, $conn, 'user_email');
-// $fetch_id_data = mysqli_fetch_all($fetch_id_query);
-// $user_name = isset($fetch_id_data[0][1]) ? $fetch_id_data[0][1] : '';
-
 
 ?>
 <!DOCTYPE html>
@@ -49,7 +27,7 @@ if(isset($_POST['search'])){
 <body class=" w-full h-full bg-slate-100 relative">
     <header class="sticky z-50 top-0"><?php include '../home_page/home_header.php' ?></header>
     <div class="absolute right-4 top-20">
-        <form action="" method="post" class="flex items-center gap-1 relative z-20 py-4">
+        <form action="book_categories" method="post" class="flex items-center gap-1 relative z-20 py-4">
             <!-- <select name="category_name" id="category" class="rounded-lg bg-slate-100 text-slate-500 shadow border border-slate-600 w-40 p-2 ">
                 <option value="" class="bg-transparent p-1">Select Books</option>
                 <?php if(!empty($category_name_list)){

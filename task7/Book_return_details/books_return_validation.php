@@ -7,7 +7,7 @@ $return_book_id = $return_book_name = $return_book_author_name = $return_book_ca
 if(empty($fetch_id_data)){
     $fetch_id_data = [];
 }
-$fetch_data_from_db = new fetch_data_from_db();
+$fetch_data_from_db = new fetch_db_data();
 $send_data_to_db = new send_data_to_db();
 $get_rented_book_array = isset($_GET['rented_book_details']) ? $_GET['rented_book_details'] :'';
 $rented_book_details = explode(',', $get_rented_book_array);

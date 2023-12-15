@@ -4,7 +4,7 @@ include '../validation.php';
 include '../send_fetch_data_from_db.php';
 include '../admin_session.php';
 
-$fetch_data_from_db = new fetch_data_from_db();
+$fetch_data_from_db = new fetch_db_data();
 $err_category = $err_book = $err_author = $err_book_copies = $err_image = $err_days = $err_charges_days = $errmsg = '';
 $rented_book_id = $rented_book_name = $rented_book_author = $rented_book_category = $rented_book_description = $rented_book_image = $user_email = $cart_item_array = $get_selected_cart_item = $book_status = '';
 $success = $rented_book_price = [];
@@ -17,7 +17,7 @@ $cart_item_array = explode(',', $get_selected_cart_item);
 $buy_book_id = isset($_GET['buy_book_id']) ? intval($_GET['buy_book_id']) : '';
 
 $send_data_to_db = new send_data_to_db();
-$fetch_data_from_db = new fetch_data_from_db();
+// $fetch_data_from_db = new fetch_db_data();
 $issue_date = date('Y-m-d');
 $book_id = isset($_GET['book_id']) ? intval($_GET['book_id']) : '';
 $fetch_id_query = $fetch_data_from_db->fetchiddata('books_details', $buy_book_id, $conn, 'book_id');
@@ -106,17 +106,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $err_email = $admin_entered_details->email_match($user_email);
         }
         // $err_name = $admin_entered_details->name_validation($name);
-        $err_returned_date = $admin_entered_details->emp($book_return_date);
-        $err_address = $admin_entered_details->emp($address);
+        $err_returned_date = $admin_entered_details->check_empty($book_return_date);
+        $err_address = $admin_entered_details->check_empty($address);
         $err_state = $admin_entered_details->name_validation($user_state);
         $err_city = $admin_entered_details->name_validation($user_city);
         $err_postal_code = $admin_entered_details->phone_length($user_postal_code, 6);
         $err_name_on_card = $admin_entered_details->name_validation($user_name_on_card);
         $err_card_number = $admin_entered_details->phone_length($user_card_number, 16);
         $err_card_expiration_date = $admin_entered_details->card_expiry_check($user_card_expiration_date);;
-        $err_charges_days = $admin_entered_details->emp($book_rented_days_charges);
+        $err_charges_days = $admin_entered_details->check_empty($book_rented_days_charges);
         $err_cvc = $admin_entered_details->phone_length($user_card_cvc, 3);
-        // $err_charges = $admin_entered_details->emp($advance_charges);
 
 
         // if(!empty($buy_book_id)){

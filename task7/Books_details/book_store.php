@@ -3,7 +3,7 @@
 include '../send_fetch_data_from_db.php';
 include '../admin_session.php';
 
-$fetch_data_from_db = new fetch_data_from_db();
+$fetch_data_from_db = new fetch_db_data();
 $fetch_book_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
 // echo "<pre>";
 // print_r($fetch_book_data_from_db);
@@ -28,7 +28,7 @@ if(isset($_POST['search'])){
 <body class=" w-full h-full bg-slate-100 relative">
     <header class="sticky z-50 top-0"><?php include '../home_page/home_header.php' ?></header>
     <div class="absolute right-4 top-20">
-        <form action="" method="post" class="flex items-center gap-1 relative z-20 py-4">
+        <form action="books_details/book_store" method="post" class="flex items-center gap-1 relative z-20 py-4">
             <input type="search" name="search" id="search"
                 class="border shadow rounded-lg outline-none p-1 pl-3 text-lg w-80" placeholder="Search any category...">
             <button type="submit"

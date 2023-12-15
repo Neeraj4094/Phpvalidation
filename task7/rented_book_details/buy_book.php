@@ -2,14 +2,13 @@
 include './book_fetch_validation.php';
 // include '../admin_session.php';
 
-
 if (empty($book_category) && empty($book_author)) {
     $book_category = '';
     $book_author = '';
 }
 $cart_data = [];
 $cart_book_id = $cart_user_email = [];
-$fetch_data_from_db = new fetch_data_from_db(); 
+$fetch_data_from_db = new fetch_db_data();
 $fetch_cart_query = $fetch_data_from_db->fetchiddata('cart_details', $book_id, $conn, 'book_id');
 $fetch_cart_data_from_db = mysqli_fetch_all($fetch_cart_query);
 foreach($fetch_cart_data_from_db as $data){

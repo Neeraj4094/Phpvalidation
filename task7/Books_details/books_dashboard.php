@@ -13,7 +13,7 @@ if ($_SESSION['admin'] == null) {
 
 $create_date = $modify_date = '';
 $tablename = "books_details";
-$fetch_data_from_db = new fetch_data_from_db ();
+$fetch_data_from_db = new fetch_db_data ();
 $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablename);
 
 
@@ -77,7 +77,7 @@ if(isset($_POST['search'])){
         <div class="px-2 border-t">
             <div class="px-2 h-80 space-y-3 overflow-y-scroll">
                 
-                <form action="#" method="post">
+                <form action="add_books" method="post">
                     
                     <?php 
                     $add_books = '<div class="flex w-full h-full items-center justify-center"> <a href="./add_books" class="bg-blue-600 text-white rounded-lg shadow px-8 py-2 cursor-pointer">Add Books</a> </div>';

@@ -13,7 +13,7 @@ if(empty($email_list)){
 }
 $create_date = $modify_date = '';
 $tablename = "books_details";
-$fetch_data_from_db = new fetch_data_from_db();
+// $fetch_data_from_db = new fetch_db_data();
 $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablename);
 
 $rightjoin = "SELECT rented.*, book.book_name, book.book_category, book.book_author, user.user_name, user.user_phone_no, user.gender from books_details as book right join rented_book_details as rented on (book.book_id = rented.book_id) left join user_details as user on (rented.user_email = user.user_email) order by rented.rented_id";

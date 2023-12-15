@@ -7,7 +7,7 @@ if(empty($category_name)){
 }
 $location = '';
 $id = isset($_GET['id']) ? intval($_GET['id']) : '';
-$image_upload = new image();
+$image_upload = new upload_image();
 
 $fetch_book_id_query = $fetch_data_from_db->fetchiddata('books_details', $category_name, $conn, 'book_category');
 $fetch_book_id_data = mysqli_fetch_all($fetch_book_id_query);
@@ -37,13 +37,12 @@ if (empty($book_image_name)) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
     if(isset($_POST["add_categories"])){    
-        $err_category = $admin_entered_details->emp($category_name);
+        $err_category = $admin_entered_details->check_empty($category_name);
         $err_image =  $admin_entered_details->image_validation($category_image,$id);
         $category_image_name = isset($category_image['name'])? $category_image['name'] :'';
         
-
+        // if(is_array($category_image_name)){
         $tablename = 'category_details';
-    
         if(empty($err_category)){
         if(empty($category_name_array)){
             $location = '../books_details/add_books?category_name=' . $category_name . '';
@@ -102,6 +101,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         if(!$update_book_details_category_name){
             echo "Error:" . mysqli_error($conn);
         }
+        header("location: category");
+    // }else{
+    //     $err_image = "Please select image";
+    // }
     }
 }
 ?>

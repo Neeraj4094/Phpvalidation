@@ -25,11 +25,11 @@
                 </svg>
                 <span>Home</span>
             </div>
-            <nav class="overflow-auto">
+            <nav class="overflow-auto h-full">
                 <ul>
                     <li class="">
                         <span class="text-blue-600 font-medium">General</span>
-                        <ul class="px-2 space-y-2">
+                        <ul class="px-2 space-y-4 pb-4">
                             <li>
                                 <div class="flex items-center gap-2 relative pt-2">
                                     <a href="../admin_details/admin" class="absolute inset-0 z-10"></a>
@@ -74,11 +74,7 @@
                                         </svg>
                                         <span>Categories</span>
                                     </div>
-                                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 480"
-                                        fill="currentColor">
-                                        <title>down</title>
-                                        <path d="M250 360l180-180-30-30-150 150-160-150-30 30 190 180z"></path>
-                                    </svg>
+                                    
                                 </div>
                             </li>
                             <li>
@@ -105,88 +101,14 @@
                                         </svg>
                                         <span>Orders</span>
                                     </div>
-                                    <span class="px-2 py-1 border rounded-lg">5</span>
                                 </div>
                             </li>
-                            <li>
-                                <div class="flex items-center gap-2 relative">
-                                    <a href="#" class="absolute inset-0 z-10"></a>
-                                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                        stroke="none" viewBox="0 0 24 24">
-                                        <path
-                                            d="m20 8-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM9 19H7v-9h2v9zm4 0h-2v-6h2v6zm4 0h-2v-3h2v3zM14 9h-1V4l5 5h-4z">
-                                        </path>
-                                    </svg>
-                                    <span>Returned</span>
-                                </div>
-                            </li>
+                            
 
                         </ul>
                     </li>
-                    <li class="py-1 pb-2">
-                        <span class="text-blue-600 font-medium">Others</span>
-                        <ul class="px-2 space-y-3">
-                            <li>
-                                <div class="flex justify-between items-center pt-2">
-                                    <div class="flex items-center gap-2 relative">
-                                        <a href="#" class="absolute inset-0 z-10"></a>
-                                        <svg class="w-5 h-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 20 20">
-                                            <path
-                                                d="M20 2v16H.32c-.318 0-.416-.209-.216-.465l4.469-5.748a.526.526 0 0 1 .789-.062l1.419 1.334a.473.473 0 0 0 .747-.096l3.047-4.74a.466.466 0 0 1 .741-.09l2.171 2.096c.232.225.559.18.724-.1l5.133-7.785C19.51 2.062 19.75 2 20 2z">
-                                            </path>
-                                        </svg>
-                                        <span>Pending</span>
-                                    </div>
-                                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 480"
-                                        fill="currentColor">
-                                        <title>down</title>
-                                        <path d="M250 360l180-180-30-30-150 150-160-150-30 30 190 180z"></path>
-                                    </svg>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="flex justify-between items-center pt-2">
-                                    <div class="flex items-center gap-2 relative">
-                                        <a href="#" class="absolute inset-0 z-10"></a>
-                                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" role="img"
-                                            viewBox="0 0 24 24" fill="currentColor">
-                                            <title>roadmap.sh</title>
-                                            <path
-                                                d="M20.693 0H3.307A3.307 3.307 0 0 0 0 3.307v17.386A3.307 3.307 0 0 0 3.307 24h17.386A3.307 3.307 0 0 0 24 20.693V3.307A3.307 3.307 0 0 0 20.693 0zm-7.706 9.18c-.349.031-.689.078-1.021.142-.333.063-.65.134-.95.214a3.64 3.64 0 0 0-.736.237v8.097a5.522 5.522 0 0 1-.76.143c-.333.047-.68.07-1.045.07a5.87 5.87 0 0 1-.95-.07 1.588 1.588 0 0 1-.688-.285 1.476 1.476 0 0 1-.452-.57c-.095-.253-.142-.578-.142-.974V9.061c0-.364.063-.673.19-.926.142-.27.34-.507.594-.713a3.93 3.93 0 0 1 .926-.546 9.133 9.133 0 0 1 2.54-.736 8.093 8.093 0 0 1 1.378-.119c.76 0 1.361.15 1.804.451.444.285.665.76.665 1.425 0 .222-.032.443-.095.665a3.075 3.075 0 0 1-.237.57c-.341 0-.682.016-1.021.047zm5.113 8.453c-.412.443-.974.665-1.686.665s-1.274-.222-1.686-.665c-.412-.443-.617-.998-.617-1.662 0-.665.205-1.22.617-1.663.412-.443.974-.664 1.686-.664s1.274.221 1.686.664c.411.444.617.998.617 1.663 0 .664-.206 1.219-.617 1.662z">
-                                            </path>
-                                        </svg>
-                                        <span>Feedback</span>
-                                    </div>
-                                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 480"
-                                        fill="currentColor">
-                                        <title>down</title>
-                                        <path d="M250 360l180-180-30-30-150 150-160-150-30 30 190 180z"></path>
-                                    </svg>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="flex justify-between items-center">
-                                    <div class="flex items-center gap-2 relative">
-                                        <a href="#" class="absolute inset-0 z-10"></a>
-                                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                            fill="currentColor">
-                                            <path
-                                                d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z">
-                                            </path>
-                                        </svg>
-                                        <span>Settings</span>
-                                    </div>
-                                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 490 480"
-                                        fill="currentColor">
-                                        <title>down</title>
-                                        <path d="M250 360l180-180-30-30-150 150-160-150-30 30 190 180z"></path>
-                                    </svg>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="border-t px-2 py-2">
+                    
+                    <li class="border-t px-2 py-2 ">
                         <form action="../admin_details/admin_logout" method="post">
                             <button class="flex items-center gap-2 relative ">
                                 <a href="../admin_details/admin_logout" class="absolute inset-0 z-10"></a>

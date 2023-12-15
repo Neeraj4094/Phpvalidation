@@ -9,7 +9,7 @@ if ($_SESSION['login'] == null) {
     $page = "Details";
 }
 
-$fetch_data_from_db = new fetch_data_from_db();
+// $fetch_data_from_db = new fetch_data_from_db();
 $user_email = isset($_GET['email']) ? $_GET['email'] :'';
 
 // $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
@@ -62,7 +62,7 @@ $login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] 
                     
                 ?>
                 <article class="w-60 h-80 border text-center rounded-xl cursor-pointer relative">
-                    <a href="./book_return_form.php?rented_book_details=<?php echo $rented_book_array ?>" class=" absolute inset-0 z-10"></a>
+                    <a href="./book_return_form?rented_book_details=<?php echo $rented_book_array ?>" class=" absolute inset-0 z-10"></a>
                     <div class="w-full h-full rounded-xl relative">
                         <img src="../../Image/<?php echo $book_image ?>" alt="Books"
                             class="w-full h-full object-cover rounded-xl">
