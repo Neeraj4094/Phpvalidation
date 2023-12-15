@@ -128,6 +128,9 @@ $low_charges= $mid_charges = $normal_charges = 0;
                         
                     </div>
                 </div>
+                <div class="p-4">
+                       <input type="submit" name="rent_now" value="Submit" class="border w-full py-2 bg-blue-600 cursor-pointer text-center text-white text-lg font-semibold rounded-lg">
+                </div>
             </div>
         </div>
 
@@ -178,10 +181,12 @@ $low_charges= $mid_charges = $normal_charges = 0;
                                 <span class="font-semibold"><?php echo "Price :- $" . $book_price ?></span>
                             </div>
                         </div>
-                        <a href="../rented_book_details/delete_cart?cart_id=<?php echo $book_id ?>" data-toggle="tooltip" data-placement="top" title="Delete"
+                        <form action="../rented_book_details/delete_cart?cart_id=<?php echo $book_id ?>" method="post">
+                        <button href="" data-toggle="tooltip" data-placement="top" title="Delete"
                             class=" h-8 py-1 rounded-md">
                             <?php echo $delete ?>
-                        </a>
+                     </button>
+                     </form>
                         </div>
                     </article>
                 </div>
@@ -211,11 +216,8 @@ $low_charges= $mid_charges = $normal_charges = 0;
                             
                             <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_charges_days ?></small></span>
                         </div>
-                    
                 </div>
-                <div class="p-4">
-                       <input type="submit" name="rent_now" value="Submit" class="border w-full py-2 bg-blue-600 cursor-pointer text-center text-white text-lg font-semibold rounded-lg">
-                </div>
+                
             </div>
         </div>
         
