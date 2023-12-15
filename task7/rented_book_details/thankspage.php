@@ -53,20 +53,23 @@ function match_id($item,$fetch_rented_book_data,$login_email){
     return $book_price;
 }
 foreach($cart_item_array as $item){
-    $rented_books_price_array[] = match_id($item,$fetch_rented_book_data,$login_email);
+    $rented_books_price[] = match_id($item,$fetch_rented_book_data,$login_email);
 }
-
 if(!empty($get_selected_cart_item)){
-    if(!$rented_books_price_array){
-    foreach($rented_books_price_array as $data){
+    // echo "Ok";
+    // if(!$rented_books_price){
+    foreach($rented_books_price as $data){
         $charges = isset($data[10]) ? $data[10] :"";
         $actual_book_renting_charges += $charges;
         $book_issue_date = isset($data[8]) ? $data[8] :"";
         $book_return_date = isset($data[9]) ? $data[9] :"";
-        
+        // echo $charges;
     }
+// }
 }
-}
+// echo "<pre>";
+// print_r($rented_books_price);
+// echo "</pre>";
     
 $book_renting_amount = 10 + $actual_book_renting_charges;
 

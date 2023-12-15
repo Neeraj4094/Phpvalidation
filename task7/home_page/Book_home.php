@@ -89,8 +89,8 @@ foreach($fetch_book_data_from_db as $data){
                     </button>
                 </form>
             </div>
-            <div class="py-2 absolute bottom-14 z-20">
-                <button type="button"
+            <form action="../books_details/book_store" method="post" class="py-2 absolute bottom-14 z-20">
+                <button type="submit"
                     class="px-4 py-2 font-semibold border bg-indigo-600 text-blue-50 rounded-lg flex items-center gap-2 "><span>Rent
                         Now</span>
                     <div class="pt-1">
@@ -101,7 +101,7 @@ foreach($fetch_book_data_from_db as $data){
                         </svg>
                     </div>
                 </button>
-            </div>
+            </form>
         </section>
         <section class="w-full h-full px-2 py-10 grid place-items-center space-y-8" id="books">
             <h2 class="font-bold text-3xl underline">Our Book Store</h2>

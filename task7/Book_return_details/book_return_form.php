@@ -110,7 +110,7 @@ include 'books_return_validation.php';
                     <div class="flex justify-between">
                         <h3>Book Charges</h3>
                         <span>
-                            <?php echo $return_book_charges ?>
+                            <?php echo $rented_charges ?>
                         </span>
                     </div>
                     <div class="flex justify-between">

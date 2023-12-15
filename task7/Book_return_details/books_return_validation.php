@@ -16,6 +16,7 @@ $user_email = isset($rented_book_details[1]) ? $rented_book_details[1] : '';
 
 $fetch_category_name_query = $fetch_data_from_db->fetchiddata('books_details', $book_id, $conn, 'book_id');
 $fetch_category_name_data = mysqli_fetch_all($fetch_category_name_query);
+
 $fetch_rented_book_query = $fetch_data_from_db->fetchiddata('rented_book_details', $book_id, $conn, 'book_id');
 $fetch_rented_book_data = mysqli_fetch_all($fetch_rented_book_query);
 
@@ -30,18 +31,13 @@ if(!empty($fetch_category_name_data)){
         $return_book_image = $book_data[10];
     }
 }
+
+$rented_charges = isset($fetch_rented_book_data[0][10]) ? $fetch_rented_book_data[0][10] :'';
+
 $rented_book_issue_date = isset($fetch_rented_book_data[0][8]) ? $fetch_rented_book_data[0][8] :'';
 $rented_book_return_date = isset($fetch_rented_book_data[0][9]) ? $fetch_rented_book_data[0][9] :'';
-// $id = isset($data[0][7]) ? $data[0][7] :'';
 
 
-// foreach($fetch_rented_book_data as $data){
-//     $book_charges = isset($data[10]) ? $data[10] :'';
-    
-//     $payment_details = isset($data[15]) ? $data[15] :'';
-//     $fetch_id_query = $fetch_data_from_db->fetchiddata('books_details', $id, $conn, 'book_id');
-//     $fetch_id_data = mysqli_fetch_all($fetch_id_query);
-// }
 $current_date = date('Y-m-d');
 
 
@@ -60,17 +56,7 @@ if( $expected_book_returned_timestamp > $returned_book_timestamp ){
     $fine = $daysSpent * $return_book_price/100;
 }
 
-$total_book_charges = $return_book_charges + $fine;
-// foreach($fetch_id_data as $value){
-//     $return_book_id = $value[0];
-//     $return_book_name = ucwords($value[1]);
-//     $return_book_author_name = $value[2];
-//     $return_book_category_name = $value[3];
-//     $return_book_price = $value[5];
-//     $return_book_image = $value[10];
-// }
-
-
+$total_book_charges = $rented_charges + $fine;
 
 $payment = new book_payment();
 
@@ -90,8 +76,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST" ){
                 $email = isset($data[1]) ? $data[1] :'';
                 $id = isset($data[7]) ? $data[7] :'';
                 $payment_details = isset($data[15]) ? $data[15] :'';
-                // $fetch_query = $fetch_data_from_db->fetchiddata('rented_book_details', $id, $conn, 'rented_id');
-                // $fetch_data = mysqli_fetch_all($fetch_query);
                 
 
                 $rented_book_array = [$id,$email];
