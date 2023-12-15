@@ -5,7 +5,7 @@ include '../admin_session.php';
 $fetch_data_from_db = new fetch_db_data();
 
 $fetch_book_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
-if(trim($fetch_book_data_from_db) == 'Error:'){
+if(empty($fetch_book_data_from_db)){
     header('location: ../admin_details/admin_registeration');
 }
 $fetch_user_review_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'user_review_details');
@@ -18,14 +18,14 @@ $search = isset($_POST['search']) ? strtolower($_POST['search']) :'';
 $user_searched_data = trim($search);
 
 // print_r($fetch_category_data_from_db);
-if(trim($fetch_category_data_from_db) != "Error:"){
+if(empty($fetch_category_data_from_db)){
     
     foreach($fetch_category_data_from_db as $data){
         $category_name_list[] = isset($data[1]) ? $data[1] :'';
     }
 }
-print_r($fetch_book_data_from_db);
-if(trim($fetch_book_data_from_db) != "Error:")
+// print_r($fetch_book_data_from_db);
+if(empty($fetch_book_data_from_db))
 foreach($fetch_book_data_from_db as $data){
     if(in_array($category_name,$data)){
         $searched_data[] = $data;
