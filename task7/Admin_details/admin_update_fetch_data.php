@@ -15,10 +15,9 @@ $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 //             echo "Login failed.";
 // }
 $send_data_to_db = new send_data_to_db();
-// $fetch_data_from_db = new fetch_data_from_db();
-// $fetch_data_from_db = new fetch_data_from_db ();
+
 $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'admin_data');
-// print_r($admin_fetch_data_from_db);
+
 if(!empty($admin_fetch_data_from_db)){
     $check_admin_email = $fetch_data_from_db->searchemail($admin_fetch_data_from_db,$email);
 }else{

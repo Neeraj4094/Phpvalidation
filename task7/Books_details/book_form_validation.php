@@ -3,7 +3,7 @@ include "../send_admin_data_to_db.php";
 
 $err_category = $err_book = $err_author = $err_book_copies = $err_image = $err_book_price = $err_book_desciption = "";
 $total_book_copies = 0;
-$book_name_array = [];
+$book_name_array = $fetch_all_book_categories= [];
 
 $fetch_get_category_name = isset( $_GET["category_name"] ) ? $_GET["category_name"] :"";
 

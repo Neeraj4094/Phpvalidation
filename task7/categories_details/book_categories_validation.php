@@ -97,11 +97,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $column = ['book_category'];
         $data = [$category_name];
         
+        if(!empty($fetch_category_name)){
         $update_book_details_category_name = $send_data_to_db->update_to_tb('books_details',$column,$data,'book_category',$fetch_category_name,$conn);
         if(!$update_book_details_category_name){
             echo "Error:" . mysqli_error($conn);
         }
         header("location: category");
+    }
     // }else{
     //     $err_image = "Please select image";
     // }
