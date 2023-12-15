@@ -24,30 +24,33 @@ foreach($fetch_id_data as $data){
     $fetch_bookid_query = $fetch_data_from_db->fetchiddata('books_details', $book_id, $conn, 'book_id');
     $fetch_bookid_data[] = mysqli_fetch_all($fetch_bookid_query);
 }
-echo "<pre>";
-print_r($fetch_bookid_data);
-echo "</pre>";
-foreach($fetch_bookid_data as $data){
-    $book_name = isset($data[1]) ? $data[1] :"";
-    $book_author = isset($data[2]) ? $data[2] :"";
-    $book_category = isset($data[3]) ? $data[3] :"";
-    $book_price = isset($data[5]) ? $data[5] :"";
-    $book_image = isset($data[10]) ? $data[10] :"";
-    echo $book_name;
-}
-// foreach($fetch_rented_book_user_data as $item){
-//     $rented_book_id = isset($item[7]) ? $item[7] : '';
-//     $book_id_array[] = $rented_book_id;
-// }
+// echo "<pre>";
+// print_r($fetch_bookid_data);
+// echo "</pre>";
 
-// foreach($fetch_cart_data as $rented_data){
-//     $book_id = isset($rented_data[1]) ? $rented_data[1] : '';
-//     if(!empty( $book_id_array )){
-//     if(!in_array($book_id,$book_id_array)){
-//         $user_cart_data[] = $rented_data;
-//     }
-// }
-// }
+
+if(!empty($fetch_rented_book_user_data)){
+foreach($fetch_rented_book_user_data as $item){
+    $rented_book_id = isset($item[7]) ? $item[7] : '';
+    $book_id_array[] = $rented_book_id;
+}
+}else{
+    foreach($fetch_bookid_data as $data){
+        $book_id = isset($data[0][0]) ? $data[0][0] :'';
+        $book_cart_id_array[] = $book_id;
+        $book_cart_id_list = implode(',',$book_cart_id_array);
+        $_SESSION['selected_cart'] = $book_cart_id_list;
+    }
+}
+
+foreach($fetch_cart_data as $rented_data){
+    $book_id = isset($rented_data[1]) ? $rented_data[1] : '';
+    if(!empty( $book_id_array )){
+    if(!in_array($book_id,$book_id_array)){
+        $user_cart_data[] = $rented_data;
+    }
+}
+}
 
 if(!empty($user_cart_data)){
 foreach ($user_cart_data as $key => $value) {
@@ -104,11 +107,11 @@ foreach($fetch_user_cart_data as $data){
             $delete = '<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none"><path d="M7 3H9C9 2.44772 8.55228 2 8 2C7.44772 2 7 2.44772 7 3ZM6 3C6 1.89543 6.89543 1 8 1C9.10457 1 10 1.89543 10 3H14C14.2761 3 14.5 3.22386 14.5 3.5C14.5 3.77614 14.2761 4 14 4H13.4364L12.2313 12.8378C12.0624 14.0765 11.0044 15 9.75422 15H6.24578C4.99561 15 3.93762 14.0765 3.76871 12.8378L2.56355 4H2C1.72386 4 1.5 3.77614 1.5 3.5C1.5 3.22386 1.72386 3 2 3H6ZM7 6.5C7 6.22386 6.77614 6 6.5 6C6.22386 6 6 6.22386 6 6.5V11.5C6 11.7761 6.22386 12 6.5 12C6.77614 12 7 11.7761 7 11.5V6.5ZM9.5 6C9.22386 6 9 6.22386 9 6.5V11.5C9 11.7761 9.22386 12 9.5 12C9.77614 12 10 11.7761 10 11.5V6.5C10 6.22386 9.77614 6 9.5 6Z" fill="currentColor"></path></svg>';
             $no_delete = '<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M3.93931 5L2.21966 3.28032C1.92677 2.98743 1.92678 2.51255 2.21968 2.21966C2.51257 1.92677 2.98745 1.92678 3.28034 2.21968L21.7801 20.7198C22.073 21.0127 22.073 21.4876 21.7801 21.7805C21.4872 22.0734 21.0123 22.0734 20.7194 21.7805L18.5293 19.5903C17.9867 21.0098 16.6131 22 15.0263 22H8.97369C7.04254 22 5.42715 20.5334 5.24113 18.6112L4.06908 6.5H2.75C2.33579 6.5 2 6.16421 2 5.75C2 5.33579 2.33579 5 2.75 5H3.93931ZM17.2782 18.3392L15 16.0609V17.25C15 17.6642 14.6642 18 14.25 18C13.8358 18 13.5 17.6642 13.5 17.25V14.5609L10.5 11.5608V17.25C10.5 17.6642 10.1642 18 9.75 18C9.33579 18 9 17.6642 9 17.25V10.0608L5.59074 6.65147L6.73416 18.4667C6.84577 19.62 7.815 20.5 8.97369 20.5H15.0263C16.185 20.5 17.1542 19.62 17.2658 18.4667L17.2782 18.3392ZM13.5 10.3185L15 11.8186V9.75C15 9.33579 14.6642 9 14.25 9C13.8358 9 13.5 9.33579 13.5 9.75V10.3185ZM18.4239 6.5L17.6525 14.4711L19.0265 15.8452L19.9309 6.5H21.25C21.6642 6.5 22 6.16421 22 5.75C22 5.33579 21.6642 5 21.25 5H15.5C15.5 3.067 13.933 1.5 12 1.5C10.067 1.5 8.5 3.067 8.5 5H8.18156L9.68153 6.5H18.4239ZM14 5H10C10 3.89543 10.8954 3 12 3C13.1046 3 14 3.89543 14 5Z" fill="currentColor"></path></svg>';
             $add_cart = '<div class="font-medium text-xl w-full text-center">You have no Cart item</div>';
-            if(empty($fetch_user_cart_data)){
-                echo $add_cart; ?>
-                <div class="flex items-center justify-center"> <a href="../books_details/add_books.php" class="bg-blue-600 text-white rounded-lg shadow px-8 py-2 cursor-pointer">Add Cart</a></div>
+            // if(empty($fetch_user_cart_data)){
+            //     echo $add_cart; ?>
+            <!-- //     <div class="flex items-center justify-center"> <a href="../books_details/add_books.php" class="bg-blue-600 text-white rounded-lg shadow px-8 py-2 cursor-pointer">Add Cart</a></div> -->
             
-            <?php }else{
+             <?php // }else{ -->
                         foreach($fetch_bookid_data as $data){
                             $book_id = isset($data[0][0]) ? $data[0][0] :'';
                             $book_name = isset($data[0][1]) ? ucwords($data[0][1]) :'';
@@ -171,9 +174,9 @@ foreach($fetch_user_cart_data as $data){
                         </div>
                     <?php }
                  ?>
-            <?php $book_id_data = implode(',', $book_id_list); ?>
+            <?php // $book_id_data = implode(',', $book_id_list); ?>
             <button type="submit" value="Buy Now" class=" bg-blue-600 text-white px-3 py-1 cursor-pointer rounded-md text-center font-semibold">Buy Now</button>
-            <?php } ?>
+            <?php // } ?>
         </form>
         </div>
     </section>
