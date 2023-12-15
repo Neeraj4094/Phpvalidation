@@ -30,17 +30,17 @@ if (($_SERVER["REQUEST_METHOD"] == "POST") && (isset($_POST["save_to_cart"]))) {
         $row_data = [$book_id, $login_email];
         if (!in_array($book_id, $cart_book_id) && !in_array($login_email, $cart_user_email)) {
             $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
-            // $cart_msg = '<a href="delete_cart.php?book_id=' . $book_id . '">Delete from Cart</a>';
+            
             header("location: ./buy_book?book_id=" . $book_id);
         }elseif(in_array($book_id, $cart_book_id) && !in_array($login_email, $cart_user_email)){
             $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
-            // $cart_msg = '<a href="delete_cart.php?book_id=' . $book_id . '">Delete from Cart</a>';
+            
             header("location: ./buy_book?book_id=" . $book_id);
         }else{
             $errmsg = "Sorry";
         }
 
-    // }
+
 }
 
 foreach($fetch_rented_book_user_data as $data){
@@ -94,7 +94,7 @@ foreach($fetch_id_data as $key => $value) {
 </head>
 
 <body class=" w-full h-full text-slate-700">
-<h2 class="w-full border text-center bg-green-50 text-slate-800 z-10 py-1 shadow">
+<h2 class="w-full border text-center bg-green-50 text-slate-800 z-10 shadow">
                     <?php
                     echo $errmsg;
                     ?>
@@ -189,10 +189,7 @@ foreach($fetch_id_data as $key => $value) {
                     <span class="font-bold text-black text-xl pt-1">
                         <?php echo "$" . $book_price ?>
                     </span>
-                    <!-- <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post"
-                        class="">
-                        <button type="submit" name="save_to_cart" class=" border flex items-center justify-center bg-blue-600 p-2 hover:bg-blue-700 text-white rounded-lg"><?php echo $cart_msg ?></button>
-                    </form> -->
+                    
                 </div>
 
 
@@ -264,12 +261,10 @@ foreach($fetch_id_data as $key => $value) {
                             </details>
                         </div>
                     </div>
-                    <!-- <form class="flex flex-col space-y-6 py-6"> -->
-
-                        <a href="rented_books?buy_book_id=<?php echo $book_id ?>"
-                            class="py-3 border flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-lg">Buy
-                            Now</a>
-                    <!-- </form> -->
+                    
+                    <a href="rented_books?buy_book_id=<?php echo $book_id ?>"
+                        class="py-3 border flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-lg">Buy
+                        Now</a>
                 </div>
             </div>
     </main>

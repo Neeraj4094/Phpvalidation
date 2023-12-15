@@ -17,7 +17,6 @@ $cart_item_array = explode(',', $get_selected_cart_item);
 $buy_book_id = isset($_GET['buy_book_id']) ? intval($_GET['buy_book_id']) : '';
 
 $send_data_to_db = new send_data_to_db();
-// $fetch_data_from_db = new fetch_db_data();
 $issue_date = date('Y-m-d');
 $book_id = isset($_GET['book_id']) ? intval($_GET['book_id']) : '';
 $fetch_id_query = $fetch_data_from_db->fetchiddata('books_details', $buy_book_id, $conn, 'book_id');
@@ -105,7 +104,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user_email = $email;
             $err_email = $admin_entered_details->email_match($user_email);
         }
-        // $err_name = $admin_entered_details->name_validation($name);
         $err_returned_date = $admin_entered_details->check_empty($book_return_date);
         $err_address = $admin_entered_details->check_empty($address);
         $err_state = $admin_entered_details->name_validation($user_state);
@@ -118,12 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $err_cvc = $admin_entered_details->phone_length($user_card_cvc, 3);
 
 
-        // if(!empty($buy_book_id)){
-        // $selecteddays = isset($_POST["return_date"])? $_POST["return_date"] : '';
 
-
-        
-        // print_r($fetch_rented_book_user_data);
         if ($err_email == null && empty($err_returned_date) && empty($err_address) && empty($err_state) && empty($err_city) && empty($err_postal_code) && empty($err_name_on_card) && empty($err_card_number) && empty($err_card_expiration_date) && empty($err_cvc) && empty($err_charges_days)) {
             if($book_actual_charges == $rented_days_charges){
                 if (!empty($buy_book_id)) {

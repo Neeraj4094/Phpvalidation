@@ -1,5 +1,4 @@
 <?php
-// include 'database_connection.php';
 include '../send_fetch_data_from_db.php';
 include '../admin_session.php';
 
@@ -89,7 +88,7 @@ foreach($fetch_book_data_from_db as $data){
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis, nobis?</p>
             </div>
             <div class="absolute right-4 top-1">
-                <form action="" method="post" class="flex items-center gap-1 relative z-20 py-4">
+                <form action="home_page" method="post" class="flex items-center gap-1 relative z-20 py-4">
                 <select name="category_name" id="category" class="rounded-lg bg-slate-100 text-slate-500 shadow border border-slate-600 w-40 p-2 ">
                     <option value="" class="bg-transparent p-1">Select Books</option>
                     <?php if(!empty($category_name_list)){

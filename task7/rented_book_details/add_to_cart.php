@@ -1,7 +1,4 @@
 <?php
-// include 'database_connection.php';
-// include '../send_fetch_data_from_db.php';
-// include '../admin_session.php';
 include 'book_fetch_validation.php';
 
 if ($_SESSION['login'] == null) {
@@ -10,7 +7,6 @@ if ($_SESSION['login'] == null) {
     $page = "Details";
 }
 
-$fetch_data_from_db = new fetch_data_from_db();
 
 $fetch_cart_data = $fetch_data_from_db->fetchdatafromdb($conn, 'cart_details');
 
@@ -19,23 +15,39 @@ $show_login_data = '';
 $login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] : '';
 
 
-$fetch_id_query = $fetch_data_from_db->fetchiddata('user_details', $login_email, $conn, 'user_email');
+$fetch_id_query = $fetch_data_from_db->fetchiddata('cart_details', $login_email, $conn, 'user_email');
 $fetch_id_data = mysqli_fetch_all($fetch_id_query);
 $user_name = isset($fetch_id_data[0][1]) ? $fetch_id_data[0][1] : '';
 
-
-
-foreach($fetch_rented_book_user_data as $item){
-    $rented_book_id = isset($item[7]) ? $item[7] : '';
-    $book_id_array[] = $rented_book_id;
+foreach($fetch_id_data as $data){
+    $book_id = isset($data[1]) ? $data[1] : '';
+    $fetch_bookid_query = $fetch_data_from_db->fetchiddata('books_details', $book_id, $conn, 'book_id');
+    $fetch_bookid_data[] = mysqli_fetch_all($fetch_bookid_query);
 }
-
-foreach($fetch_cart_data as $rented_data){
-    $book_id = isset($rented_data[1]) ? $rented_data[1] : '';
-    if(!in_array($book_id,$book_id_array)){
-        $user_cart_data[] = $rented_data;
-    }
+echo "<pre>";
+print_r($fetch_bookid_data);
+echo "</pre>";
+foreach($fetch_bookid_data as $data){
+    $book_name = isset($data[1]) ? $data[1] :"";
+    $book_author = isset($data[2]) ? $data[2] :"";
+    $book_category = isset($data[3]) ? $data[3] :"";
+    $book_price = isset($data[5]) ? $data[5] :"";
+    $book_image = isset($data[10]) ? $data[10] :"";
+    echo $book_name;
 }
+// foreach($fetch_rented_book_user_data as $item){
+//     $rented_book_id = isset($item[7]) ? $item[7] : '';
+//     $book_id_array[] = $rented_book_id;
+// }
+
+// foreach($fetch_cart_data as $rented_data){
+//     $book_id = isset($rented_data[1]) ? $rented_data[1] : '';
+//     if(!empty( $book_id_array )){
+//     if(!in_array($book_id,$book_id_array)){
+//         $user_cart_data[] = $rented_data;
+//     }
+// }
+// }
 
 if(!empty($user_cart_data)){
 foreach ($user_cart_data as $key => $value) {
@@ -97,7 +109,7 @@ foreach($fetch_user_cart_data as $data){
                 <div class="flex items-center justify-center"> <a href="../books_details/add_books.php" class="bg-blue-600 text-white rounded-lg shadow px-8 py-2 cursor-pointer">Add Cart</a></div>
             
             <?php }else{
-                        foreach($fetch_user_cart_data as $data){
+                        foreach($fetch_bookid_data as $data){
                             $book_id = isset($data[0][0]) ? $data[0][0] :'';
                             $book_name = isset($data[0][1]) ? ucwords($data[0][1]) :'';
                             $book_author = isset($data[0][2]) ? $data[0][2] :'';
@@ -107,7 +119,6 @@ foreach($fetch_user_cart_data as $data){
                             $book_image = isset($data[0][10]) ? $data[0][10] :'';
                         ?>
                         <div class="flex items-center gap-4 w-full">
-                        <!-- <input type="checkbox" value="<?php echo $book_id ?>" name="select_to_cart[]" id="<?php echo $book_id ?>" class="w-4 h-4"> -->
                         <div for="<?php echo $book_id ?>" class="w-full">
                             <div class=" w-full grid gap-2 py-2 sm:block md:grid mt-2 rounded-md border shadow">
                                 <div class=" flex justify-between items-start p-2 gap-4 relative w-full">
@@ -148,10 +159,7 @@ foreach($fetch_user_cart_data as $data){
                                                     <p class=" bg-purple-500 text-white px-3 py-1 rounded-md">
                                                         <?php echo "Price:-" . $book_price ?>
                                                     </p>
-                                                    <!-- <a href="../rented_book_details/delete_cart?cart_id=<?php echo $book_id ?>" data-toggle="tooltip" data-placement="top" title="Delete"
-                                                        class="border-2 px-4 py-1 rounded-md">
-                                                        <?php echo $delete ?>
-                                                    </a> -->
+                                                    
                                                 </div>
                                         </div>
                                         </div>

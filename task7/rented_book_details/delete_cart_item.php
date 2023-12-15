@@ -1,7 +1,7 @@
 <?php
 
 include './book_fetch_validation.php';
-// require ("../admin_details/admin_login_validation.php");
+
 $delete_cart_data = new delete_from_db();
 $book_id = isset( $_GET['book_id'] ) ? intval( $_GET['book_id'] ) : '';
 $cart_id = isset( $_GET['cart_id'] ) ?  $_GET['cart_id']  : '';

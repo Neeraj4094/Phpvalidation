@@ -1,6 +1,5 @@
 <?php
-// include "../database_connection.php";
-// include "../send_fetch_data_from_db.php";
+
 include "../admin_details/admin_update_fetch_data.php";
 
 if ($_SESSION['admin'] == null) {
@@ -13,7 +12,7 @@ if(empty($email_list)){
 }
 $create_date = $modify_date = '';
 $tablename = "books_details";
-// $fetch_data_from_db = new fetch_db_data();
+
 $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablename);
 
 $rightjoin = "SELECT rented.*, book.book_name, book.book_category, book.book_author, user.user_name, user.user_phone_no, user.gender from books_details as book right join rented_book_details as rented on (book.book_id = rented.book_id) left join user_details as user on (rented.user_email = user.user_email) order by rented.rented_id";
@@ -37,7 +36,7 @@ foreach ($fetch_right_join_data as $data) {
     $user_phone_number = isset($data[20]) ? $data[20] : '';
     $user_gender = isset($data[21]) ? $data[21] : '';
 
-    // Initializing variables
+
     $book_data = [
         $book_name,
         $book_category,
@@ -176,9 +175,6 @@ if(isset($_POST['search'])){
                         }
                     }  
                     
-                    // if(!empty($data)){if(in_array('visible',$data)){
-                    //     $searchdata = "visible";
-                    // }
                         ?>
                         <?php // }  ?>
                         <div class="<?php echo $searchdata ?> gap-2 py-2 mt-2 <?php ?> rounded-md border shadow">
@@ -186,14 +182,10 @@ if(isset($_POST['search'])){
                                 <div class=" flex justify-between items-center gap-4 h-20">
                                     <div class=" w-10 h-10 flex items-center justify-center">
                                             <?php
-                                            // if ($book_unique_image_in_db != "") {
-                                            //     $images =  "../../Image/" . $book_unique_image_in_db;
-                                            //     $res = "<img src='$images' alt='Image ' class='w-12 h-16 rounded-sm object-cover flex items-center justify-center'>";
-                                            //     echo "$res<br>";
-                                            // } else {
+                                            
                                             $col = '<div class= "flex items-center justify-center w-8 h-8"><svg class="w-full h-full text-slate-500" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"></path></svg></div>';
                                             echo "$col<br>";
-                                            // }
+                                            
                                             ?>
                                         </div>
                                         <div class=" w-full">
@@ -255,20 +247,7 @@ if(isset($_POST['search'])){
                                             </div>
                                         <?php  } ?>
                                     </div>
-                                    <!-- <form action="books_update_data.php?id=<?php echo $user_rented_id ?>" method="post"
-                                        class="pt-2">
-                                        <button type="submit" data-toggle="tooltip" data-placement="top" title="Edit"
-                                            class="px-1 rounded-lg bg-slate-100 text-black">
-                                            <?php echo $edit ?>
-
-                                        </button>
-                                    </form>
-                                    <form action="delete_books.php?id=<?php echo $user_rented_id ?>" method="post">
-                                        <button data-toggle="tooltip" data-placement="top" title="Delete"
-                                            class="border-2 px-4 py-1 rounded-md">
-                                            <?php echo $delete ?>
-                                        </button>
-                                    </form> -->
+                                    
                                 </div>
                                 </div>
                             </div>

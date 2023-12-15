@@ -11,7 +11,7 @@ include 'home_header_validation.php';
 </head>
 <body>
 <div class="w-full p-2 px-4 flex justify-between items-center border shadow bg-white ">
-    <!-- <div class="flex gap-4 items-center"> -->
+    
         <div class="w-12 h-12 ">
             <img src="../../Image/Ucodelogo.png" alt="Ucodelogo"
                 class="w-full h-full object-cover border rounded-full shadow shadow-black">
@@ -29,26 +29,14 @@ include 'home_header_validation.php';
                 <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
                         href="../user_details/user_login.php">Sign Up</a></li>
                         <?php } ?>
-                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
-                        href="../admin_details/admin_login">Admin Login</a></li>
+                <!-- <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
+                        href="../admin_details/admin_login">Admin Login</a></li> -->
 
             </ul>
         </nav>
-    <!-- </div> -->
+    
         <div class="px-1 relative flex items-center gap-4">
-            <!-- <form action="" method="post" class="flex items-center gap-1 relative">
-                <input type="search" name="search" id="search"
-                    class="border shadow rounded-lg outline-none p-2 w-96" placeholder="Search...">
-                <button type="submit"
-                    class="p-2 pt-3 bg-slate-50 border rounded-r-lg absolute right-0 top-0">
-                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                        fill="currentColor" viewBox="0 0 16 16">
-                        <path
-                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
-                        </path>
-                    </svg>
-                </button>
-            </form> -->
+            
             <a href="/phpprogramms/task7/rented_book_details/add_to_cart" class="p-2 border rounded-lg hover:bg-slate-100">
                 <svg class="w-6 h-6  " xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     viewBox="0 0 16 16">

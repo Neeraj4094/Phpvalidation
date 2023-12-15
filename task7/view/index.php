@@ -1,11 +1,13 @@
 <?php
 $request = $_SERVER['REQUEST_URI'];
-// $path= isset(parse_url($router)['path']) ? parse_url($router)['path'] : '';
-// $id= isset(parse_url($router)['query']) ? parse_url($router)['query'] : '';
-if(empty($rented_book_path) || empty($rented_book_url)|| empty($thanks_path) || empty($thanks_page_url)) {
+
+if(empty($rented_book_path) || empty($rented_book_url)) {
     
-    $rented_book_url = $rented_book_path = $thanks_page_url = $thanks_path = '';
+    $rented_book_url = $rented_book_path = '';
     
+}
+if(empty($thanks_path) || empty($thanks_page_url)){
+    $thanks_page_url = $thanks_path = '';
 }
 if(empty($delete_cart_url)){
     $delete_cart_url = $delete_cart_path = '';
@@ -43,9 +45,9 @@ if(empty($reset_password_path)){
 // }
 
 $routes = [
-    '/'=> 'admin_dashboard.php',
+    '/'=> '../admin_details/admin_dashboard.php',
     '/admin' => 'admin_dashboard.php',
-    '/admin_login'=> 'admin_login.php',
+    '/admin_login'=> '../admin_details/admin_login.php',
     '/admin_logout'=> 'admin_logout.php',
     '/services'=> 'services.php',
     $update_path => $update_page_url,

@@ -1,7 +1,7 @@
 <?php
 include '../database_connection.php';
 include '../admin_session.php';
-$errmsg = '';
+$errmsg = $success = '';
 
 if(isset($_POST['reset_password'])){
     $user_email = isset($_POST['email']) ? $_POST['email'] :'';
@@ -24,6 +24,7 @@ if(isset($_POST['reset_password'])){
     }else{
         echo "Error: " . mysqli_error($conn);
     }
+    $success = '<a href="../home_page" class=" text-sm text-blue-700 font-medium">Go to Home</a>';
 }
 ?>
 <!DOCTYPE html>
@@ -58,13 +59,11 @@ if(isset($_POST['reset_password'])){
                     <input type="email" name="email" id="email" placeholder="Enter email" class="border rounded-lg p-2">
                     
                 </div>
-                
-                <div class="">
                 <div>
                     <input type="submit" name="reset_password" id="user_login" class="bg-indigo-500 text-white px-10 py-2 rounded-lg cursor-pointer" value="Send Mail">
                 </div>
                 
-                </div>
+                <span class="p-4 mt-10"><?php echo $success ?></span>
             </div>
 
         </form>

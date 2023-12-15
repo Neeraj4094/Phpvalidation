@@ -22,7 +22,7 @@ require 'new_password_validation.php';
         <div class="flex-1 h-full">
             <img src="../../Image/book3.jpg" alt="Main Image" class="w-full h-full object-cover">
         </div>
-        <form action="" method="post" class="grid px-12 py-8 border bg-white shadow-sm text-slate-500 flex-1" name="login_form">
+        <form action="new_password" method="post" class="grid px-12 py-8 border bg-white shadow-sm text-slate-500 flex-1" name="login_form">
             <div class="max-w-md space-y-4 px-16">
                 
                 <div class="relative">
