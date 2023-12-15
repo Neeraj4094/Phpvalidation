@@ -30,7 +30,7 @@ if(empty($book_return_path)){
 }
 
 $routes = [
-    '/' => 'book_home.php',
+    '/home_page' => 'book_home.php',
     '/user_login'=> '../user_details/user_login.php',
     '/user_logout'=> '../user_details/user_logout.php',
     '/add_to_cart'=> '../rented_book_details/add_to_cart.php',
