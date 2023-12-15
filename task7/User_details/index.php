@@ -9,6 +9,8 @@ if(!empty($id)){
     $update_page_url = 'update_users_data.php';
     $lock_user_path = "/lock_user?" . $id;
     $lock_user_url = "lock_user.php";
+    $user_status_path = "/users?". $id;
+    $user_status_url = "user_dashboard.php";
     // $delete_path = "/delete_user"
 }else{
     $update_path = '';

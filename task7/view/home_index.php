@@ -9,6 +9,9 @@ $request = $_SERVER['REQUEST_URI'];
 //     $update_path = '';
 //     $delete_path = '';
 // }
+if(empty($user_status_path)){
+    $user_status_path = $user_status_url = '';
+}
 
 if(empty($update_page_url)){
     $update_page_url = $update_path = '';
@@ -44,6 +47,7 @@ $routes = [
     $update_path => $update_page_url,
     $lock_user_path => $lock_user_url,
     $delete_path => $delete_page_url,
+    $user_status_path => $user_status_url,
 ];
 function error_msg(){
     http_response_code(404);
