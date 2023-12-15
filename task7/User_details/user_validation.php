@@ -19,6 +19,7 @@ $send_data_to_db = new send_data_to_db();
 $fetch_data_from_db = new fetch_db_data ();
 $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablename);
 $check_email = $fetch_data_from_db->searchemail($admin_fetch_data_from_db,$email);
+
 foreach($check_email as $email_data){
     $email_list[] = isset($email_data[2]) ? $email_data[2] :'';
     $password_list = isset($email_data[3]) ? $email_data[3] :'';

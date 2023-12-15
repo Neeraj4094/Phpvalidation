@@ -6,6 +6,7 @@ include '../send_fetch_data_from_db.php';
 
 // if(!empty($user_password)){
 $password = $user_password;
+
 // }
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 // if (password_verify($password, $hashed_password)) {
@@ -18,7 +19,11 @@ $send_data_to_db = new send_data_to_db();
 // $fetch_data_from_db = new fetch_data_from_db ();
 $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'admin_data');
 // print_r($admin_fetch_data_from_db);
-$check_admin_email = $fetch_data_from_db->searchemail($admin_fetch_data_from_db,$email);
+if(!empty($admin_fetch_data_from_db)){
+    $check_admin_email = $fetch_data_from_db->searchemail($admin_fetch_data_from_db,$email);
+}else{
+    $check_admin_email = [];
+}
 foreach($check_admin_email as $email_data) {
     $check_email_exists[] = $email_data;
 }
@@ -39,11 +44,15 @@ $fetch_occupation_from_id = isset($fetch_id_data[0][5])? $fetch_id_data[0][5] :'
 $tablename = "admin_data";
 // $fetch_data_from_db = new fetch_data_from_db ();
 $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablename);
+
+if(!empty($login_email)){
 $check_email = $fetch_data_from_db->searchemail($admin_fetch_data_from_db,$login_email);
+}
 $session_email = isset($_SESSION['admin']['email']) ? $_SESSION['admin']['email'] : '';
 $login_password = isset($_SESSION['admin']['password']) ? $_SESSION['admin']['password'] : '';
+if(!empty($session_email)){
 $logged_in_data = $fetch_data_from_db->searchemail($admin_fetch_data_from_db, $session_email);
-
+}
 $check_login_password = isset($check_email[3]) ? $check_email[3] :'';
 
 $admin_logged_in_id = isset($logged_in_data[0]) ? $logged_in_data[0] : '';
@@ -69,6 +78,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $admin_data = "admin_data";
             $column_name = ['admin_name','admin_email','admin_password','admin_phone_number','admin_occupation'];
             $row_data = [$name,$email,$hashed_password,$phone_number,$occupation];
+            if(empty($admin_fetch_data_from_db)){
+                $admin_register_data = $send_data_to_db->insertindb($admin_data, $column_name, $row_data, $conn);
+                echo (!$admin_register_data) ? ("Error" . mysqli_error($conn)) : header("location: ./admin_login");
+            }
             $compare_email_status_with_db = !in_array($email,$check_email_exists);
              $compare_email_status_with_db ?
                 ($admin_register_data = $send_data_to_db->insertindb($admin_data, $column_name, $row_data, $conn) &&

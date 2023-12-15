@@ -25,7 +25,7 @@ class fetch_db_data{
         $query = mysqli_query($con, $select);
         $data = mysqli_fetch_all($query);
         if(!$data){
-            $result = "Error: " . mysqli_error($con);
+            $result = [];
             return $result;
         }
         return $data;
@@ -40,7 +40,7 @@ class fetch_db_data{
      * @return array Returns array if the data is found successfully, otherwise return the array that was passed for searching.
      */
     function searchemail(array $array, string $data) : array
-    {
+    {   
         // print_r($array);
         foreach ($array as $item) {
             if (in_array($data, $item)) {

@@ -3,7 +3,11 @@ include '../send_fetch_data_from_db.php';
 include '../admin_session.php';
 
 $fetch_data_from_db = new fetch_db_data();
+
 $fetch_book_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
+if(trim($fetch_book_data_from_db) == 'Error:'){
+    header('location: ../admin_details/admin_registeration');
+}
 $fetch_user_review_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'user_review_details');
 
 $fetch_category_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'category_details');
@@ -13,16 +17,21 @@ $category_name = isset($_POST['category_name']) ? $_POST['category_name'] :'';
 $search = isset($_POST['search']) ? strtolower($_POST['search']) :'';
 $user_searched_data = trim($search);
 
-foreach($fetch_category_data_from_db as $data){
-    $category_name_list[] = isset($data[1]) ? $data[1] :'';
+// print_r($fetch_category_data_from_db);
+if(trim($fetch_category_data_from_db) != "Error:"){
+    
+    foreach($fetch_category_data_from_db as $data){
+        $category_name_list[] = isset($data[1]) ? $data[1] :'';
+    }
 }
-
+print_r($fetch_book_data_from_db);
+if(trim($fetch_book_data_from_db) != "Error:")
 foreach($fetch_book_data_from_db as $data){
     if(in_array($category_name,$data)){
         $searched_data[] = $data;
     }
-    
 }
+
 
 ?>
 

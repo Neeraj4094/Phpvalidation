@@ -1,4 +1,6 @@
 <?php
+$errmsg = $err_name= $err_email = $err_password = $err_phone_number = $err_role = '';
+$name = $email = $user_password = $phone_number = '';
 include 'admin_update_fetch_data.php';
 ?>
 
@@ -23,7 +25,7 @@ include 'admin_update_fetch_data.php';
     <div class="flex-1 h-full">
         <img src="../../Image/book3.jpg" alt="Main Image" class="w-full h-full object-cover">
     </div>
-        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="h-full shadow flex-1 " name="registeration_form" enctype="multipart/form-data">
+        <form action="" method="post" class="h-full shadow flex-1 " name="registeration_form" enctype="multipart/form-data">
         <div class="flex items-center justify-center w-full h-full">
             <div class=" space-y-1 bg-slate-50 rounded-xl shadow py-6 px-10">
                 <div class="flex gap-10">
