@@ -11,6 +11,8 @@ if(!empty($id)){
     $update_page_url = 'update_categories_data.php';
     $delete_path = "/delete_categories?" . $id;
     $delete_page_url = "delete_categories.php";
+    $category_path = '/fetch_categories_books?'.$id;
+    $category_page_url = 'fetch_categories_books.php';
 }else{
     $update_path = '';
     $delete_path = '';

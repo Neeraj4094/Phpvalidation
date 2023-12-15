@@ -1,5 +1,5 @@
 <?php
-include './user_review_validation.php';
+include 'user_review_validation.php';
 ?>
 
 <!DOCTYPE html>
@@ -8,7 +8,7 @@ include './user_review_validation.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../dist/output.css">
+    <link rel="stylesheet" href="../../dist/output.css">
     <title>Document</title>
 </head>
 
@@ -21,7 +21,7 @@ include './user_review_validation.php';
     </h2>
     <div class="flex w-full h-screen">
         <div class="flex-1 h-full">
-            <img src="../Image/book2.jpg" alt="Main Image" class="w-full h-full object-cover">
+            <img src="../../Image/book2.jpg" alt="Main Image" class="w-full h-full object-cover">
         </div>
         <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="h-full shadow flex-1 "
             name="registeration_form" enctype="multipart/form-data">

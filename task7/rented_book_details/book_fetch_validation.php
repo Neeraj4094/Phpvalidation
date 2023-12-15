@@ -11,7 +11,7 @@ $success = $rented_book_price = [];
 $book_payment_charges = 0;
 
 $login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] : '';
-$get_selected_cart_item = isset($_GET['selected_cart']) ? $_GET['selected_cart'] : '';
+$get_selected_cart_item = isset($_SESSION['selected_cart']) ? $_SESSION['selected_cart'] : '';
 $cart_item_array = explode(',', $get_selected_cart_item);
 
 $buy_book_id = isset($_GET['buy_book_id']) ? intval($_GET['buy_book_id']) : '';
@@ -76,6 +76,7 @@ $total_rented_books = count($cart_book_id_data);
 if(!empty($total_rented_books)){
 $shipping_charges = 10/$total_rented_books;
 }
+
 foreach($cart_book_id_data as $data){
     $book_price = !empty($data[0][5]) ? $data[0][5] : '';
     if(!empty($book_price)){
@@ -210,52 +211,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         if (isset($_POST["select_cart"])) {
-            if (!empty($user_selected_cart_item)) {
-                $columns = implode(', ', $user_selected_cart_item);
+            // if (!empty($user_selected_cart_item)) {
+                // $columns = implode(', ', $user_selected_cart_item);
                 // $_SESSION['selected_cart'] = $user_selected_cart_item;
-                header("location: ../rented_book_details/rented_books?selected_cart=" . $columns);
-            } else {
-                $errmsg = "Please select any item";
-            }
-            // $column = "";
-
+                // header("location: ../rented_book_details/rented_books?selected_cart=" . $columns);
+            // } else {
+            //     $errmsg = "Please select any item";
+            // }
         }
     }
-    // }
+    
 }
-// }
-// }
-//     if(isset($_POST['rent_now'])){
-
-// }else{
-//     $errmsg = "Please complete the form";
-// }
 
 
-
-// date_default_timezone_set('Asia/Kolkata');
-// $date = new date();
-// $book_issued_date = $date->date_time_in_india($currentDate);
 $currentDate = date('Y-m-d');
 $actual_return_date = "2023-12-24";
 
-// Create DateTime objects from the date strings
 $startDate = new DateTime($currentDate);
 $endDate = new DateTime($actual_return_date);
 
-// Calculate the difference in days
 $interval = $startDate->diff($endDate);
-$daysSpent = $interval->days; // Add 1 to include the end date
-
-// echo "Number of days spent at the place: $daysSpent days";
+$daysSpent = $interval->days; 
 
 $futureDate = date('Y-m-d', strtotime($currentDate . " + $book_return_date days"));
-// echo $futureDate;
-
-// if($futureDate < $user_card_expiration_date){
-//     echo "OK";
-// }else{
-//     echo "NO";
-// }
 
 ?>

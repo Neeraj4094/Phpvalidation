@@ -1,7 +1,7 @@
 <?php
-include 'validation.php';
-include 'admin_session.php';
-include 'send_fetch_data_from_db.php';
+include '../validation.php';
+include '../admin_session.php';
+include '../send_fetch_data_from_db.php';
 
 $err_name = $err_review = $err_rating = '';
 $user_email_array = [];
@@ -18,7 +18,7 @@ foreach($fetch_review_data_from_db as $value){
 $success = '<div class="w-full h-full absolute top-0 flex items-center justify-center bg-black/25">
     <div
         class="grid font-semibold place-items-center w-96 h-48 border rounded-xl shadow z-20 bg-white text-black relative py-4">
-        <a href="user_reviews.php"><span class="  font-bold text-2xl text-slate-400 absolute right-2 top-2">
+        <a href="user_review"><span class="  font-bold text-2xl text-slate-400 absolute right-2 top-2">
         <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
         <path
         d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z">
@@ -32,7 +32,7 @@ $success = '<div class="w-full h-full absolute top-0 flex items-center justify-c
         <div class="grid place-items-center gap-2">
         <svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor"><defs></defs><title>send--alt--filled</title><path d="M27.71,4.29a1,1,0,0,0-1.05-.23l-22,8a1,1,0,0,0,0,1.87l8.59,3.43L19.59,11,21,12.41l-6.37,6.37,3.44,8.59A1,1,0,0,0,19,28h0a1,1,0,0,0,.92-.66l8-22A1,1,0,0,0,27.71,4.29Z"></path><rect id="_Transparent_Rectangle_" data-name="<Transparent Rectangle>" class="cls-1" width="32" height="32" style="fill:none"></rect></svg>
             <h2 class=" text-lg font-semibold text-black text-center">Review sent Successfully</h2>
-            <a href="book_home.php" class="border p-2 rounded-lg bg-blue-600 text-white">Go to Home Page</a>
+            <a href="../home_page" class="border p-2 rounded-lg bg-blue-600 text-white">Go to Home Page</a>
         </div>
     </div>
     </div>';

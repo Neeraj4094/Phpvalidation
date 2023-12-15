@@ -18,9 +18,9 @@ $cancel_login = '';
 if(isset($_POST['search'])){
     $search = strtolower($_POST['search']);
 }
-echo "<pre>";
-// print_r($fetch_category_name_data);
-echo "</pre>";
+// echo "<pre>";
+// // print_r($fetch_category_name_data);
+// echo "</pre>";
 
 // if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //     if (isset($_POST["login_page"])) {
@@ -95,10 +95,25 @@ $user_name = isset($fetch_id_data[0][1]) ? $fetch_id_data[0][1] : '';
     <title>Document</title>
 </head>
 
-<body class=" w-full h-full bg-slate-100">
-    <header><?php include 'home_header.php' ?></header>
-    <section class="w-full h-full px-2 py-7 mb-12 grid place-items-center space-y-6 ">
-        <h2 class="font-bold text-3xl">Categories Books</h2>
+<body class=" w-full h-full bg-slate-100 relative">
+    <header class="sticky z-50 top-0"><?php include 'home_header.php' ?></header>
+    <div class="absolute right-4 top-16">
+                <form action="" method="post" class="flex items-center gap-1 relative z-20 py-4">
+                    <input type="search" name="search" id="search"
+                        class="border shadow rounded-lg outline-none p-1 pl-3 text-lg w-80" placeholder="Search any book...">
+                    <button type="submit"
+                        class="p-2 py-2 bg-slate-50 text-slate-600 border rounded-r-lg absolute right-0 top-4">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            fill="currentColor" viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
+                            </path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+    <section class="w-full h-full px-2 py-7 pt-16 grid place-items-center space-y-6 ">
+        <h2 class="font-bold text-3xl">Books</h2>
         <div class="flex gap-40 flex-wrap items-center justify-center py-2 mb-10 h-full">
             <?php foreach ($fetch_category_name_data as $key => $value) {
                 $category_id = isset($value[0]) ? $value[0] : '';

@@ -9,11 +9,21 @@ $request = $_SERVER['REQUEST_URI'];
 //     $update_path = '';
 //     $delete_path = '';
 // }
+
+if(empty($update_page_url)){
+    $update_page_url = $update_path = '';
+}
 if(empty($category_path)){
     $category_path = $category_page_url= "";
 }
 if(empty($return_path)){
     $return_path = $return_page_url = '';
+}
+if(empty($lock_user_path)){
+    $lock_user_path = $lock_user_url ='';
+}
+if(empty($delete_path)){
+    $delete_path = $delete_page_url= '';
 }
 
 $routes = [
@@ -21,8 +31,14 @@ $routes = [
     '/user_login'=> '../user_details/user_login.php',
     '/user_logout'=> '../user_details/user_logout.php',
     '/add_to_cart'=> '../rented_book_details/add_to_cart.php',
+    '/users' => 'user_dashboard.php',
+    '/user_review'=> 'user_reviews.php',
+    '/add_users'=> 'add_users.php',
     $category_path => $category_page_url,
     $return_path => $return_page_url,
+    $update_path => $update_page_url,
+    $lock_user_path => $lock_user_url,
+    $delete_path => $delete_page_url,
 ];
 function error_msg(){
     http_response_code(404);

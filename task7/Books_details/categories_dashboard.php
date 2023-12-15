@@ -1,26 +1,26 @@
-<?php
-include 'database_connection.php';
-include 'send_fetch_data_from_db.php';
+<!-- <?php
+// include 'database_connection.php';
+// include 'send_fetch_data_from_db.php';
 
 
-$fetch_data_from_db = new fetch_data_from_db ();
-$fetch_book_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
+// $fetch_data_from_db = new fetch_data_from_db ();
+// $fetch_book_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
 
-foreach($fetch_book_data_from_db as $key => $value) { 
-    $actual_category_name = ucwords(isset($value[3])?$value[3]:'');
-    $books_category_data_query = $fetch_data_from_db->fetchiddata('books_details',$actual_category_name, $conn, 'book_category');
-    $books_category_data = mysqli_fetch_all($books_category_data_query);
+// foreach($fetch_book_data_from_db as $key => $value) { 
+//     $actual_category_name = ucwords(isset($value[3])?$value[3]:'');
+//     $books_category_data_query = $fetch_data_from_db->fetchiddata('books_details',$actual_category_name, $conn, 'book_category');
+//     $books_category_data = mysqli_fetch_all($books_category_data_query);
 
-    $actual_book_images[] = isset($books_category_data[0][5])?$books_category_data[0][5]:'';
-    $actual_book_category_name[] = isset($books_category_data[0][3])?$books_category_data[0][3]:'';
+//     $actual_book_images[] = isset($books_category_data[0][5])?$books_category_data[0][5]:'';
+//     $actual_book_category_name[] = isset($books_category_data[0][3])?$books_category_data[0][3]:'';
     
-}
-$category_image_data = array_unique($actual_book_images);
-$image_array = array_values($category_image_data);
+// }
+// $category_image_data = array_unique($actual_book_images);
+// $image_array = array_values($category_image_data);
 
-$book_category_data = array_unique($actual_book_category_name);
-$category_array = array_values($book_category_data);
-$maxCount = max(count($image_array), count($category_array));
+// $book_category_data = array_unique($actual_book_category_name);
+// $category_array = array_values($book_category_data);
+// $maxCount = max(count($image_array), count($category_array));
 // for ($row = 0; $row <= $maxCount; $row++) {
 //     // echo $row;
 //     echo "<pre>";
@@ -405,4 +405,4 @@ $maxCount = max(count($image_array), count($category_array));
         </main>
 </body>
 
-</html>
+</html> -->

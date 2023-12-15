@@ -3,7 +3,7 @@
 // include "../send_fetch_data_from_db.php";
 include "../admin_details/admin_update_fetch_data.php";
 
-if ($_SESSION == null) {
+if ($_SESSION['admin'] == null) {
     header("location: ../admin_details/admin_login.php");
 } else {
     $page = "Details";
@@ -235,7 +235,7 @@ if(isset($_POST['search'])){
                                             $book_charges = $user_rented_book_data[5];
                                             ?>
 
-                                            <div class="flex  gap-2">
+                                            <div class="flex justify-between  gap-2">
                                                 <p class="grid bg-slate-100 border shadow px-3 py-1 rounded-md">
                                                     <span>
                                                         <?php echo "Book:-" . $book_name ?>
@@ -255,7 +255,7 @@ if(isset($_POST['search'])){
                                             </div>
                                         <?php  } ?>
                                     </div>
-                                    <form action="books_update_data.php?id=<?php echo $user_rented_id ?>" method="post"
+                                    <!-- <form action="books_update_data.php?id=<?php echo $user_rented_id ?>" method="post"
                                         class="pt-2">
                                         <button type="submit" data-toggle="tooltip" data-placement="top" title="Edit"
                                             class="px-1 rounded-lg bg-slate-100 text-black">
@@ -268,7 +268,7 @@ if(isset($_POST['search'])){
                                             class="border-2 px-4 py-1 rounded-md">
                                             <?php echo $delete ?>
                                         </button>
-                                    </form>
+                                    </form> -->
                                 </div>
                                 </div>
                             </div>

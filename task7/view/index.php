@@ -2,14 +2,31 @@
 $request = $_SERVER['REQUEST_URI'];
 // $path= isset(parse_url($router)['path']) ? parse_url($router)['path'] : '';
 // $id= isset(parse_url($router)['query']) ? parse_url($router)['query'] : '';
-if(empty($category_path) || empty($update_path) || empty($update_page_url) || empty($rented_book_path) || empty($rented_book_url) || empty($category_page_url) || empty($thanks_path) || empty($thanks_page_url) || empty($delete_page_url) || empty($delete_path)) {
+if(empty($rented_book_path) || empty($rented_book_url)|| empty($thanks_path) || empty($thanks_page_url)) {
     
-    $category_path = $category_page_url = $update_page_url = $update_path = $rented_book_url = $rented_book_path = $thanks_page_url = $thanks_path = '';
-    $book_page_url = $book_path = $delete_cart_path = $delete_cart_url = $delete_page_url = $delete_path = '';
+    $rented_book_url = $rented_book_path = $thanks_page_url = $thanks_path = '';
+    
 }
-if(empty($book_page_url) || empty($reset_password_path) || empty($reset_password_url)){
+if(empty($delete_cart_url)){
+    $delete_cart_url = $delete_cart_path = '';
+}
+
+if(empty($delete_path)){
+    $delete_path = $delete_page_url = '';
+}
+if(empty($reset_password_path) || empty($reset_password_url)){
+    // $book_page_url = '';
+    // $book_path = '';
+}
+if(empty($category_path)){
+    $category_path = $category_page_url = '';
+}
+if(empty($book_path)){
     $book_page_url = '';
     $book_path = '';
+}
+if(empty($update_path)){
+    $update_page_url = $update_path = '';
 }
 if(empty($reset_password_path)){
     $reset_password_path = $reset_password_url= '';
@@ -39,11 +56,13 @@ $routes = [
     '/admin_registeration' => 'admin_registeration.php',
     '/books'=> 'books_dashboard.php',
     '/add_books'=> 'add_books.php',
+    '/book_store'=> 'book_store.php',
     '/category'=> 'category_dashboard.php',
-    '/users' => 'user_dashboard.php',
+    // '/users' => 'user_dashboard.php',
     '/user_login' => 'user_login.php',
     '/add_categories'=> 'add_categories.php',
-    '/add_users'=> 'add_users.php',
+    '/book_categories'=> 'books_categories.php',
+    '/not_found' => '../not_found.php',
     '/rented_book' => 'rented_book_dashboard.php',
     '/home_page' => 'book_home.php',
     '/add_to_cart'=> 'add_to_cart.php',

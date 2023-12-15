@@ -6,8 +6,6 @@
     //* if (empty($book_image_name)) { if (!empty($id)) { $book_image_name = $fetch_book_image_name; }
     //use if ($_SERVER["REQUEST_METHOD"] == "POST") in all form
     //use js for show boxes
-    search
-    remove isset from validation
     //remove class of validation for isset or empty
     //do not delete user, show active/ in-active
     //lock user and can't login again
@@ -19,12 +17,17 @@
     //if user has already purchase the book then show an error
     //half payment advance
     //mistake in add to cart
+    //show user to update data
+    //add session['admin']
+    //set link of anchor in header
+    //remove isset from validation
+    //auto complete when submit
+    //authentication
+    //using of foreach more times in payment successfull message
     names of pages
-    set link of anchor in header
-    using of foreach more times in payment successfull message
-    add session['admin']
-    auto complete when submit
-    show user to update data
+    search
+    duplicacy of review
+    add to cart
     
     //admin
     //user
@@ -39,16 +42,17 @@
     //book already exist
     //handle ordering books (buy_books.php)
     //add a modal for showing fine details
+    //remove classes of validation 
     set router paths and specially for values passed in url
     ********** add comments in all files
     add remove button for ordering book through cart
-    remove classes of validation 
     add are you sure u want to delete
     remove nested if
     add mysqli_num_rows in sql syntax
     pagination
 
-
+    authentication
+    validation classes
 }
  -->
 

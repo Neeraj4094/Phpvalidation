@@ -3,6 +3,11 @@
 // include '../send_fetch_data_from_db.php';
 include './book_fetch_validation.php';
 
+if ($_SESSION['login'] == null) {
+    header("location: /phpprogramms/task7/user_details/user_login");
+}else{
+    $page = "Details";
+}
 
 if(empty($id)){
 $book_renting_amount = $book_price = 0;

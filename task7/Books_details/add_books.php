@@ -1,10 +1,6 @@
 <?php
 include 'book_form_validation.php';
-if (!empty($err_image)) {
-    if (is_array($err_image)) {
-        $err_image = '';
-    }
-}
+
 
 
 

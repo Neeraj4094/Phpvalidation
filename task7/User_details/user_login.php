@@ -21,12 +21,10 @@ require 'user_validation.php';
         <div class="flex-1 h-full">
             <img src="../../Image/book3.jpg" alt="Main Image" class="w-full h-full object-cover">
         </div>
-        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="grid px-12 py-8 border bg-white shadow-sm text-slate-500 flex-1" name="login_form">
+        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="grid px-10 py-8 border bg-white shadow-sm text-slate-500 flex-1" name="login_form">
             <div class="max-w-md space-y-4 px-16">
                 <div class="relative">
-                    <svg class="w-12 h-12 text-blue-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15" fill="currentColor">
-                        <path d="M7.5 2.5c-1.026 0-1.908.277-2.6.87-.688.59-1.137 1.447-1.387 2.516a.5.5 0 00.897.4c.316-.452.632-.723.936-.863.294-.135.611-.162.975-.065.366.098.65.386 1.095.87l.015.016c.336.365.745.81 1.305 1.156.582.359 1.305.6 2.264.6 1.026 0 1.908-.277 2.6-.87.688-.59 1.138-1.447 1.387-2.516a.5.5 0 00-.897-.4c-.316.452-.632.723-.936.863-.294.135-.611.162-.975.065-.366-.098-.65-.386-1.095-.87l-.015-.016c-.336-.365-.745-.81-1.305-1.156-.582-.359-1.305-.6-2.264-.6zM4 7c-1.026 0-1.908.277-2.6.87C.712 8.46.263 9.317.013 10.386a.5.5 0 00.897.4c.316-.452.632-.723.936-.863.294-.135.611-.162.975-.065.366.098.65.386 1.095.87l.015.016c.336.365.745.81 1.305 1.156.582.359 1.305.6 2.264.6 1.026 0 1.908-.277 2.6-.87.688-.59 1.138-1.447 1.387-2.516a.5.5 0 00-.897-.4c-.316.452-.632.723-.936.863-.294.135-.611.162-.975.065-.366-.098-.65-.386-1.095-.87l-.015-.016c-.335-.365-.745-.81-1.305-1.156C5.682 7.24 4.959 7 4 7z" fill="currentColor"></path>
-                    </svg>
+                <svg class="w-10 h-10 text-slate-500" xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 24 24" fill="currentColor"><title>UIkit</title><path d="M17.697 3.292l-4.109 2.489 4.738 2.696v7.077l-6.365 3.538-6.258-3.538v-5.485L1.596 7.956V18l10.219 6 10.589-6V6.002l-4.707-2.71zm-1.904-.989L11.813 0 7.665 2.568l4.032 2.218 4.096-2.483z"></path></svg>
                 </div>
                 <div>
                     <h2 class="font-semibold text-2xl">Sign in to your account</h2>
@@ -45,12 +43,13 @@ require 'user_validation.php';
                     <!-- <small>(Password must have 1 Capital alphabet, 1 small alphabet, 1 special character & 1 number)</small> -->
                 </div>
                 <a href="../forget_password/recover_email" class="text-blue-700 px-1">Forget Password?</a>
-                <div class="flex items-center justify-center gap-4 w-96 p-2">
-                <div>
-                    <input type="submit" name="user_login" id="user_login" class="bg-indigo-500 text-white px-10 py-2 rounded-lg cursor-pointer" value="Login">
+                <div class="flex items-center justify-center gap-4 w-96 py-2">
+                <div class="flex items-end gap-3 w-full ">
+                    <input type="submit" name="user_login" id="user_login" class="bg-indigo-500 text-white px-8 py-2 rounded-lg cursor-pointer" value="Login">
+                    <p class="flex items-center text-md"><small>Don't have any account?<a href="../user_details/add_users" class=" text-sm text-blue-700 font-medium">Create New Account</a></small></p>
                 </div>
                 <div>
-                    <a href="./add_users.php" class="bg-indigo-500 text-white px-10 py-2 rounded-lg cursor-pointer">Create New Account</a>
+                    <!-- <span class="w-full text-sm">If don't have any account. <a href=""></a></span> -->
                 </div>
                 </div>
             </div>

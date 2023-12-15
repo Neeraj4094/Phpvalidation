@@ -46,7 +46,7 @@ $current_date = date('Y-m-d');
 
 
 $currentDate = date('Y-m-d');
-$actual_return_date = '2024-01-04';
+$actual_return_date = date('Y-m-d');
 
 $expected_book_returned_timestamp = strtotime($rented_book_return_date);
 $returned_book_timestamp = strtotime($actual_return_date);
@@ -70,20 +70,7 @@ $total_book_charges = $return_book_charges + $fine;
 //     $return_book_image = $value[10];
 // }
 
-class book_payment{
-    public function payment($id,$con,$user_email){
-        $updateindb = "UPDATE rented_book_details SET payment_status = 'Success' WHERE book_id = '$id' AND user_email = '$user_email'";
 
-        // $updateindb = "UPDATE rented_book_details set 'payment_record' = 'Success' where 'book_id' = '$id' AND 'user_email' = '$user_email'";
-        
-        $updatequery = mysqli_query($con, $updateindb);
-        if (!$updatequery) {
-            die("Error:" . mysqli_error($con));
-        }
-        $errmsg = "Updated successfully";
-        return $errmsg;
-        }
-    }
 
 $payment = new book_payment();
 
@@ -119,16 +106,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST" ){
                             <a href="book_return_form.php?rented_book_details=' . $rented_book_data . '" ><span class="  font-bold text-2xl text-slate-400 absolute right-2 top-2">
                             <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
                             </span></a>
-                        <div class="grid place-items-center gap-4">
+                        <div class="grid place-items-center gap-4 pb-2">
                             <button type="submit" name="login_page" data-toggle="tooltip" data-placement="top" title="Login">
                             <svg class="w-10 h-10 text-blue-600" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="48" height="48" fill="white" fill-opacity="0.01"></rect><path d="M24 4L29.2533 7.83204L35.7557 7.81966L37.7533 14.0077L43.0211 17.8197L41 24L43.0211 30.1803L37.7533 33.9923L35.7557 40.1803L29.2533 40.168L24 44L18.7467 40.168L12.2443 40.1803L10.2467 33.9923L4.97887 30.1803L7 24L4.97887 17.8197L10.2467 14.0077L12.2443 7.81966L18.7467 7.83204L24 4Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17 24L22 29L32 19" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                             </button>
                             <h2 class=" text-lg font-semibold text-black text-center">Payment Successfull</h2>
+                            <a href="../home_page" ><span class="  font-bold rounded-lg p-1 border bg-slate-100">Go to home page</a>
                         </div>';
                             // header("location: ../book_home.php");
                         }
                     }else{
-                        $errmsg = "Thanks but payment already done";  
+                        $errmsg = "Payment already done";  
                     }
         }
         }else{

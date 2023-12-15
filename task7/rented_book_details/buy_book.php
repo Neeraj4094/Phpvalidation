@@ -23,8 +23,8 @@ $cart = $cart_msg = '';
 if (empty($cart_msg)) {
     $cart_msg = 'Add to Cart';
 }
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["save_to_cart"])) {
+if (($_SERVER["REQUEST_METHOD"] == "POST") && (isset($_POST["save_to_cart"]))) {
+    // if  {
         $tablename = 'cart_details';
 
         $column_name = ['book_id', 'user_email'];
@@ -40,82 +40,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }else{
             $errmsg = "Sorry";
         }
-    }
+
+    // }
 }
 
+foreach($fetch_rented_book_user_data as $data){
+    $rented_book_id = isset( $data[7] ) ? $data[7] :'';
+    $user_email_list = isset( $data[1] ) ? $data[1] :'';
+    if($book_id == $rented_book_id && ($login_email == $user_email_list)){
+        $errmsg = 'This book you have already purchsed';
+    }
+
+}
 
 $cancel_login = '';
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["login_page"])) {
-        if (empty($login_email)) {
-            $show_login_data = '<div class="grid font-semibold place-items-center w-60 h-60 border rounded-xl shadow z-20 bg-black/40 fixed right-2 top-1 text-black">
-        <a href="buy_book.php?book_id=' . $book_id . '"><span class=" text-white font-bold text-2xl absolute top-2 right-2">
-        <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
-        </span></a>
-        <div class="grid place-items-center gap-4">
-        <button type="submit" name="login_page" data-toggle="tooltip" data-placement="top" title="Login" class="w-auto p-1 border rounded-full shadow">
-        <svg class="w-8 h-8 text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
-                <path
-                    d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z">
-                </path>
-            </svg>
-            </button>
-            <h2 class=" text-lg font-semibold text-white">Hello User</h2>
-        <a href="user_details/user_login.php" class=" bg-slate-100 p-2 rounded-lg">Click to Login</a>
-        </div>
-        </div>';
-        } else {
-            $show_login_data = '<div class="grid font-semibold place-items-center w-60 h-60 border rounded-xl shadow z-20 bg-black/40 fixed right-2 top-1 text-black">
-        <a href="buy_book.php?book_id=' . $book_id . '"><span class=" text-white font-bold text-2xl absolute top-2 right-2">
-        <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
-        </span></a>
-        <div class="grid place-items-center gap-4">
-        <button type="submit" name="login_page" data-toggle="tooltip" data-placement="top" title="Login" class="w-auto p-1 border rounded-full shadow">
-        <svg class="w-8 h-8 text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
-                <path
-                    d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z">
-                </path>
-            </svg>
-            </button>
-            <h2 class=" text-lg font-semibold text-white">Hello User</h2>
-        <a href="user_details/user_logout.php" class=" bg-slate-100 p-2 rounded-lg">Click to Logout</a>
-        </div>
-        </div>';
-        }
-    }
-}
+
 
 $fetch_id_query = $fetch_data_from_db->fetchiddata('user_details', $login_email, $conn, 'user_email');
 $fetch_id_data = mysqli_fetch_all($fetch_id_query);
 $user_name = isset($fetch_id_data[0][1]) ? $fetch_id_data[0][1] : '';
 
-if (!empty($_SESSION['login'])) {
-    $login_user_name = substr($user_name, 0, 1);
-    $login_image = '<button type="submit" name="login_page" data-toggle="tooltip" data-placement="top" title="Login"
-    class="p-1 border rounded-full shadow"><div class="w-10 h-10 rounded-full border grid place-items-center bg-slate-200 shadow font-bold text-2xl">' .
-        $login_user_name .
-        '</div></button>';
-} else {
-    $login_image = '<button type="submit" name="login_page" data-toggle="tooltip" data-placement="top" title="Login"
-    class="p-1 border rounded-full shadow">
-    <svg class="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
-        <path
-            d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z">
-        </path>
-    </svg>
-    </button>';
-}
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["delete_from_cart"])) {
-        $delete_cart_data = new delete_from_db();
 
-        $delete_from_db = $delete_cart_data->deletefromdb('cart_details', $conn, 'book_id', $book_id, 'buy_book.php?book_id=' . $book_id . '');
-        if (!$delete_from_db) {
-            echo "Error: " . mysqli_error($conn);
-        }
-    }
-}
 
 $book_id = isset( $_GET['book_id'] ) ? intval( $_GET['book_id'] ) : '';
 $fetch_id_query = $fetch_data_from_db->fetchiddata('books_details', $book_id, $conn, 'book_id');
@@ -148,8 +94,12 @@ foreach($fetch_id_data as $key => $value) {
     <title>Document</title>
 </head>
 
-<body class=" w-full h-full text-slate-600">
-    
+<body class=" w-full h-full text-slate-700">
+<h2 class="w-full border text-center bg-green-50 text-slate-800 z-10 py-1 shadow">
+                    <?php
+                    echo $errmsg;
+                    ?>
+                </h2>
     <header><?php include '../home_page/home_header.php' ?></header>
     <main class="flex w-full gap-4 py-1">
         <div class="flex-1 w-full h-full bg-slate-50 py-10 relative">
@@ -227,29 +177,17 @@ foreach($fetch_id_data as $key => $value) {
                     </form>
                 <?php } } } ?>
             </div>
-
-
-            <!-- <picture class="flex justify-between gap-4 py-6">
-                    <img src="../../Image/<?php echo $book_image ?>" alt="Book_image"
-                        class="h-20 w-20 rounded-lg focus:ring-4  focus:ring-blue-900  hover:outline hover:outline-blue-800 hover:outline-offset-2">
-                    
-                    <img src="../../Image/<?php echo $book_image ?>" alt="Book_image"
-                        class="h-20 w-20 rounded-lg border-blue-800 hover:outline hover:outline-blue-800 hover:outline-offset-2">
-                    <img src="../../Image/<?php echo $book_image ?>" alt="Book_image"
-                        class="h-20 w-20 rounded-lg border-blue-800 hover:outline hover:outline-blue-800 hover:outline-offset-2">
-                    <img src="../../Image/<?php echo $book_image ?>" alt="Book_image"
-                        class="h-20 w-20 rounded-lg border-blue-800 hover:outline hover:outline-blue-800 hover:outline-offset-2">
-                </picture> -->
+            
         </div>
         </div>
 
         <div class="w-full flex-1 py-10 px-6">
             <div class="px-4 space-y-1">
-                <div class="flex justify-between  gap-2">
+                <div class="flex justify-between  gap-6">
                     <h1 class="text-2xl font-semibold ">Book Name/ Title :- <span class=" underline">
                             <?php echo $book_name ?>
                         </span></h1>
-                    <span class="font-semibold text-xl pt-1">
+                    <span class="font-bold text-black text-xl pt-1">
                         <?php echo "$" . $book_price ?>
                     </span>
                     <!-- <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post"

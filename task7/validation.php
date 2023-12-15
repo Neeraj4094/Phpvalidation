@@ -39,10 +39,9 @@ trait errorhandler
 
         if ($passlength >= 8 && $ucase && $lcase && $passnumber && $spchar && !empty($value)) {
             return false;
-        } else {
-            $err = "Must use Upper & lower case letters, number & Special character";
-            return $err;
         }
+        $err = "Must use Upper & lower case letters, number & Special character";
+        return $err;
     }
 
     // Empty
@@ -204,6 +203,7 @@ class admin_data_validation{
         $this->days_charges = isset($_POST['days_charges']) ? $_POST['days_charges'] : '';
         $submit_days_charges = $this->days_charges;
         }
+
         if(!empty($_POST['name_on_card']) || !empty($_POST['card_number']) || !empty($_POST['card_expiration_date']) || !empty($_POST['cvc']) || !empty($_POST['charges'])){
         $this->user_name_on_card = $_POST['name_on_card'];
         $submit_user_name_on_card = $this->user_name_on_card;
@@ -213,11 +213,6 @@ class admin_data_validation{
         $submit_user_card_expiration_date = $this->user_card_expiration_date;
         $this->user_card_cvc = $_POST['cvc'];
         $submit_user_card_cvc = $this->user_card_cvc;
-        // $this->advance_charges = $_POST['charges'];
-        // $submit_advance_charges = $this->advance_charges;
-        
-        // $this->user_payment_method = $_POST['payment'];
-        // $submit_user_payment_method = $this->user_payment_method;
         }
 
         if(!empty($_POST['user_review']) || !empty($_POST['review'])){
@@ -226,6 +221,7 @@ class admin_data_validation{
             $this->review = isset($_POST['review']) ? $_POST['review'] : '';
             $submit_review = $this->review;
         }
+
         if(!empty($_POST['select_to_cart'])){
             $cart = $_POST['select_to_cart'];
             foreach($cart as $cart_item){
@@ -233,12 +229,14 @@ class admin_data_validation{
             $submit_select_to_cart = $this->select_to_cart;
             }
         }
+
         if(isset($_POST["new_password"]) && isset($_POST["confirm_password"])){
             $this->new_password = isset($_POST['new_password']) ? $_POST['new_password'] : '';
             $submit_new_password = $this->new_password;
             $this->confirm_password = isset($_POST['confirm_password']) ? $_POST['confirm_password'] : '';
             $submit_confirm_password = $this->confirm_password;
         }
+
         return array($submitname,$submitemail,$submitpassword,$submitphone_number,$submitoccupation,$submit_login_email,$submit_login_password,$submit_book_category_name,$submit_book_name,$submit_author_name,$submit_book_copies,$submit_book_image,$submit_category_image,$submit_user_gender,$submit_address,$submit_book_return_date,$submit_book_price,$submit_book_description,$submit_user_state,$submit_user_city,$submit_user_postal_code,$submit_user_name_on_card,$submit_user_card_number,$submit_user_card_expiration_date,$submit_user_card_cvc,$submit_review,$submit_user_review,$submit_select_to_cart,$submit_days_charges,$submit_new_password,$submit_confirm_password);
     }
 }
@@ -271,7 +269,6 @@ if(!empty($resultofform)){
     $book_return_date = $resultofform[15];
     $book_price = $resultofform[16];
     $book_description = $resultofform[17];
-    // $user_adress = $resultofform[18];
     $user_state = $resultofform[18];
     $user_city = $resultofform[19];
     $user_postal_code = $resultofform[20];
@@ -283,11 +280,9 @@ if(!empty($resultofform)){
     $user_review = $resultofform[26];
     $user_selected_cart_item = $resultofform[27];
     $book_rented_days_charges = $resultofform[28];
-    // $advance_charges = $resultofform[29];
     $new_password = $resultofform[29];
     $confirm_password = $resultofform[30];
     $book_image_name = isset($book_image['name']) ? $book_image['name'] : '';
-    // $category_image_name = isset($category_image['name'])? $category_image['name'] :'';
 }
 $user_password = $password;
 $admin_password = $login_password;

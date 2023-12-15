@@ -65,13 +65,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $admin_data = "admin_data";
             $column_name = ['admin_name','admin_email','admin_password','admin_phone_number','admin_occupation'];
             $row_data = [$name,$email,$hashed_password,$phone_number,$occupation];
-            
-            if(!in_array($email,$check_email_exists)){
-                $admin_register_data = $send_data_to_db->insertindb($admin_data, $column_name, $row_data, $conn);
-                header("location: ./admin_login");
-            }else{
-                $errmsg = "This email already exists";
-            }
+            $compare_email_status_with_db = !in_array($email,$check_email_exists);
+            echo $compare_email_status_with_db ?
+                ($admin_register_data = $send_data_to_db->insertindb($admin_data, $column_name, $row_data, $conn) &&
+                header("location: ./admin_login")) : $errmsg = "This email already exists";
             
         }
         else{
@@ -91,28 +88,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             
             // header("location: ./admin_login.php");
             // print_r($fetch_email_from_id);
-            if(in_array($fetch_email_from_id,$_SESSION['admin'])){
-                    if(!in_array($email,$_SESSION['admin']) || !password_verify($password,$login_password)){
-                        if(!in_array($email,$check_email_exists) || !password_verify($password,$login_password)){
+            // if(in_array($fetch_email_from_id,$_SESSION['admin'])){
+                $check_email_password_status_with_session_data = !in_array($email, $_SESSION['admin']) || !password_verify($password, $login_password);
+                $check_email_password_status_with_admintable_data = !in_array($email, $check_email_exists) || !password_verify($password, $login_password);
+                
+                    // if(!in_array($email,$_SESSION['admin']) || !password_verify($password,$login_password)){
+
+                        echo $check_email_password_status_with_session_data
+                            ? ( $check_email_password_status_with_admintable_data ?
+                                (($_SESSION['admin'] = ["email" => $email, "password" => $password]) &&
+                                ($updated_data = $send_data_to_db->update_to_tb('admin_data', $admin_table_columns_name, $admin_table_columns_data, $column_id_name, $id, $conn)) &&
+                                (!$updated_data ? "Error: " . mysqli_error($conn) : header("location: ./admin"))) : "This email already exists")
+                             : 
+                            (($updated_data = $send_data_to_db->update_to_tb('admin_data', $admin_table_columns_name, $admin_table_columns_data, $column_id_name, $id, $conn)) &&
+                                (!$updated_data ? "Error: " . mysqli_error($conn) : header("location: ./admin")));
                             
-                            $_SESSION['admin'] = ["email" => $email, "password" => $password];
-                            // print_r($_SESSION);
-                        $updated_data = $send_data_to_db->update_to_tb('admin_data',$admin_table_columns_name,$admin_table_columns_data,$column_id_name,$id,$conn);
-                        if(!$updated_data){
-                            echo "Error: " . mysqli_error($conn);
-                        }
-                        header("location: ./admin");
-                        }else{
-                            echo "This email already exists";
-                        }
-                    }else{
-                        $updated_data = $send_data_to_db->update_to_tb('admin_data',$admin_table_columns_name,$admin_table_columns_data,$column_id_name,$id,$conn);
-                        if(!$updated_data){
-                            echo "Error: " . mysqli_error($conn);
-                        }
-                        header("location: ./admin");
-                    }
-                }
+                    // }else{
+                        // $updated_data = $send_data_to_db->update_to_tb('admin_data',$admin_table_columns_name,$admin_table_columns_data,$column_id_name,$id,$conn);
+                        // echo (!$updated_data) ? ("Error: " . mysqli_error($conn)) : header("location: ./admin");
+                    // }
+                // }
             }
             else{
                 $errmsg = "Please complete the form";
@@ -129,16 +124,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                 // }else{
                 //     echo "No";
                 // }
-                if($err_login_email == null && $err_login_password == null) {
-                    if(in_array($login_email, $check_email) && password_verify($admin_password, $check_login_password)) {
-                        $_SESSION['admin'] = ["email" => $login_email, "password" => $admin_password];
-                        header("location: ./admin");
-                    } else {
-                        $errmsg = "Email & password not matched";
-                    }
-                } else {
-                    $errmsg = "Please complete the form";
-                }
+
+                // if($err_login_email == null && $err_login_password == null) {
+                //     $errmsg = (in_array($login_email, $check_email) && password_verify($admin_password, $check_login_password))
+                //     ? header("location: ./admin")
+                //     : "Email & password not matched";
+                //     $_SESSION['admin'] = ["email" => $login_email, "password" => $admin_password];
+                // } else {
+                //     $errmsg = "Please complete the form";
+                // }
+                $errmsg = ($err_login_email == null && $err_login_password == null)
+                    ? (in_array($login_email, $check_email) && password_verify($admin_password, $check_login_password)
+                        ? header("location: ./admin")
+                        : "Email & password not matched")
+                    : "Please complete the form";
+                $_SESSION['admin'] = ($err_login_email == null && $err_login_password == null)
+                    ? ["email" => $login_email, "password" => $admin_password]
+                    : null;
             }
         }
 }

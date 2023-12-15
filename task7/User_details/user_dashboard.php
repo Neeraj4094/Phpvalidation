@@ -54,7 +54,7 @@ if(isset($_POST['search'])){
             <h1 class="text-2xl font-semibold py-2">Manage Customers</h1>
             <div class="flex items-center justify-between ">
                 <div class="flex items-center relative">
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="flex items-center gap-1 relative">
+                <form action="users" method="post" class="flex items-center gap-1 relative">
                     <input type="search" name="search" id="search"
                         class="border shadow rounded-lg outline-none p-2 w-96" placeholder="Search...">
                     <button type="submit"
@@ -161,7 +161,7 @@ if(isset($_POST['search'])){
 
                                 </div>
                             </div>
-                            <div class="flex items-center justify-between gap-6">
+                            <div class="flex items-center justify-between gap-6 pr-2">
                                 <p class=" bg-indigo-500 text-white px-3 py-1 rounded-md">
                                     <?php echo "Address:-" . $user_address ?>
                                 </p>
@@ -174,7 +174,7 @@ if(isset($_POST['search'])){
                                 <!-- <p class=" bg-purple-500 text-white px-3 py-1 rounded-md">
                                 </p> -->
 
-                                <form action="update_users_data?id=<?php echo $book_id ?>" method="post">
+                                <!-- <form action="update_users_data?id=<?php echo $book_id ?>" method="post">
                                     <button type="submit" data-toggle="tooltip" data-placement="top" title="Edit"
                                         class="px-1 rounded-lg bg-slate-100 text-black">
                                         <?php echo $edit ?>
@@ -186,7 +186,7 @@ if(isset($_POST['search'])){
                                         class="border-2 px-4 py-1 rounded-md">
                                         <?php echo $delete ?>
                                     </button>
-                                </form>
+                                </form> -->
                             </div>
                         </div>
                     </div>

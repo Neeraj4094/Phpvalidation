@@ -3,10 +3,12 @@
 // include "../send_fetch_data_from_db.php";
 include "../admin_details/admin_update_fetch_data.php";
 
-if ($_SESSION == null) {
+if ($_SESSION['admin'] == null) {
     header("location: ../admin_details/admin_login.php");
 }else{
     $page = "Details";
+    $admin = 1;
+    define($admin,true);
 }
 
 $create_date = $modify_date = '';

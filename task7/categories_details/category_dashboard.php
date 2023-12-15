@@ -4,7 +4,7 @@
 include "../admin_details/admin_update_fetch_data.php";
 
 
-if ($_SESSION == null) {
+if ($_SESSION['admin'] == null) {
     header("location: ../admin_details/admin_login");
 } else {
     $page = "Details";

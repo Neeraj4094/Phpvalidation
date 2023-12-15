@@ -60,6 +60,7 @@ class send_data_to_db{
         }
         $update = implode(', ', $updateValues);
         $updateindb = "UPDATE $tablename set $update where $col_id = '$id'";
+        print_r($updateindb);
         // print_r($updateindb);
         $updatequery = mysqli_query($con, $updateindb);
         if (!$updatequery) {
@@ -151,5 +152,19 @@ $send_data_to_db = new send_data_to_db();
 
 $cancel_login = $show_login_data ='';
 
+class book_payment{
+    public function payment($id,$con,$user_email){
+        $updateindb = "UPDATE rented_book_details SET payment_status = 'Success' WHERE book_id = '$id' AND user_email = '$user_email'";
+
+        // $updateindb = "UPDATE rented_book_details set 'payment_record' = 'Success' where 'book_id' = '$id' AND 'user_email' = '$user_email'";
+        
+        $updatequery = mysqli_query($con, $updateindb);
+        if (!$updatequery) {
+            die("Error:" . mysqli_error($con));
+        }
+        $errmsg = "Updated successfully";
+        return $errmsg;
+        }
+    }
 
 ?>
