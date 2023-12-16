@@ -9,6 +9,7 @@ $user_email_array = [];
 $send_data_to_db = new send_data_to_db();
 $fetch_data_from_db = new fetch_db_data();
 
+
 $login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] : '';
 $fetch_review_data_from_db = $fetch_data_from_db->fetch_data('user_review_details', 'user_email', $login_email, $conn, 'user_email');
 foreach ($fetch_review_data_from_db as $value) {
@@ -48,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // if(!in_array($login_email, $user_email_array)){
             $user_review_data = $send_data_to_db->insertindb('user_review_details', $column_name, $row_data, $conn);
+            echo (!$user_review_data) ? ("Error: " . mysqli_error($conn)) : $success;
             // if(!$user_review_data){
             //     echo "Error: " . mysqli_error($conn);
             // }else{   

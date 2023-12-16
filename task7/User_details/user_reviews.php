@@ -31,7 +31,7 @@ include 'user_review_validation.php';
                         <div class=" space-y-2">
                             <label for="name">Name</label>
                             <input type="text" name="name" id="name" placeholder="Name"
-                                class="border rounded-sm w-full p-1">
+                                class="border rounded-sm w-full p-1" value="<?php echo $name ?>">
                             <span class="text-red-600 text-sm">* <small>
                                     <?php echo $err_name ?>
                                 </small></span>
@@ -39,7 +39,7 @@ include 'user_review_validation.php';
                         <div class="grid space-y-2">
                             <label for="user_review">Review</label>
                             <textarea name="user_review" id="user_review" cols="30" rows="5" placeholder="Enter Review"
-                                class="border rounded-sm w-full p-1"></textarea>
+                                class="border rounded-sm w-full p-1"><?php echo $user_review ?></textarea>
                             <!-- <input type="text" name="name" id="name" placeholder="Name"
                                 class="border rounded-sm w-full p-1"> -->
                             <span class="text-red-600 text-sm">* <small>
@@ -55,7 +55,7 @@ include 'user_review_validation.php';
 
                             <div class="flex gap-10">
                                 <div class="flex items-center gap-2">
-                                    <input type="radio" name="review" id="best" value="5">
+                                    <input type="radio" name="review" id="best" value="5" <?php echo ($user_rating) ? 'checked' : '' ?>>
                                     <label for="best">
 
                                         <div class="flex items-center">

@@ -359,7 +359,7 @@ class admin_data_validation
     public function user_review_validation()
     {
         $submit_review = $submit_user_review = '';
-        if (!empty($_POST['user_review']) || !empty($_POST['review'])) {
+        if (isset($_POST['user_review']) || !empty($_POST['review'])) {
             $this->user_review = isset($_POST['user_review']) ? $_POST['user_review'] : '';
             $submit_user_review = $this->user_review;
             $this->review = isset($_POST['review']) ? $_POST['review'] : '';
@@ -451,8 +451,8 @@ if (!empty($payment_data_validation)) {
 }
 
 if (!empty($user_review_validation)) {
-    $user_rating = $user_review_validation[0];
-    $user_review = $user_review_validation[1];
+    $user_review= $user_review_validation[0];
+    $user_rating = $user_review_validation[1];
 }
 
 if (!empty($forget_password_validation)) {

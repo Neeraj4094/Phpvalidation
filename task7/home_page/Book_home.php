@@ -164,6 +164,7 @@ if (empty($fetch_book_data_from_db))
             <div class=" overflow-scroll w-full grid grid-cols-3 gap-4 p-4 border shadow">
                 <?php
                 foreach ($fetch_user_review_data_from_db as $value) {
+                    $user_email = isset($value[1]) ? $value[1] : '';
                     $user_name = isset($value[2]) ? $value[2] : '';
                     $user_review = isset($value[3]) ? $value[3] : '';
                     $user_rating = isset($value[4]) ? $value[4] : '';
@@ -186,11 +187,15 @@ if (empty($fetch_book_data_from_db))
                                         echo "$col<br>";
                                         ?>
                                     </div>
-                                    <h2 class="py-2 text-xl font-semibold">
+                                    <div class="grid">
+                                    <h2 class=" text-lg font-semibold">
                                         <?php echo $user_name ?>
                                     </h2>
+                                    <span class="font-medium pb-1 text-sm"><?php echo $user_email ?></span>
+                                    </div>
+                                    <i class=""><?php echo $user_review ?></i>
                                 </div>
-                                <div class="mb-2 font-semibold text-primary dark:text-primary-500">
+                                <div class=" font-semibold text-primary dark:text-primary-500">
                                     <?php if ($user_rating == 5) { ?>
                                         <div class="flex items-center">
                                             <svg class="w-4 h-4 fill-yellow-300  text-slate-600"
@@ -230,7 +235,7 @@ if (empty($fetch_book_data_from_db))
                                             </svg>
 
                                         </div>
-                                    <?php } elseif ($user_rating == 4) { ?>
+                                    <?php } elseif ($user_review == 4) { ?>
                                         <div class="flex items-center">
                                             <svg class="w-4 h-4 fill-yellow-300  text-slate-600"
                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
