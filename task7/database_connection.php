@@ -3,7 +3,7 @@ $server = 'localhost';
 $username = 'root';
 $password = '';
 $dbname = 'book_renting_system';
-$booklist ='';
+$booklist = '';
 
 /**
  * class create_tb
@@ -22,7 +22,7 @@ class create_tb
      * @param mixed $tablename The name of the table to be created.
      * @return bool Returns true if the table creation was successful, false otherwise.
      */
-    public function create_table(mixed $conn,mixed $tablename): bool
+    public function create_table(mixed $conn, mixed $tablename): bool
     {
         if ($conn->query($tablename) === TRUE) {
             // Table created successfully
@@ -34,9 +34,9 @@ class create_tb
 }
 
 // Used for creating database & tables, checking conection with the databse & also checks that the table or database is already created or not
-try{
-    
-    $conn = new mysqli($server,$username,$password);
+try {
+
+    $conn = new mysqli($server, $username, $password);
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
@@ -49,7 +49,7 @@ try{
     }
 
     $conn->select_db($dbname);
-    
+
     $admin_table_name = "admin_data";
     $admin_tablecolumn_name = "CREATE TABLE IF NOT EXISTS $admin_table_name(
         admin_id INT(4) PRIMARY KEY AUTO_INCREMENT,
@@ -61,11 +61,11 @@ try{
     )";
 
     $createtable = new create_tb();
-    $create_admin_table = $createtable->create_table($conn,$admin_tablecolumn_name);
-    if(!$create_admin_table){
+    $create_admin_table = $createtable->create_table($conn, $admin_tablecolumn_name);
+    if (!$create_admin_table) {
         echo "Error:" . mysqli_error($conn);
     }
-    
+
     $books_table_name = "books_details";
     $books_tablecolumn_name = "CREATE TABLE IF NOT EXISTS $books_table_name(
     book_id INT(4) PRIMARY KEY AUTO_INCREMENT,
@@ -80,9 +80,9 @@ try{
     modified_date datetime,
     book_unique_image_name TEXT(40)
     )";
-    
+
     $create_book_table = $createtable->create_table($conn, $books_tablecolumn_name); //Create table of books
-    if(!$create_book_table){
+    if (!$create_book_table) {
         echo "Error:" . mysqli_error($conn);
     }
 
@@ -94,9 +94,9 @@ try{
     category_unique_image_name TEXT(40),
     book_quantity INT(3)
     )";
-    
+
     $create_category_table = $createtable->create_table($conn, $category_tablecolumn_name); //Create table of books
-    if(!$create_category_table){
+    if (!$create_category_table) {
         echo "Error:" . mysqli_error($conn);
     }
 
@@ -112,8 +112,8 @@ try{
         user_status varchar(20)
     )";
 
-    $create_user_table = $createtable->create_table($conn,$user_tablecolumn_name); //Create table of users
-    if(!$create_user_table){
+    $create_user_table = $createtable->create_table($conn, $user_tablecolumn_name); //Create table of users
+    if (!$create_user_table) {
         echo "Error:" . mysqli_error($conn);
     }
 
@@ -137,8 +137,8 @@ try{
         payment_status varchar(10)
     )";
 
-    $create_rented_book_table = $createtable->create_table($conn,$rented_book_tablecolumn_name); //Create table of users
-    if(!$create_rented_book_table){
+    $create_rented_book_table = $createtable->create_table($conn, $rented_book_tablecolumn_name); //Create table of users
+    if (!$create_rented_book_table) {
         echo "Error:" . mysqli_error($conn);
     }
 
@@ -149,8 +149,8 @@ try{
         user_email varchar(40)
     )";
 
-    $create_cart_table = $createtable->create_table($conn,$cart_tablecolumn_name); //Create table of users
-    if(!$create_cart_table){
+    $create_cart_table = $createtable->create_table($conn, $cart_tablecolumn_name); //Create table of users
+    if (!$create_cart_table) {
         echo "Error:" . mysqli_error($conn);
     }
 
@@ -163,11 +163,11 @@ try{
         user_rating int(2)
     )";
 
-    $create_user_review_table = $createtable->create_table($conn,$user_review_tablecolumn_name); //Create table of users
-    if(!$create_user_review_table){
+    $create_user_review_table = $createtable->create_table($conn, $user_review_tablecolumn_name); //Create table of users
+    if (!$create_user_review_table) {
         echo "Error:" . mysqli_error($conn);
     }
-}catch(Exception $e){
+} catch (Exception $e) {
     echo "Connection Failed:" . $e->getMessage();
 }
 

@@ -3,10 +3,10 @@
 $login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] : '';
 
 // function home_header(){}
-$cancel_login = $user_details= '';
+$cancel_login = $user_details = '';
 if (($_SERVER["REQUEST_METHOD"] == "POST") && (isset($_POST["login_page"]))) {
-        $user_details = (empty($login_email)) ?
-            ('<div class="grid font-semibold place-items-center w-60 h-60 border rounded-xl shadow z-20 bg-black/40 fixed right-2 top-1 text-black">
+    $user_details = (empty($login_email)) ?
+        ('<div class="grid font-semibold place-items-center w-60 h-60 border rounded-xl shadow z-20 bg-black/40 fixed right-2 top-1 text-black">
         <a href="../home_page"><span class=" text-white font-bold text-2xl absolute top-2 right-2">
         <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
         </span></a>
@@ -23,7 +23,7 @@ if (($_SERVER["REQUEST_METHOD"] == "POST") && (isset($_POST["login_page"]))) {
         </div>
         </div>')
         :
-            ('<div class="grid font-semibold place-items-center w-60 h-full border rounded-xl shadow z-20 bg-black/40 fixed right-2 top-1 text-black">
+        ('<div class="grid font-semibold place-items-center w-60 h-full border rounded-xl shadow z-20 bg-black/40 fixed right-2 top-1 text-black">
         <a href="../home_page"><span class=" text-white font-bold text-2xl absolute top-2 right-2">
         <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
         </span></a>
@@ -47,8 +47,8 @@ if (($_SERVER["REQUEST_METHOD"] == "POST") && (isset($_POST["login_page"]))) {
         
         ');
 
-        
-    }
+
+}
 
 $fetch_id_query = $fetch_data_from_db->fetchiddata('user_details', $login_email, $conn, 'user_email');
 $fetch_id_data = mysqli_fetch_all($fetch_id_query);
@@ -71,6 +71,6 @@ if (!empty($_SESSION['login'])) {
     </button>';
 }
 
-if(isset($_POST['search'])){
+if (isset($_POST['search'])) {
     $search = strtolower($_POST['search']);
 }

@@ -12,6 +12,7 @@ if(isset($_POST['reset_password'])){
         $emailcount = mysqli_num_rows($reset_result);
         if($emailcount > 0){
             include '../forget.php';
+            
             $to_email = "4020neeraj@gmail.com";
             $subject = "Reset Password";
             $body = "Click to reset password http://localhost/phpprogramms/task7/forget_password/new_password";

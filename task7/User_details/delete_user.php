@@ -1,7 +1,7 @@
 <?php
-require ("../admin_details/admin_login_validation.php");
+require("../admin_details/admin_login_validation.php");
 $id = isset($_GET['id']) ? $_GET['id'] : '';
-if(!$id){
+if (!$id) {
     header("location: ../admin_details/admin_dashboard.php");
 }
 

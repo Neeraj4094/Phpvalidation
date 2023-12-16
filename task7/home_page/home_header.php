@@ -4,14 +4,16 @@ include 'home_header_validation.php';
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-<div class="w-full p-2 px-4 flex justify-between items-center border shadow bg-white ">
-    
+    <div class="w-full p-2 px-4 flex justify-between items-center border shadow bg-white ">
+
         <div class="w-12 h-12 ">
             <img src="../../Image/Ucodelogo.png" alt="Ucodelogo"
                 class="w-full h-full object-cover border rounded-full shadow shadow-black">
@@ -19,25 +21,28 @@ include 'home_header_validation.php';
         <nav>
             <ul class="flex items-center gap-2">
                 <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="../home_page">Home</a></li>
-                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="../categories_details/book_categories">Categories</a>
+                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
+                        href="../categories_details/book_categories">Categories</a>
                 </li>
-                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a href="../books_details/book_store">Books</a></li>
+                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
+                        href="../books_details/book_store">Books</a></li>
                 <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
                         href="../book_return_details/return_home_page?email=<?php echo $login_email ?>">User
                         Details</a></li>
-                        <?php if(empty($login_email)){ ?>
-                <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
-                        href="../user_details/user_login.php">Sign Up</a></li>
-                        <?php } ?>
+                <?php if (empty($login_email)) { ?>
+                    <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
+                            href="../user_details/user_login.php">Sign Up</a></li>
+                <?php } ?>
                 <!-- <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
                         href="../admin_details/admin_login">Admin Login</a></li> -->
 
             </ul>
         </nav>
-    
+
         <div class="px-1 relative flex items-center gap-4">
-            
-            <a href="/phpprogramms/task7/rented_book_details/add_to_cart" class="p-2 border rounded-lg hover:bg-slate-100">
+
+            <a href="/phpprogramms/task7/rented_book_details/add_to_cart"
+                class="p-2 border rounded-lg hover:bg-slate-100">
                 <svg class="w-6 h-6  " xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     viewBox="0 0 16 16">
                     <path
@@ -51,6 +56,7 @@ include 'home_header_validation.php';
 
             <?php echo $user_details ?>
         </div>
-</div>
+    </div>
 </body>
+
 </html>

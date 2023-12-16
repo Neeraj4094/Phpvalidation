@@ -1,5 +1,5 @@
 <?php
-$errmsg = $err_name= $err_email = $err_password = $err_phone_number = $err_role = '';
+$errmsg = $err_name = $err_email = $err_password = $err_phone_number = $err_role = '';
 $name = $email = $user_password = $phone_number = '';
 include 'admin_update_fetch_data.php';
 ?>
@@ -22,54 +22,74 @@ include 'admin_update_fetch_data.php';
         ?>
     </h2>
     <div class="flex w-full h-screen">
-    <div class="flex-1 h-full">
-        <img src="../../Image/book3.jpg" alt="Main Image" class="w-full h-full object-cover">
-    </div>
-        <form action="" method="post" class="h-full shadow flex-1 " name="registeration_form" enctype="multipart/form-data">
-        <div class="flex items-center justify-center w-full h-full">
-            <div class=" space-y-1 bg-slate-50 rounded-xl shadow py-6 px-10">
-                <div class="flex gap-10">
-                    <div class=" w-full">
-                        <label for="name">Name</label>
-                        <input type="text" name="name" id="first_name" placeholder="Name" class="border rounded-sm w-full p-1" value="<?php echo $name ?>">
-                        <span class="text-red-600 text-sm">* <small><?php echo $err_name ?></small></span>
-                    </div>
+        <div class="flex-1 h-full">
+            <img src="../../Image/book3.jpg" alt="Main Image" class="w-full h-full object-cover">
+        </div>
+        <form action="" method="post" class="h-full shadow flex-1 " name="registeration_form"
+            enctype="multipart/form-data">
+            <div class="flex items-center justify-center w-full h-full">
+                <div class=" space-y-1 bg-slate-50 rounded-xl shadow py-6 px-10">
+                    <div class="flex gap-10">
+                        <div class=" w-full">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" id="first_name" placeholder="Name"
+                                class="border rounded-sm w-full p-1" value="<?php echo $name ?>">
+                            <span class="text-red-600 text-sm">* <small>
+                                    <?php echo $err_name ?>
+                                </small></span>
+                        </div>
 
-                </div>
-                <div class="">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email" placeholder="Email" class="border rounded-sm w-full p-1" value="<?php echo $email ?>">
-                    <span class="text-red-600 text-sm">* <small><?php echo $err_email ?></small></span>
-                </div>
-                <div class="">
-                    <label for="password">Password</label>
-                    <input type="password" name="password" id="password" placeholder="Password" class="border rounded-sm w-full p-1" value="<?php echo $user_password ?>">
-                    <span class="text-red-600 text-sm max-w-xs w-60">* <small><?php echo $err_password ?></small></span>
-                </div>
-                <div class="">
-                    <label for="number">Phone Number</label>
-                    <input type="text" name="phone_number" id="number" placeholder="Phone number" class="border rounded-sm w-full p-1" value="<?php echo $phone_number ?>">
-                    <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_phone_number ?></small></span>
-                </div>
-                <div class="grid ">
+                    </div>
+                    <div class="">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" placeholder="Email"
+                            class="border rounded-sm w-full p-1" value="<?php echo $email ?>">
+                        <span class="text-red-600 text-sm">* <small>
+                                <?php echo $err_email ?>
+                            </small></span>
+                    </div>
+                    <div class="">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" placeholder="Password"
+                            class="border rounded-sm w-full p-1" value="<?php echo $user_password ?>">
+                        <span class="text-red-600 text-sm max-w-xs w-60">* <small>
+                                <?php echo $err_password ?>
+                            </small></span>
+                    </div>
+                    <div class="">
+                        <label for="number">Phone Number</label>
+                        <input type="text" name="phone_number" id="number" placeholder="Phone number"
+                            class="border rounded-sm w-full p-1" value="<?php echo $phone_number ?>">
+                        <span class="text-red-600 text-sm max-w-xs w-96">* <small>
+                                <?php echo $err_phone_number ?>
+                            </small></span>
+                    </div>
+                    <div class="grid ">
                         <div class="flex items-center gap-4">
                             <label for="role" class="w-auto">What is your Occupation :-</label>
-                            <select name="occupation" id="role" class="rounded-lg bg-slate-100 text-slate-500 border w-48 p-2 ">
+                            <select name="occupation" id="role"
+                                class="rounded-lg bg-slate-100 text-slate-500 border w-48 p-2 ">
                                 <option value="" class="bg-transparent p-1">Select Your Role</option>
-                                <option value="Testing" <?php echo ($occupation == 'Testing') ? 'selected' : '' ?>  class="bg-transparent p-1">Testing</option>
-                                <option value="Designing" <?php echo ($occupation == 'Designing') ? 'selected' : '' ?> class="bg-transparent p-1">Designing</option>
-                                <option value="Managining" <?php echo ($occupation == 'Managining') ? 'selected' : '' ?> class="bg-transparent p-1">Managining</option>
+                                <option value="Testing" <?php echo ($occupation == 'Testing') ? 'selected' : '' ?>
+                                    class="bg-transparent p-1">Testing</option>
+                                <option value="Designing" <?php echo ($occupation == 'Designing') ? 'selected' : '' ?>
+                                    class="bg-transparent p-1">Designing</option>
+                                <option value="Managining" <?php echo ($occupation == 'Managining') ? 'selected' : '' ?>
+                                    class="bg-transparent p-1">Managining</option>
                             </select>
                         </div>
-                        <span class="text-red-600 text-sm">* <small><?php echo $err_role ?></small></span>
-                </div>
-                <div>
-                    <input type="submit" name="submit" class="bg-purple-600 rounded-lg text-white border border-white px-8 py-2 cursor-pointer">
+                        <span class="text-red-600 text-sm">* <small>
+                                <?php echo $err_role ?>
+                            </small></span>
+                    </div>
+                    <div>
+                        <input type="submit" name="submit"
+                            class="bg-purple-600 rounded-lg text-white border border-white px-8 py-2 cursor-pointer">
+                    </div>
                 </div>
             </div>
-        </div>
         </form>
-        
+
     </div>
 
 </body>

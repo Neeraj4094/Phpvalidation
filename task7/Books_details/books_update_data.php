@@ -1,7 +1,7 @@
 <?php
 include 'book_form_validation.php';
-if(!empty($err_image)) {
-    if(is_array($err_image)){
+if (!empty($err_image)) {
+    if (is_array($err_image)) {
         $err_image = '';
     }
 }
@@ -37,7 +37,7 @@ if(!empty($err_image)) {
                         <div class=" w-full">
                             <label for="category_name">Category Name</label>
                             <input type="text" name="category_name" id="category_name" placeholder="Category Name"
-                                class="border rounded-sm w-full p-1" value = "<?php echo $fetch_category_name ?>">
+                                class="border rounded-sm w-full p-1" value="<?php echo $fetch_category_name ?>">
                             <span class="text-red-600 text-sm">* <small>
                                     <?php echo $err_category ?>
                                 </small></span>
@@ -47,26 +47,27 @@ if(!empty($err_image)) {
                             <div class="">
                                 <label for="book_name">Book Name/Book Title</label>
                                 <input type="text" name="book_name" id="book_name" placeholder="Book Name"
-                                    class="border rounded-sm w-full p-1" value = "<?php echo $fetch_book_name ?>">
+                                    class="border rounded-sm w-full p-1" value="<?php echo $fetch_book_name ?>">
                                 <span class="text-red-600 text-sm">* <small>
                                         <?php echo $err_book ?>
                                     </small></span>
                             </div>
                             <div class="">
-                            <label for="author_name">Author Name</label>
-                            <input type="text" name="author_name" id="author_name" placeholder="Author Name"
-                                class="border rounded-sm w-full p-1" value = "<?php echo $fetch_author_name ?>">
-                            <span class="text-red-600 text-sm max-w-xs w-60">* <small>
-                                    <?php echo $err_author ?>
-                                </small></span>
+                                <label for="author_name">Author Name</label>
+                                <input type="text" name="author_name" id="author_name" placeholder="Author Name"
+                                    class="border rounded-sm w-full p-1" value="<?php echo $fetch_author_name ?>">
+                                <span class="text-red-600 text-sm max-w-xs w-60">* <small>
+                                        <?php echo $err_author ?>
+                                    </small></span>
+                            </div>
                         </div>
-                        </div>
-                        
+
                         <div class="flex items-center gap-2 w-full">
                             <div class="">
                                 <label for="description">Description</label>
                                 <textarea name="description" id="description" cols="30" rows="4"
-                                    placeholder="Description" class="border rounded-sm w-full p-1"><?php echo $fetch_book_description ?></textarea>
+                                    placeholder="Description"
+                                    class="border rounded-sm w-full p-1"><?php echo $fetch_book_description ?></textarea>
 
                                 <span class="text-red-600 text-sm">* <small>
                                         <?php echo $err_book_desciption ?>
@@ -76,7 +77,7 @@ if(!empty($err_image)) {
                                 <div class="">
                                     <label for="copies">Quantity/Copies</label>
                                     <input type="number" name="copies" id="copies" placeholder="Copies"
-                                        class="border rounded-sm w-full p-1" value = "<?php echo $fetch_copies ?>">
+                                        class="border rounded-sm w-full p-1" value="<?php echo $fetch_copies ?>">
                                     <span class="text-red-600 text-sm">* <small>
                                             <?php echo $err_book_copies ?>
                                         </small></span>
@@ -84,7 +85,8 @@ if(!empty($err_image)) {
                                 <div class="grid">
                                     <label for="book_price">Book Price:</label>
                                     <input type="number" name="book_price" id="book_price" step="0.01" min="0"
-                                        placeholder="Enter Price" class="border rounded-sm p-1"  value = "<?php echo $fetch_book_price ?>">
+                                        placeholder="Enter Price" class="border rounded-sm p-1"
+                                        value="<?php echo $fetch_book_price ?>">
                                     <span class="text-red-600 text-sm">* <small>
                                             <?php echo $err_book_price ?>
                                         </small></span>

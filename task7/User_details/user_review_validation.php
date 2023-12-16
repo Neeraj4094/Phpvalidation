@@ -10,9 +10,9 @@ $send_data_to_db = new send_data_to_db();
 $fetch_data_from_db = new fetch_db_data();
 
 $login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] : '';
-$fetch_review_data_from_db = $fetch_data_from_db->fetch_data('user_review_details','user_email', $login_email, $conn, 'user_email');
-foreach($fetch_review_data_from_db as $value){
-    $user_email_array[] = isset( $value[0] ) ? $value[0] :'';
+$fetch_review_data_from_db = $fetch_data_from_db->fetch_data('user_review_details', 'user_email', $login_email, $conn, 'user_email');
+foreach ($fetch_review_data_from_db as $value) {
+    $user_email_array[] = isset($value[0]) ? $value[0] : '';
 }
 
 $success = '<div class="w-full h-full absolute top-0 flex items-center justify-center bg-black/25">
@@ -37,27 +37,27 @@ $success = '<div class="w-full h-full absolute top-0 flex items-center justify-c
     </div>
     </div>';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST"){
-if(isset($_POST['add_reviews'])){
-    $err_name = $admin_entered_details->name_validation($name);
-    $err_review = $admin_entered_details->check_empty($user_review); //Provides best books to the students and others peoples
-    $err_rating = $admin_entered_details->check_empty($user_rating);
-    if(empty($err_name) && empty($err_review) && empty($err_rating)){
-        $column_name = ['user_email','user_name','user_review','user_rating'];
-        $row_data = [$login_email,$name,$user_review,$user_rating];
-        
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['add_reviews'])) {
+        $err_name = $admin_entered_details->name_validation($name);
+        $err_review = $admin_entered_details->check_empty($user_review); //Provides best books to the students and others peoples
+        $err_rating = $admin_entered_details->check_empty($user_rating);
+        if (empty($err_name) && empty($err_review) && empty($err_rating)) {
+            $column_name = ['user_email', 'user_name', 'user_review', 'user_rating'];
+            $row_data = [$login_email, $name, $user_review, $user_rating];
+
             // if(!in_array($login_email, $user_email_array)){
-                $user_review_data = $send_data_to_db->insertindb('user_review_details', $column_name, $row_data, $conn);
-                // if(!$user_review_data){
-                //     echo "Error: " . mysqli_error($conn);
-                // }else{   
-                    echo $success;
-                // }
+            $user_review_data = $send_data_to_db->insertindb('user_review_details', $column_name, $row_data, $conn);
+            // if(!$user_review_data){
+            //     echo "Error: " . mysqli_error($conn);
+            // }else{   
+            echo $success;
+            // }
             // }else{
             //     $errmsg = "You have already send the review";
             // }
-        
+
+        }
     }
-}
 }
 ?>

@@ -7,7 +7,7 @@ if ($_SESSION['admin'] == null) {
 } else {
     $page = "Details";
 }
-if(empty($email_list)){
+if (empty($email_list)) {
     $email_list = [];
 }
 $create_date = $modify_date = '';
@@ -66,9 +66,9 @@ foreach ($fetch_right_join_data as $data) {
 }
 $email_list = array_unique($email_list);
 
-$search = $dataimage = $data_not_found = $not_found ='';
+$search = $dataimage = $data_not_found = $not_found = '';
 $data = [];
-if(isset($_POST['search'])){
+if (isset($_POST['search'])) {
     $search = strtolower($_POST['search']);
 }
 ?>
@@ -85,7 +85,9 @@ if(isset($_POST['search'])){
 
 <body class="grid grid-cols-12 grid-rows-6 w-full h-full">
 
-    <aside class=" row-span-6 col-span-2 border h-full sm:hidden lg:block"><?php include '../controller/app.php' ?></aside>
+    <aside class=" row-span-6 col-span-2 border h-full sm:hidden lg:block">
+        <?php include '../controller/app.php' ?>
+    </aside>
 
 
     <main class="row-span-6 col-span-10  sm:col-span-12 lg:col-span-10 ">
@@ -105,19 +107,18 @@ if(isset($_POST['search'])){
             <h1 class="text-2xl font-semibold py-2">Manage Customers</h1>
             <div class="flex items-center justify-between ">
                 <div class="flex items-center relative">
-                <form action="rented_book" method="post" class="flex items-center gap-1 relative">
-                    <input type="search" name="search" id="search"
-                        class="border shadow rounded-lg outline-none p-2 w-96" placeholder="Search...">
-                    <button type="submit"
-                        class="p-2 pt-3 bg-slate-50 border rounded-r-lg absolute right-0 top-0">
-                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                            fill="currentColor" viewBox="0 0 16 16">
-                            <path
-                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
-                            </path>
-                        </svg>
-                    </button>
-                </form>
+                    <form action="rented_book" method="post" class="flex items-center gap-1 relative">
+                        <input type="search" name="search" id="search"
+                            class="border shadow rounded-lg outline-none p-2 w-96" placeholder="Search...">
+                        <button type="submit" class="p-2 pt-3 bg-slate-50 border rounded-r-lg absolute right-0 top-0">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="currentColor" viewBox="0 0 16 16">
+                                <path
+                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
+                                </path>
+                            </svg>
+                        </button>
+                    </form>
                 </div>
                 <a href="../home_page" class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg"><span
                         class="font-bold text-xl">+</span> Go to home page</a>
@@ -147,7 +148,7 @@ if(isset($_POST['search'])){
                     foreach ($email_list as $email) {
                         $rented_data[] = $book_rented_data[$email];
                         $book = end($rented_data);
-                        
+
                         $user_rented_id = $book[0];
                         $user_name = $book[1];
                         $user_email = $book[2];
@@ -156,7 +157,7 @@ if(isset($_POST['search'])){
                         $user_state = $book[6];
                         $user_city = $book[7];
                         $user_rented_book_details = $book[8];
-                        
+
                         foreach ($user_rented_book_details as $user_rented_book_data) {
                             $book_name = ucwords($user_rented_book_data[0]);
                             $book_category = $user_rented_book_data[1];
@@ -164,58 +165,58 @@ if(isset($_POST['search'])){
                             $book_issue_date = $user_rented_book_data[3];
                             $book_return_date = $user_rented_book_data[4];
                             $book_charges = $user_rented_book_data[5];
-                            if(!empty($search)){
-                                if( ($search == strtolower($user_name)) || ($search == strtolower($user_email)) || ($search == strtolower($user_address)) || ($search == strtolower($user_gender)) || ($search == strtolower($user_state)) || ($search == strtolower($user_city)) || ($search == strtolower($book_name)) || ($search == strtolower($book_category)) || ($search == strtolower($book_author))){
-                                $searchdata = "visible";
-                                $data[] = $searchdata;
-                            }else{
-                                $searchdata = "hidden";
-                                $data[] = $searchdata;
+                            if (!empty($search)) {
+                                if (($search == strtolower($user_name)) || ($search == strtolower($user_email)) || ($search == strtolower($user_address)) || ($search == strtolower($user_gender)) || ($search == strtolower($user_state)) || ($search == strtolower($user_city)) || ($search == strtolower($book_name)) || ($search == strtolower($book_category)) || ($search == strtolower($book_author))) {
+                                    $searchdata = "visible";
+                                    $data[] = $searchdata;
+                                } else {
+                                    $searchdata = "hidden";
+                                    $data[] = $searchdata;
+                                }
                             }
                         }
-                    }  
-                    
+
                         ?>
                         <?php // }  ?>
                         <div class="<?php echo $searchdata ?> gap-2 py-2 mt-2 <?php ?> rounded-md border shadow">
                             <div class="flex justify-between items-center p-2 gap-4 w-full">
                                 <div class=" flex justify-between items-center gap-4 h-20">
                                     <div class=" w-10 h-10 flex items-center justify-center">
-                                            <?php
-                                            
-                                            $col = '<div class= "flex items-center justify-center w-8 h-8"><svg class="w-full h-full text-slate-500" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"></path></svg></div>';
-                                            echo "$col<br>";
-                                            
-                                            ?>
-                                        </div>
-                                        <div class=" w-full">
-                                            <div class="flex gap-20 items-center">
-                                                <div>
-                                                    <div class="flex items-center gap-2">
-                                                        <h2 class="<?php echo "Color" ?> ">
-                                                            <?php echo $user_name ?>
-                                                        </h2>
-                                                        <p class=" px-1 rounded-md bg-purple-600 text-white">
-                                                            <?php echo $user_gender ?>
-                                                        </p>
-                                                    </div>
+                                        <?php
 
-                                                    <p>
-                                                        <?php echo $user_email ?>
+                                        $col = '<div class= "flex items-center justify-center w-8 h-8"><svg class="w-full h-full text-slate-500" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"></path></svg></div>';
+                                        echo "$col<br>";
+
+                                        ?>
+                                    </div>
+                                    <div class=" w-full">
+                                        <div class="flex gap-20 items-center">
+                                            <div>
+                                                <div class="flex items-center gap-2">
+                                                    <h2 class="<?php echo "Color" ?> ">
+                                                        <?php echo $user_name ?>
+                                                    </h2>
+                                                    <p class=" px-1 rounded-md bg-purple-600 text-white">
+                                                        <?php echo $user_gender ?>
                                                     </p>
-                                                    <div class="flex gap-6 items-center ">
-
-                                                        <p>
-                                                            <?php echo $user_address . "," . $user_state ?>
-                                                        </p>
-                                                    </div>
                                                 </div>
 
+                                                <p>
+                                                    <?php echo $user_email ?>
+                                                </p>
+                                                <div class="flex gap-6 items-center ">
+
+                                                    <p>
+                                                        <?php echo $user_address . "," . $user_state ?>
+                                                    </p>
+                                                </div>
                                             </div>
 
                                         </div>
+
                                     </div>
-                                    <div class="flex gap-6 items-center">
+                                </div>
+                                <div class="flex gap-6 items-center">
                                     <div class="grid text-sm gap-2">
                                         <?php
                                         foreach ($user_rented_book_details as $user_rented_book_data) {
@@ -245,17 +246,22 @@ if(isset($_POST['search'])){
                                                     </span>
                                                 </p>
                                             </div>
-                                        <?php  } ?>
+                                        <?php } ?>
                                     </div>
-                                    
-                                </div>
+
                                 </div>
                             </div>
-                    <?php } 
+                        </div>
+                    <?php }
                 } ?>
-                 <span><?php if(!empty($data)){if(!in_array('visible',$data)){
+                <span>
+                    <?php if (!empty($data)) {
+                        if (!in_array('visible', $data)) {
                             $data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>';
-                        } echo $data_not_found; } ?></span>
+                        }
+                        echo $data_not_found;
+                    } ?>
+                </span>
             </div>
         </div>
     </main>

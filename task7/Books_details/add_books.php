@@ -1,7 +1,7 @@
 <?php
 include 'book_form_validation.php';
-if(is_array($err_image)){
-    $err_image ='';
+if (is_array($err_image)) {
+    $err_image = '';
 }
 ?>
 
@@ -32,26 +32,33 @@ if(is_array($err_image)){
                 <div class="space-y-3 bg-slate-50 rounded-lg shadow py-6 h-full px-10">
                     <div class=" space-y-3 gap-10">
                         <div class="grid">
-                        <div class="flex gap-2 items-center w-full">
-                            <label for="category">Category Name :-</label>
-                            <select name="category_name" id="category" class="rounded-lg bg-slate-100 text-slate-500 border w-60 p-2 ">
-                                <option value="" class="bg-transparent p-1">Select Category</option>
-                                <?php if(!empty($fetch_category_name_array)){
-                                    foreach($fetch_category_name_array as $category_name){
-                                     ?>
-                                    <option value="<?php echo $category_name ?>" class="bg-transparent p-1"><?php echo $category_name ?></option>
-                                <?php } }else{ ?>
-                                    <option value="<?php echo $fetch_get_category_name ?>" selected class="bg-transparent p-1"><?php echo $fetch_get_category_name ?></option>
-                               <?php } ?>
-                            </select>
-                        </div>
+                            <div class="flex gap-2 items-center w-full">
+                                <label for="category">Category Name :-</label>
+                                <select name="category_name" id="category"
+                                    class="rounded-lg bg-slate-100 text-slate-500 border w-60 p-2 ">
+                                    <option value="" class="bg-transparent p-1">Select Category</option>
+                                    <?php if (!empty($fetch_category_name_array)) {
+                                        foreach ($fetch_category_name_array as $category_name) {
+                                            ?>
+                                            <option value="<?php echo $category_name ?>" class="bg-transparent p-1">
+                                                <?php echo $category_name ?>
+                                            </option>
+                                        <?php }
+                                    } else { ?>
+                                        <option value="<?php echo $fetch_get_category_name ?>" selected
+                                            class="bg-transparent p-1">
+                                            <?php echo $fetch_get_category_name ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </div>
                             <!-- <input type="text" name="category_name" id="first_name" placeholder="Category Name"
                                 class="border rounded-sm w-full p-1"> -->
                             <span class="text-red-600 text-sm">* <small>
                                     <?php echo $err_category ?>
                                 </small></span>
                         </div>
-                       
+
                         <div class="flex gap-4 items-center">
                             <div class=" space-y-2">
                                 <label for="book_name">Book Name/Book Title</label>
@@ -62,20 +69,21 @@ if(is_array($err_image)){
                                     </small></span>
                             </div>
                             <div class="space-y-2">
-                            <label for="author_name">Author Name</label>
-                            <input type="text" name="author_name" id="author_name" placeholder="Author Name"
-                                class="border rounded-sm w-full p-1" value="<?php echo $author_name ?>">
-                            <span class="text-red-600 text-sm max-w-xs w-60">* <small>
-                                    <?php echo $err_author ?>
-                                </small></span>
+                                <label for="author_name">Author Name</label>
+                                <input type="text" name="author_name" id="author_name" placeholder="Author Name"
+                                    class="border rounded-sm w-full p-1" value="<?php echo $author_name ?>">
+                                <span class="text-red-600 text-sm max-w-xs w-60">* <small>
+                                        <?php echo $err_author ?>
+                                    </small></span>
+                            </div>
                         </div>
-                        </div>
-                        
+
                         <div class="flex items-center gap-2 w-full">
                             <div class="">
                                 <label for="description">Description</label>
                                 <textarea name="description" id="description" cols="30" rows="4"
-                                    placeholder="Description" class="border rounded-sm w-full p-1"><?php echo $book_description ?></textarea>
+                                    placeholder="Description"
+                                    class="border rounded-sm w-full p-1"><?php echo $book_description ?></textarea>
 
                                 <span class="text-red-600 text-sm">* <small>
                                         <?php echo $err_book_desciption ?>
@@ -93,7 +101,8 @@ if(is_array($err_image)){
                                 <div class="grid">
                                     <label for="book_price">Book Price:</label>
                                     <input type="number" name="book_price" id="book_price" step="0.01" min="0"
-                                        placeholder="Enter Price" class="border rounded-sm p-1" value="<?php echo $book_price ?>">
+                                        placeholder="Enter Price" class="border rounded-sm p-1"
+                                        value="<?php echo $book_price ?>">
                                     <span class="text-red-600 text-sm">* <small>
                                             <?php echo $err_book_price ?>
                                         </small></span>

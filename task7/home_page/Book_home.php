@@ -5,7 +5,7 @@ include '../admin_session.php';
 $fetch_data_from_db = new fetch_db_data();
 
 $fetch_book_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
-if(empty($fetch_book_data_from_db)){
+if (empty($fetch_book_data_from_db)) {
     header('location: ../admin_details/admin_registeration');
 }
 $fetch_user_review_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'user_review_details');
@@ -13,24 +13,24 @@ $fetch_user_review_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'u
 $fetch_category_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'category_details');
 $show_login_data = '';
 
-$category_name = isset($_POST['category_name']) ? $_POST['category_name'] :'';
-$search = isset($_POST['search']) ? strtolower($_POST['search']) :'';
+$category_name = isset($_POST['category_name']) ? $_POST['category_name'] : '';
+$search = isset($_POST['search']) ? strtolower($_POST['search']) : '';
 $user_searched_data = trim($search);
 
 // print_r($fetch_category_data_from_db);
-if(empty($fetch_category_data_from_db)){
-    
-    foreach($fetch_category_data_from_db as $data){
-        $category_name_list[] = isset($data[1]) ? $data[1] :'';
+if (empty($fetch_category_data_from_db)) {
+
+    foreach ($fetch_category_data_from_db as $data) {
+        $category_name_list[] = isset($data[1]) ? $data[1] : '';
     }
 }
 // print_r($fetch_book_data_from_db);
-if(empty($fetch_book_data_from_db))
-foreach($fetch_book_data_from_db as $data){
-    if(in_array($category_name,$data)){
-        $searched_data[] = $data;
+if (empty($fetch_book_data_from_db))
+    foreach ($fetch_book_data_from_db as $data) {
+        if (in_array($category_name, $data)) {
+            $searched_data[] = $data;
+        }
     }
-}
 
 
 ?>
@@ -49,7 +49,9 @@ foreach($fetch_book_data_from_db as $data){
 </head>
 
 <body class="relative w-full h-full">
-    <header class="sticky z-50 top-0"><?php include 'home_header.php' ?></header>
+    <header class="sticky z-50 top-0">
+        <?php include 'home_header.php' ?>
+    </header>
     <main class="w-full h-full">
         <section class="grid place-items-center text-center text-white w-full py-40 relative">
             <div
@@ -60,24 +62,30 @@ foreach($fetch_book_data_from_db as $data){
             </div>
             <div class="z-20 space-y-4">
                 <div class=" space-y-1 ">
-                <h1 class="font-semibold text-2xl "><span class="text-slate-50 font-bold text-3xl p-1">UcodeSoft</span>
-                    Personal Book Store</h1>
-                <h2>Buy any programming book on Rent.</h2>
+                    <h1 class="font-semibold text-2xl "><span
+                            class="text-slate-50 font-bold text-3xl p-1">UcodeSoft</span>
+                        Personal Book Store</h1>
+                    <h2>Buy any programming book on Rent.</h2>
                 </div>
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis, nobis?</p>
             </div>
             <div class="absolute right-4 top-1">
                 <form action="home_page" method="post" class="flex items-center gap-1 relative z-20 py-4">
-                <select name="category_name" id="category" class="rounded-lg bg-slate-100 text-slate-500 shadow border border-slate-600 w-40 p-2 ">
-                    <option value="" class="bg-transparent p-1">Select Books</option>
-                    <?php if(!empty($category_name_list)){
-                        foreach($category_name_list as $category_name){
-                            ?>
-                        <option value="<?php echo $category_name ?>" class="bg-transparent p-1"><?php echo $category_name ?></option>
-                    <?php } } ?>
-                </select>    
-                <input type="search" name="search" id="search"
-                        class="border shadow rounded-lg outline-none p-1 text-slate-600 pl-3 text-lg w-80" placeholder="Search any book...">
+                    <select name="category_name" id="category"
+                        class="rounded-lg bg-slate-100 text-slate-500 shadow border border-slate-600 w-40 p-2 ">
+                        <option value="" class="bg-transparent p-1">Select Books</option>
+                        <?php if (!empty($category_name_list)) {
+                            foreach ($category_name_list as $category_name) {
+                                ?>
+                                <option value="<?php echo $category_name ?>" class="bg-transparent p-1">
+                                    <?php echo $category_name ?>
+                                </option>
+                            <?php }
+                        } ?>
+                    </select>
+                    <input type="search" name="search" id="search"
+                        class="border shadow rounded-lg outline-none p-1 text-slate-600 pl-3 text-lg w-80"
+                        placeholder="Search any book...">
                     <button type="submit"
                         class="p-2 py-2 mt-[1px] bg-slate-50 text-slate-600 border rounded-r-lg absolute right-0 top-4">
                         <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -112,41 +120,42 @@ foreach($fetch_book_data_from_db as $data){
                     $book_author_name = isset($item[2]) ? $item[2] : "";
                     $book_category_name = isset($item[3]) ? $item[3] : "";
                     $book_image = isset($item[10]) ? $item[10] : "";
-                   
-                    if(!empty($search)){
-                        if( ($search == strtolower($book_name)) ){
+
+                    if (!empty($search)) {
+                        if (($search == strtolower($book_name))) {
                             $searchdata = "visible";
                             $data[] = $searchdata;
                             $data_not_found = "";
-                        }else{
+                        } else {
                             $searchdata = "hidden";
                             $data_not_found = "Data Not found";
                             $data[] = $searchdata;
                         }
                     }
-                    
+
                     // $more_images = '<svg class="w-20 h-20 absolute top-0 right-0 inset-0 text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. --><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM200 344V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H248v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"></path></svg>'
-                    if(empty($data_not_found)){
-                    ?>
-                    <article class="<?php echo $searchdata ?> w-40 h-52 text-center relative ">
-                        <div class="w-full h-full rounded-xl space-y-4">
-                            <!-- <a href="fetch_categories_books?book_category=<?php echo $book_name ?>"
+                    if (empty($data_not_found)) {
+                        ?>
+                        <article class="<?php echo $searchdata ?> w-40 h-52 text-center relative ">
+                            <div class="w-full h-full rounded-xl space-y-4">
+                                <!-- <a href="fetch_categories_books?book_category=<?php echo $book_name ?>"
                                 class=" absolute inset-0 z-10"></a> -->
-                            <a href="../rented_book_details/buy_book?book_id=<?php echo $book_id ?>"
-                                class=" absolute inset-0 z-10"></a>
-                            <img src="../../Image/<?php echo $book_image ?>" alt="Book1"
-                                class="w-full h-full object-cover rounded-xl">
+                                <a href="../rented_book_details/buy_book?book_id=<?php echo $book_id ?>"
+                                    class=" absolute inset-0 z-10"></a>
+                                <img src="../../Image/<?php echo $book_image ?>" alt="Book1"
+                                    class="w-full h-full object-cover rounded-xl">
 
-                            <h2 class="font-bold text-lg">
-                                <?php echo $book_name ?>
-                            </h2>
+                                <h2 class="font-bold text-lg">
+                                    <?php echo $book_name ?>
+                                </h2>
 
-                        </div>
-                    </article>
-                <?php }else{ 
-                     echo '<span class="text-xl">' . $data_not_found . '</span>';
-                     break;
-                 }} ?>
+                            </div>
+                        </article>
+                    <?php } else {
+                        echo '<span class="text-xl">' . $data_not_found . '</span>';
+                        break;
+                    }
+                } ?>
 
             </div>
         </section>
@@ -295,10 +304,12 @@ foreach($fetch_book_data_from_db as $data){
                                             </svg>
                                         </div>
                                     <?php } ?>
-                                    </div>
+                                </div>
                                 <p class="mb-4 space-y-2">
-                                    
-                                    <span class="pt-2"><?php echo $user_review ?></span>
+
+                                    <span class="pt-2">
+                                        <?php echo $user_review ?>
+                                    </span>
                                 </p>
                             </div>
 

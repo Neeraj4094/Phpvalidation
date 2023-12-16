@@ -1,7 +1,7 @@
 <?php
 include 'book_categories_validation.php';
-if(!empty($err_image)) {
-    if(is_array($err_image)){
+if (!empty($err_image)) {
+    if (is_array($err_image)) {
         $err_image = '';
     }
 }
@@ -43,17 +43,19 @@ if(!empty($err_image)) {
                         </div>
                     </div>
                     <div class="flex flex-col items-center justify-between ">
-                            <div>
-                                <div class="flex items-center gap-4">
-                                    <label>Upload Your Image :-</label>
-                                    <div class="">
+                        <div>
+                            <div class="flex items-center gap-4">
+                                <label>Upload Your Image :-</label>
+                                <div class="">
                                     <input type="file" name="category_image" id="category_image">
                                 </div>
                             </div>
-                            <span class="text-red-600 text-sm">* <small><?php echo $err_image ?></small></span>
-                                
-                            </div>
+                            <span class="text-red-600 text-sm">* <small>
+                                    <?php echo $err_image ?>
+                                </small></span>
+
                         </div>
+                    </div>
                     <div>
                         <input type="submit" name="add_categories"
                             class="bg-purple-600 rounded-lg text-white border border-white px-8 py-2 cursor-pointer">

@@ -11,7 +11,7 @@ $cart_book_id = $cart_user_email = [];
 $fetch_data_from_db = new fetch_db_data();
 $fetch_cart_query = $fetch_data_from_db->fetchiddata('cart_details', $book_id, $conn, 'book_id');
 $fetch_cart_data_from_db = mysqli_fetch_all($fetch_cart_query);
-foreach($fetch_cart_data_from_db as $data){
+foreach ($fetch_cart_data_from_db as $data) {
     $cart_data = $data;
 }
 
@@ -24,29 +24,29 @@ if (empty($cart_msg)) {
 }
 if (($_SERVER["REQUEST_METHOD"] == "POST") && (isset($_POST["save_to_cart"]))) {
     // if  {
-        $tablename = 'cart_details';
+    $tablename = 'cart_details';
 
-        $column_name = ['book_id', 'user_email'];
-        $row_data = [$book_id, $login_email];
-        if (!in_array($book_id, $cart_book_id) && !in_array($login_email, $cart_user_email)) {
-            $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
-            
-            header("location: ./buy_book?book_id=" . $book_id);
-        }elseif(in_array($book_id, $cart_book_id) && !in_array($login_email, $cart_user_email)){
-            $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
-            
-            header("location: ./buy_book?book_id=" . $book_id);
-        }else{
-            $errmsg = "Sorry";
-        }
+    $column_name = ['book_id', 'user_email'];
+    $row_data = [$book_id, $login_email];
+    if (!in_array($book_id, $cart_book_id) && !in_array($login_email, $cart_user_email)) {
+        $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
+
+        header("location: ./buy_book?book_id=" . $book_id);
+    } elseif (in_array($book_id, $cart_book_id) && !in_array($login_email, $cart_user_email)) {
+        $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
+
+        header("location: ./buy_book?book_id=" . $book_id);
+    } else {
+        $errmsg = "Sorry";
+    }
 
 
 }
 
-foreach($fetch_rented_book_user_data as $data){
-    $rented_book_id = isset( $data[7] ) ? $data[7] :'';
-    $user_email_list = isset( $data[1] ) ? $data[1] :'';
-    if($book_id == $rented_book_id && ($login_email == $user_email_list)){
+foreach ($fetch_rented_book_user_data as $data) {
+    $rented_book_id = isset($data[7]) ? $data[7] : '';
+    $user_email_list = isset($data[1]) ? $data[1] : '';
+    if ($book_id == $rented_book_id && ($login_email == $user_email_list)) {
         $errmsg = 'This book you have already purchsed';
     }
 
@@ -62,20 +62,20 @@ $user_name = isset($fetch_id_data[0][1]) ? $fetch_id_data[0][1] : '';
 
 
 
-$book_id = isset( $_GET['book_id'] ) ? intval( $_GET['book_id'] ) : '';
+$book_id = isset($_GET['book_id']) ? intval($_GET['book_id']) : '';
 $fetch_id_query = $fetch_data_from_db->fetchiddata('books_details', $book_id, $conn, 'book_id');
 $fetch_id_data = mysqli_fetch_all($fetch_id_query);
 
 
-foreach($fetch_id_data as $key => $value) {
+foreach ($fetch_id_data as $key => $value) {
     $book_id = isset($value[0]) ? ucwords($value[0]) : '';
     $book_name = isset($value[1]) ? ucwords($value[1]) : '';
-    $book_author = isset($value[2]) ? $value[2] :'';
-    $book_category = isset($value[3]) ? $value[3] :'';
-    $book_copies = isset($value[4]) ? $value[4] :'';
-    $book_price = isset($value[5]) ? $value[5] :'';
-    $book_description = isset($value[6]) ? $value[6] :'';
-    $book_image = isset($value[10]) ? $value[10] :'';
+    $book_author = isset($value[2]) ? $value[2] : '';
+    $book_category = isset($value[3]) ? $value[3] : '';
+    $book_copies = isset($value[4]) ? $value[4] : '';
+    $book_price = isset($value[5]) ? $value[5] : '';
+    $book_description = isset($value[6]) ? $value[6] : '';
+    $book_image = isset($value[10]) ? $value[10] : '';
 }
 
 ?>
@@ -94,12 +94,14 @@ foreach($fetch_id_data as $key => $value) {
 </head>
 
 <body class=" w-full h-full text-slate-700">
-<h2 class="w-full border text-center bg-green-50 text-slate-800 z-10 shadow">
-                    <?php
-                    echo $errmsg;
-                    ?>
-                </h2>
-    <header><?php include '../home_page/home_header.php' ?></header>
+    <h2 class="w-full border text-center bg-green-50 text-slate-800 z-10 shadow">
+        <?php
+        echo $errmsg;
+        ?>
+    </h2>
+    <header>
+        <?php include '../home_page/home_header.php' ?>
+    </header>
     <main class="flex w-full gap-4 py-1">
         <div class="flex-1 w-full h-full bg-slate-50 py-10 relative">
             <div class="grid place-items-center ">
@@ -107,10 +109,9 @@ foreach($fetch_id_data as $key => $value) {
                     <img src="../../Image/<?php echo $book_image ?>" alt="Book1"
                         class="w-full h-full object-cover rounded-xl">
                 </div>
-                <?php 
-                 if (!in_array($book_id, $cart_data) && !in_array($login_email, $cart_data)) { ?>
-                    <form action="buy_book?book_id=<?php echo $book_id ?>" method="post"
-                        class="absolute right-2 top-2 ">
+                <?php
+                if (!in_array($book_id, $cart_data) && !in_array($login_email, $cart_data)) { ?>
+                    <form action="buy_book?book_id=<?php echo $book_id ?>" method="post" class="absolute right-2 top-2 ">
                         <button type="submit" name="save_to_cart"><svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -124,59 +125,60 @@ foreach($fetch_id_data as $key => $value) {
                                 </path>
                             </svg></button>
                     </form>
-                <?php } else { 
+                <?php } else {
                     if (in_array($book_id, $cart_data) && !in_array($login_email, $cart_data)) { ?>
-                    <form action="buy_book?book_id=<?php echo $book_id ?>" method="post"
-                        class="absolute right-2 top-2 ">
-                        <button type="submit" name="save_to_cart"><svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M12.89 5.88H5.11A3.12 3.12 0 002 8.99v11.36c0 1.45 1.04 2.07 2.31 1.36l3.93-2.19c.42-.23 1.1-.23 1.51 0l3.93 2.19c1.27.71 2.31.09 2.31-1.36V8.99a3.105 3.105 0 00-3.1-3.11z">
-                                </path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M16 8.99v11.36c0 1.45-1.04 2.06-2.31 1.36l-3.93-2.19c-.42-.23-1.1-.23-1.52 0l-3.93 2.19c-1.27.7-2.31.09-2.31-1.36V8.99c0-1.71 1.4-3.11 3.11-3.11h7.78c1.71 0 3.11 1.4 3.11 3.11z">
-                                </path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M22 5.11v11.36c0 1.45-1.04 2.06-2.31 1.36L16 15.77V8.99c0-1.71-1.4-3.11-3.11-3.11H8v-.77C8 3.4 9.4 2 11.11 2h7.78C20.6 2 22 3.4 22 5.11z">
-                                </path>
-                            </svg></button>
-                    </form>
-                    <?php }else{ 
+                        <form action="buy_book?book_id=<?php echo $book_id ?>" method="post" class="absolute right-2 top-2 ">
+                            <button type="submit" name="save_to_cart"><svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M12.89 5.88H5.11A3.12 3.12 0 002 8.99v11.36c0 1.45 1.04 2.07 2.31 1.36l3.93-2.19c.42-.23 1.1-.23 1.51 0l3.93 2.19c1.27.71 2.31.09 2.31-1.36V8.99a3.105 3.105 0 00-3.1-3.11z">
+                                    </path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M16 8.99v11.36c0 1.45-1.04 2.06-2.31 1.36l-3.93-2.19c-.42-.23-1.1-.23-1.52 0l-3.93 2.19c-1.27.7-2.31.09-2.31-1.36V8.99c0-1.71 1.4-3.11 3.11-3.11h7.78c1.71 0 3.11 1.4 3.11 3.11z">
+                                    </path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M22 5.11v11.36c0 1.45-1.04 2.06-2.31 1.36L16 15.77V8.99c0-1.71-1.4-3.11-3.11-3.11H8v-.77C8 3.4 9.4 2 11.11 2h7.78C20.6 2 22 3.4 22 5.11z">
+                                    </path>
+                                </svg></button>
+                        </form>
+                    <?php } else {
                         if (!in_array($book_id, $cart_data) && in_array($login_email, $cart_data)) { ?>
-                        <form action="buy_book.php?book_id=<?php echo $book_id ?>" method="post"
-                        class="absolute right-2 top-2 ">
-                        <button type="submit" name="save_to_cart"><svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M12.89 5.88H5.11A3.12 3.12 0 002 8.99v11.36c0 1.45 1.04 2.07 2.31 1.36l3.93-2.19c.42-.23 1.1-.23 1.51 0l3.93 2.19c1.27.71 2.31.09 2.31-1.36V8.99a3.105 3.105 0 00-3.1-3.11z">
-                                </path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M16 8.99v11.36c0 1.45-1.04 2.06-2.31 1.36l-3.93-2.19c-.42-.23-1.1-.23-1.52 0l-3.93 2.19c-1.27.7-2.31.09-2.31-1.36V8.99c0-1.71 1.4-3.11 3.11-3.11h7.78c1.71 0 3.11 1.4 3.11 3.11z">
-                                </path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M22 5.11v11.36c0 1.45-1.04 2.06-2.31 1.36L16 15.77V8.99c0-1.71-1.4-3.11-3.11-3.11H8v-.77C8 3.4 9.4 2 11.11 2h7.78C20.6 2 22 3.4 22 5.11z">
-                                </path>
-                            </svg></button>
-                    </form>
-                        <?php }else{ ?>
-                    <form action="delete_cart.php?book_id=<?php echo $book_id ?>" method="post"
-                        class="absolute right-2 top-2 ">
-                        <button type="submit" name="delete_from_cart">
-                            <svg class="w-10 h-10 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                fill="currentColor" aria-hidden="true">
-                                <path
-                                    d="M12.89 5.879H5.11A3.12 3.12 0 002 8.989v11.36c0 1.45 1.04 2.07 2.31 1.36l3.93-2.19c.42-.23 1.1-.23 1.51 0l3.93 2.19c1.28.7 2.32.09 2.32-1.36V8.989c0-1.71-1.4-3.11-3.11-3.11z">
-                                </path>
-                                <path
-                                    d="M22 5.11v11.36c0 1.45-1.04 2.06-2.31 1.36l-1.93-1.08a.509.509 0 01-.26-.44V8.99c0-2.54-2.07-4.61-4.61-4.61H8.82c-.37 0-.63-.39-.46-.71C8.88 2.68 9.92 2 11.11 2h7.78C20.6 2 22 3.4 22 5.11z">
-                                </path>
-                            </svg>
-                        </button>
+                            <form action="buy_book.php?book_id=<?php echo $book_id ?>" method="post"
+                                class="absolute right-2 top-2 ">
+                                <button type="submit" name="save_to_cart"><svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M12.89 5.88H5.11A3.12 3.12 0 002 8.99v11.36c0 1.45 1.04 2.07 2.31 1.36l3.93-2.19c.42-.23 1.1-.23 1.51 0l3.93 2.19c1.27.71 2.31.09 2.31-1.36V8.99a3.105 3.105 0 00-3.1-3.11z">
+                                        </path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M16 8.99v11.36c0 1.45-1.04 2.06-2.31 1.36l-3.93-2.19c-.42-.23-1.1-.23-1.52 0l-3.93 2.19c-1.27.7-2.31.09-2.31-1.36V8.99c0-1.71 1.4-3.11 3.11-3.11h7.78c1.71 0 3.11 1.4 3.11 3.11z">
+                                        </path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M22 5.11v11.36c0 1.45-1.04 2.06-2.31 1.36L16 15.77V8.99c0-1.71-1.4-3.11-3.11-3.11H8v-.77C8 3.4 9.4 2 11.11 2h7.78C20.6 2 22 3.4 22 5.11z">
+                                        </path>
+                                    </svg></button>
+                            </form>
+                        <?php } else { ?>
+                            <form action="delete_cart.php?book_id=<?php echo $book_id ?>" method="post"
+                                class="absolute right-2 top-2 ">
+                                <button type="submit" name="delete_from_cart">
+                                    <svg class="w-10 h-10 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                        fill="currentColor" aria-hidden="true">
+                                        <path
+                                            d="M12.89 5.879H5.11A3.12 3.12 0 002 8.989v11.36c0 1.45 1.04 2.07 2.31 1.36l3.93-2.19c.42-.23 1.1-.23 1.51 0l3.93 2.19c1.28.7 2.32.09 2.32-1.36V8.989c0-1.71-1.4-3.11-3.11-3.11z">
+                                        </path>
+                                        <path
+                                            d="M22 5.11v11.36c0 1.45-1.04 2.06-2.31 1.36l-1.93-1.08a.509.509 0 01-.26-.44V8.99c0-2.54-2.07-4.61-4.61-4.61H8.82c-.37 0-.63-.39-.46-.71C8.88 2.68 9.92 2 11.11 2h7.78C20.6 2 22 3.4 22 5.11z">
+                                        </path>
+                                    </svg>
+                                </button>
 
-                    </form>
-                <?php } } } ?>
+                            </form>
+                        <?php }
+                    }
+                } ?>
             </div>
-            
+
         </div>
         </div>
 
@@ -189,7 +191,7 @@ foreach($fetch_id_data as $key => $value) {
                     <span class="font-bold text-black text-xl pt-1">
                         <?php echo "$" . $book_price ?>
                     </span>
-                    
+
                 </div>
 
 
@@ -261,7 +263,7 @@ foreach($fetch_id_data as $key => $value) {
                             </details>
                         </div>
                     </div>
-                    
+
                     <a href="rented_books?buy_book_id=<?php echo $book_id ?>"
                         class="py-3 border flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-lg">Buy
                         Now</a>

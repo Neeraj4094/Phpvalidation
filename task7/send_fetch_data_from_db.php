@@ -9,38 +9,39 @@ include 'database_connection.php';
  * This is a brief description of the create_tb class.
  * This class is used to fetch data from table of database and then perform further procedures
  */
-class fetch_db_data{
+class fetch_db_data
+{
     /**
      *
-    * This is a brief description of the fetchdatafromdb function.
+     * This is a brief description of the fetchdatafromdb function.
      * This function is used to fetch data from the table of database.
      * @param mixed $con The database connection object. This is used for checking the connection
      * @param string $tablename The name of the table from which the data will be fetched.
      * @return mixed Returns array if the table is found and data is fetched successfully, string otherwise.
      */
-    public function fetchdatafromdb(mixed $con,string $tablename): mixed
+    public function fetchdatafromdb(mixed $con, string $tablename): mixed
     {
         // $result = '';
         $select = "select * from $tablename";
         $query = mysqli_query($con, $select);
         $data = mysqli_fetch_all($query);
-        if(!$data){
+        if (!$data) {
             $result = [];
             return $result;
         }
         return $data;
     }
-    
+
     /**
      *
-    * This is a brief description of the searchemail function.
+     * This is a brief description of the searchemail function.
      * This function is used for searching data from the array.
      * @param array $array This is the array from which the data will be searched
      * @param mixed $data The data that will be searched from the array
      * @return array Returns array if the data is found successfully, otherwise return the array that was passed for searching.
      */
-    function searchemail(array $array, string $data) : array
-    {   
+    function searchemail(array $array, string $data): array
+    {
         // print_r($array);
         foreach ($array as $item) {
             if (in_array($data, $item)) {
@@ -52,7 +53,7 @@ class fetch_db_data{
 
     /**
      *
-    * This is a brief description of the searchemail function.
+     * This is a brief description of the searchemail function.
      * This function is used for fetching all the row data from the table of database where the column matches.
      * @param string $tablename The tablename from which data will be fetched
      * @param mixed $id The row data will be fetched if the column data is matched in column name of table
@@ -60,7 +61,7 @@ class fetch_db_data{
      * @param mixed $column_id_name The column name from which the data will be fetched
      * @return mixed Returns array if the data is found successfully, otherwise null.
      */
-    public function fetchiddata(string $tablename, mixed $id = null, mixed $con, string $column_id_name) : mixed
+    public function fetchiddata(string $tablename, mixed $id = null, mixed $con, string $column_id_name): mixed
     {
         $fetchiddata = $query = '';
         $fetchiddata = "select * from $tablename where $column_id_name = '$id'";
@@ -71,7 +72,7 @@ class fetch_db_data{
 
     /**
      *
-    * This is a brief description of the searchemail function.
+     * This is a brief description of the searchemail function.
      * This function is used for fetching the column data from the table of database where the column matches.
      * @param string $tablename The tablename from which data will be fetched
      * @param string $column_name The column name from which data will be fetched if the $column id name is matched with column name of table
@@ -79,7 +80,7 @@ class fetch_db_data{
      * @param mixed $column_id_name The column name from which the data will be fetched
      * @return mixed Returns array if the data is found successfully, otherwise null.
      */
-    public function fetch_data(string $tablename,string $column_name,mixed $id = null,mixed $con,mixed $column_id_name)
+    public function fetch_data(string $tablename, string $column_name, mixed $id = null, mixed $con, mixed $column_id_name)
     {
         $fetchiddata = $query = '';
         $fetchiddata = "select $column_name from $tablename where $column_id_name = '$id'";
@@ -95,10 +96,11 @@ class fetch_db_data{
  * This is a brief description of the send_data_to_db class.
  * This class is used to send data to the table of database
  */
-class send_data_to_db{
+class send_data_to_db
+{
     /**
      *
-    * This is a brief description of the searchemail function.
+     * This is a brief description of the searchemail function.
      * This function is used for insert data in the table of database where the column name matches.
      * @param string $tablename The tablename where the data will be inserted
      * @param mixed $column_name The column name where the data will be inserted if the $column name is matched with column name of table
@@ -106,7 +108,7 @@ class send_data_to_db{
      * @param mixed $con The database connection object. This is used for checking the connection
      * @return bool Returns true if the data is inserted successfully, otherwise false.
      */
-    public function insertindb(string $tablename,mixed $column_name,mixed $row_data,mixed $con) : bool
+    public function insertindb(string $tablename, mixed $column_name, mixed $row_data, mixed $con): bool
     {
         $result = '';
         $columns = implode(', ', $column_name);
@@ -121,7 +123,7 @@ class send_data_to_db{
     }
     /**
      *
-    * This is a brief description of the searchemail function.
+     * This is a brief description of the searchemail function.
      * This function is used for updating the data in the table of database where the column name matches.
      * @param string $tablename The tablename where the data will be updated
      * @param mixed $column_name The column name where the data will be updated if the $column name is matched with column name of table
@@ -131,7 +133,7 @@ class send_data_to_db{
      * @param mixed $con The database connection object. This is used for checking the connection
      * @return bool Returns true if the data is updated successfully, otherwise false.
      */
-    public function update_to_tb(string $tablename,mixed $column_name,mixed $column_data,string $col_id,mixed $id,mixed $con) : bool
+    public function update_to_tb(string $tablename, mixed $column_name, mixed $column_data, string $col_id, mixed $id, mixed $con): bool
     {
         $updatequery = '';
         $updateValues = array();
@@ -154,10 +156,11 @@ class send_data_to_db{
  * This is a brief description of the upload_image class.
  * This class is used to insert image and data in the table of database
  */
-class upload_image{
+class upload_image
+{
     /**
      *
-    * This is a brief description of the searchemail function.
+     * This is a brief description of the searchemail function.
      * This function is used for updating the data in the table of database where the column name matches.
      * @param string $tablename The tablename where the data will be inserted
      * @param mixed $err_image Tells the error is empty or not
@@ -172,39 +175,39 @@ class upload_image{
      * @param mixed $location The location where the page will be redirected after the insertion and updation of data
      * @return bool Returns true if the data is updated successfully, otherwise false.
      */
-    public function image_upload(string $tablename,mixed $err_image,array $book_image,mixed $id,mixed $sendtodb,mixed $book_column,mixed $book_details_array,mixed $conn,string $column_id, mixed $location) : bool
+    public function image_upload(string $tablename, mixed $err_image, array $book_image, mixed $id, mixed $sendtodb, mixed $book_column, mixed $book_details_array, mixed $conn, string $column_id, mixed $location): bool
     {
-        if(!empty($err_image)) {
-        if(is_array($err_image)){
-            $ext = isset($err_image[0]) ? $err_image[0] :"";
+        if (!empty($err_image)) {
+            if (is_array($err_image)) {
+                $ext = isset($err_image[0]) ? $err_image[0] : "";
 
-            $book_unique_image_name = uniqid("Img-", true) . '.' . $ext;
-            $upload = "../../Image/" . $book_unique_image_name;
-            if (move_uploaded_file($book_image["tmp_name"], $upload)) {
-                if($id == null){
-                    array_push($book_details_array, $book_unique_image_name);
-                    
-                    $sendtodb->insertindb($tablename, $book_column, $book_details_array, $conn); // Sending image data on db
-                    
-                    header("location: $location");
-                }else{
-                    $book_details_array[count($book_details_array)-1] = $book_unique_image_name;
-                    $update =$sendtodb->update_to_tb($tablename,$book_column,$book_details_array,$column_id,$id,$conn);
-                    if(!$update){
-                        echo "Error: " . mysqli_error($conn);
+                $book_unique_image_name = uniqid("Img-", true) . '.' . $ext;
+                $upload = "../../Image/" . $book_unique_image_name;
+                if (move_uploaded_file($book_image["tmp_name"], $upload)) {
+                    if ($id == null) {
+                        array_push($book_details_array, $book_unique_image_name);
+
+                        $sendtodb->insertindb($tablename, $book_column, $book_details_array, $conn); // Sending image data on db
+
+                        header("location: $location");
+                    } else {
+                        $book_details_array[count($book_details_array) - 1] = $book_unique_image_name;
+                        $update = $sendtodb->update_to_tb($tablename, $book_column, $book_details_array, $column_id, $id, $conn);
+                        if (!$update) {
+                            echo "Error: " . mysqli_error($conn);
+                        }
+                        header("location: $location");
+                        return true;
                     }
-                    header("location: $location");
-                    return true;
+                } else {
+                    echo "Error: " . mysqli_error($conn);
                 }
-            } else {
-                echo "Error: " . mysqli_error($conn);
+                return true;
             }
-            return true;
-        }
-        }else{
-            if($id != null){
-                $update =$sendtodb->update_to_tb($tablename,$book_column,$book_details_array,$column_id,$id,$conn);
-                if(!$update){       
+        } else {
+            if ($id != null) {
+                $update = $sendtodb->update_to_tb($tablename, $book_column, $book_details_array, $column_id, $id, $conn);
+                if (!$update) {
                     echo "Error: " . mysqli_error($conn);
                 }
                 // header("location: $location");
@@ -226,7 +229,7 @@ class delete_from_db
 {
     /**
      *
-    * This is a brief description of the searchemail function.
+     * This is a brief description of the searchemail function.
      * This function is used for deleting the data from the table of database where the column name matches.
      * @param string $tablename The tablename from where the data will be deleted
      * @param mixed $con The database connection object. This is used for checking the connection
@@ -242,7 +245,7 @@ class delete_from_db
         if (!$queryImageRecords) {
             echo "Error deleting image records: " . mysqli_error($con);
         }
-        
+
         header("location: $location");
         return true;
     }
@@ -259,12 +262,12 @@ class date
 {
     /**
      *
-    * This is a brief description of the searchemail function.
+     * This is a brief description of the searchemail function.
      * This function is used for show date according to asia time.
      * @param string $datelist This is used to show date according to asia time
      * @return string Returns true if the data is updated successfully, otherwise false.
      */
-    public function date_time_in_india(string $datelist) : string
+    public function date_time_in_india(string $datelist): string
     {
         $us_date_time = "";
         $us_date_time = $datelist;
@@ -282,33 +285,34 @@ class date
  * This is a brief description of the book_payment class.
  * This class is used to for book payment after the order is done
  */
-class book_payment{
+class book_payment
+{
     /**
      *
-    * This is a brief description of the searchemail function.
+     * This is a brief description of the searchemail function.
      * This function is used for show date according to asia time.
      * @param mixed $id The is used for paying payments of the book where the $id match with the columnname data of the table of db 
      * @param mixed $con The database connection object. This is used for checking the connection
      * @param mixed $user_email The is used for paying payments of the book where the $user_email match with the columnname data of the table of db 
      * @return string Returns true if the data is updated successfully, otherwise false.
      */
-    public function payment(mixed $id,mixed $con,mixed $user_email) : bool
+    public function payment(mixed $id, mixed $con, mixed $user_email): bool
     {
         $updateindb = "UPDATE rented_book_details SET payment_status = 'Success' WHERE book_id = '$id' AND user_email = '$user_email'";
 
         // $updateindb = "UPDATE rented_book_details set 'payment_record' = 'Success' where 'book_id' = '$id' AND 'user_email' = '$user_email'";
-        
+
         $updatequery = mysqli_query($con, $updateindb);
         if (!$updatequery) {
             die("Error:" . mysqli_error($con));
         }
         return true;
-        }
+    }
 }
 $fetch_data_from_db = new fetch_db_data();
 $send_data_to_db = new send_data_to_db();
 
-$cancel_login = $show_login_data ='';
+$cancel_login = $show_login_data = '';
 
 
 ?>

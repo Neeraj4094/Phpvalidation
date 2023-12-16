@@ -21,7 +21,7 @@ include 'book_fetch_validation.php';
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
         // echo $errmsg;
-
+        
         ?>
     </h2>
     <div class="flex w-full h-screen">
@@ -35,64 +35,79 @@ include 'book_fetch_validation.php';
                     <div class=" space-y-2">
                         <div class="flex gap-2">
                             <p class="font-semibold">Book Name/Book Title :- </p>
-                            <span class="font-bold"><?php echo $rented_book_name ?></span>
+                            <span class="font-bold">
+                                <?php echo $rented_book_name ?>
+                            </span>
                         </div>
                         <div class="flex gap-2">
                             <p class="font-semibold">Category Name :- </p>
-                            <span class="font-bold"><?php echo $rented_book_category ?></span>
+                            <span class="font-bold">
+                                <?php echo $rented_book_category ?>
+                            </span>
                         </div>
                         <div class="flex gap-2">
                             <p class="font-semibold">Author Name :- </p>
-                            <span class="font-bold"><?php echo $rented_book_author ?></span>
+                            <span class="font-bold">
+                                <?php echo $rented_book_author ?>
+                            </span>
                         </div>
                         <div class="flex gap-2">
                             <p class="font-semibold">Issue Date :- </p>
-                            <span class="font-bold"><?php echo $currentDate ?></span>
+                            <span class="font-bold">
+                                <?php echo $currentDate ?>
+                            </span>
                         </div>
                     </div>
-                    
+
                     <div class="p-2">
-                        
+
                         <div class="flex items-center justify-center gap-4">
-                            
+
                         </div>
                         <div class="flex items-center justify-center w-full gap-4">
                             <div class="grid items-center gap-2 w-full">
                                 <label for="issue_date">Issue Date:</label>
-                                <input type="text" name="issue_date" id="issue_date" 
-                                    class="border rounded-sm  p-1" value="<?php echo $currentDate ?>">
-                                <span class="text-red-600 text-sm">* <small><?php echo $err_book_copies ?></small></span>
+                                <input type="text" name="issue_date" id="issue_date" class="border rounded-sm  p-1"
+                                    value="<?php echo $currentDate ?>">
+                                <span class="text-red-600 text-sm">* <small>
+                                        <?php echo $err_book_copies ?>
+                                    </small></span>
                             </div>
                             <div class=" w-full">
                                 <div class="grid gap-1">
                                     <label class="days">No of Days for Purchase :-</label>
-                                    <select name="return_date" id="days" class="rounded-sm bg-slate-100 text-slate-500 border py-1 px-1">
+                                    <select name="return_date" id="days"
+                                        class="rounded-sm bg-slate-100 text-slate-500 border py-1 px-1">
                                         <option value="" class="bg-transparent p-1">Select Days</option>
                                         <option value="7" class="bg-transparent p-1">1 week</option>
                                         <option value="14" class="bg-transparent p-1">2 week</option>
                                         <option value="21" class="bg-transparent p-1">3 week</option>
                                     </select>
                                 </div>
-                                <span class="text-red-600 text-sm">* <small><?php echo $err_days ?></small></span>
+                                <span class="text-red-600 text-sm">* <small>
+                                        <?php echo $err_days ?>
+                                    </small></span>
                             </div>
-                            
+
                         </div>
                         <div class="flex items-center justify-center gap-4 ">
                             <div class="grid w-full">
                                 <label for="book_price">Book Price:</label>
-                                <input type="number" name="book_price" id="book_price" step="0.01" min="0" placeholder="Enter Price" class="border rounded-sm p-1">
+                                <input type="number" name="book_price" id="book_price" step="0.01" min="0"
+                                    placeholder="Enter Price" class="border rounded-sm p-1">
                                 <span class="text-red-600 text-sm">* <small>
                                         <?php echo $err_category ?>
                                     </small></span>
                             </div>
                             <div class="grid w-full">
                                 <label for="book_price">Total Charges for renting:</label>
-                                    <input type="number" name="book_price" id="book_price" step="0.01" min="0" placeholder="Enter Price" class="border rounded-sm p-1">
-                                    <span class="text-red-600 text-sm">* <small>
-                                            <?php echo $err_category ?>
-                                        </small></span>
+                                <input type="number" name="book_price" id="book_price" step="0.01" min="0"
+                                    placeholder="Enter Price" class="border rounded-sm p-1">
+                                <span class="text-red-600 text-sm">* <small>
+                                        <?php echo $err_category ?>
+                                    </small></span>
                             </div>
-                            
+
                         </div>
                     </div>
                     <div>

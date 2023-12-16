@@ -148,7 +148,7 @@ $low_charges= $mid_charges = $normal_charges = 0;
                         $book_category_name = !empty($data[0][3]) ? $data[0][3] : '';
                         $book_price = !empty($data[0][5]) ? $data[0][5] : '';
                         $book_image = !empty($data[0][10]) ? $data[0][10] : '';
-                        
+                            
                             $book_charges = ($book_price/100);
                             
                             $one_week_charges = 7 * $book_charges;
