@@ -44,7 +44,7 @@ $login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] 
     </header>
 
     <section class="w-full h-full px-2 py-7 mb-12 grid place-items-center space-y-6 ">
-        <h2 class="font-bold text-3xl">Categories Books</h2>
+        <h2 class="font-bold text-3xl underline">Your Orders</h2>
         <div class="flex gap-40 flex-wrap items-center justify-center py-2 mb-10 h-full">
             <?php
             if (empty($fetch_category_id_data)) {

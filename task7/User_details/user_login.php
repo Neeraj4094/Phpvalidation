@@ -12,9 +12,9 @@ require 'user_validation.php';
 </head>
 
 <body>
-    <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
+    <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow z-10">
         <?php
-        // echo $errmsg;
+        echo $errmsg;
         ?>
     </h2>
     <div class="flex w-full h-screen ">
@@ -56,8 +56,8 @@ require 'user_validation.php';
                     <!-- <small>(Password must have 1 Capital alphabet, 1 small alphabet, 1 special character & 1 number)</small> -->
                 </div>
                 <a href="../forget_password/recover_email" class="text-blue-700 px-1">Forget Password?</a>
-                <p class="flex items-center text-md"><small>Don't have any account?<a href="../user_details/add_users"
-                            class=" text-sm text-blue-700 font-medium">Create New Account</a></small></p>
+                <!-- <p class="flex items-center text-md"><small>Don't have any account?<a href="../user_details/add_users" -->
+                            <!-- class=" text-sm text-blue-700 font-medium">Create New Account</a></small></p> -->
                 <div class="flex items-center justify-center gap-4 w-96 py-2">
                     <div class="flex items-end gap-3 w-full ">
                         <input type="submit" name="user_login" id="user_login"

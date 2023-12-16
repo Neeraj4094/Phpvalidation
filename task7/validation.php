@@ -466,4 +466,5 @@ $book_image_name = isset($book_image['name']) ? $book_image['name'] : '';
 
 $user_password = $password;
 $admin_password = $login_password;
+
 ?>

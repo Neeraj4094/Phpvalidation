@@ -6,15 +6,7 @@ if ($_SESSION['admin'] == null) {
     header("location: ./admin_login");
 } else {
     $page = "Details";
-    // $admin =1;
-    // if(!$admin){
-    //     header("location: not_found");
-    // }
-    // $security_check = $authentication->secure_data();
-    // $check_status = (!empty($security_check)) ? "" : header("location: not_found");
-    // echo $check_status;
-    // header("location: not_found");
-
+    
 }
 if (empty($admin_logged_in_name)) {
     $admin_logged_in_name = "";

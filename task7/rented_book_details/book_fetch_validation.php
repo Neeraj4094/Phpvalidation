@@ -42,7 +42,6 @@ if (empty($buy_book_id)) {
         $cart_book_id_query = $fetch_data_from_db->fetchiddata('books_details', $item, $conn, 'book_id');
         $cart_book_id_data[] = mysqli_fetch_all($cart_book_id_query);
     }
-    print_r($cart_book_id_data);
     foreach ($cart_book_id_data as $data) {
         $book_charges_array[] = isset($data[0][5]) ? $data[0][5] : "";
     }
@@ -93,6 +92,10 @@ foreach ($cart_book_id_data as $data) {
         }
     }
 }
+if(!empty($book_actual_charges) && !empty($rented_days_charges)){
+$book_charges = round($book_actual_charges,2);
+$rented_book_charges = round($rented_days_charges,2);
+}
 
 $err_returned_date = $err_address = $err_state = $err_city = $err_postal_code = $err_payment_method = $err_name_on_card = $err_card_number = $err_card_expiration_date = $err_cvc = $err_charges = '';
 
@@ -120,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
         if ($err_email == null && empty($err_returned_date) && empty($err_address) && empty($err_state) && empty($err_city) && empty($err_postal_code) && empty($err_name_on_card) && empty($err_card_number) && empty($err_card_expiration_date) && empty($err_cvc) && empty($err_charges_days)) {
-            if ($book_actual_charges == $rented_days_charges) {
+            if ($book_charges == $rented_book_charges) {
                 if (!empty($buy_book_id)) {
                     foreach ($fetch_rented_book_user_data as $data) {
                         $user_db_email = $data[1];
@@ -191,8 +194,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         header("location: thankspage?" . $product_name . "=" . $item_id);
                     }
                 } else {
-                    $errmsg = "This book you have already purchase";
-                    echo $errmsg;
+                    $errmsg = "You have already purchase this book";
                 }
             } else {
                 $err_returned_date = $err_charges_days = "Invalid";
@@ -203,8 +205,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $errmsg = "Please complete the form";
         }
-    } else {
-        if (isset($_POST["select_cart"])) {
+    // } else {
+    //     if (isset($_POST["select_cart"])) {
             // if (!empty($user_selected_cart_item)) {
             // $columns = implode(', ', $user_selected_cart_item);
             // $_SESSION['selected_cart'] = $user_selected_cart_item;
@@ -212,7 +214,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // } else {
             //     $errmsg = "Please select any item";
             // }
-        }
+        // }
     }
 
 }

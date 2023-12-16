@@ -4,7 +4,6 @@ include "../send_admin_data_to_db.php";
 $err_category = $err_book = $err_author = $err_book_copies = $err_image = $err_book_price = $err_book_desciption = "";
 $total_book_copies = 0;
 $book_name_array = $fetch_all_book_categories = [];
-
 $fetch_get_category_name = isset($_GET["category_name"]) ? $_GET["category_name"] : "";
 
 $fetch_books_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
@@ -16,6 +15,9 @@ foreach ($fetch_books_data_from_db as $row) {
 }
 foreach ($fetch_category_data_from_db as $data) {
     $fetch_book_categories[] = $data[1];
+}
+if(empty($fetch_book_categories)){
+    header("location: ../categories_details/add_categories");
 }
 // print_r($fetch_book_categories);
 if (empty($fetch_get_category_name)) {

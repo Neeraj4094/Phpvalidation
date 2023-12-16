@@ -15,7 +15,7 @@ include './user_validation.php';
 <body class="bg-slate-100">
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
-        // echo $errmsg;
+        echo $errmsg;
         
         ?>
     </h2>
@@ -26,7 +26,8 @@ include './user_validation.php';
         <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="h-full shadow flex-1 "
             name="registeration_form" enctype="multipart/form-data">
             <div class="flex items-center justify-center shadow bg-slate-50 w-full h-full">
-                <div class="py-6 px-10 w-full">
+                <div class="py-2 px-10 w-full">
+                <h2 class="font-semibold text-xl py-1">Sign up to your account</h2>
                     <div class="flex gap-4">
                         <div class="">
                             <label for="name">Name</label>
