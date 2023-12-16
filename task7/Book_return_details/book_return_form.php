@@ -38,7 +38,7 @@ include 'books_return_validation.php';
                         <div class="grid py-4 px-2">
                             <label for="name_on_card" class="py-1">Name on Card</label>
                             <input type="text" name="name_on_card" id="name_on_card" placeholder="Name on Card"
-                                class="border rounded-lg p-2">
+                                class="border rounded-lg p-2" value="<?php echo $user_name_on_card ?>">
                             <span class="text-red-600 text-sm max-w-xs w-96">* <small>
                                     <?php echo $err_name_on_card ?>
                                 </small></span>
@@ -46,7 +46,7 @@ include 'books_return_validation.php';
                         <div class="grid py-4 px-2">
                             <label for="card_number" class="py-1">Card Number</label>
                             <input type="text" name="card_number" id="card_number" placeholder="Card Number"
-                                class="border rounded-lg p-2">
+                                class="border rounded-lg p-2" value="<?php echo $user_card_number ?>">
                             <span class="text-red-600 text-sm max-w-xs w-96">* <small>
                                     <?php echo $err_card_number ?>
                                 </small></span>

@@ -38,7 +38,7 @@ include 'admin_update_fetch_data.php';
                 <div>
                     <h2 class="font-semibold text-2xl">Sign in to your account</h2>
                 </div>
-                
+
                 <div class="grid space-y-2 ">
                     <label for="email">Email</label>
                     <input type="email" name="login_email" id="email" placeholder="Enter email"
@@ -58,9 +58,9 @@ include 'admin_update_fetch_data.php';
 
                 </div>
 
-                <p class="flex items-center text-md"><small>Don't have any account?<a
+                <!-- <p class="flex items-center text-md"><small>Don't have any account?<a
                             href="../admin_details/admin_registeration"
-                            class=" text-sm text-blue-700 font-medium">Create New Account</a></small></p>
+                            class=" text-sm text-blue-700 font-medium">Create New Account</a></small></p> -->
                 <div>
                     <input type="submit" name="login" id="submit"
                         class="bg-indigo-500 text-white px-10 py-2 rounded-lg cursor-pointer" value="Login">
