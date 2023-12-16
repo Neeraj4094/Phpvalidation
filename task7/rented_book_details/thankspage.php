@@ -206,7 +206,7 @@ $book_renting_amount = 10 + $actual_book_renting_charges;
                 </div>
                 <div class="relative py-10 flex items-center justify-center h-10">
                     <div class="absolute right-0 bottom-0 flex gap-2 items-center text-blue-800 py-12">
-                        <a href="../book_home.php">Continue Shopping</a>
+                        <a href="../home_page">Continue Shopping</a>
                         <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
                             <path
