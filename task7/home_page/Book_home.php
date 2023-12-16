@@ -307,9 +307,9 @@ if (empty($fetch_book_data_from_db))
                                 </div>
                                 <p class="mb-4 space-y-2">
 
-                                    <span class="pt-2">
-                                        <?php echo $user_review ?>
-                                    </span>
+                                    <!-- <span class="pt-2">
+                                        <?php // echo $user_review ?>
+                                    </span> -->
                                 </p>
                             </div>
 
