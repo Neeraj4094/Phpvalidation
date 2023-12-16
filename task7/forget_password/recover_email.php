@@ -11,11 +11,15 @@ if(isset($_POST['reset_password'])){
     if($reset_query){
         $emailcount = mysqli_num_rows($reset_result);
         if($emailcount > 0){
-            include '../phpmailer_smtp/test.php';
-
+            include '../forget.php';
+            $to_email = "4020neeraj@gmail.com";
+            $subject = "Reset Password";
+            $body = "Click to reset password http://localhost/phpprogramms/task7/forget_password/new_password";
+            $from = "4094.neeraj@gmail.com";
+            $headers = "From: $from";
             $user_email = isset($_SESSION['reset_password']) ? $_SESSION['reset_password'] : '';
-            $body = "Click to reset password http://localhost/phpprogramms/task7/forget_password/new_password?user_email=" . $user_email;
-            $errmsg = smtp_mailer('4094.neeraj@gmail.com','Reset Password',"$body");
+            // $body = "Click to reset password http://localhost/phpprogramms/task7/forget_password/new_password?user_email=" . $user_email;
+            $errmsg = smtp_mailer($to_email,$subject,$body, $headers);
         }else{
             $errmsg = "This email not exist in records";
         }
