@@ -2,6 +2,7 @@
 include '../send_fetch_data_from_db.php';
 include '../admin_session.php';
 
+$found = $data_not_found = $search = '';
 $fetch_data_from_db = new fetch_db_data();
 $fetch_category_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'category_details');
 foreach ($fetch_category_data_from_db as $data) {
@@ -11,6 +12,7 @@ foreach ($fetch_category_data_from_db as $data) {
 if (isset($_POST['search'])) {
     $search = strtolower($_POST['search']);
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -59,17 +61,29 @@ if (isset($_POST['search'])) {
             <?php foreach ($fetch_category_data_from_db as $key => $value) {
                 $category_id = isset($value[0]) ? $value[0] : '';
                 $category_name = ucwords(isset($value[1]) ? $value[1] : '');
+                $category = $category_name;
                 $book_image = isset($value[3]) ? $value[3] : '';
-                // echo $search;
-                if (!empty($search)) {
-                    if (($search == strtolower($category_name))) {
-                        $searchdata = "visible";
-                        $data[] = $searchdata;
-                    } else {
-                        $searchdata = "hidden";
-                        $data[] = $searchdata;
-                    }
+                
+                if (strpos(strtolower($category_name), $search) !== false) {
+                    $found = true;
+                    $searchdata = "visible";
+                }else{
+                    $searchdata = "hidden";
                 }
+                    
+                if (!$found) {
+                    $data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>';
+                }
+
+                // if (!empty($search)) {
+                //     if (($search == strtolower($category_name))) {
+                //         $searchdata = "visible";
+                //         $data[] = $searchdata;
+                //     } else {
+                //         $searchdata = "hidden";
+                //         $data[] = $searchdata;
+                //     }
+                // }
                 ?>
                 <article
                     class="<?php echo $searchdata ?> w-40 h-56 space-y-3 text-center rounded-xl cursor-pointer relative">
@@ -88,9 +102,10 @@ if (isset($_POST['search'])) {
                     <!-- <span class="font-bold text-xl pb-6"><?php echo "$" . $book_price ?></span> -->
                 </article>
             <?php } 
-            if (!empty($data)) {
-                echo (!in_array('visible', $data)) ? ($data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>') : '';
-            }
+            // if (!empty($data)) {
+            //     echo (!in_array('visible', $data)) ? ($data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>') : '';
+            // }
+            echo $data_not_found;
             ?>
 
         </div>
