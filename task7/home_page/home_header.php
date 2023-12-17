@@ -31,7 +31,7 @@ include 'home_header_validation.php';
                         Details</a></li>
                 <?php if (empty($login_email)) { ?>
                     <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
-                            href="../user_details/user_login.php">Sign Up</a></li>
+                            href="../user_details/add_users">Sign Up</a></li>
                 <?php } ?>
                 <!-- <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
                         href="../admin_details/admin_login">Admin Login</a></li> -->
