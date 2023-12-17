@@ -3,7 +3,10 @@ include '../send_fetch_data_from_db.php';
 include '../admin_session.php';
 
 $fetch_data_from_db = new fetch_db_data();
-$found = '';
+
+$found = false;
+
+$data_not_found = '';
 $fetch_book_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
 if (empty($fetch_book_data_from_db)) {
     header('location: ../admin_details/admin_registeration');
