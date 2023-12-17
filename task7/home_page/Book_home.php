@@ -13,26 +13,29 @@ $fetch_user_review_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'u
 $fetch_category_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'category_details');
 $show_login_data = '';
 
-$category_name = isset($_POST['category_name']) ? $_POST['category_name'] : '';
+// if(isset($_POST['search']) && isset($_POST['category_name'])){
+$category_name = !empty($_POST['category_name']) ? $_POST['category_name'] : '';
 $search = isset($_POST['search']) ? strtolower($_POST['search']) : '';
+// }
+
+
 $user_searched_data = trim($search);
 
 // print_r($fetch_category_data_from_db);
-if (empty($fetch_category_data_from_db)) {
+if (!empty($fetch_category_data_from_db)) {
 
     foreach ($fetch_category_data_from_db as $data) {
         $category_name_list[] = isset($data[1]) ? $data[1] : '';
     }
 }
 // print_r($fetch_book_data_from_db);
-if (empty($fetch_book_data_from_db))
+if (!empty($fetch_book_data_from_db)){
     foreach ($fetch_book_data_from_db as $data) {
         if (in_array($category_name, $data)) {
             $searched_data[] = $data;
         }
     }
-
-
+}
 ?>
 
 <!DOCTYPE html>
@@ -70,7 +73,7 @@ if (empty($fetch_book_data_from_db))
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis, nobis?</p>
             </div>
             <div class="absolute right-4 top-1">
-                <form action="home_page" method="post" class="flex items-center gap-1 relative z-20 py-4">
+                <form action="" method="post" class="flex items-center gap-1 relative z-20 py-4">
                     <select name="category_name" id="category"
                         class="rounded-lg bg-slate-100 text-slate-500 shadow border border-slate-600 w-40 p-2 ">
                         <option value="" class="bg-transparent p-1">Select Books</option>
@@ -132,7 +135,6 @@ if (empty($fetch_book_data_from_db))
                             $data[] = $searchdata;
                         }
                     }
-
                     // $more_images = '<svg class="w-20 h-20 absolute top-0 right-0 inset-0 text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. --><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM200 344V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H248v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"></path></svg>'
                     if (empty($data_not_found)) {
                         ?>
@@ -151,11 +153,12 @@ if (empty($fetch_book_data_from_db))
 
                             </div>
                         </article>
-                    <?php } else {
-                        echo '<span class="text-xl">' . $data_not_found . '</span>';
-                        break;
-                    }
-                } ?>
+                    <?php } 
+                }
+                if (!empty($data)) {
+                    echo (!in_array('visible', $data)) ? ($data_not_found = '<p class="w-full h-full p-1 grid place-items-center text-xl">Data not found</p>') : '';
+                }
+                 ?>
 
             </div>
         </section>

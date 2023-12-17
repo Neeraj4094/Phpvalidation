@@ -30,7 +30,7 @@ if (isset($_POST['search'])) {
         <?php include '../home_page/home_header.php' ?>
     </header>
     <div class="absolute right-4 top-20">
-        <form action="books_details/book_store" method="post" class="flex items-center gap-1 relative z-20 py-4">
+        <form action="../books_details/book_store" method="post" class="flex items-center gap-1 relative z-20 py-4">
             <input type="search" name="search" id="search"
                 class="border shadow rounded-lg outline-none p-1 pl-3 text-lg w-80"
                 placeholder="Search any category...">
@@ -66,6 +66,7 @@ if (isset($_POST['search'])) {
                         $data[] = $searchdata;
                     }
                 }
+                
 
                 // $more_images = '<svg class="w-20 h-20 absolute top-0 right-0 inset-0 text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. --><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM200 344V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H248v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"></path></svg>'
                 if (empty($data_not_found)) {
@@ -85,11 +86,13 @@ if (isset($_POST['search'])) {
 
                         </div>
                     </article>
-                <?php } else {
-                    echo '<span class="text-xl">' . $data_not_found . '</span>';
-                    break;
+                <?php } 
                 }
-            } ?>
+            
+            if (!empty($data)) {
+                echo (!in_array('visible', $data)) ? ($data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>') : '';
+            }
+            ?>
 
         </div>
     </section>

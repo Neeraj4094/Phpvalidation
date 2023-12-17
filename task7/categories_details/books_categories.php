@@ -29,7 +29,7 @@ if (isset($_POST['search'])) {
         <?php include '../home_page/home_header.php' ?>
     </header>
     <div class="absolute right-4 top-20">
-        <form action="book_categories" method="post" class="flex items-center gap-1 relative z-20 py-4">
+        <form action="../categories_details/book_categories" method="post" class="flex items-center gap-1 relative z-20 py-4">
             <!-- <select name="category_name" id="category" class="rounded-lg bg-slate-100 text-slate-500 shadow border border-slate-600 w-40 p-2 ">
                 <option value="" class="bg-transparent p-1">Select Books</option>
                 <?php if (!empty($category_name_list)) {
@@ -87,7 +87,11 @@ if (isset($_POST['search'])) {
                     </p> -->
                     <!-- <span class="font-bold text-xl pb-6"><?php echo "$" . $book_price ?></span> -->
                 </article>
-            <?php } ?>
+            <?php } 
+            if (!empty($data)) {
+                echo (!in_array('visible', $data)) ? ($data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>') : '';
+            }
+            ?>
 
         </div>
     </section>
