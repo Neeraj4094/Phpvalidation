@@ -10,7 +10,7 @@ if ($_SESSION['login'] == null) {
 }
 
 if (empty($id)) {
-    $book_renting_amount = $book_price = 0;
+    $book_renting_amount = $book_price = $actual_book_renting_charges = 0;
     $book_name = $book_author = $book_category = $book_issue_date = $book_returned_date = $user_address = $user_city = $user_state = '';
 }
 // $buy_book_id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : '';
@@ -21,7 +21,6 @@ $fetch_buy_book_id_data = mysqli_fetch_all($fetch_buy_book_id_query);
 $fetch_rented_book_id_query = $fetch_data_from_db->fetchiddata('rented_book_details', $buy_book_id, $conn, 'book_id');
 $fetch_rented_book_id_data = mysqli_fetch_all($fetch_rented_book_id_query);
 
-
 foreach ($fetch_rented_book_id_data as $value) {
     $user_address = isset($value[3]) ? $value[3] : '';
     $user_state = isset($value[4]) ? $value[4] : '';
@@ -30,8 +29,13 @@ foreach ($fetch_rented_book_id_data as $value) {
     $book_return_date = isset($value[9]) ? $value[9] : '';
     $book_renting_amount = isset($value[10]) ? $value[10] : '';
 }
+if(count($fetch_rented_book_id_data) == 1){
 $actual_book_renting_charges = ($book_renting_amount - 10);
-
+$total_charges = $book_renting_amount;
+if(!empty($get_selected_cart_item)){
+    unset($get_selected_cart_item);
+}
+}
 $fetch_rented_book_data = $fetch_data_from_db->fetchdatafromdb($conn, 'rented_book_details');
 
 foreach ($cart_item_array as $item) {
@@ -56,23 +60,26 @@ function match_id($item, $fetch_rented_book_data, $login_email)
 foreach ($cart_item_array as $item) {
     $rented_books_price[] = match_id($item, $fetch_rented_book_data, $login_email);
 }
+
 if (!empty($get_selected_cart_item)) {
     // echo "Ok";
     // if(!$rented_books_price){
-    foreach ($rented_books_price as $data) {
-        $charges = isset($data[10]) ? $data[10] : "";
-        $actual_book_renting_charges += $charges;
-        $book_issue_date = isset($data[8]) ? $data[8] : "";
-        $book_return_date = isset($data[9]) ? $data[9] : "";
-        // echo $charges;
-    }
-    // }
+        // if(count($fetch_rented_book_id_data) > 1){
+            foreach ($rented_books_price as $data) {
+                $charges = isset($data[10]) ? $data[10] : "";
+                $actual_book_renting_charges += $charges;
+                $book_issue_date = isset($data[8]) ? $data[8] : "";
+                $book_return_date = isset($data[9]) ? $data[9] : "";
+                // echo $charges;
+            }
+            $actual_book_renting_charges = $actual_book_renting_charges - 10;
+            $total_charges = $actual_book_renting_charges + 10;
+        // }
 }
 // echo "<pre>";
 // print_r($rented_books_price);
 // echo "</pre>";
 
-$book_renting_amount = 10 + $actual_book_renting_charges;
 
 ?>
 
@@ -162,7 +169,7 @@ $book_renting_amount = 10 + $actual_book_renting_charges;
                 <div class="flex justify-between px-4  py-2 border-b">
                     <p class="text-slate-800 font-semibold text-xl">Total</p>
                     <span>
-                        <?php echo $book_renting_amount ?>
+                        <?php echo $total_charges ?>
                     </span>
                 </div>
                 <div class="flex justify-between px-3">
