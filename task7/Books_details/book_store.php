@@ -9,6 +9,8 @@ $fetch_book_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'books_de
 // print_r($fetch_book_data_from_db);
 // echo "</pre>";
 // 
+$search = '';
+$found = false;
 if (isset($_POST['search'])) {
     $search = strtolower($_POST['search']);
 }
@@ -66,7 +68,6 @@ if (isset($_POST['search'])) {
                 //         $data[] = $searchdata;
                 //     }
                 // }
-                $found = false;
                 if ((strpos(strtolower($book_name), $search) !== false) || (strpos(strtolower($book_author_name), $search) !== false) || (strpos(strtolower($book_category_name), $search) !== false)) {
                     $found = true;
                     $searchdata = "visible";
