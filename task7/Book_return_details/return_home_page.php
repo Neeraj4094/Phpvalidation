@@ -61,20 +61,20 @@ $login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] 
                     $rented_book_array = implode(',', $rented_book_details);
 
                     ?>
-                    <article class="w-60 h-80 border text-center rounded-xl cursor-pointer relative">
+                    <article class="w-40 h-52 border text-center rounded-xl cursor-pointer relative">
                         <a href="./book_return_form?rented_book_details=<?php echo $rented_book_array ?>"
                             class=" absolute inset-0 z-10"></a>
                         <div class="w-full h-full rounded-xl relative">
                             <img src="../../Image/<?php echo $book_image ?>" alt="Books"
                                 class="w-full h-full object-cover rounded-xl">
                         </div>
-                        <h2 class="font-bold text-2xl">
+                        <h2 class="font-bold pt-1 text-lg">
                             <?php echo $book_name ?>
                         </h2>
                         <p class="font-medium ">
                             <?php echo $book_author ?>
                         </p>
-                        <span class="font-bold text-xl pb-6">
+                        <span class="font-bold text-lg">
                             <?php echo "$" . $book_price ?>
                         </span>
                     </article>
