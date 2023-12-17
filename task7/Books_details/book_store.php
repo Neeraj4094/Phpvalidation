@@ -55,21 +55,31 @@ if (isset($_POST['search'])) {
                 $book_category_name = isset($item[3]) ? $item[3] : "";
                 $book_image = isset($item[10]) ? $item[10] : "";
 
-                if (!empty($search)) {
-                    if (($search == strtolower($book_name))) {
-                        $searchdata = "visible";
-                        $data[] = $searchdata;
-                        $data_not_found = "";
-                    } else {
-                        $searchdata = "hidden";
-                        $data_not_found = "Data Not found";
-                        $data[] = $searchdata;
-                    }
+                // if (!empty($search)) {
+                //     if (($search == strtolower($book_name))) {
+                //         $searchdata = "visible";
+                //         $data[] = $searchdata;
+                //         $data_not_found = "";
+                //     } else {
+                //         $searchdata = "hidden";
+                //         $data_not_found = "Data Not found";
+                //         $data[] = $searchdata;
+                //     }
+                // }
+                $found = false;
+                if ((strpos(strtolower($book_name), $search) !== false) || (strpos(strtolower($book_author_name), $search) !== false) || (strpos(strtolower($book_category_name), $search) !== false)) {
+                    $found = true;
+                    $searchdata = "visible";
+                }else{
+                    $searchdata = "hidden";
                 }
-                
+                    
+                if (!$found) {
+                    $data_not_found = '<p class="w-full h-full grid place-items-center">Data not found</p>';
+                }
 
                 // $more_images = '<svg class="w-20 h-20 absolute top-0 right-0 inset-0 text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. --><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM200 344V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H248v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"></path></svg>'
-                if (empty($data_not_found)) {
+                // if (empty($data_not_found)) {
                     ?>
                     <article class="<?php echo $searchdata ?> w-40 h-52 text-center relative ">
                         <div class="w-full h-full rounded-xl space-y-4">
@@ -87,11 +97,12 @@ if (isset($_POST['search'])) {
                         </div>
                     </article>
                 <?php } 
-                }
+                // }
             
-            if (!empty($data)) {
-                echo (!in_array('visible', $data)) ? ($data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>') : '';
-            }
+                if (!empty($data_not_found)) {
+                    // echo (!in_array('visible', $data)) ? ($data_not_found = '<p class="w-full h-full p-1 grid place-items-center text-xl">Data not found</p>') : '';
+                    echo $data_not_found;
+                }
             ?>
 
         </div>
