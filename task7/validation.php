@@ -111,6 +111,44 @@ trait errorhandler
         } else {
             $errmsg = "Invalid";
         }
+        
+        return $errmsg;
+    }
+
+    /**
+     *
+     * This is a brief description of the searchemail function.
+     * This function is to check the data is in format or not.
+     * @param mixed $value The is used to check the expiry date and also checks it is empty or not
+     * @return string Returns string if the data is matched with the condition, otherwise false.
+     */
+    public function book_return_handler(string $value): string
+    {
+        $month = date("m");
+        $year = date("Y");
+        $date = date("d");
+        if (!empty($value)) {
+            $expiry = explode("-", $value);
+            $return_year = $expiry[0];
+            $return_month = $expiry[1];
+            $return_date = $expiry[2];
+        } else {
+            $errmsg = "Invalid";
+            $return_month = $return_year = $return_date = '';
+        }
+
+        if ((($month <= $return_month) && ($year <= $return_year)) || (($month <= $return_month) || ($year <= $return_year))) {
+            $errmsg = '';
+            
+        } else {
+            $errmsg = "Invalid";
+        }
+        if((($month == $return_month) && ($year == $return_year) && ($date <= $return_date))){
+            $errmsg = '';
+        }else{
+            $errmsg = "Invalid";
+        }
+        
         return $errmsg;
     }
 

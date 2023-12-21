@@ -53,10 +53,10 @@ $low_charges= $mid_charges = $normal_charges = 0;
                         <div class="flex items-center justify-between">
                             <div class="grid space-y-1">
                                 <label for="email" class="py-1">Email Address</label>
-                                <input type="email" name="email" id="email" placeholder="Email address" class="border rounded-lg p-2" value="<?php echo $user_email ?>">
+                                <input type="email" name="email" id="email" placeholder="Email address" class="border rounded-lg p-2" selected value="<?php echo $login_email ?>">
                                 <span class="text-red-600 text-sm max-w-xs w-64">* <small><?php echo $err_email ?></small></span>
                             </div>
-                            <div class="grid pt-2 space-y-2">
+                            <!-- <div class="grid pt-2 space-y-2">
                                 <label for="days" class="">No of Days for Purchase</label>
                                 <select name="return_date" id="days" class=" text-slate-500 border py-2 px-1 rounded-lg">
                                     <option value="" class="bg-transparent p-1">Select Days</option>
@@ -66,7 +66,7 @@ $low_charges= $mid_charges = $normal_charges = 0;
                                 </select>
                                 <span class="text-red-600 text-sm max-w-xs w-40">* <small><?php echo $err_returned_date ?></small></span>
                                 
-                            </div>
+                            </div> -->
                             <div class="">
                                 <div class="grid space-y-1">
                                     <label for="postal_code" class="py-1">Pin Code</label>
@@ -113,7 +113,7 @@ $low_charges= $mid_charges = $normal_charges = 0;
                         </div>
                         <div class="grid py-4 px-2">
                             <label for="card_number" class="py-1 flex items-center gap-2"><h3>Card Number</h3><small>(Enter your 16 digit card number)</small></label>
-                            <input type="text" name="card_number" id="card_number" placeholder="Card Number" class="border rounded-lg p-2" value="<?php echo $user_card_number ?>">
+                            <input type="text" name="card_number" id="card_number" placeholder="Card Number" class="border rounded-lg p-2" maxlength="16" value="<?php echo $user_card_number ?>">
                             <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_card_number ?></small></span>
                         </div>
                         </div>
@@ -128,7 +128,7 @@ $low_charges= $mid_charges = $normal_charges = 0;
                             <div class="flex-1">
                             <div class="grid py-4">
                                 <label for="cvc" class="py-1">CVC</label>
-                                <input type="password" name="cvc" id="cvc" placeholder="CVC" class="border rounded-lg p-2" value="<?php echo $user_card_cvc ?>">
+                                <input type="password" name="cvc" id="cvc" placeholder="CVC" class="border rounded-lg p-2" maxlength="3" value="<?php echo $user_card_cvc ?>">
                                 <span class="text-red-600 text-sm">* <small><?php echo $err_cvc ?></small></span>
                             </div>
                             </div>
@@ -202,16 +202,17 @@ $low_charges= $mid_charges = $normal_charges = 0;
                 
                 <div class="px-4 border-b-2">
                     <div class="grid items-center gap-1">
-                            <h2 for="role" class="w-auto font-semibold">Days for Purchase</h2>
+                            <!-- <h2 for="role" class="w-auto font-semibold">Days for Purchase</h2> -->
                             
-                            <?php foreach($book_actual_charges as $charges){
+                            <!-- <?php
+                            //  foreach($book_actual_charges as $charges){
                                 
-                                $week = isset($charges[0]) ? $charges[0] : '';
-                                $book_without_shipping_charges = isset($charges[1]) ? $charges[1] : '';
-                                $book_charges_with_shipping = $book_without_shipping_charges + 10;
+                            //     $week = isset($charges[0]) ? $charges[0] : '';
+                            //     $book_without_shipping_charges = isset($charges[1]) ? $charges[1] : '';
+                            //     $book_charges_with_shipping = $book_without_shipping_charges + 10;
                                 // echo $book_charges_with_shipping;
-                                ?>
-                                <div class="flex items-center gap-2">
+                                ?> -->
+                                <!-- <div class="flex items-center gap-2">
                                     <input type="radio" name="days_charges"  value="<?php echo $book_charges_with_shipping ?>" id="<?php echo $book_charges_with_shipping ?>">
                                     <label for="<?php echo $book_charges_with_shipping ?>">
                                         <div class="flex justify-between gap-4 py-3 border-b">
@@ -219,10 +220,15 @@ $low_charges= $mid_charges = $normal_charges = 0;
                                             <dd class=""><?php echo "$" . $book_without_shipping_charges . "+ $10 = " ?><span class="font-semibold flex"><?php echo "$" .($book_without_shipping_charges + 10) ?></span></dd>
                                         </div>
                                     </label>
+                                </div> -->
+                                <div class="grid py-4 px-2">
+                                    <label for="return_date" class="py-1 flex items-center gap-2">Return Data</label>
+                                    <input type="date" name="return_date" id="return_date" class="border rounded-lg p-2">
+                                    <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_selected_date ?></small></span>
                                 </div>
-                            <?php } ?>
+                            <?php // } ?>
                             
-                            <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_charges_days ?></small></span>
+                            <!-- <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_charges_days ?></small></span> -->
                         </div>
                     </div>
                     <div class="p-4">

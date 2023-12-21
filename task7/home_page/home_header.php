@@ -27,7 +27,7 @@ include 'home_header_validation.php';
                 <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
                         href="../books_details/book_store">Books</a></li>
                 <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a
-                        href="../book_return_details/return_home_page?email=<?php echo $login_email ?>">User
+                        href="../book_return_details/return_home_page?user_id=<?php echo $user_id ?>">User
                         Details</a></li>
                 <?php if (empty($login_email)) { ?>
                     <li class="hover:text-slate-400 hover:bg-black p-2 px-3 rounded-lg"><a

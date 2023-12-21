@@ -76,17 +76,38 @@ class fetch_db_data
      * This function is used for fetching the column data from the table of database where the column matches.
      * @param string $tablename The tablename from which data will be fetched
      * @param string $column_name The column name from which data will be fetched if the $column id name is matched with column name of table
+     * @param string $id This is used for fetching data where the conditon matches condition 
      * @param mixed $con The database connection object. This is used for checking the connection
      * @param mixed $column_id_name The column name from which the data will be fetched
      * @return mixed Returns array if the data is found successfully, otherwise null.
      */
-    public function fetch_data(string $tablename, string $column_name, mixed $id = null, mixed $con, mixed $column_id_name)
+    public function fetch_data(string $tablename, string $column_name, mixed $id = null, mixed $con, mixed $column_id_name) : array
     {
         $fetchiddata = $query = '';
         $fetchiddata = "select $column_name from $tablename where $column_id_name = '$id'";
         $query = mysqli_query($con, $fetchiddata);
         $data = mysqli_fetch_all($query);
         return $data;
+    }
+
+    /**
+     *
+     * This is a brief description of the searchemail function.
+     * This function is used for fetching the column data from the table of database where the column matches.
+     * @param string $tablename The tablename from which data will be fetched
+     * @param string $buy_book_id This is used for fetching data where the conditon matches
+     * @param string $user_id This is used for fetching data where the conditon matches
+     * @param mixed $con The database connection object. This is used for checking the connection
+     * @return mixed Returns array if the data is found successfully, otherwise null.
+     */
+    public function fetch_user_order_data(string $tablename, mixed $buy_book_id = null,mixed $user_id, mixed $con) : array
+    {
+        $fetchiddata = $query = '';
+        $fetchiddata = "select * from rented_book_details where book_id = '$buy_book_id' AND user_id = '$user_id' AND payment_status = 'Pending'";
+        
+        $query = mysqli_query($con, $fetchiddata);
+        $result = mysqli_fetch_all($query);
+        return $result;
     }
 }
 
@@ -293,12 +314,12 @@ class book_payment
      * This function is used for show date according to asia time.
      * @param mixed $id The is used for paying payments of the book where the $id match with the columnname data of the table of db 
      * @param mixed $con The database connection object. This is used for checking the connection
-     * @param mixed $user_email The is used for paying payments of the book where the $user_email match with the columnname data of the table of db 
+     * @param int $user_id The is used for paying payments of the book where the $user_email match with the columnname data of the table of db 
      * @return string Returns true if the data is updated successfully, otherwise false.
      */
-    public function payment(mixed $id, mixed $con, mixed $user_email): bool
+    public function payment(mixed $id, mixed $con, int $user_id): bool
     {
-        $updateindb = "UPDATE rented_book_details SET payment_status = 'Success' WHERE book_id = '$id' AND user_email = '$user_email'";
+        $updateindb = "UPDATE rented_book_details SET payment_status = 'Success' WHERE book_id = '$id' AND user_id = '$user_id'";
 
         // $updateindb = "UPDATE rented_book_details set 'payment_record' = 'Success' where 'book_id' = '$id' AND 'user_email' = '$user_email'";
 

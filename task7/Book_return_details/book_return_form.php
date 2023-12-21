@@ -23,15 +23,18 @@ include 'books_return_validation.php';
 
         ?>
     </h2>
-    <form method="post" action="" class="flex gap-4 h-full w-full p-4">
-        <div class="p-2 flex-1 space-y-2 ">
-            <h2 class="font-semibold text-xl px-2">Contact Information</h2>
+    <header class="sticky z-50 top-0">
+        <?php include '../home_page/home_header.php' ?>
+    </header>
+    <form method="post" action="" class="flex w-full p-4 py-2">
+        <div class="p-2 flex-1">
+            <!-- <h2 class="font-semibold text-xl px-2">Contact Information</h2> -->
             <div class=" px-4 bg-white shadow border rounded-lg">
 
 
                 <div class="py-6 space-y-2">
                     <div class="px-1">
-                        <h2 class="font-semibold text-xl">Payment Method</h2>
+                        <h2 class="font-semibold text-xl">Payment Form</h2>
                     </div>
 
                     <div class="flex">
@@ -46,7 +49,7 @@ include 'books_return_validation.php';
                         <div class="grid py-4 px-2">
                             <label for="card_number" class="py-1">Card Number</label>
                             <input type="text" name="card_number" id="card_number" placeholder="Card Number"
-                                class="border rounded-lg p-2" value="<?php echo $user_card_number ?>">
+                                class="border rounded-lg p-2" maxlength="16" value="<?php echo $user_card_number ?>">
                             <span class="text-red-600 text-sm max-w-xs w-96">* <small>
                                     <?php echo $err_card_number ?>
                                 </small></span>
@@ -54,7 +57,7 @@ include 'books_return_validation.php';
                     </div>
                     <div class="flex gap-4">
                         <div class=" w-full">
-                            <div class="grid py-4 px-2">
+                            <div class="grid px-2">
                                 <label for="card_expiration_date" class="py-1">Expiration date (MM/YY)</label>
                                 <input type="month" name="card_expiration_date" id="card_expiration_date"
                                     class="border rounded-lg p-2">
@@ -63,9 +66,9 @@ include 'books_return_validation.php';
                                     </small></span>
                             </div>
                         </div>
-                        <div class="grid w-full py-4">
+                        <div class="grid w-full">
                             <label for="cvc" class="py-1">CVC</label>
-                            <input type="password" name="cvc" id="cvc" placeholder="CVC" class="border rounded-lg p-2"
+                            <input type="password" name="cvc" id="cvc" maxlength="3" placeholder="CVC" class="border rounded-lg p-2"
                                 value="<?php echo $user_card_cvc ?>">
                             <span class="text-red-600 text-sm">* <small>
                                     <?php echo $err_cvc ?>
@@ -80,9 +83,9 @@ include 'books_return_validation.php';
             </div>
         </div>
 
-        <div class="flex-1 p-2 space-y-2">
+        <div class="flex-1 p-2">
             <div class="">
-                <h2 class="px-4 font-semibold text-xl">Order Summary</h2>
+                <!-- <h2 class="px-4 font-semibold text-xl">Order Summary</h2> -->
             </div>
             <div class="grid bg-white shadow border rounded-lg py-4">
                 <div class="px-6 border-b">
@@ -144,7 +147,7 @@ include 'books_return_validation.php';
                             </span>
                         </div>
                     </div>
-                    <div class="flex justify-between">
+                    <div class="flex justify-between pt-1">
                         <h3>Total Charges</h3>
                         <span>
                             <?php echo $total_book_charges ?>

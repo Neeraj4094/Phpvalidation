@@ -4,9 +4,9 @@ include './book_fetch_validation.php';
 
 if (empty($book_category) && empty($book_author)) {
     $book_category = '';
-    $book_author = '';
+    $book_author = $err_msg = '';
 }
-$cart_data = [];
+$cart_data = $cart_status= [];
 $cart_book_id = $cart_user_email = [];
 $fetch_data_from_db = new fetch_db_data();
 $fetch_cart_query = $fetch_data_from_db->fetchiddata('cart_details', $book_id, $conn, 'book_id');
@@ -16,33 +16,83 @@ foreach ($fetch_cart_data_from_db as $data) {
 }
 $db_cart_data = $fetch_data_from_db->fetchdatafromdb($conn, 'cart_details');
 
+$book_id = isset($_GET['book_id']) ? intval($_GET['book_id']) : '';
 
 $show_login_data = '';
-$login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] : '';
 
 $cart = $cart_msg = '';
 if (empty($cart_msg)) {
     $cart_msg = 'Add to Cart';
 }
+
+
+$fetch_order_data = $fetch_data_from_db->fetch_user_order_data('rented_book_details', $book_id, $user_id, $conn);
+
+
+echo "<pre>";
+// print_r($fetch_order_data);
+echo "</pre>";
+if(empty($fetch_user_id_data)){
+    $cart_status[] = "Not Exist";
+}else{
+    if(!in_array($book_id, $book_id_list) && !in_array($user_id, $user_id_list)) {
+        $cart_status[] = "Not Exist";
+    }
+    elseif(!in_array($book_id, $book_id_list) && in_array($user_id, $user_id_list)) {
+        $cart_status[] = "Not Exist";
+    }
+    elseif(in_array($book_id, $book_id_list) && in_array($user_id, $user_id_list) && (empty($fetch_order_data))) {
+        $cart_status[] = "Not Exist";
+    }
+    else{
+        $cart_status[] = "Exist";
+    }
+}
+// }
+$compare_status = "Exist";
+if(!in_array($compare_status,$cart_status)){
+    $check_cart_status = true;
+}else{
+    $check_cart_status = false;
+}
+
+// print_r($order_book_id_list);
+
 if (($_SERVER["REQUEST_METHOD"] == "POST") && (isset($_POST["save_to_cart"]))) {
     // if  {
     $tablename = 'cart_details';
 
-    $column_name = ['book_id', 'user_email'];
-    $row_data = [$book_id, $login_email];
-    if (!in_array($book_id, $cart_book_id) && !in_array($login_email, $cart_user_email)) {
-        $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
-
-        header("location: ./buy_book?book_id=" . $book_id);
-    } elseif (in_array($book_id, $cart_book_id) && !in_array($login_email, $cart_user_email)) {
-        $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
-
-        header("location: ./buy_book?book_id=" . $book_id);
-    } else {
-        $errmsg = "Sorry";
-    }
-
-
+    $column_name = ['book_id', 'user_id'];
+    $row_data = [$book_id, $user_id];
+    
+        if ($check_cart_status) {
+            if(empty($fetch_rented_book_user_data)){
+                $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
+                header("location: ./buy_book?book_id=" . $book_id);
+            }elseif(!in_array($book_id,$order_book_id_list) || (empty($fetch_order_data))){
+                $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
+                header("location: ./buy_book?book_id=" . $book_id);
+            }else{
+                $err_msg = "You have already purchase this book";
+            }
+            
+        }else{
+            $err_msg = "You have already purchase this book";
+            
+            header("location: delete_cart?book_id=" . $book_id);
+        }
+        //  elseif (in_array($book_id, $book_id_list) && !in_array($user_id, $user_id_list)) {
+        //     if(empty($fetch_rented_book_user_data)){
+                
+        //         $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
+        //         header("location: ./buy_book?book_id=" . $book_id);
+        //     }else{
+        //         $err_msg = "You have already purchase this book";
+        //     }
+        // } else {
+        //     $err_msg = "Sorry";
+        // }
+    
 }
 
 foreach ($fetch_rented_book_user_data as $data) {
@@ -50,9 +100,9 @@ foreach ($fetch_rented_book_user_data as $data) {
     $rented_book_id_list[] = $rented_book_id;
     $user_email = isset($data[1]) ? $data[1] : '';
     $user_email_list[] = $user_email;
-    if ($book_id == $rented_book_id && ($login_email == $user_email)) {
-        $errmsg = 'You have already purchse this book';
-    }
+    // if ($book_id == $rented_book_id && ($login_email == $user_email)) {
+    //     $errmsg = 'You have already purchse this book';
+    // }
 
 }
 
@@ -80,8 +130,20 @@ foreach ($fetch_id_data as $key => $value) {
     $book_price = isset($value[5]) ? $value[5] : '';
     $book_description = isset($value[6]) ? $value[6] : '';
     $book_image = isset($value[10]) ? $value[10] : '';
+    $book_charges = $book_price/100 * 1;
+    
 }
 
+// foreach($fetch_user_id_data as $data){
+//     $book_id = isset($data[1]) ? $data[1] : '';
+//     if(in_array($book_id,$order_book_id_list)){
+//         header('location: delete_cart.php?book_id=' . $book_id);
+//     }
+// }
+echo "<pre>";
+// print_r($fetch_user_id_data);
+// print_r($order_book_id_list);
+echo "</pre>";
 ?>
 
 <!DOCTYPE html>
@@ -100,7 +162,7 @@ foreach ($fetch_id_data as $key => $value) {
 <body class=" w-full h-full text-slate-700">
     <h2 class="w-full border text-center bg-green-50 text-slate-800 z-10 shadow">
         <?php
-        echo $errmsg;
+            echo $err_msg;
         ?>
     </h2>
     <header>
@@ -114,11 +176,27 @@ foreach ($fetch_id_data as $key => $value) {
                         class="w-full h-full object-cover rounded-xl">
                 </div>
                 <?php
+                if(empty($db_cart_data)){ ?>
+                    <form action="buy_book?book_id=<?php echo $book_id ?>" method="post" class="absolute right-2 top-2 ">
+                            <button type="submit" name="save_to_cart"><svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M12.89 5.88H5.11A3.12 3.12 0 002 8.99v11.36c0 1.45 1.04 2.07 2.31 1.36l3.93-2.19c.42-.23 1.1-.23 1.51 0l3.93 2.19c1.27.71 2.31.09 2.31-1.36V8.99a3.105 3.105 0 00-3.1-3.11z">
+                                    </path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M16 8.99v11.36c0 1.45-1.04 2.06-2.31 1.36l-3.93-2.19c-.42-.23-1.1-.23-1.52 0l-3.93 2.19c-1.27.7-2.31.09-2.31-1.36V8.99c0-1.71 1.4-3.11 3.11-3.11h7.78c1.71 0 3.11 1.4 3.11 3.11z">
+                                    </path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M22 5.11v11.36c0 1.45-1.04 2.06-2.31 1.36L16 15.77V8.99c0-1.71-1.4-3.11-3.11-3.11H8v-.77C8 3.4 9.4 2 11.11 2h7.78C20.6 2 22 3.4 22 5.11z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </form>
+                <?php }
                 foreach($db_cart_data as $cart_data){
                     $book_id_in_cart = isset( $cart_data[1] ) ? $cart_data[1] :'';
                     $user_email_in_cart = isset( $cart_data[2] ) ? $cart_data[2] :'';
-                
-                if (($book_id == $book_id_in_cart) && ($login_email == $user_email_in_cart)) {
+                if (($book_id == $book_id_in_cart) && ($user_id == $user_email_in_cart)) {
                     ?>
                         <form action="delete_cart.php?book_id=<?php echo $book_id ?>" method="post"
                                     class="absolute right-2 top-2 ">
@@ -137,7 +215,8 @@ foreach ($fetch_id_data as $key => $value) {
                         </form>
                     
                 
-                    <?php } else { 
+                    <?php } else {
+                        
                         // if (inarra($book_id, $rented_book_id_list) && ($login_email == $user_email)) {
                         ?>
                         <form action="buy_book?book_id=<?php echo $book_id ?>" method="post" class="absolute right-2 top-2 ">
@@ -229,6 +308,13 @@ foreach ($fetch_id_data as $key => $value) {
                             <span class="font-bold">
                                 <?php echo $book_author ?>
                             </span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <p class="font-semibold">Charges :- </p>
+                            <span class="font-bold">
+                                <?php echo $book_charges . "/Per day" ?>
+                            </span>
+                            <small class="font-semibold">(You have to take book on rent atleast for 1 days)</small>
                         </div>
                         <div class=" py-3 border-b">
                             <details class="text-xl">

@@ -120,8 +120,7 @@ try {
     $rented_book_table_name = "rented_book_details";
     $rented_book_tablecolumn_name = "CREATE TABLE IF NOT EXISTS $rented_book_table_name(
         rented_id INT(4) PRIMARY KEY AUTO_INCREMENT,
-        user_email VARCHAR(40),
-        rented_days int(3),
+        user_id int(4),
         user_address VARCHAR(50),
         user_state varchar(20),
         user_city varchar(20),
@@ -146,7 +145,7 @@ try {
     $cart_tablecolumn_name = "CREATE TABLE IF NOT EXISTS $cart_table_name(
         cart_id INT(4) PRIMARY KEY AUTO_INCREMENT,
         book_id int(4),
-        user_email varchar(40)
+        user_id int(4)
     )";
 
     $create_cart_table = $createtable->create_table($conn, $cart_tablecolumn_name); //Create table of users

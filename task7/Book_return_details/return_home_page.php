@@ -9,13 +9,24 @@ if ($_SESSION['login'] == null) {
     $page = "Details";
 }
 
-$user_email = isset($_GET['email']) ? $_GET['email'] : '';
+$user_id = isset($_GET['user_id']) ? $_GET['user_id'] : '';
 
-$fetch_category_name_query = $fetch_data_from_db->fetchiddata('rented_book_details', $user_email, $conn, 'user_email');
+// $login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] : '';
+// $user_id_data = $fetch_data_from_db->fetch_data('user_details','user_id', $login_email, $conn, 'user_email');
+// $user_id = isset($user_id_data[0][0]) ? $user_id_data[0][0] :'';
+
+
+
+$fetch_category_name_query = $fetch_data_from_db->fetchiddata('rented_book_details', $user_id, $conn, 'user_id');
 $fetch_category_name_data = mysqli_fetch_all($fetch_category_name_query);
+
+
 foreach ($fetch_category_name_data as $data) {
-    $id = isset($data[7]) ? $data[7] : '';
-    $payment_details = isset($data[15]) ? $data[15] : '';
+    // echo "<pre>";
+    // print_r($data);
+    // echo "</pre>";
+    $id = isset($data[6]) ? $data[6] : '';
+    $payment_details = isset($data[14]) ? $data[14] : '';
 
 
     if ($payment_details != 'Success') {
@@ -57,7 +68,7 @@ $login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] 
                     $book_author = isset($id_data[0][2]) ? $id_data[0][2] : '';
                     $book_price = isset($id_data[0][5]) ? $id_data[0][5] : '';
                     $book_image = isset($id_data[0][10]) ? $id_data[0][10] : '';
-                    $rented_book_details = [$book_id, $user_email];
+                    $rented_book_details = [$book_id, $user_id];
                     $rented_book_array = implode(',', $rented_book_details);
 
                     ?>

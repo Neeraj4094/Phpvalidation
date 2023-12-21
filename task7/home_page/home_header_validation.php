@@ -2,6 +2,9 @@
 
 $login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] : '';
 
+$user_id_data = $fetch_data_from_db->fetch_data('user_details','user_id', $login_email, $conn, 'user_email');
+$user_id = isset($user_id_data[0][0]) ? $user_id_data[0][0] :'';
+
 // function home_header(){}
 $cancel_login = $user_details = '';
 if (($_SERVER["REQUEST_METHOD"] == "POST") && (isset($_POST["login_page"]))) {
