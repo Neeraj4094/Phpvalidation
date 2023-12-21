@@ -109,6 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <a href="../home_page" ><span class="  font-bold rounded-lg p-1 border bg-slate-100">Go to home page</a>
                         </div></div>';
                         // header("location: ../book_home.php");
+                        
                     }
                 } else {
                     $errmsg = "Payment already done";
