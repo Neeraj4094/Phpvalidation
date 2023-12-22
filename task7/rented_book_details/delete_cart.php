@@ -16,17 +16,14 @@ foreach ($selected_cart_array as $value) {
 }
 $cart_remained_id = implode(",", $cart_data);
 $_SESSION['selected_cart'] = $cart_remained_id;
+
 if (!empty($cart_id)) {
-    print_r($_SESSION['selected_cart']);
+    // print_r($_SESSION['selected_cart']);
     $delete_from_db = $delete_cart_data->deletefromdb('cart_details', $conn, 'book_id', $cart_id, 'rented_books');
-    if (!$delete_from_db) {
-        echo "Error: " . mysqli_error($conn);
-    }
+    echo (!$delete_from_db) ? ("Error: " . mysqli_error($conn)) : '';
 } else {
     $delete_from_db = $delete_cart_data->deletefromdb('cart_details', $conn, 'book_id', $book_id, 'buy_book?book_id=' . $book_id);
-    if (!$delete_from_db) {
-        echo "Error: " . mysqli_error($conn);
-    }
+    echo (!$delete_from_db) ? ("Error: " . mysqli_error($conn)) : '';
 }
 
 ?>

@@ -156,8 +156,7 @@ try {
     $user_review_table_name = "user_review_details";
     $user_review_tablecolumn_name = "CREATE TABLE IF NOT EXISTS $user_review_table_name(
         review_id INT(4) PRIMARY KEY AUTO_INCREMENT,
-        user_email varchar(30),
-        user_name varchar(40),
+        user_id int(4),
         user_review varchar(100),
         user_rating int(2)
     )";

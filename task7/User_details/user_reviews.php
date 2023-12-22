@@ -13,20 +13,20 @@ include 'user_review_validation.php';
 </head>
 
 <body class="bg-slate-100 relative">
-    <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
-        <?php
-        echo $errmsg;
-
-        ?>
+    <h2 class="w-full border text-center z-50 bg-green-50 text-slate-800 fixed left-0 top-0 shadow">
+        <?php echo $errmsg ?>
     </h2>
-    <div class="flex w-full h-screen">
-        <div class="flex-1 h-full">
+    <header class=" shadow">
+        <?php include '../home_page/home_header.php' ?>
+    </header>
+    <div class="flex w-full">
+        <div class="flex-1 h-auto">
             <img src="../../Image/book2.jpg" alt="Main Image" class="w-full h-full object-cover">
         </div>
         <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="h-full shadow flex-1 "
             name="registeration_form" enctype="multipart/form-data">
             <div class="flex items-center justify-center shadow bg-slate-50 w-full h-full">
-                <div class="space-y-1  py-6 px-10 w-full">
+                <div class="space-y-1 py-4 px-10 w-full">
                     <div class=" w-96">
                         <div class=" space-y-2">
                             <label for="name">Name</label>

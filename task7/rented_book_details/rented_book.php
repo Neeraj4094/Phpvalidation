@@ -10,7 +10,6 @@ if ($_SESSION['login'] == null) {
 
 if($book_copies != 0){
     $book_quantity = 1;
-    
 }else{
     $errmsg = "Out of Stock";
 }
@@ -50,11 +49,16 @@ $low_charges= $mid_charges = $normal_charges = 0;
                     
                     <div class="py-6 border-b space-y-2 pb-4">
                         <h2 class="font-semibold text-xl">Shipping Address</h2>
-                        <div class="flex items-center justify-between">
-                            <div class="grid space-y-1">
+                        <div class="flex items-center gap-4">
+                            <div class="grid space-y-1 w-full">
                                 <label for="email" class="py-1">Email Address</label>
                                 <input type="email" name="email" id="email" placeholder="Email address" class="border rounded-lg p-2" selected value="<?php echo $login_email ?>">
                                 <span class="text-red-600 text-sm max-w-xs w-64">* <small><?php echo $err_email ?></small></span>
+                            </div>
+                            <div class="grid w-full gap-2 pt-2">
+                                <label for="address" class="">Residential Address</label>
+                                <input type="text" name="address" id="address" placeholder="Your Address" class="border rounded-lg p-2" value="<?php echo $address ?>">
+                                <span class="text-red-600 text-sm max-w-xs w-64">* <small><?php echo $err_address ?></small></span>
                             </div>
                             <!-- <div class="grid pt-2 space-y-2">
                                 <label for="days" class="">No of Days for Purchase</label>
@@ -67,34 +71,30 @@ $low_charges= $mid_charges = $normal_charges = 0;
                                 <span class="text-red-600 text-sm max-w-xs w-40">* <small><?php echo $err_returned_date ?></small></span>
                                 
                             </div> -->
-                            <div class="">
-                                <div class="grid space-y-1">
-                                    <label for="postal_code" class="py-1">Pin Code</label>
-                                    <input type="text" name="postal_code" id="postal_code" placeholder="Postal Code" class="border rounded-lg p-2" value="<?php echo $user_postal_code ?>">
-                                </div>
-                                <span class="text-red-600 text-sm max-w-xs w-60">* <small><?php echo $err_postal_code ?></small></span>
-                            </div>
                         </div>
-                        <div class="flex w-full justify-between">
-                            <div class="grid pt-2">
-                                <label for="address" class="">Residential Address</label>
-                                <input type="text" name="address" id="address" placeholder="Your Address" class="border rounded-lg px-2" value="<?php echo $address ?>">
-                                <span class="text-red-600 text-sm max-w-xs w-64">* <small><?php echo $err_address ?></small></span>
-                            </div>
-                            <div class="">
-                                <div class="grid py-4 space-y-2">
+                        <div class="flex w-full gap-4 items-center justify-between">
+                            <div class="w-full">
+                                <div class="grid space-y-2">
                                     <label for="state" class="py-1">State</label>
                                     <input type="text" name="state" id="state" placeholder="Your state" class="border rounded-lg p-2" value="<?php echo $user_state ?>">
                                 </div>
-                                <span class="text-red-600 text-sm max-w-xs">* <small><?php echo $err_state ?></small></span>
+                                <span class="text-red-600 text-sm">* <small><?php echo $err_state ?></small></span>
                             </div>
-                            <div class="">
-                                <div class="grid py-4 space-y-2">
+                            <div class="w-full">
+                                <div class="grid space-y-2">
                                     <label for="city" class="py-1">City</label>
                                     <input type="text" name="city" id="city" placeholder="Your City" class="border rounded-lg p-2" value="<?php echo $user_city ?>">
                                 </div>
-                                <span class="text-red-600 text-sm max-w-xs">* <small><?php echo $err_city ?></small></span>
+                                <span class="text-red-600 text-sm">* <small><?php echo $err_city ?></small></span>
                             </div>
+                            <div class="w-full">
+                                <div class="grid space-y-1 pt-1">
+                                    <label for="postal_code" class="py-1">Pin Code</label>
+                                    <input type="text" name="postal_code" id="postal_code" placeholder="Postal Code" class="border rounded-lg p-2" value="<?php echo $user_postal_code ?>">
+                                </div>
+                                <span class="text-red-600 text-sm">* <small><?php echo $err_postal_code ?></small></span>
+                            </div>
+                            
                         </div>
                         
                         
@@ -232,8 +232,8 @@ $low_charges= $mid_charges = $normal_charges = 0;
                         </div>
                     </div>
                     <div class="p-4">
-                                    <input type="submit" name="rent_now" value="Submit" class="border w-full py-2 bg-blue-600 cursor-pointer text-center text-white text-lg font-semibold rounded-lg">
-                                </div>
+                        <input type="submit" name="rent_now" value="Submit" class="border w-full py-2 bg-blue-600 cursor-pointer text-center text-white text-lg font-semibold rounded-lg">
+                    </div>
                 
             </div>
         </div>

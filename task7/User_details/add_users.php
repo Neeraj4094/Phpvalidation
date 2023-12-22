@@ -23,7 +23,7 @@ include './user_validation.php';
         <div class="flex-1 h-full">
             <img src="../../Image/book3.jpg" alt="Main Image" class="w-full h-full object-cover">
         </div>
-        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="h-full shadow flex-1 "
+        <form action="add_users" method="post" class="h-full shadow flex-1 "
             name="registeration_form" enctype="multipart/form-data">
             <div class="flex items-center justify-center shadow bg-slate-50 w-full h-full">
                 <div class="py-2 px-10 w-full">

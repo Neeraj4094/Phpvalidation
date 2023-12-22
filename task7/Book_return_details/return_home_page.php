@@ -5,9 +5,8 @@ include '../admin_session.php';
 
 if ($_SESSION['login'] == null) {
     header("location: ./user_login");
-} else {
-    $page = "Details";
 }
+
 
 $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : '';
 

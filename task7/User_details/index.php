@@ -11,6 +11,8 @@ if (!empty($id)) {
     $lock_user_url = "lock_user.php";
     $user_status_path = "/users?" . $id;
     $user_status_url = "user_dashboard.php";
+    $user_logout_url = '/user_logout?' . $id;
+    $user_logout_path = 'user_logout.php';
     // $delete_path = "/delete_user"
 } else {
     $update_path = '';

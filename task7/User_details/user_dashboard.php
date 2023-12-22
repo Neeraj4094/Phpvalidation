@@ -5,8 +5,6 @@ include "../admin_details/admin_update_fetch_data.php";
 
 if ($_SESSION == null) {
     header("location: ../admin_details/admin_login");
-} else {
-    $page = "Details";
 }
 
 $create_date = $modify_date = $user_account_status = '';
@@ -22,10 +20,10 @@ $user_ac_status = isset($user_block_data[1]) ? $user_block_data[1] : '';
 // print_r($admin_fetch_data_from_db);
 
 $search = $dataimage = $data_not_found = $not_found = '';
-$data = [];
-if (isset($_POST['search'])) {
-    $search = strtolower($_POST['search']);
-}
+// $data = [];
+$found = false;
+// if (isset($_POST['search'])) {
+// }
 
 $success = '<div class="w-full h-screen flex items-center justify-center fixed  left-0 bottom-0 right-0 bg-black/40">
 <form action="lock_user?id=' . $user_id . '" method="post" class="w-80 h-36 "><div class="grid font-semibold place-items-center w-full h-full border rounded-xl py-2 shadow z-20 bg-white text-black relative">
@@ -48,7 +46,8 @@ $fail = '<div class="w-full h-screen flex items-center justify-center fixed  lef
 </div></form></div>';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $user_account_status = ($user_ac_status == 'Active') ? $success : $fail;
+    // $user_account_status = ($user_ac_status == 'Active') ? $success : $fail;
+    $search = isset($_POST['search']) ? strtolower($_POST['search']) : '';
 }
 
 ?>
@@ -138,16 +137,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $status = ($user_status == 'Active') ? $active : $block;
                         $user_data = [$user_id, $user_status];
                         $user_lock_data = implode(',', $user_data);
-                        if (!empty($search)) {
-                            if (($search == strtolower($user_name)) || ($search == strtolower($user_email)) || ($search == strtolower($user_phone_number)) || ($search == strtolower($user_address)) || ($search == strtolower($user_gender))) {
-                                $searchdata = "visible";
-                                $data[] = $searchdata;
-                            } else {
-                                $searchdata = "hidden";
-                                $data[] = $searchdata;
-                            }
-                        }
+                        // if (!empty($search)) {
+                        //     if (($search == strtolower($user_name)) || ($search == strtolower($user_email)) || ($search == strtolower($user_phone_number)) || ($search == strtolower($user_address)) || ($search == strtolower($user_gender))) {
+                        //         $searchdata = "visible";
+                        //         $data[] = $searchdata;
+                        //     } else {
+                        //         $searchdata = "hidden";
+                        //         $data[] = $searchdata;
+                        //     }
+                        // }
 
+                        if ((strpos(strtolower($user_name), $search) !== false) || (strpos(strtolower($user_email), $search) !== false) || (strpos(strtolower($user_address), $search) !== false) || (strpos(strtolower($user_gender), $search) !== false)) {
+                            $found = true;
+                            $searchdata = "visible";
+                        }else{
+                            $searchdata = "hidden";
+                        }
+                            
+                        $data_not_found = (!$found) ? ('<p class="w-full h-full grid place-items-center">Data not found</p>') : '';
+                        
                         ?>
                         <div class="<?php echo $searchdata ?> py-2 mt-2 <?php ?>  rounded-md border w-full shadow">
                             <div class=" flex justify-between items-center p-2 gap-4 w-full ">
@@ -192,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <?php echo "Address:-" . $user_address ?>
                                     </p>
                                     <!-- lock_user?id=<?php echo $book_id ?> -->
-                                    <form action="users?status=<?php echo $user_lock_data ?>" method="post">
+                                    <form action="lock_user?id=<?php echo $user_id ?>" method="post">
                                         <!-- <input type="hidden" name="hidden_field" value="Some Value"> -->
                                         <input type="checkbox" hidden checked name="user_account_status"
                                             id="user_account_status">
@@ -215,12 +223,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </form> -->
             </div>
             <span>
-                <?php if (!empty($data)) {
-                    if (!in_array('visible', $data)) {
-                        $data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>';
-                    }
+                <?php 
                     echo $data_not_found;
-                } ?>
+                 ?>
             </span>
         </div>
         </div>

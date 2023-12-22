@@ -6,13 +6,13 @@ $user_id_data = $fetch_data_from_db->fetch_data('user_details','user_id', $login
 $user_id = isset($user_id_data[0][0]) ? $user_id_data[0][0] :'';
 
 // function home_header(){}
-$cancel_login = $user_details = '';
+$cancel_login = $user_details = $logout = '';
 if (($_SERVER["REQUEST_METHOD"] == "POST") && (isset($_POST["login_page"]))) {
     $user_details = (empty($login_email)) ?
         ('<div class="grid font-semibold place-items-center w-60 h-60 border rounded-xl shadow z-20 bg-black/40 fixed right-2 top-1 text-black">
-        <a href="../home_page"><span class=" text-white font-bold text-2xl absolute top-2 right-2">
-        <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
-        </span></a>
+        <form action="../home_page" method="post"  class=" text-white font-bold text-2xl absolute top-2 right-2">
+        <button type="submit"><svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
+        </button></form>
         <div class="grid place-items-center gap-4">
         <button type="submit" name="login_page" data-toggle="tooltip" data-placement="top" title="Login" class="w-auto p-1 border rounded-full shadow">
         <svg class="w-8 h-8 text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
@@ -22,14 +22,15 @@ if (($_SERVER["REQUEST_METHOD"] == "POST") && (isset($_POST["login_page"]))) {
             </svg>
             </button>
             <h2 class=" text-lg font-semibold text-white">Hello User</h2>
-        <a href="/phpprogramms/task7/user_details/user_login" class=" bg-slate-100 p-2 rounded-lg">Click to Login</a>
+            <form action="/phpprogramms/task7/user_details/user_login" method="post">
+        <button type="submit" class=" bg-slate-100 p-2 rounded-lg">Click to Login</button></form>
         </div>
         </div>')
         :
         ('<div class="grid font-semibold place-items-center w-60 h-full border rounded-xl shadow z-20 bg-black/40 fixed right-2 top-1 text-black">
-        <a href="../home_page"><span class=" text-white font-bold text-2xl absolute top-2 right-2">
-        <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
-        </span></a>
+        <form action="../home_page" method="post" class=" text-white font-bold text-2xl absolute top-2 right-2">
+        <button type="submit"><svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
+        </button></form>
             <div class="grid place-items-center gap-4">
                 <button type="submit" name="login_page" data-toggle="tooltip" data-placement="top" title="Login" class="w-auto p-1 border rounded-full shadow">
                 <svg class="w-8 h-8 text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
@@ -40,17 +41,19 @@ if (($_SERVER["REQUEST_METHOD"] == "POST") && (isset($_POST["login_page"]))) {
                 </button>
                 <h2 class=" text-lg font-semibold text-white">Hello User</h2>
                 <div class="grid gap-4">
-                <a href="/phpprogramms/task7/user_details/update_users_data?email=' . $login_email . '" class=" bg-slate-100 p-2 rounded-lg">Update Your Account</a>
+                <a href="/phpprogramms/task7/user_details/update_users_data?user_id=' . $user_id . '" class=" bg-slate-100 p-2 rounded-lg">Update Your Account</a>
                 <a href="/phpprogramms/task7/user_details/user_review" class=" bg-slate-100 p-2 rounded-lg text-center">Send Feedback</a>
-                <a href="/phpprogramms/task7/user_details/lock_user?email=' . $login_email . '" class=" text-center bg-slate-100 p-2 rounded-lg">Delete Your Account</a>
-                <a href="/phpprogramms/task7/user_details/user_logout" class=" text-center bg-slate-100 p-2 rounded-lg">Click to Logout</a>
+                <form action="/phpprogramms/task7/user_details/delete_user" method="post">
+                <button type="submit" class=" text-center bg-slate-100 p-2 rounded-lg">Delete Your Account</button>
+                </form>
+                <form action="/phpprogramms/task7/user_details/user_logout" method="post">
+                <button type="submit" name="logout" class=" text-center bg-slate-100 p-2 rounded-lg">Click to Logout</button>
+                </form>
                 </div>
             </div>
-        </div>
+        </div>');
+
         
-        ');
-
-
 }
 
 $fetch_id_query = $fetch_data_from_db->fetchiddata('user_details', $login_email, $conn, 'user_email');
@@ -74,6 +77,6 @@ if (!empty($_SESSION['login'])) {
     </button>';
 }
 
-if (isset($_POST['search'])) {
-    $search = strtolower($_POST['search']);
-}
+// if () {
+    $search = isset($_POST['search']) ? strtolower($_POST['search']) : '';
+// }

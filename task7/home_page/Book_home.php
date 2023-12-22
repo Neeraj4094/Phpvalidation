@@ -12,6 +12,18 @@ if (empty($fetch_book_data_from_db)) {
     header('location: ../admin_details/admin_registeration');
 }
 $fetch_user_review_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'user_review_details');
+foreach ($fetch_user_review_data_from_db as $data) {
+    $user_id = isset($data[1]) ? $data[1] : '';
+    $user_review = isset($data[2]) ? $data[2] : '';
+    $user_rating = isset($data[3]) ? $data[3] : '';
+    $review_table_query = $fetch_data_from_db->fetchiddata('user_details', $user_id, $conn, 'user_id');
+    $review_table_data = mysqli_fetch_all($review_table_query);
+    $user_name = isset($review_table_data[0][1]) ? $review_table_data[0][1] : '';
+    $user_email = isset($review_table_data[0][2]) ? $review_table_data[0][2] : '';
+    $user_review_table_data[] = [$user_name, $user_email, $user_review, $user_rating];
+}
+
+
 
 $fetch_category_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'category_details');
 $show_login_data = '';
@@ -32,13 +44,13 @@ if (!empty($fetch_category_data_from_db)) {
     }
 }
 // print_r($fetch_book_data_from_db);
-if (!empty($fetch_book_data_from_db)){
-    foreach ($fetch_book_data_from_db as $data) {
-        if (in_array($category_name, $data)) {
-            $searched_data[] = $data;
-        }
-    }
-}
+// if (!empty($fetch_book_data_from_db)){
+//     foreach ($fetch_book_data_from_db as $data) {
+//         if (in_array($category_name, $data)) {
+//             $searched_data[] = $data;
+//         }
+//     }
+// }
 ?>
 
 <!DOCTYPE html>
@@ -58,6 +70,7 @@ if (!empty($fetch_book_data_from_db)){
     <header class="sticky z-50 top-0">
         <?php include 'home_header.php' ?>
     </header>
+    <?php echo $logout ?>
     <main class="w-full h-full">
         <section class="grid place-items-center text-center text-white w-full py-40 relative">
             <div
@@ -75,10 +88,10 @@ if (!empty($fetch_book_data_from_db)){
                 </div>
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis, nobis?</p>
             </div>
-            <div class="absolute right-4 top-1">
-                <form action="" method="post" class="flex items-center gap-1 relative z-20 py-4">
+            <div class="absolute right-4 top-2">
+                <form action="" method="post" class="flex items-center gap-2 relative z-20 py-4">
                     <select name="category_name" id="category"
-                        class="rounded-lg bg-slate-100 text-slate-500 shadow border border-slate-600 w-40 p-2 ">
+                        class="rounded-lg  border-2 text-slate-600 w-36 p-2 py-1 ">
                         <option value="" class="bg-transparent p-1">Select Books</option>
                         <?php if (!empty($category_name_list)) {
                             foreach ($category_name_list as $category_name) {
@@ -90,7 +103,7 @@ if (!empty($fetch_book_data_from_db)){
                         } ?>
                     </select>
                     <input type="search" name="search" id="search"
-                        class="border shadow rounded-lg outline-none p-1 text-slate-600 pl-3 text-lg w-80"
+                        class="border-2 shadow border-slate-200 rounded-lg p-1 text-slate-600 pl-3 text-lg w-64"
                         placeholder="Search any book...">
                     <button type="submit"
                         class="p-2 py-2 mt-[1px] bg-slate-50 text-slate-600 border rounded-r-lg absolute right-0 top-4">
@@ -117,8 +130,9 @@ if (!empty($fetch_book_data_from_db)){
                 </button>
             </form>
         </section>
-        <section class="w-full h-full px-2 py-10 grid place-items-center space-y-8" id="books">
+        <section class="w-full h-full px-2 py-10 grid place-items-center space-y-8 relative" id="books">
             <h2 class="font-bold text-3xl underline">Our Book Store</h2>
+            
             <div class=" flex items-center justify-center flex-wrap gap-24 p-6">
                 <?php foreach ($fetch_book_data_from_db as $item) {
                     $book_id = isset($item[0]) ? $item[0] : "";
@@ -130,10 +144,10 @@ if (!empty($fetch_book_data_from_db)){
                     if ((strpos(strtolower($book_name), $search) !== false) || (strpos(strtolower($book_author_name), $search) !== false) || (strpos(strtolower($book_category_name), $search) !== false)) {
                         $found = true;
                         $searchdata = "visible";
-                    }else{
+                    } else {
                         $searchdata = "hidden";
                     }
-                        
+
                     if (!$found) {
                         $data_not_found = '<p class="w-full h-full grid place-items-center">Data not found</p>';
                     }
@@ -151,29 +165,29 @@ if (!empty($fetch_book_data_from_db)){
                     // }
                     // $more_images = '<svg class="w-20 h-20 absolute top-0 right-0 inset-0 text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. --><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM200 344V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H248v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"></path></svg>'
                     // if (empty($data_not_found)) {
-                        ?>
-                        <article class="<?php echo $searchdata ?> w-40 h-52 text-center relative ">
-                            <div class="w-full h-full rounded-xl space-y-4">
-                                <!-- <a href="fetch_categories_books?book_category=<?php echo $book_name ?>"
+                    ?>
+                    <article class="<?php echo $searchdata ?> w-40 h-52 text-center relative ">
+                        <div class="w-full h-full rounded-xl space-y-4">
+                            <!-- <a href="fetch_categories_books?book_category=<?php echo $book_name ?>"
                                 class=" absolute inset-0 z-10"></a> -->
-                                <a href="../rented_book_details/buy_book?book_id=<?php echo $book_id ?>"
-                                    class=" absolute inset-0 z-10"></a>
-                                <img src="../../Image/<?php echo $book_image ?>" alt="Book1"
-                                    class="w-full h-full object-cover rounded-xl">
+                            <a href="../rented_book_details/buy_book?book_id=<?php echo $book_id ?>"
+                                class=" absolute inset-0 z-10"></a>
+                            <img src="../../Image/<?php echo $book_image ?>" alt="Book1"
+                                class="w-full h-full object-cover rounded-xl">
 
-                                <h2 class="font-bold text-lg">
-                                    <?php echo $book_name ?>
-                                </h2>
+                            <h2 class="font-bold text-lg">
+                                <?php echo $book_name ?>
+                            </h2>
 
-                            </div>
-                        </article>
-                    <?php } 
+                        </div>
+                    </article>
+                <?php }
                 // }
-                if (!empty($data_not_found)) {
+                
                     // echo (!in_array('visible', $data)) ? ($data_not_found = '<p class="w-full h-full p-1 grid place-items-center text-xl">Data not found</p>') : '';
                     echo $data_not_found;
-                }
-                 ?>
+                
+                ?>
 
             </div>
         </section>
@@ -181,11 +195,11 @@ if (!empty($fetch_book_data_from_db)){
             <h2 class="font-bold text-3xl">User Reviews</h2>
             <div class=" overflow-scroll w-full grid grid-cols-3 gap-4 p-4 border shadow">
                 <?php
-                foreach ($fetch_user_review_data_from_db as $value) {
+                foreach ($user_review_table_data as $value) {
+                    $user_name = isset($value[0]) ? $value[0] : '';
                     $user_email = isset($value[1]) ? $value[1] : '';
-                    $user_name = isset($value[2]) ? $value[2] : '';
-                    $user_review = isset($value[3]) ? $value[3] : '';
-                    $user_rating = isset($value[4]) ? $value[4] : '';
+                    $user_review = isset($value[2]) ? $value[2] : '';
+                    $user_rating = isset($value[3]) ? $value[3] : '';
                     ?>
                     <article
                         class="w-full max-w-xl h-64 border rounded-xl flex items-center justify-center px-5 py-8 bg-white relative">
@@ -206,12 +220,16 @@ if (!empty($fetch_book_data_from_db)){
                                         ?>
                                     </div>
                                     <div class="grid">
-                                    <h2 class=" text-lg font-semibold">
-                                        <?php echo $user_name ?>
-                                    </h2>
-                                    <span class="font-medium pb-1 text-sm"><?php echo $user_email ?></span>
+                                        <h2 class=" text-lg font-semibold">
+                                            <?php echo $user_name ?>
+                                        </h2>
+                                        <span class="font-medium text-sm">
+                                            <?php echo $user_email ?>
+                                        </span>
                                     </div>
-                                    <i class=""><?php echo $user_review ?></i>
+                                    <i class="">
+                                        <?php echo $user_review ?>
+                                    </i>
                                 </div>
                                 <div class=" font-semibold text-primary dark:text-primary-500">
                                     <?php if ($user_rating == 5) { ?>
@@ -328,12 +346,7 @@ if (!empty($fetch_book_data_from_db)){
                                         </div>
                                     <?php } ?>
                                 </div>
-                                <p class="mb-4 space-y-2">
 
-                                    <!-- <span class="pt-2">
-                                        <?php // echo $user_review ?>
-                                    </span> -->
-                                </p>
                             </div>
 
 

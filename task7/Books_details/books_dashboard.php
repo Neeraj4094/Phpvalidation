@@ -18,7 +18,8 @@ $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablena
 
 
 $search = $dataimage = $data_not_found = $not_found = '';
-$data = [];
+// $data = [];
+$found = false;
 if (isset($_POST['search'])) {
     $search = strtolower($_POST['search']);
 }
@@ -98,9 +99,9 @@ if (isset($_POST['search'])) {
                     $no_delete = '<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M3.93931 5L2.21966 3.28032C1.92677 2.98743 1.92678 2.51255 2.21968 2.21966C2.51257 1.92677 2.98745 1.92678 3.28034 2.21968L21.7801 20.7198C22.073 21.0127 22.073 21.4876 21.7801 21.7805C21.4872 22.0734 21.0123 22.0734 20.7194 21.7805L18.5293 19.5903C17.9867 21.0098 16.6131 22 15.0263 22H8.97369C7.04254 22 5.42715 20.5334 5.24113 18.6112L4.06908 6.5H2.75C2.33579 6.5 2 6.16421 2 5.75C2 5.33579 2.33579 5 2.75 5H3.93931ZM17.2782 18.3392L15 16.0609V17.25C15 17.6642 14.6642 18 14.25 18C13.8358 18 13.5 17.6642 13.5 17.25V14.5609L10.5 11.5608V17.25C10.5 17.6642 10.1642 18 9.75 18C9.33579 18 9 17.6642 9 17.25V10.0608L5.59074 6.65147L6.73416 18.4667C6.84577 19.62 7.815 20.5 8.97369 20.5H15.0263C16.185 20.5 17.1542 19.62 17.2658 18.4667L17.2782 18.3392ZM13.5 10.3185L15 11.8186V9.75C15 9.33579 14.6642 9 14.25 9C13.8358 9 13.5 9.33579 13.5 9.75V10.3185ZM18.4239 6.5L17.6525 14.4711L19.0265 15.8452L19.9309 6.5H21.25C21.6642 6.5 22 6.16421 22 5.75C22 5.33579 21.6642 5 21.25 5H15.5C15.5 3.067 13.933 1.5 12 1.5C10.067 1.5 8.5 3.067 8.5 5H8.18156L9.68153 6.5H18.4239ZM14 5H10C10 3.89543 10.8954 3 12 3C13.1046 3 14 3.89543 14 5Z" fill="currentColor"></path></svg>';
                     foreach ($admin_fetch_data_from_db as $item) {
                         $book_id = $item[0];
-                        $book_name_in_db = ucwords($item[1]);
-                        $author_name_in_db = $item[2];
-                        $category_name_in_db = $item[3];
+                        $book_name = ucwords($item[1]);
+                        $author_name = $item[2];
+                        $category_name = $item[3];
                         $total_book_copies = $item[4];
                         $book_price = $item[5];
                         $book_description = $item[6];
@@ -112,16 +113,25 @@ if (isset($_POST['search'])) {
                         $create_date = $date->date_time_in_india($book_created_date);
                         $modify_date = $date->date_time_in_india($book_modified_date);
 
-                        if (!empty($search)) {
-                            if (($search == strtolower($book_name_in_db)) || ($search == strtolower($author_name_in_db)) || ($search == strtolower($category_name_in_db))) {
-                                $searchdata = "visible";
-                                $data[] = $searchdata;
-                            } else {
-                                $searchdata = "hidden";
-                                $data[] = $searchdata;
-                            }
+                        // if (!empty($search)) {
+                        //     if (($search == strtolower($book_name)) || ($search == strtolower($author_name)) || ($search == strtolower($category_name))) {
+                        //         $searchdata = "visible";
+                        //         $data[] = $searchdata;
+                        //     } else {
+                        //         $searchdata = "hidden";
+                        //         $data[] = $searchdata;
+                        //     }
+                        // }
+                        
+                        if ((strpos(strtolower($book_name), $search) !== false) || (strpos(strtolower($author_name), $search) !== false) || (strpos(strtolower($category_name), $search) !== false)) {
+                            $found = true;
+                            $searchdata = "visible";
+                        }else{
+                            $searchdata = "hidden";
                         }
-
+                            
+                        $data_not_found = (!$found) ? ('<p class="w-full h-full grid place-items-center">Data not found</p>') : '';
+                        
                         ?>
                         <div class="<?php echo $searchdata ?> py-2 mt-2 <?php ?>  rounded-md border w-full shadow">
                             <div class=" flex justify-between items-center p-2 gap-4 w-full ">
@@ -143,15 +153,15 @@ if (isset($_POST['search'])) {
                                             <div>
                                                 <div class="flex items-center gap-4">
                                                     <h2 class="<?php echo "Color" ?> ">
-                                                        <?php echo "Book: " . $book_name_in_db ?>
+                                                        <?php echo "Book: " . $book_name ?>
                                                     </h2>
                                                     <p class=" px-1 rounded-md bg-purple-600 text-white">
-                                                        <?php echo $category_name_in_db ?>
+                                                        <?php echo $category_name ?>
                                                     </p>
                                                 </div>
 
                                                 <p>
-                                                    <?php echo "Author :- " . $author_name_in_db ?>
+                                                    <?php echo "Author :- " . $author_name ?>
                                                 </p>
                                                 <div class="flex gap-6 items-center ">
                                                     <p>Created :-
@@ -195,12 +205,7 @@ if (isset($_POST['search'])) {
                     <?php }
                 } ?>
                 <span>
-                    <?php if (!empty($data)) {
-                        if (!in_array('visible', $data)) {
-                            $data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>';
-                        }
-                        echo $data_not_found;
-                    } ?>
+                    <?php echo $data_not_found ?>
                 </span>
             </div>
         </div>

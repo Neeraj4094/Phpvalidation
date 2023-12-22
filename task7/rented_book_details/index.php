@@ -17,6 +17,8 @@ if(!empty($id)){
     $thanks_page_url = "thankspage.php";
     $delete_cart_path = '/delete_cart?' . $id;
     $delete_cart_url = 'delete_cart.php';
+    $user_rented_book_path = '/rented_book?'. $id;
+    $user_rented_book_url = 'rented_book_dashboard.php';
 }else{
     $update_path = '';
     $delete_path = '';
@@ -29,7 +31,7 @@ if(!empty($id)){
     $thanks_page_url = '';
     $thanks_path = '';
     $book_page_url = '';
-    $book_path = $reset_password_path = $reset_password_url = '';
+    $book_path = $reset_password_path = $reset_password_url = $user_rented_book_path = $user_rented_book_url = '';
 }
 
 include '../view/index.php';

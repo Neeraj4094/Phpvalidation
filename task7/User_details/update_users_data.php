@@ -15,7 +15,7 @@ include './user_validation.php';
 <body class="bg-slate-100">
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
-        // echo $errmsg;
+        echo $errmsg;
         
         ?>
     </h2>
@@ -56,7 +56,7 @@ include './user_validation.php';
                     <div class="">
                         <label for="password">Password</label>
                         <input type="password" name="password" id="password" placeholder="Password"
-                            class="border rounded-sm w-full p-1" value="<?php echo $user_loggedin_password ?>">
+                            class="border rounded-sm w-full p-1" value="<?php echo $password ?>">
                         <span class="text-red-600 text-sm max-w-xs w-60">* <small>
                                 <?php echo $err_password ?>
                             </small></span>

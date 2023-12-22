@@ -31,6 +31,9 @@ if (empty($delete_path)) {
 if (empty($book_return_path)) {
     $book_return_path = $book_return_page_url = '';
 }
+if(empty($user_logout_url)){
+    $user_logout_url = $user_logout_path = '';
+}
 
 $routes = [
     '/' => 'book_home.php',
@@ -41,6 +44,7 @@ $routes = [
     '/users' => 'user_dashboard.php',
     '/user_review' => 'user_reviews.php',
     '/add_users' => 'add_users.php',
+    '/delete_user' => 'delete_user.php',
     $category_path => $category_page_url,
     $user_orders_path => $user_order_page_url,
     $book_return_path => $book_return_page_url,
@@ -48,6 +52,7 @@ $routes = [
     $lock_user_path => $lock_user_url,
     $delete_path => $delete_page_url,
     $user_status_path => $user_status_url,
+    $user_logout_url => $user_logout_path,
 ];
 function error_msg()
 {

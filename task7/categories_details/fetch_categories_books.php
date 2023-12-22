@@ -10,10 +10,9 @@ $fetch_category_name_query = $fetch_data_from_db->fetchiddata('books_details', $
 $fetch_category_name_data = mysqli_fetch_all($fetch_category_name_query);
 // print_r($fetch_category_name_data);
 $cancel_login = '';
+$found = false;
+$search = isset($_POST['search']) ? strtolower($_POST['search']) : '';
 
-if (isset($_POST['search'])) {
-    $search = strtolower($_POST['search']);
-}
 // echo "<pre>";
 // // print_r($fetch_category_name_data);
 // echo "</pre>";
@@ -40,7 +39,7 @@ if (isset($_POST['search'])) {
         <?php include '../home_page/home_header.php' ?>
     </header>
     <div class="absolute right-4 top-16">
-        <form action="fetch_categories_books" method="post" class="flex items-center gap-1 relative z-20 py-4">
+        <form action="fetch_categories_books?book_category=<?php echo $category_name ?>" method="post" class="flex items-center gap-1 relative z-20 py-4">
             <input type="search" name="search" id="search"
                 class="border shadow rounded-lg outline-none p-1 pl-3 text-lg w-80" placeholder="Search any book...">
             <button type="submit"
@@ -55,41 +54,51 @@ if (isset($_POST['search'])) {
         </form>
     </div>
     <section class="w-full h-full px-2 py-7 pt-16 grid place-items-center space-y-6 ">
-        <h2 class="font-bold text-3xl underline">Categories Books</h2>
+        <h2 class="font-bold text-3xl underline"><?php echo $category_name ?> Books</h2>
         <div class="flex gap-40 flex-wrap items-center justify-center py-2 mb-10 h-full">
-            <?php foreach ($fetch_category_name_data as $key => $value) {
+            <?php foreach ($fetch_category_name_data as $value) {
                 $category_id = isset($value[0]) ? $value[0] : '';
-                $actual_book_name = ucwords(isset($value[1]) ? $value[1] : '');
-                $actual_author_name = ucwords(isset($value[2]) ? $value[2] : '');
-                $actual_book_image = isset($value[10]) ? $value[10] : '';
+                $book_name = ucwords(isset($value[1]) ? $value[1] : '');
+                $book_category = ucwords(isset($value[6]) ? $value[6] : '');
+                $book_author_name = ucwords(isset($value[2]) ? $value[2] : '');
+                $book_image = isset($value[10]) ? $value[10] : '';
                 $book_price = isset($value[5]) ? $value[5] : '';
 
-                if (!empty($search)) {
-                    if (($search == strtolower($actual_book_name))) {
-                        $searchdata = "visible";
-                        $data[] = $searchdata;
-                    } else {
-                        $searchdata = "hidden";
-                        $data[] = $searchdata;
-                    }
+                // if (!empty($search)) {
+                //     if (($search == strtolower($book_name))) {
+                //         $searchdata = "visible";
+                //         $data[] = $searchdata;
+                //     } else {
+                //         $searchdata = "hidden";
+                //         $data[] = $searchdata;
+                //     }
+                // }
+
+                if ((strpos(strtolower($book_name), $search) !== false) || (strpos(strtolower($book_author_name), $search) !== false)) {
+                    $found = true;
+                    $searchdata = "visible";
+                }else{
+                    $searchdata = "hidden";
                 }
+                    
+                $data_not_found = (!$found) ? ('<p class="w-full h-full grid place-items-center">Data not found</p>') : '';
                 ?>
                 <article class="<?php echo $searchdata ?> w-40 h-52 border text-center rounded-xl cursor-pointer relative">
                     <a href="../rented_book_details/buy_book?book_id=<?php echo $category_id ?>"
                         class=" absolute inset-0 z-10"></a>
                     <div class="w-full h-full rounded-xl relative">
-                        <img src="../../Image/<?php echo $actual_book_image ?>" alt="Book1"
+                        <img src="../../Image/<?php echo $book_image ?>" alt="Book1"
                             class="w-full h-full object-cover rounded-xl">
                     </div>
                     <h2 class="font-bold text-lg">
-                        <?php echo $actual_book_name ?>
+                        <?php echo $book_name ?>
                     </h2>
                     <p class="font-medium ">
-                        <?php echo $actual_author_name ?>
+                        <?php echo $book_author_name ?>
                     </p>
                     <!-- <span class="font-bold text-xl pb-6"><?php echo "$" . $book_price ?></span> -->
                 </article>
-            <?php } ?>
+            <?php } echo $data_not_found ?>
 
         </div>
     </section>

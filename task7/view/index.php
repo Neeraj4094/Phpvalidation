@@ -35,7 +35,10 @@ if (empty($update_path)) {
 }
 if (empty($reset_password_path)) {
     $reset_password_path = $reset_password_url = '';
+}
 
+if(empty($user_rented_book_path)){
+    $user_rented_book_path = $user_rented_book_url = '';
 }
 
 // echo $delete_cart_path;
@@ -58,6 +61,7 @@ $routes = [
     $book_path => $book_page_url,
     $delete_cart_path => $delete_cart_url,
     $reset_password_path => $reset_password_url,
+    $user_rented_book_path => $user_rented_book_url,
     '/admin_registeration' => 'admin_registeration.php',
     '/books' => 'books_dashboard.php',
     '/add_books' => 'add_books.php',

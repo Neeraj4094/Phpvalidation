@@ -25,7 +25,8 @@ foreach ($admin_fetch_data_from_db as $row) {
 // echo "</pre>";
 
 $search = $dataimage = $data_not_found = $not_found = '';
-$data = [];
+// $data = [];
+$found = false;
 if (isset($_POST['search'])) {
     $search = strtolower($_POST['search']);
 }
@@ -91,7 +92,8 @@ if (isset($_POST['search'])) {
                 <?php
                 if (empty($admin_fetch_data_from_db)) {
                     echo $add_books;
-                } else {
+                } 
+                // else {
                     $edit = '<svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" stroke="none" viewBox="0 0 24 24">
                     <path d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"></path>
                     <path d="M19 19H8.158c-.026 0-.053.01-.079.01-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2V19z"></path>
@@ -101,23 +103,33 @@ if (isset($_POST['search'])) {
                     $no_delete = '<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M3.93931 5L2.21966 3.28032C1.92677 2.98743 1.92678 2.51255 2.21968 2.21966C2.51257 1.92677 2.98745 1.92678 3.28034 2.21968L21.7801 20.7198C22.073 21.0127 22.073 21.4876 21.7801 21.7805C21.4872 22.0734 21.0123 22.0734 20.7194 21.7805L18.5293 19.5903C17.9867 21.0098 16.6131 22 15.0263 22H8.97369C7.04254 22 5.42715 20.5334 5.24113 18.6112L4.06908 6.5H2.75C2.33579 6.5 2 6.16421 2 5.75C2 5.33579 2.33579 5 2.75 5H3.93931ZM17.2782 18.3392L15 16.0609V17.25C15 17.6642 14.6642 18 14.25 18C13.8358 18 13.5 17.6642 13.5 17.25V14.5609L10.5 11.5608V17.25C10.5 17.6642 10.1642 18 9.75 18C9.33579 18 9 17.6642 9 17.25V10.0608L5.59074 6.65147L6.73416 18.4667C6.84577 19.62 7.815 20.5 8.97369 20.5H15.0263C16.185 20.5 17.1542 19.62 17.2658 18.4667L17.2782 18.3392ZM13.5 10.3185L15 11.8186V9.75C15 9.33579 14.6642 9 14.25 9C13.8358 9 13.5 9.33579 13.5 9.75V10.3185ZM18.4239 6.5L17.6525 14.4711L19.0265 15.8452L19.9309 6.5H21.25C21.6642 6.5 22 6.16421 22 5.75C22 5.33579 21.6642 5 21.25 5H15.5C15.5 3.067 13.933 1.5 12 1.5C10.067 1.5 8.5 3.067 8.5 5H8.18156L9.68153 6.5H18.4239ZM14 5H10C10 3.89543 10.8954 3 12 3C13.1046 3 14 3.89543 14 5Z" fill="currentColor"></path></svg>';
                     foreach ($admin_fetch_data_from_db as $item) {
                         $book_id = $item[0];
-                        $book_category_name = ucwords($item[1]);
+                        $category_name = ucwords($item[1]);
                         $book_image_name = $item[2];
                         $category_image_in_db = $item[3];
                         $total_book_copies = $item[4];
 
 
-                        if (!empty($search)) {
-                            if (($search == strtolower($book_category_name))) {
-                                $searchdata = "visible";
-                                $data[] = $searchdata;
-                            } else {
-                                $searchdata = "hidden";
-                                $data[] = $searchdata;
-                            }
-                        }
+                        // if (!empty($search)) {
+                        //     if (($search == strtolower($category_name))) {
+                        //         $searchdata = "visible";
+                        //         $data[] = $searchdata;
+                        //     } else {
+                        //         $searchdata = "hidden";
+                        //         $data[] = $searchdata;
+                        //     }
+                        // }
 
-                        $fetch_book_copies = $fetch_data_from_db->fetch_data('books_details', 'book_copies', $book_category_name, $conn, 'book_category');
+                        if ((strpos(strtolower($category_name), $search) !== false)) {
+                            $found = true;
+                            $searchdata = "visible";
+                        }else{
+                            $searchdata = "hidden";
+                        }
+                            
+                        $data_not_found = (!$found) ? ('<p class="w-full h-full grid place-items-center">Data not found</p>') : '';
+                        
+
+                        $fetch_book_copies = $fetch_data_from_db->fetch_data('books_details', 'book_copies', $category_name, $conn, 'book_category');
                         $total = count($fetch_book_copies);
                         $book_copies = array_sum(array_map('array_sum', $fetch_book_copies));
 
@@ -142,7 +154,7 @@ if (isset($_POST['search'])) {
                                             <div>
                                                 <div class="flex items-center gap-4">
                                                     <h2 class=" font-semibold">
-                                                        <?php echo "Category: " . $book_category_name ?>
+                                                        <?php echo "Category: " . $category_name ?>
                                                     </h2>
 
                                                 </div>
@@ -184,14 +196,11 @@ if (isset($_POST['search'])) {
                             </div>
                         </div>
                     <?php }
-                } ?>
+                // } ?>
                 <span>
-                    <?php if (!empty($data)) {
-                        if (!in_array('visible', $data)) {
-                            $data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>';
-                        }
+                    <?php 
                         echo $data_not_found;
-                    } ?>
+                     ?>
                 </span>
             </div>
         </div>

@@ -17,13 +17,13 @@ include 'books_return_validation.php';
 </head>
 
 <body class=" bg-slate-100">
-    <h2 class="w-full border text-center bg-green-50 text-green-800 fixed top-0 shadow">
+    <h2 class="w-full border text-center bg-green-50 z-50 text-green-800 fixed top-0 shadow">
         <?php
         echo $errmsg;
 
         ?>
     </h2>
-    <header class="sticky z-50 top-0">
+    <header class="sticky z-30 top-0">
         <?php include '../home_page/home_header.php' ?>
     </header>
     <form method="post" action="" class="flex w-full p-4 py-2">

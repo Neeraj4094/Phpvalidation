@@ -10,7 +10,7 @@ $tablename = "user_details";
 if (empty($check_email)) {
     $check_email = [];
 }
-$user_loggedin_password = isset($_SESSION['login']['password']) ? $_SESSION['login']['password'] : '';
+// $user_loggedin_password = isset($_SESSION['login']['password']) ? $_SESSION['login']['password'] : '';
 
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -19,26 +19,28 @@ $send_data_to_db = new send_data_to_db();
 $fetch_data_from_db = new fetch_db_data();
 $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablename);
 $check_email = $fetch_data_from_db->searchemail($admin_fetch_data_from_db, $email);
-
-foreach ($check_email as $email_data) {
-    $email_list[] = isset($email_data[2]) ? $email_data[2] : '';
-    $password_list = isset($email_data[3]) ? $email_data[3] : '';
-    // if(password_verify($password,$password_list)){
-    //     echo "Ok";
-    // }else{
-    //     echo "No";
-    // }
-}
+$check_email_exist = isset($check_email[2]) ? $check_email[2]: '';
+// foreach ($check_email as $email_data) {
+//     $email_list[] = isset($email_data[2]) ? $email_data[2] : '';
+//     $password_list = isset($email_data[3]) ? $email_data[3] : '';
+//     // if(password_verify($password,$password_list)){
+//     //     echo "Ok";
+//     // }else{
+//     //     echo "No";
+//     // }
+// }
+// print_r($check_email_exist);
 
 $check_user_email = $fetch_data_from_db->searchemail($admin_fetch_data_from_db, $login_email);
 $user_status = isset($check_user_email[7]) ? $check_user_email[7] : '';
 $user_login_password = isset($check_user_email[3]) ? $check_user_email[3] : '';
 $id = isset($_GET['id']) ? intval($_GET['id']) : '';
-$user_loggedin_email = isset($_GET['email']) ? $_GET['email'] : '';
+$user_id = isset($_GET['user_id']) ? $_GET['user_id'] : '';
+
 
 $image_upload = new upload_image();
 
-$fetch_id_query = $fetch_data_from_db->fetchiddata('user_details', $user_loggedin_email, $conn, 'user_email');
+$fetch_id_query = $fetch_data_from_db->fetchiddata('user_details', $user_id, $conn, 'user_id');
 $fetch_id_data = mysqli_fetch_all($fetch_id_query);
 
 $fetch_user_name = isset($fetch_id_data[0][1]) ? $fetch_id_data[0][1] : '';
@@ -64,19 +66,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // echo $user_loggedin_password;
             // $column_name = ['user_name','user_email','user_password','user_phone_no','user_address','gender'];
             // $column_data = [$name,$email,$password,$phone_number,$address,$gender];
-            if (!empty($user_loggedin_email)) {
-                if (($email == $fetch_user_email) && password_verify($user_loggedin_password, $hashed_password)) {
+            if (!empty($user_id)) {
+                if (($email == $fetch_user_email)) {
                     // echo "ok";
                     $column_name = ['user_name', 'user_email', 'user_password', 'user_phone_no', 'gender'];
                     $column_data = [$name, $email, $hashed_password, $phone_number, $gender];
-                    print_r($column_data);
-                    $update_user = $send_data_to_db->update_to_tb($tablename, $column_name, $column_data, 'user_email', $user_loggedin_email, $conn);
-                    if (!$update_user) {
-                        echo "Error: " . mysqli_error($conn);
-                    } else {
-                        header("location: ../home_page");
-                    }
-                } elseif ((!in_array($email, $email_list))) {
+                    
+                    $update_user = $send_data_to_db->update_to_tb($tablename, $column_name, $column_data, 'user_id', $user_id, $conn);
+                    echo (!$update_user) ? ("Error: " . mysqli_error($conn)) : '';
+                    header("location: ../home_page");
+                    // if  {
+                    //     echo ;
+                    // } else {
+                    //     ;
+                    // }
+                } elseif ((!in_array($email, $check_email))) {
                     $column_name = ['user_name', 'user_email', 'user_password', 'user_phone_no', 'gender'];
                     $column_data = [$name, $email, $hashed_password, $phone_number, $gender];
                     $session_login[] = isset($_SESSION['login']) ? $_SESSION['login'] : '';
@@ -84,26 +88,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $_SESSION['login'] = ["email" => $email, "password" => $password];
                     // }
                     // $_SESSION['login'] = ["email" => $login_email, "password" => $login_password];
-                    $update_user = $send_data_to_db->update_to_tb($tablename, $column_name, $column_data, 'user_email', $user_loggedin_email, $conn);
-
-                    if (!$update_user) {
-                        echo "Error: " . mysqli_error($conn);
-                    } else {
-                        header("location: ../home_page");
-                    }
+                    $update_user = $send_data_to_db->update_to_tb($tablename, $column_name, $column_data, 'user_id', $user_id, $conn);
+                    echo (!$update_user) ? ("Error: " . mysqli_error($conn)) : '';
+                    header("location: ../home_page");
+                    // if (!$update_user) {
+                    //     echo "Error: " . mysqli_error($conn);
+                    // } else {
+                    //     header("location: ../home_page");
+                    // }
                 } else {
-                    echo "No";
+                    $errmsg = "This email already exists";
                 }
             } else {
                 if (!in_array($email, $check_email)) {
                     $column_name = ['user_name', 'user_email', 'user_password', 'user_phone_no', 'user_address', 'gender', 'user_status'];
                     $row_data = [$name, $email, $hashed_password, $phone_number, $address, $gender, $lock_user];
                     $insert_user = $send_data_to_db->insertindb($tablename, $column_name, $row_data, $conn);
-                    if (!$insert_user) {
-                        echo "Error: " . mysqli_error($conn);
-                    } else {
-                        header("location: ./user_login");
-                    }
+                    echo (!$insert_user) ? ("Error: " . mysqli_error($conn)) : '';
+                    header("location: ./user_login");
+                    // if (!$insert_user) {
+                    //     echo "Error: " . mysqli_error($conn);
+                    // } else {
+                    // }
                 } else {
                     $errmsg = "This email already exists";
                 }
@@ -121,7 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $user_actual_status = isset($data[7]) ? $data[7] : '';
                     if ($user_status != 'Blocked') {
                         if (in_array($login_email, $check_user_email) && password_verify($login_password, $user_login_password)) {
-                            $_SESSION['login'] = ["email" => $login_email, "password" => $login_password];
+                            $_SESSION['login'] = ["email" => $login_email];
                             header("location: ../home_page");
                         } else {
                             $errmsg = "Email & password not matched";

@@ -1,9 +1,9 @@
 <?php
 include 'book_categories_validation.php';
-if (!empty($err_image)) {
-    if (is_array($err_image)) {
+if (!empty($err_image) && (is_array($err_image))) {
+    // if  {
         $err_image = '';
-    }
+    // }
 }
 ?>
 

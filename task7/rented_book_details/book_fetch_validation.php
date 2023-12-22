@@ -43,8 +43,6 @@ if (empty($buy_book_id)) {
         $cart_book_id_query = $fetch_data_from_db->fetchiddata('books_details', $item, $conn, 'book_id');
         $cart_book_id_data[] = mysqli_fetch_all($cart_book_id_query);
     }
-    
-    
 } else {
     $fetch_buy_book_id_query = $fetch_data_from_db->fetchiddata('books_details', $buy_book_id, $conn, 'book_id');
     $cart_book_id_data[] = mysqli_fetch_all($fetch_buy_book_id_query);
@@ -64,15 +62,13 @@ $fetch_rented_book_user_data = mysqli_fetch_all($fetch_rented_book_user_query);
 
 $fetch_rented_book_data = $fetch_data_from_db->fetchdatafromdb($conn, 'rented_book_details');
 $user_order_book_id = $buy_book_id;
-echo "<pre>";
+
+// echo "<pre>";
 // print_r($buy_book_id);
-echo "</pre>";
+// echo "</pre>";
 if(!empty($fetch_rented_book_user_data)){
-    if(!empty($buy_book_id)){
-    $book_id_array[] = $buy_book_id;
-    }else{
-        $book_id_array = $cart_item_array;
-    }
+    $book_id_array[] = (!empty($buy_book_id))? $buy_book_id : $cart_item_array;
+
     foreach($book_id_array as $buy_book_id){
         foreach($fetch_rented_book_user_data as $order_data){
             $user_unique_id = isset( $order_data[1] ) ? $order_data[1] :"";
@@ -97,12 +93,10 @@ if(!empty($fetch_rented_book_user_data)){
     }
     
     $order_status = "Exist";
-    if(!in_array($order_status, $user_status)){
-        $check_order_status = true;
-    }else{
-        $errmsg = "You have already purchase this book";
-        $check_order_status = '';
-    }
+    (!in_array($order_status, $user_status)) 
+       ? ($check_order_status = true)
+       : ($errmsg = "You have already purchase this book") && ($check_order_status = '');
+    
 }else{
     $check_order_status = true;
 }
@@ -120,10 +114,10 @@ $fetch_user_id_data = mysqli_fetch_all($fetch_user_id_query);
 
 
 if(!empty($fetch_user_id_data)){
-foreach ($fetch_user_id_data as $data) {
-    $book_id_list[] = isset($data[1]) ? $data[1] : '';
-    $user_id_list[] = isset($data[2]) ? $data[2] : '';
-}
+    foreach ($fetch_user_id_data as $data) {
+        $book_id_list[] = isset($data[1]) ? $data[1] : '';
+        $user_id_list[] = isset($data[2]) ? $data[2] : '';
+    }
 }else{
     $book_id_list = $user_id_list= [];
 }
@@ -137,7 +131,15 @@ if(!empty($fetch_rented_book_user_data)){
     $order_book_id_list = $fetch_rented_book_user_data =[];
 }
 
-// print_r($fetch_user_id_data);
+foreach ($cart_book_id_data as $data) {
+    $book_name = !empty($data[0][1]) ? ucwords($data[0][1]) : '';
+    $book_copies = !empty($data[0][4]) ? $data[0][4] : '';
+    
+    if(empty($book_copies)){
+        $errmsg = "Sorry, $book_name is Out of stock";
+    }
+}
+
 // foreach ($cart_book_id_data as $data) {
 //     $book_price = !empty($data[0][5]) ? $data[0][5] : '';
     
@@ -159,18 +161,16 @@ if(!empty($fetch_rented_book_user_data)){
 
 $err_returned_date = $err_address = $err_state = $err_city = $err_postal_code = $err_payment_method = $err_name_on_card = $err_card_number = $err_card_expiration_date = $err_cvc = $err_charges = '';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (($_SERVER["REQUEST_METHOD"] == "POST") && (isset($_POST['rent_now']))) {
     // if($book_status){
-        if (isset($_POST['rent_now'])) {
+        // if  {
         // echo "<pre>";
         // print_r($cart_book_id_data);
         // echo "</pre>";
-        if ($email != $login_email) {
-            $err_email = "Email not matched with login email";
-        } else {
-            $user_email = $email;
-            $err_email = $admin_entered_details->email_match($user_email);
-        }
+        ($email != $login_email) 
+            ? ($err_email = "Email not matched with login email")
+            : ($user_email = $email) && ($err_email = $admin_entered_details->email_match($user_email));
+        
         // $err_returned_date = $admin_entered_details->check_empty($book_return_date);
         $err_address = $admin_entered_details->check_empty($address);
         $err_state = $admin_entered_details->name_validation($user_state);
@@ -187,9 +187,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // if ($book_charges == $rented_book_charges) {
                 
                 if($check_order_status){
-                    echo "Ok";
+                    
                     foreach ($cart_book_id_data as $data) {
-                        $book_id = !empty($data[0][0]) ? ucwords($data[0][0]) : '';
+                        $book_id = !empty($data[0][0]) ? ($data[0][0]) : '';
+                        $book_copies = !empty($data[0][4]) ? $data[0][4] : '';
                         $book_price = !empty($data[0][5]) ? $data[0][5] : '';
                         $payment_status = "Pending";
                         $book_charges = ($book_price / 100);
@@ -202,15 +203,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         // echo "<pre>";
                         // print_r($column_data);
                         // echo "</pre>";
-                        if(empty($fetch_rented_book_data)){
-                            $insert_rented_book_details[] = $send_data_to_db->insertindb('rented_book_details', $column_name, $column_data, $conn);
-                        }else{
-                            
-                                $insert_rented_book_details[] = $send_data_to_db->insertindb('rented_book_details', $column_name, $column_data, $conn);
-                            
+                        $insert_rented_book_details[] = (empty($fetch_rented_book_data))
+                            ? ($send_data_to_db->insertindb('rented_book_details', $column_name, $column_data, $conn))
+                            :  $insert_rented_book_details[] = $send_data_to_db->insertindb('rented_book_details', $column_name, $column_data, $conn);
+
+                        $fail = 0;
+                        if (in_array($fail, $insert_rented_book_details)) {
+                            echo "Error: " . mysqli_error($conn);
+                        } else {
+                            $book_copies_column = ['book_copies'];
+                            $book_copies = $book_copies - 1;
+                            $book_copies_data = [$book_copies];
+                            $db_book_details = $send_data_to_db->update_to_tb('books_details', $book_copies_column, $book_copies_data, 'book_id', $book_id, $conn);
+                        }
+                        if (!$db_book_details) {
+                            echo "Error: " . mysqli_error($conn);
                         }
 
                     }
+                    header("location: thankspage?" . $product_name . "=" . $item_id);
                 // if (!empty($buy_book_id)) {
                 //     foreach ($fetch_rented_book_user_data as $data) {
                 //         $user_db_email = $data[1];
@@ -244,7 +255,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 
                 // print_r($rented_book_table_email);
-                $fail = 0;
+                
                 // if (!in_array($fail, $success)) {
                 //     foreach ($cart_book_id_data as $data) {
                 //         $book_id = !empty($data[0][0]) ? ucwords($data[0][0]) : '';
@@ -259,9 +270,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         // $insert_rented_book_details[] = $send_data_to_db->insertindb('rented_book_details', $column_name, $column_data, $conn);
 
                     // }
-                    if (in_array($fail, $insert_rented_book_details)) {
-                        echo "Error: " . mysqli_error($conn);
-                    } else {
+                    // if (in_array($fail, $insert_rented_book_details)) {
+                    //     echo "Error: " . mysqli_error($conn);
+                    // } else {
                     //     if (empty($buy_book_id)) {
                     //         foreach ($rented_book_copies as $copies) {
                     //             $book_copies_column = ['book_copies'];
@@ -279,8 +290,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     //         echo "Error: " . mysqli_error($conn);
                     //     }
 
-                        header("location: thankspage?" . $product_name . "=" . $item_id);
-                    }
+                        // header("location: thankspage?" . $product_name . "=" . $item_id);
+                    // }
                 
                 } else {
                     $errmsg = "You have already purchase this book";
@@ -304,20 +315,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //     $errmsg = "Please select any item";
             // }
         // }
-    }
+    // }
 
 }
 
 
-$currentDate = date('Y-m-d');
-$actual_return_date = "2023-12-24";
+// $currentDate = date('Y-m-d');
+// $actual_return_date = "2023-12-24";
 
-$startDate = new DateTime($currentDate);
-$endDate = new DateTime($actual_return_date);
+// $startDate = new DateTime($currentDate);
+// $endDate = new DateTime($actual_return_date);
 
-$interval = $startDate->diff($endDate);
-$daysSpent = $interval->days;
+// $interval = $startDate->diff($endDate);
+// $daysSpent = $interval->days;
 
-$futureDate = date('Y-m-d', strtotime($currentDate . " + $book_return_date days"));
+// $futureDate = date('Y-m-d', strtotime($currentDate . " + $book_return_date days"));
 
 ?>

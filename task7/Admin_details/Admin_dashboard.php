@@ -4,21 +4,16 @@ include '../authentication.php';
 
 if ($_SESSION['admin'] == null) {
     header("location: ./admin_login");
-} else {
-    $page = "Details";
-    
 }
+
+$found = false;
 if (empty($admin_logged_in_name)) {
     $admin_logged_in_name = "";
 }
-
 $search = $dataimage = $data_not_found = $not_found = '';
-$data = [];
-if (isset($_POST['search'])) {
-    $search = strtolower($_POST['search']);
-}
+// $data = [];
 
-$hashed_password = password_hash($admin_logged_in_password, PASSWORD_DEFAULT);
+$search = isset($_POST['search']) ? strtolower($_POST['search']) : '';
 
 ?>
 
@@ -111,16 +106,25 @@ $hashed_password = password_hash($admin_logged_in_password, PASSWORD_DEFAULT);
                     $textcolor = $check ? 'font-bold' : 'font-semibold';
                     $circlecolor = $check ? 'bg-blue-800' : 'bg-indigo-600';
                     $textcol = $check ? 'font-semibold' : 'font-normal';
-                    if (!empty($search)) {
-                        if (($search == strtolower($username)) || ($search == strtolower($useremail)) || ($search == strtolower($user_phone_number))) {
-                            $searchdata = "visible";
-                            $data[] = $searchdata;
-                        } else {
-                            $searchdata = "hidden";
-                            $data[] = $searchdata;
-                        }
-                    }
+                    // if (!empty($search)) {
+                    //     if (($search == strtolower($username)) || ($search == strtolower($useremail)) || ($search == strtolower($user_phone_number))) {
+                    //         $searchdata = "visible";
+                    //         $data[] = $searchdata;
+                    //     } else {
+                    //         $searchdata = "hidden";
+                    //         $data[] = $searchdata;
+                    //     }
+                    // }
 
+                    if ((strpos(strtolower($username), $search) !== false) || (strpos(strtolower($useremail), $search) !== false) || (strpos(strtolower($user_phone_number), $search) !== false)) {
+                        $found = true;
+                        $searchdata = "visible";
+                    }else{
+                        $searchdata = "hidden";
+                    }
+                        
+                    $data_not_found = (!$found) ? ('<p class="w-full h-full grid place-items-center">Data not found</p>') : '';
+                    
                     ?>
                     <div
                         class="<?php echo $searchdata; ?> gap-2 py-2 mt-2 <?php echo $boxColor ?>  rounded-md border w-full shadow">
@@ -189,12 +193,7 @@ $hashed_password = password_hash($admin_logged_in_password, PASSWORD_DEFAULT);
                     </div>
                 <?php } ?>
                 <span>
-                    <?php if (!empty($data)) {
-                        if (!in_array('visible', $data)) {
-                            $data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>';
-                        }
-                        echo $data_not_found;
-                    } ?>
+                    <?php echo $data_not_found ?>
                 </span>
             </div>
         </div>

@@ -143,7 +143,7 @@ trait errorhandler
         } else {
             $errmsg = "Invalid";
         }
-        if((($month == $return_month) && ($year == $return_year) && ($date <= $return_date))){
+        if((($month == $return_month) && ($year == $return_year) && ($date < $return_date)) || (($month < $return_month) || ($year < $return_year))){
             $errmsg = '';
         }else{
             $errmsg = "Invalid";

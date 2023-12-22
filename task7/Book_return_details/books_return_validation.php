@@ -71,8 +71,8 @@ $total_book_charges = $rented_charges + $fine;
 $payment = new book_payment();
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (($_POST['return_now'])) {
+if (($_SERVER["REQUEST_METHOD"] == "POST") && ($_POST['return_now'])) {
+    // if () {
 
         $err_name_on_card = $admin_entered_details->name_validation($user_name_on_card);
         $err_card_number = $admin_entered_details->phone_length($user_card_number, 16);
@@ -90,14 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $rented_book_array = [$book_id, $db_user_id];
                 $rented_book_data = implode(",", $rented_book_array);
-                
-                if (($payment_details != "Success") && ($rented_book_id == $book_id) && ($db_user_id == $user_id)) {
-                    $update_user = $payment->payment($book_id, $conn, $user_id);
-
-                    if (!$update_user) {
-                        echo "Error: " . mysqli_error($conn);
-                    } else {
-                        $success = '<div class="w-full h-screen flex items-center justify-center fixed  left-0 bottom-0 right-0 bg-black/40"><div class="grid font-semibold place-items-center w-80 h-40 border rounded-xl shadow z-20 bg-white text-black relative">
+                $success = '<div class="w-full h-screen flex items-center justify-center fixed  left-0 bottom-0 right-0 bg-black/40"><div class="grid font-semibold place-items-center w-80 h-40 border rounded-xl shadow z-20 bg-white text-black relative">
                             <a href="book_return_form.php?rented_book_details=' . $rented_book_data . '" ><span class="  font-bold text-2xl text-slate-400 absolute right-2 top-2">
                             <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
                             </span></a>
@@ -108,20 +101,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <h2 class=" text-lg font-semibold text-black text-center">Payment Successfull</h2>
                             <a href="../home_page" ><span class="  font-bold rounded-lg p-1 border bg-slate-100">Go to home page</a>
                         </div></div>';
+                // $update = true;
+                $errmsg = ((($payment_details != "Success") && ($rented_book_id == $book_id) && ($db_user_id == $user_id))
+                    ? (($payment->payment($book_id, $conn, $user_id))
+                    ? $success : "Error: " . mysqli_error($conn))
+                    : ("Payment already done"));
+                    // ()
+                    //  $payment->payment($book_id, $conn, $user_id);
+                    // ? ((!$update_user)
+                    // if (!$update_user) {
+                    //     echo "Error: " . mysqli_error($conn);
+                    // } else {
+                        
                         // header("location: ../book_home.php");
                         
-                    }
-                } else {
-                    $errmsg = "Payment already done";
-                }
+                    // }
+                // } else {
+                //     $errmsg = "Payment already done";
+                // }
             }
-            if(empty($rented_charges)){
-            $errmsg = "Payment already done";
-            }
+            $errmsg= (empty($rented_charges)) ? "Payment already done" : '';
+            
         } else {
-            $errmsg = "Please complete the form";
+            $errmsg = "Error: Some payment details are invalid.";
         }
-    }
+    // }
 }
 
 ?>
