@@ -28,7 +28,7 @@ include 'books_return_validation.php';
     </header>
     <form method="post" action="" class="flex w-full p-4 py-2">
         <div class="p-2 flex-1">
-            <!-- <h2 class="font-semibold text-xl px-2">Contact Information</h2> -->
+
             <div class=" px-4 bg-white shadow border rounded-lg">
 
 
@@ -68,8 +68,8 @@ include 'books_return_validation.php';
                         </div>
                         <div class="grid w-full">
                             <label for="cvc" class="py-1">CVC</label>
-                            <input type="password" name="cvc" id="cvc" maxlength="3" placeholder="CVC" class="border rounded-lg p-2"
-                                value="<?php echo $user_card_cvc ?>">
+                            <input type="password" name="cvc" id="cvc" maxlength="3" placeholder="CVC"
+                                class="border rounded-lg p-2" value="<?php echo $user_card_cvc ?>">
                             <span class="text-red-600 text-sm">* <small>
                                     <?php echo $err_cvc ?>
                                 </small></span>
@@ -85,33 +85,33 @@ include 'books_return_validation.php';
 
         <div class="flex-1 p-2">
             <div class="">
-                <!-- <h2 class="px-4 font-semibold text-xl">Order Summary</h2> -->
+
             </div>
             <div class="grid bg-white shadow border rounded-lg py-4">
                 <div class="px-6 border-b">
                     <article class="flex w-full">
                         <div class="w-40 h-44 p-2">
-                            <img src="../../Image/<?php echo $return_book_image ?>" alt=""
+                            <img src="../../Image/<?php echo $ordered_book_image ?>" alt=""
                                 class="w-full h-full object-cover  rounded-lg">
                         </div>
                         <div class="p-2 w-full">
                             <div class="">
                                 <div class=" flex justify-between items-center">
                                     <h3 class="font-semibold text-xl">
-                                        <?php echo $return_book_name ?>
+                                        <?php echo $ordered_book_name ?>
                                     </h3>
 
                                 </div>
                                 <p class=" text-slate-600 font-medium text-lg">
-                                    <?php echo "Author :- " . $return_book_author_name ?>
+                                    <?php echo "Author :- " . $ordered_book_author_name ?>
                                 </p>
                                 <p class=" text-slate-400">
-                                    <?php echo "Category :- " . $return_book_category_name ?>
+                                    <?php echo "Category :- " . $ordered_book_category ?>
                                 </p>
                             </div>
                             <div class="flex py-4 items-baseline justify-between">
                                 <span class="font-semibold">
-                                    <?php echo "Price :- $" . $return_book_price ?>
+                                    <?php echo "Price :- $" . $ordered_book_price ?>
                                 </span>
                             </div>
                         </div>
@@ -123,13 +123,13 @@ include 'books_return_validation.php';
                         <div class="flex justify-between">
                             <h3>Issue Date</h3>
                             <span>
-                                <?php echo $rented_book_issue_date ?>
+                                <?php echo $book_issue_date ?>
                             </span>
                         </div>
                         <div class="flex justify-between">
                             <h3>Book returning Date</h3>
                             <span>
-                                <?php echo $rented_book_return_date ?>
+                                <?php echo $book_return_date ?>
                             </span>
                         </div>
                     </div>

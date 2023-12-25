@@ -23,8 +23,8 @@ include 'user_review_validation.php';
         <div class="flex-1 h-auto">
             <img src="../../Image/book2.jpg" alt="Main Image" class="w-full h-full object-cover">
         </div>
-        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="h-full shadow flex-1 "
-            name="registeration_form" enctype="multipart/form-data">
+        <form action="user_review" method="post" class="h-full shadow flex-1 " name="registeration_form"
+            enctype="multipart/form-data">
             <div class="flex items-center justify-center shadow bg-slate-50 w-full h-full">
                 <div class="space-y-1 py-4 px-10 w-full">
                     <div class=" w-96">
@@ -40,8 +40,7 @@ include 'user_review_validation.php';
                             <label for="user_review">Review</label>
                             <textarea name="user_review" id="user_review" cols="30" rows="5" placeholder="Enter Review"
                                 class="border rounded-sm w-full p-1"><?php echo $user_review ?></textarea>
-                            <!-- <input type="text" name="name" id="name" placeholder="Name"
-                                class="border rounded-sm w-full p-1"> -->
+
                             <span class="text-red-600 text-sm">* <small>
                                     <?php echo $err_review ?>
                                 </small></span>

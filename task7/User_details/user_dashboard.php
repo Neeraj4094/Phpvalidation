@@ -1,7 +1,6 @@
 <?php
-// include "../database_connection.php";
-// include "../send_fetch_data_from_db.php";
-include "../admin_details/admin_update_fetch_data.php";
+
+include "../admin_details/admin_form_data_handler.php";
 
 if ($_SESSION == null) {
     header("location: ../admin_details/admin_login");
@@ -17,33 +16,32 @@ $user_block_data = explode(',', $status);
 $user_id = isset($user_block_data[0]) ? $user_block_data[0] : '';
 $user_ac_status = isset($user_block_data[1]) ? $user_block_data[1] : '';
 
-// print_r($admin_fetch_data_from_db);
 
 $search = $dataimage = $data_not_found = $not_found = '';
-// $data = [];
+
 $found = false;
 // if (isset($_POST['search'])) {
 // }
 
-$success = '<div class="w-full h-screen flex items-center justify-center fixed  left-0 bottom-0 right-0 bg-black/40">
-<form action="lock_user?id=' . $user_id . '" method="post" class="w-80 h-36 "><div class="grid font-semibold place-items-center w-full h-full border rounded-xl py-2 shadow z-20 bg-white text-black relative">
-    <a href="users" ><span class="  font-bold text-2xl text-slate-400 absolute right-2 top-2">
-    <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
-    </span></a>
-<div class="grid place-items-center gap-4 pb-2">
-    <h2 class="px-6 font-semibold pt-3 text-black text-center">Are you sure u want to block this account</h2>
-    <button type="submit"><span class="  font-bold rounded-md bg-blue-600 text-white px-3 border ">Yes</button>
-</div></form></div>';
+// $success = '<div class="w-full h-screen flex items-center justify-center fixed  left-0 bottom-0 right-0 bg-black/40">
+// <form action="lock_user?id=' . $user_id . '" method="post" class="w-80 h-36 "><div class="grid font-semibold place-items-center w-full h-full border rounded-xl py-2 shadow z-20 bg-white text-black relative">
+//     <a href="users" ><span class="  font-bold text-2xl text-slate-400 absolute right-2 top-2">
+//     <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
+//     </span></a>
+// <div class="grid place-items-center gap-4 pb-2">
+//     <h2 class="px-6 font-semibold pt-3 text-black text-center">Are you sure u want to block this account</h2>
+//     <button type="submit"><span class="  font-bold rounded-md bg-blue-600 text-white px-3 border ">Yes</button>
+// </div></form></div>';
 
-$fail = '<div class="w-full h-screen flex items-center justify-center fixed  left-0 bottom-0 right-0 bg-black/40">
-<form action="lock_user?id=' . $user_id . '" method="post" class="w-80 h-36 "><div class="grid font-semibold place-items-center w-full h-full border rounded-xl py-2 shadow z-20 bg-white text-black relative">
-<a href="users" ><span class="  font-bold text-2xl text-slate-400 absolute right-2 top-2">
-<svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
-</span></a>
-<div class="grid place-items-center gap-4 pb-2">
-<h2 class="px-6 font-semibold pt-3 text-black text-center">Unblock this account</h2>
-<button type="submit"><span class="  font-bold rounded-md bg-blue-600 text-white px-3 border ">Yes</button>
-</div></form></div>';
+// $fail = '<div class="w-full h-screen flex items-center justify-center fixed  left-0 bottom-0 right-0 bg-black/40">
+// <form action="lock_user?id=' . $user_id . '" method="post" class="w-80 h-36 "><div class="grid font-semibold place-items-center w-full h-full border rounded-xl py-2 shadow z-20 bg-white text-black relative">
+// <a href="users" ><span class="  font-bold text-2xl text-slate-400 absolute right-2 top-2">
+// <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
+// </span></a>
+// <div class="grid place-items-center gap-4 pb-2">
+// <h2 class="px-6 font-semibold pt-3 text-black text-center">Unblock this account</h2>
+// <button type="submit"><span class="  font-bold rounded-md bg-blue-600 text-white px-3 border ">Yes</button>
+// </div></form></div>';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // $user_account_status = ($user_ac_status == 'Active') ? $success : $fail;
@@ -199,28 +197,60 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <p class=" bg-indigo-500 text-white px-3 py-1 rounded-md">
                                         <?php echo "Address:-" . $user_address ?>
                                     </p>
-                                    <!-- lock_user?id=<?php echo $book_id ?> -->
-                                    <form action="lock_user?id=<?php echo $user_id ?>" method="post">
-                                        <!-- <input type="hidden" name="hidden_field" value="Some Value"> -->
-                                        <input type="checkbox" hidden checked name="user_account_status"
-                                            id="user_account_status">
-                                        <button type="submit" name="account_status" data-toggle="tooltip" data-placement="top"
-                                            title="Edit" class="px-1 rounded-lg bg-slate-100 text-black">
-                                            <span>
-                                                <?php echo $status ?>
-                                            </span>
-                                        </button>
-                                    </form>
+                                    
+
+                                    <button id="<?php echo 'showBookBtn_' . $user_id ?>" class=" border-2 px-4 py-1 rounded-md">
+                                    <?php echo $status ?>
+                                    </button>
+                                        
+                                    <script>
+                                        document.getElementById('<?php echo 'showBookBtn_' . $user_id ?>').addEventListener('click', function() {
+                                        var box = document.getElementById('<?php echo 'bookData_' . $user_id ?>');
+                                        box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'block' : 'none';
+                                    });
+                                    </script>
+
+                                    <div id="<?php echo 'bookData_' . $user_id ?>" class="hidden">
+                                    <?php   if($user_status == 'Active'){ ?>
+                                        <div class=" w-full h-screen flex items-center justify-center fixed  left-0 bottom-0 right-0 bg-black/40">
+                                            <div class="w-80 h-36 grid font-semibold place-items-center border rounded-xl py-2 shadow z-20 bg-white text-black relative">
+                                            <form action="users" method="post" class="font-bold text-2xl text-slate-400 absolute right-2 top-2">
+                                                <button type="submit" >
+                                                    <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
+                                                </button>
+                                            </form>
+                                            <div class="grid place-items-center gap-4 pb-2">
+                                                <h2 class="px-6 font-semibold pt-3 text-black text-center">Are you sure u want to block this account</h2>
+                                                <form action="lock_user?id=<?php echo $user_id ?>" method="post" class="">
+                                                    <button type="submit" class="  font-bold rounded-md bg-blue-600 text-white px-3 border ">Yes</button>
+                                                </form>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <?php }else{ ?>
+                                            <div class=" w-full h-screen flex items-center justify-center fixed  left-0 bottom-0 right-0 bg-black/40">
+                                            <div class="w-80 h-36 grid font-semibold place-items-center border rounded-xl py-2 shadow z-20 bg-white text-black relative">
+                                            <form action="users" method="post" class="font-bold text-2xl text-slate-400 absolute right-2 top-2">
+                                                <button type="submit" >
+                                                    <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z"></path></svg>
+                                                </button>
+                                            </form>
+                                            <div class="grid place-items-center gap-4 pb-2">
+                                                <h2 class="px-6 font-semibold pt-3 text-black text-center">Unblock this account</h2>
+                                                <form action="lock_user?id=<?php echo $user_id ?>" method="post" class="">
+                                                    <button type="submit" class="  font-bold rounded-md bg-blue-600 text-white px-3 border ">Yes</button>
+                                                </form>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <?php } ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     <?php }
-                } ?>
-                <?php echo $user_account_status ?>
-                <!-- <div class="w-full h-screen flex items-center justify-center fixed  left-0 bottom-0 right-0 bg-black/40">
-                    <form action="users" method="post" class="w-80 h-36 ">
-                        
-                    </form> -->
+                } 
+                 echo $user_account_status ?>
             </div>
             <span>
                 <?php 

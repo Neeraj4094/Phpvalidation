@@ -26,7 +26,7 @@ if (is_array($err_image)) {
         <div class="flex-1 h-screen">
             <img src="../../Image/book3.jpg" alt="Main Image" class="w-full h-full object-cover">
         </div>
-        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="h-full shadow flex-1 "
+        <form action="<?php echo $get_url_category_name ?>" method="post" class="h-full shadow flex-1 "
             name="registeration_form" enctype="multipart/form-data">
             <div class="flex items-center justify-center w-full h-full">
                 <div class="space-y-3 bg-slate-50 rounded-lg shadow py-6 h-full px-10">
@@ -45,15 +45,14 @@ if (is_array($err_image)) {
                                             </option>
                                         <?php }
                                     } else { ?>
-                                        <option value="<?php echo $fetch_get_category_name ?>" selected
+                                        <option value="<?php echo $get_category_name ?>" selected
                                             class="bg-transparent p-1">
-                                            <?php echo $fetch_get_category_name ?>
+                                            <?php echo $get_category_name ?>
                                         </option>
                                     <?php } ?>
                                 </select>
                             </div>
-                            <!-- <input type="text" name="category_name" id="first_name" placeholder="Category Name"
-                                class="border rounded-sm w-full p-1"> -->
+
                             <span class="text-red-600 text-sm">* <small>
                                     <?php echo $err_category ?>
                                 </small></span>

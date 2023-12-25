@@ -1,5 +1,8 @@
 <?php
 require 'user_validation.php';
+if (empty($admin_fetch_data_from_db)) {
+    $errmsg = "Please sign up your account";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,8 +24,8 @@ require 'user_validation.php';
         <div class="flex-1 h-full">
             <img src="../../Image/book3.jpg" alt="Main Image" class="w-full h-full object-cover">
         </div>
-        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post"
-            class="grid px-10 py-2 border bg-white shadow-sm text-slate-500 flex-1" name="login_form">
+        <form action="user_login" method="post" class="grid px-10 py-2 border bg-white shadow-sm text-slate-500 flex-1"
+            name="login_form">
             <div class="max-w-md space-y-4 px-16">
                 <div class="relative">
                     <svg class="w-10 h-10 text-slate-500" xmlns="http://www.w3.org/2000/svg" role="img"
@@ -44,7 +47,7 @@ require 'user_validation.php';
                     <span class="text-red-600 text-sm ">* <small>
                             <?php echo $err_login_email ?>
                         </small></span>
-                    <!-- <small>(Email must have "alphabets, @ and .")</small> -->
+
                 </div>
                 <div class="grid space-y-2">
                     <label for="password">Password</label>
@@ -53,18 +56,14 @@ require 'user_validation.php';
                     <span class="text-red-600 w-96">* <small>
                             <?php echo $err_login_password ?>
                         </small></span>
-                    <!-- <small>(Password must have 1 Capital alphabet, 1 small alphabet, 1 special character & 1 number)</small> -->
+
                 </div>
                 <a href="../forget_password/recover_email" class="text-blue-700 px-1">Forget Password?</a>
-                <!-- <p class="flex items-center text-md"><small>Don't have any account?<a href="../user_details/add_users" -->
-                            <!-- class=" text-sm text-blue-700 font-medium">Create New Account</a></small></p> -->
+
                 <div class="flex items-center justify-center gap-4 w-96 py-2">
                     <div class="flex items-end gap-3 w-full ">
                         <input type="submit" name="user_login" id="user_login"
                             class="bg-indigo-500 text-white px-8 py-2 rounded-lg cursor-pointer" value="Login">
-                    </div>
-                    <div>
-                        <!-- <span class="w-full text-sm">If don't have any account. <a href=""></a></span> -->
                     </div>
                 </div>
             </div>

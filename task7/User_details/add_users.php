@@ -14,20 +14,17 @@ include './user_validation.php';
 
 <body class="bg-slate-100">
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
-        <?php
-        echo $errmsg;
-        
-        ?>
+        <?php echo $errmsg; ?>
     </h2>
     <div class="flex w-full h-screen">
         <div class="flex-1 h-full">
             <img src="../../Image/book3.jpg" alt="Main Image" class="w-full h-full object-cover">
         </div>
-        <form action="add_users" method="post" class="h-full shadow flex-1 "
-            name="registeration_form" enctype="multipart/form-data">
+        <form action="add_users" method="post" class="h-full shadow flex-1 " name="registeration_form"
+            enctype="multipart/form-data">
             <div class="flex items-center justify-center shadow bg-slate-50 w-full h-full">
                 <div class="py-2 px-10 w-full">
-                <h2 class="font-semibold text-xl py-1">Sign up to your account</h2>
+                    <h2 class="font-semibold text-xl py-1">Sign up to your account</h2>
                     <div class="flex gap-4">
                         <div class="">
                             <label for="name">Name</label>

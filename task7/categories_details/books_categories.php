@@ -4,15 +4,12 @@ include '../admin_session.php';
 
 $found = $data_not_found = $search = '';
 $fetch_data_from_db = new fetch_db_data();
-$fetch_category_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'category_details');
-foreach ($fetch_category_data_from_db as $data) {
+$category_table_data = $fetch_data_from_db->fetchdatafromdb($conn, 'category_details');
+foreach ($category_table_data as $data) {
     $category_name_list[] = isset($data[1]) ? $data[1] : '';
 }
 
-if (isset($_POST['search'])) {
-    $search = strtolower($_POST['search']);
-}
-
+$search = (isset($_POST['search'])) ? strtolower($_POST['search']) : '';
 
 ?>
 <!DOCTYPE html>
@@ -32,15 +29,7 @@ if (isset($_POST['search'])) {
     </header>
     <div class="absolute right-4 top-20">
         <form action="../categories_details/book_categories" method="post" class="flex items-center gap-1 relative z-20 py-4">
-            <!-- <select name="category_name" id="category" class="rounded-lg bg-slate-100 text-slate-500 shadow border border-slate-600 w-40 p-2 ">
-                <option value="" class="bg-transparent p-1">Select Books</option>
-                <?php if (!empty($category_name_list)) {
-                    foreach ($category_name_list as $category_name) {
-                        ?>
-                    <option value="<?php echo $category_name ?>" class="bg-transparent p-1"><?php echo $category_name ?></option>
-                <?php }
-                } ?>
-            </select> -->
+            
             <input type="search" name="search" id="search"
                 class="border shadow rounded-lg outline-none p-1 pl-3 text-lg w-80"
                 placeholder="Search any category...">
@@ -58,7 +47,7 @@ if (isset($_POST['search'])) {
     <section class="w-full h-full px-2 py-7 pt-20 grid place-items-center space-y-6 ">
         <h2 class="font-bold text-3xl underline">Books Categories</h2>
         <div class="flex gap-20 flex-wrap items-center justify-center py-2 px-20 mb-10 h-full">
-            <?php foreach ($fetch_category_data_from_db as $key => $value) {
+            <?php foreach ($category_table_data as $key => $value) {
                 $category_id = isset($value[0]) ? $value[0] : '';
                 $category_name = ucwords(isset($value[1]) ? $value[1] : '');
                 $category = $category_name;
@@ -75,15 +64,6 @@ if (isset($_POST['search'])) {
                     $data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>';
                 }
 
-                // if (!empty($search)) {
-                //     if (($search == strtolower($category_name))) {
-                //         $searchdata = "visible";
-                //         $data[] = $searchdata;
-                //     } else {
-                //         $searchdata = "hidden";
-                //         $data[] = $searchdata;
-                //     }
-                // }
                 ?>
                 <article
                     class="<?php echo $searchdata ?> w-40 h-56 space-y-3 text-center rounded-xl cursor-pointer relative">
@@ -96,15 +76,8 @@ if (isset($_POST['search'])) {
                     <h2 class="font-bold text-xl">
                         <?php echo $category_name ?>
                     </h2>
-                    <!-- <p class="font-medium ">
-                        <?php echo $actual_author_name ?>
-                    </p> -->
-                    <!-- <span class="font-bold text-xl pb-6"><?php echo "$" . $book_price ?></span> -->
                 </article>
             <?php } 
-            // if (!empty($data)) {
-            //     echo (!in_array('visible', $data)) ? ($data_not_found = '<p class="w-full h-full grid place-items-center border">Data not found</p>') : '';
-            // }
             echo $data_not_found;
             ?>
 

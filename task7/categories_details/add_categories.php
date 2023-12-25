@@ -1,9 +1,7 @@
 <?php
 include 'book_categories_validation.php';
 if (!empty($err_image) && (is_array($err_image))) {
-    // if  {
-        $err_image = '';
-    // }
+    $err_image = '';
 }
 ?>
 
@@ -53,7 +51,6 @@ if (!empty($err_image) && (is_array($err_image))) {
                             <span class="text-red-600 text-sm">* <small>
                                     <?php echo $err_image ?>
                                 </small></span>
-
                         </div>
                     </div>
                     <div>

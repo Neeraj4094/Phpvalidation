@@ -19,19 +19,10 @@ if(!empty($id)){
     $delete_cart_url = 'delete_cart.php';
     $user_rented_book_path = '/rented_book?'. $id;
     $user_rented_book_url = 'rented_book_dashboard.php';
+    $pagination_url = '/rented_book_pagination?' . $id;
+    $pagination_path = 'rented_book_pagination.php';
 }else{
-    $update_path = '';
-    $delete_path = '';
-    $update_page_url = '';
-    $delete_page_url = '';
-    $category_path = '';
-    $category_page_url = '';
-    $rented_book_url = '';
-    $rented_book_path = '';
-    $thanks_page_url = '';
-    $thanks_path = '';
-    $book_page_url = '';
-    $book_path = $reset_password_path = $reset_password_url = $user_rented_book_path = $user_rented_book_url = '';
+    $update_path = $delete_cart_path = $delete_cart_url = $delete_path = $update_page_url = $delete_page_url = $category_path = $category_page_url = $rented_book_url = $rented_book_path = $thanks_page_url = $thanks_path = $user_rented_book_path = $user_rented_book_url = '';
 }
 
 include '../view/index.php';

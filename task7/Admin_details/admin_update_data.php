@@ -1,7 +1,7 @@
 <?php
-include 'admin_update_fetch_data.php';
+include 'admin_form_data_handler.php';
 if (!$id) {
-    header("location: ./admin_dashboard.php");
+    header("location: ./admin");
 }
 ?>
 
@@ -26,7 +26,7 @@ if (!$id) {
         <div class="flex-1 h-full">
             <img src="../../Image/book3.jpg" alt="Main Image" class="w-full h-full object-cover">
         </div>
-        <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" class="h-full shadow flex-1 "
+        <form action="admin_update_data?id=<?php echo $id ?>" method="post" class="h-full shadow flex-1 "
             name="registeration_form" enctype="multipart/form-data">
             <div class="flex items-center justify-center w-full h-full">
                 <div class="space-y-1 bg-slate-50 rounded-xl shadow py-6 px-10">
@@ -72,10 +72,9 @@ if (!$id) {
                                 <select name="occupation" id="role"
                                     class="rounded-lg bg-slate-100 text-slate-500 border w-48 p-2 ">
                                     <option value="" class="bg-transparent p-1">Select Your Role</option>
-                                    <option value="Testing" class="bg-transparent p-1" value="Testing" <?php echo ($fetch_occupation_from_id == 'Testing') ? 'selected' : '' ?>>Testing</option>
-                                    <option value="Designing" class="bg-transparent p-1" value="Designing" <?php echo ($fetch_occupation_from_id == 'Designing') ? 'selected' : '' ?>>Designing</option>
-                                    <option value="Managining" class="bg-transparent p-1" value="Managining" <?php echo ($fetch_occupation_from_id == 'Managining') ? 'selected' : '' ?>>Managining
-                                    </option>
+                                    <option value="Owner" class="bg-transparent p-1" <?php echo ($fetch_occupation_from_id == 'Owner') ? 'selected' : '' ?>>Owner</option>
+                                    <option value="HR" class="bg-transparent p-1" <?php echo ($fetch_occupation_from_id == 'HR') ? 'selected' : '' ?>>HR</option>
+                                    <option value="Employee" class="bg-transparent p-1" <?php echo ($fetch_occupation_from_id == 'Employee') ? 'selected' : '' ?>>Employee</option>
                                 </select>
                             </div>
                             <span class="text-red-600 text-sm">* <small>

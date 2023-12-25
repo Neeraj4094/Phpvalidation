@@ -1,14 +1,6 @@
 <?php
 $request = $_SERVER['REQUEST_URI'];
-// $path= isset(parse_url($router)['path']) ? parse_url($router)['path'] : '';
-// $id= isset(parse_url($router)['query']) ? parse_url($router)['query'] : '';
 
-
-// echo $delete_cart_path;
-// else{
-//     $update_path = '';
-//     $delete_path = '';
-// }
 if (empty($user_status_path)) {
     $user_status_path = $user_status_url = '';
 }
@@ -37,7 +29,6 @@ if(empty($user_logout_url)){
 
 $routes = [
     '/' => 'book_home.php',
-    // 'user_details/'=> '../book_home.php',
     '/user_login' => '../user_details/user_login.php',
     '/user_logout' => '../user_details/user_logout.php',
     '/add_to_cart' => '../rented_book_details/add_to_cart.php',
@@ -45,6 +36,8 @@ $routes = [
     '/user_review' => 'user_reviews.php',
     '/add_users' => 'add_users.php',
     '/delete_user' => 'delete_user.php',
+    '/returned_books' => 'returned_books_dashboard.php',
+    '/pending_books' => 'pending_books_dashboard.php',
     $category_path => $category_page_url,
     $user_orders_path => $user_order_page_url,
     $book_return_path => $book_return_page_url,
@@ -60,11 +53,6 @@ function error_msg()
     require '../not_found.php';
 }
 
-// echo "<pre>";
-// print_r($router);
-// print_r($routes);
-// echo "</pre>";
-
 
 function router_control($router, $routes)
 {
@@ -77,6 +65,4 @@ function router_control($router, $routes)
 }
 
 router_control($router, $routes)
-
-
-    ?>
+?>

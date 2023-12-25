@@ -1,44 +1,45 @@
 <?php
-include "../send_admin_data_to_db.php";
+include "../send_fetch_data_from_db.php";
+include '../validation.php';
 
-$err_category = $err_book = $err_author = $err_book_copies = $err_image = $err_book_price = $err_book_desciption = "";
+$err_category = $err_book = $err_author = $err_book_copies = $err_image = $err_book_price = $err_book_desciption = $errmsg = "";
 $total_book_copies = 0;
 $book_name_array = $fetch_all_book_categories = [];
-$fetch_get_category_name = isset($_GET["category_name"]) ? $_GET["category_name"] : "";
+$get_category_name = isset($_GET["category_name"]) ? $_GET["category_name"] : "";
+$get_url_category_name = empty(!$get_category_name) ? ("add_books?category_name=" . $get_category_name) : 'add_books';
 
-$fetch_books_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
-$fetch_category_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'category_details');
-
+$fetch_db_books_data = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
+$fetch_db_category_data = $fetch_data_from_db->fetchdatafromdb($conn, 'category_details');
 
 $fetch_category_query = $fetch_data_from_db->fetchiddata('category_details', $category_name, $conn, 'category_name');
 $fetch_category_data = mysqli_fetch_all($fetch_category_query);
 
-foreach ($fetch_books_data_from_db as $row) {
-    $book_name_array_list = strtolower($row[1]);
+foreach ($fetch_db_books_data as $data) {
+    $book_name_array_list = strtolower($data[1]);
     $book_name_array[] = ucfirst($book_name_array_list);
-    $fetch_all_book_categories[] = $row[3];
+    $fetch_all_book_categories[] = $data[3];
 }
-foreach ($fetch_category_data_from_db as $data) {
-    $fetch_book_categories[] = $data[1];
+foreach ($fetch_db_category_data as $data) {
+    $fetch_book_category[] = $data[1];
 }
-if(empty($fetch_book_categories)){
+if (empty($fetch_book_category)) {
     header("location: ../categories_details/add_categories");
 }
-// print_r($fetch_book_categories);
-if (empty($fetch_get_category_name)) {
-    $fetch_category_name_array = $fetch_book_categories;
+
+if (empty($get_category_name)) {
+    $fetch_category_name_array = $fetch_book_category;
 }
 $fetch_book_copies = $fetch_data_from_db->fetch_data('books_details', 'book_copies', $category_name, $conn, 'book_category');
 $total = count($fetch_book_copies);
 $total_book_copies = array_sum(array_map('array_sum', $fetch_book_copies));
-// $copies = array_sum(array_map('array_sum', $fetch_book_copies));
-// $total_book_copies = ($total_book_copies + $book_copies); 
+
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : '';
 $image_upload = new upload_image();
 
 $fetch_id_query = $fetch_data_from_db->fetchiddata('books_details', $id, $conn, 'book_id');
 $fetch_id_data = mysqli_fetch_all($fetch_id_query);
+
 
 $fetch_category_name = isset($fetch_id_data[0][3]) ? $fetch_id_data[0][3] : '';
 $fetch_book_name = strtolower(isset($fetch_id_data[0][1]) ? $fetch_id_data[0][1] : '');
@@ -53,122 +54,74 @@ $fetch_unique_image = isset($fetch_id_data[0][10]) ? $fetch_id_data[0][10] : '';
 $actual_book_name = ucfirst($book_name);
 
 if (empty($book_image_name) && (!empty($id))) {
-    // if  {
-        $book_image_name = $fetch_book_image_name;
-    // }
+    $book_image_name = $fetch_book_image_name;
 }
 if (($_SERVER["REQUEST_METHOD"] == "POST") && (isset($_POST["add_books"]))) {
-    // if  {
-        date_default_timezone_set('UTC');
-        $created_date = date("Y-m-d H:i:s A");  //Created Date
-        $modified_date = date("Y-m-d H:i:s A");  // Modified Date
+
+    date_default_timezone_set('UTC');
+    $created_date = date("Y-m-d H:i:s A");  //Created Date
+    $modified_date = date("Y-m-d H:i:s A");  // Modified Date
 
 
-        $err_category = $admin_entered_details->check_empty($category_name);
-        $err_book = $admin_entered_details->check_empty($book_name);
-        $err_author = $admin_entered_details->name_validation($author_name);
-        $err_book_copies = $admin_entered_details->check_empty($book_copies);
-        $err_image = $admin_entered_details->image_validation($book_image, $id);
-        $err_book_price = $admin_entered_details->check_empty($book_price);
-        $err_book_desciption = $admin_entered_details->check_empty($book_description);
+    $err_category = $admin_entered_details->check_empty(ucwords($category_name));
+    $err_book = $admin_entered_details->check_empty($book_name);
+    $err_author = $admin_entered_details->name_validation($author_name);
+    $err_book_copies = $admin_entered_details->check_empty($book_copies);
+    $err_image = $admin_entered_details->image_validation($book_image, $id);
+    $err_book_price = $admin_entered_details->check_empty($book_price);
+    $err_book_desciption = $admin_entered_details->check_empty($book_description);
 
-        if(empty($fetch_category_data)){
-            $err_category = 'This book not exists';
-        }
-        if ($err_category == null && $err_book == null && $err_author == null && $err_book_copies == null && $err_book_price == null && $err_book_desciption == null) {
-            $tablename = 'books_details';
-            $location = './books';
-            if (empty($book_name_array)) {
-                $book_column = ['book_name', 'book_author', 'book_category', 'book_copies', 'book_price', 'book_description', 'book_image_name', 'created_date', 'modified_Date', 'book_unique_image_name'];
-                $book_details_array = [$book_name, $author_name, $category_name, $book_copies, $book_price, $book_description, $book_image_name, $created_date, $modified_date];
-                $image_upload->image_upload($tablename, $err_image, $book_image, $id, $send_data_to_db, $book_column, $book_details_array, $conn, 'book_id', $location);
+    if (empty($fetch_category_data)) {
+        $err_category = 'This category does not exists';
+    }
+    if ($err_category == null && $err_book == null && $err_author == null && $err_book_copies == null && $err_book_price == null && $err_book_desciption == null) {
+        $tablename = 'books_details';
+        $location = './books';
+        if (empty($book_name_array)) {
+            $book_column = ['book_name', 'book_author', 'book_category', 'book_copies', 'book_price', 'description', 'book_image_name', 'created_date', 'modified_Date', 'book_unique_image_name'];
+            $book_details_array = [$book_name, $author_name, $category_name, $book_copies, $book_price, $book_description, $book_image_name, $created_date, $modified_date];
+            $image_upload->image_upload($tablename, $err_image, $book_image, $id, $send_data_to_db, $book_column, $book_details_array, $conn, 'book_id', $location);
 
-            } else {
-                $errmsg = !empty($id) //If id is not empty then the data will be "updated" otherwise it will go to the next condition which is used for "inserting" the data 
-                    ? ( 
-                        ($actual_book_name == $fetch_book_name) // If the user entered book name or id book name is same then it will execute otherwise it will update the whole data if the book name is not matched with the user entered data
-                        ? (
-                            ($update_book_column = ['book_name', 'book_author', 'book_category', 'book_copies', 'book_price', 'book_description', 'book_image_name', 'modified_Date', 'book_unique_image_name']) &&
-                            ($update_book_column_data = [$book_name, $author_name, $category_name, $book_copies, $book_price, $book_description, $book_image_name, $modified_date, $fetch_unique_image]) &&
-                            ($image_upload->image_upload($tablename, $err_image, $book_image, $id, $send_data_to_db, $update_book_column, $update_book_column_data, $conn, 'book_id', $location) ? header('location: ./books') : ("Error:" . mysqli_error($conn)))
-                        )
-                        : (
-                            (!in_array($actual_book_name, $book_name_array)) //It is used to check the entered book name is not exist in the table of database, if the book name exist then it will return a error otherwise it will update the whole data
-                            ? (
-                                ($book_column = ['book_name', 'book_author', 'book_category', 'book_copies', 'book_price', 'book_description', 'book_image_name', 'created_date', 'modified_Date', 'book_unique_image_name']) &&
-                                ($book_details_array = [$book_name, $author_name, $category_name, $book_copies, $book_price, $book_description, $book_image_name, $created_date, $modified_date, $fetch_unique_image]) &&
-                                (($image_upload->image_upload($tablename, $err_image, $book_image, $id, $send_data_to_db, $book_column, $book_details_array, $conn, 'book_id', $location)) ? header('location: ./books') : ("Error:" . mysqli_error($conn)))
-                            )
-                            : 'This book already exists'
-                        )
-                    )
-                    : (!empty($book_image_name) //If the book image is empty then it will renturn an error otherwise it will execute the statements which is mentioned in this ternary conditions
-                        ? (!in_array($actual_book_name, $book_name_array)) //It is used for inserting the book data in table of database
-                            ? (
-                                ($book_column = ['book_name', 'book_author', 'book_category', 'book_copies', 'book_price', 'book_description', 'book_image_name', 'created_date', 'modified_Date', 'book_unique_image_name']) &&
-                                ($book_details_array = [$book_name, $author_name, $category_name, $book_copies, $book_price, $book_description, $book_image_name, $created_date, $modified_date]) &&
-                                ($image_upload->image_upload($tablename, $err_image, $book_image, $id, $send_data_to_db, $book_column, $book_details_array, $conn, 'book_id', $location))
-                            )
-                            : 'This book already exists'
-                        : ($err_image = "Error! Please Select Image"));
-
-                        
-                        // if($fetch_category_name != $category_name){
-                        //     $column = ['book_quantity'];
-                        //     $row_data = [$total_book_copies];
-                        //     $update_category_table = $send_data_to_db->update_to_tb('category_details', $column, $row_data, 'category_name', $category_name, $conn);
-                
-                        //     echo (!$update_category_table) ? ("Error:" . mysqli_error($conn)) : '';
-                        // }
-            }
         } else {
-            $errmsg = "Please complete the form";
+            $errmsg = !empty($id) //If id is not empty then the data will be "updated" otherwise it will go to the next condition which is used for "inserting" the data 
+                ? (
+                    ($actual_book_name == $fetch_book_name) // If the user entered book name or id book name is same then it will execute otherwise it will update the whole data if the book name is not matched with the user entered data
+                    ? (
+                        ($update_book_column = ['book_name', 'book_author', 'book_category', 'book_copies', 'book_price', 'description', 'book_image_name', 'modified_Date', 'book_unique_image_name']) &&
+                        ($update_book_column_data = [$book_name, $author_name, $category_name, $book_copies, $book_price, $book_description, $book_image_name, $modified_date, $fetch_unique_image]) &&
+                        ($image_upload->image_upload($tablename, $err_image, $book_image, $id, $send_data_to_db, $update_book_column, $update_book_column_data, $conn, 'book_id', $location) ? header('location: ./books') : ("Error:" . mysqli_error($conn)))
+                    )
+                    : (
+                        (!in_array($actual_book_name, $book_name_array)) //It is used to check the entered book name is not exist in the table of database, if the book name exist then it will return a error otherwise it will update the whole data
+                        ? (
+                            ($book_column = ['book_name', 'book_author', 'book_category', 'book_copies', 'book_price', 'description', 'book_image_name', 'created_date', 'modified_Date', 'book_unique_image_name']) &&
+                            ($book_details_array = [$book_name, $author_name, $category_name, $book_copies, $book_price, $book_description, $book_image_name, $created_date, $modified_date, $fetch_unique_image]) &&
+                            (($image_upload->image_upload($tablename, $err_image, $book_image, $id, $send_data_to_db, $book_column, $book_details_array, $conn, 'book_id', $location)) ? header('location: ./books') : ("Error:" . mysqli_error($conn)))
+                        )
+                        : 'This book already exists'
+                    )
+                )
+                : (!empty($book_image_name) //If the book image is empty then it will renturn an error otherwise it will execute the statements which is mentioned in this ternary conditions
+                    ? (!in_array($actual_book_name, $book_name_array)) //It is used for inserting the book data in table of database
+                    ? (
+                        ($book_column = ['book_name', 'book_author', 'book_category', 'book_copies', 'book_price', 'description', 'book_image_name', 'created_date', 'modified_Date', 'book_unique_image_name']) &&
+                        ($book_details_array = [$book_name, $author_name, $category_name, $book_copies, $book_price, $book_description, $book_image_name, $created_date, $modified_date]) &&
+                        ($image_upload->image_upload($tablename, $err_image, $book_image, $id, $send_data_to_db, $book_column, $book_details_array, $conn, 'book_id', $location))
+                    )
+                    : 'This book already exists'
+                    : ($err_image = "Error! Please Select Image"));
+
         }
+    } else {
+        $errmsg = "Please complete the form";
+    }
 
+    $column = ['book_quantity'];
+    $row_data = [$total_book_copies];
+    $update_category_table = $send_data_to_db->update_to_tb('category_details', $column, $row_data, 'category_name', $category_name, $conn);
 
+    echo (!$update_category_table) ? ("Error:" . mysqli_error($conn)) : '';
 
-                // if (!empty($id)) {
-                //     $errmsg = (
-                //         ($actual_book_name == $fetch_book_name)
-                //         ? (
-                //             ($update_book_column = ['book_name', 'book_author', 'book_category', 'book_copies', 'book_price', 'book_description', 'book_image_name', 'modified_Date', 'book_unique_image_name']) &&
-                //             ($update_book_column_data = [$book_name, $author_name, $category_name, $book_copies, $book_price, $book_description, $book_image_name, $modified_date, $fetch_unique_image]) &&
-                //             ($image_upload->image_upload($tablename, $err_image, $book_image, $id, $send_data_to_db, $update_book_column, $update_book_column_data, $conn, 'book_id', $location)) ?
-                //             header('location: ./books') : ("Error:" . mysqli_error($conn))
-                //         )
-                //         :  (
-                //             (!in_array($actual_book_name, $book_name_array))
-                //             ? (
-                //                 ($book_column = ['book_name', 'book_author', 'book_category', 'book_copies', 'book_price', 'book_description', 'book_image_name', 'created_date', 'modified_Date', 'book_unique_image_name']) &&
-                //                 ($book_details_array = [$book_name, $author_name, $category_name, $book_copies, $book_price, $book_description, $book_image_name, $created_date, $modified_date, $fetch_unique_image]) &&
-                //                 (($image_upload->image_upload($tablename, $err_image, $book_image, $id, $send_data_to_db, $book_column, $book_details_array, $conn, 'book_id', $location)) ?
-                //                 header('location: ./books') : ("Error:" . mysqli_error($conn)))
-                                
-                //             )
-                //             : 'This book already exists'
-                //         )
-                //     );
-                    
-                // } else {
-                //     $errmsg =  (!empty($book_image_name)) ?
-                //         (!in_array($actual_book_name, $book_name_array)) ?
-                //             (($book_column = ['book_name', 'book_author', 'book_category', 'book_copies', 'book_price', 'book_description', 'book_image_name', 'created_date', 'modified_Date', 'book_unique_image_name']) &&
-                //             ($book_details_array = [$book_name, $author_name, $category_name, $book_copies, $book_price, $book_description, $book_image_name, $created_date, $modified_date]) &&
-                //             ($image_upload->image_upload($tablename, $err_image, $book_image, $id, $send_data_to_db, $book_column, $book_details_array, $conn, 'book_id', $location)))
-                //             : ('This book already exist')
-                        
-                //     :($err_image = "Error! Please Select Image");
-                    
-                // }
-        // echo $category_name;
-        $column = ['book_quantity'];
-        $row_data = [$total_book_copies];
-        $update_category_table = $send_data_to_db->update_to_tb('category_details', $column, $row_data, 'category_name', $category_name, $conn);
-
-        echo (!$update_category_table) ? ("Error:" . mysqli_error($conn)) : '';
-        
-        
-    // }
 }
 
 ?>

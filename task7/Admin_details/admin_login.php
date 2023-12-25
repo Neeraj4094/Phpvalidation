@@ -1,6 +1,5 @@
 <?php
-include 'admin_update_fetch_data.php';
-// echo $admin_password;
+include 'admin_form_data_handler.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -4,53 +4,58 @@ include '../admin_session.php';
 
 $fetch_data_from_db = new fetch_db_data();
 
-$found = false;
+$exist = [];
+$data_not_found = $search = $category = $errmsg = '';
+$searchdata = "visible";
 
-$data_not_found = '';
-$fetch_book_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
-if (empty($fetch_book_data_from_db)) {
+$fetch_book_table_data = $fetch_data_from_db->fetchdatafromdb($conn, 'books_details');
+if (empty($fetch_book_table_data)) {
     header('location: ../admin_details/admin_registeration');
 }
-$fetch_user_review_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'user_review_details');
-foreach ($fetch_user_review_data_from_db as $data) {
+$user_db_data = $fetch_data_from_db->fetchdatafromdb($conn, 'user_details');
+foreach($user_db_data as $user_data){
+    $user_id_data_list[] = isset($user_data[0]) ? $user_data[0] : '';
+}
+
+
+$fetch_user_review_table_data = $fetch_data_from_db->fetchdatafromdb($conn, 'user_review_details');
+foreach ($fetch_user_review_table_data as $data) {
     $user_id = isset($data[1]) ? $data[1] : '';
     $user_review = isset($data[2]) ? $data[2] : '';
     $user_rating = isset($data[3]) ? $data[3] : '';
-    $review_table_query = $fetch_data_from_db->fetchiddata('user_details', $user_id, $conn, 'user_id');
-    $review_table_data = mysqli_fetch_all($review_table_query);
-    $user_name = isset($review_table_data[0][1]) ? $review_table_data[0][1] : '';
-    $user_email = isset($review_table_data[0][2]) ? $review_table_data[0][2] : '';
-    $user_review_table_data[] = [$user_name, $user_email, $user_review, $user_rating];
+    if(in_array($user_id,$user_id_data_list)){
+        $review_table_query = $fetch_data_from_db->fetchiddata('user_details', $user_id, $conn, 'user_id');
+        $review_table_data = mysqli_fetch_all($review_table_query);
+        $user_name = isset($review_table_data[0][1]) ? $review_table_data[0][1] : '';
+        $user_email = isset($review_table_data[0][2]) ? $review_table_data[0][2] : '';
+        $user_review_table_data[] = [$user_name, $user_email, $user_review, $user_rating];
+    }
 }
 
-
-
 $fetch_category_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, 'category_details');
-$show_login_data = '';
+$show_login_data = $err_search = '';
 
-// if(isset($_POST['search']) && isset($_POST['category_name'])){
-$category_name = !empty($_POST['category_name']) ? $_POST['category_name'] : '';
-$search = isset($_POST['search']) ? strtolower($_POST['search']) : '';
-// }
+if (($_SERVER["REQUEST_METHOD"] == "POST")) {
+    $category = !empty($_POST['category_name']) ? $_POST['category_name'] : '';
+    $search = isset($_POST['search']) ? strtolower($_POST['search']) : '';
+    if(empty($search)){
+        $err_search = "* Content missing";
+        $errmsg = "Search content missing";
+    }else{
+        $searchdata = "hidden";
+    }
+}
 
 
 $user_searched_data = trim($search);
 
-// print_r($fetch_category_data_from_db);
 if (!empty($fetch_category_data_from_db)) {
 
     foreach ($fetch_category_data_from_db as $data) {
         $category_name_list[] = isset($data[1]) ? $data[1] : '';
     }
 }
-// print_r($fetch_book_data_from_db);
-// if (!empty($fetch_book_data_from_db)){
-//     foreach ($fetch_book_data_from_db as $data) {
-//         if (in_array($category_name, $data)) {
-//             $searched_data[] = $data;
-//         }
-//     }
-// }
+
 ?>
 
 <!DOCTYPE html>
@@ -67,12 +72,15 @@ if (!empty($fetch_category_data_from_db)) {
 </head>
 
 <body class="relative w-full h-full">
-    <header class="sticky z-50 top-0">
+    <header class="sticky z-30 top-0">
         <?php include 'home_header.php' ?>
     </header>
     <?php echo $logout ?>
     <main class="w-full h-full">
-        <section class="grid place-items-center text-center text-white w-full py-40 relative">
+    <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 z-50 shadow">
+        <?php // echo $errmsg; ?>
+    </h2>
+        <section class="grid place-items-center text-center text-white w-full py-40 relative <?php echo $searchdata ?>">
             <div
                 class="after:content-[''] after:absolute after:top-0 after:left-0 after:bg-[url('https://cdn.pixabay.com/photo/2023/11/06/13/17/ai-generated-8369584_1280.jpg')] after:w-full after:h-full  after:bg-cover after:bg-bottom after:z-10 after:opacity-90">
             </div>
@@ -88,34 +96,7 @@ if (!empty($fetch_category_data_from_db)) {
                 </div>
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis, nobis?</p>
             </div>
-            <div class="absolute right-4 top-2">
-                <form action="" method="post" class="flex items-center gap-2 relative z-20 py-4">
-                    <select name="category_name" id="category"
-                        class="rounded-lg  border-2 text-slate-600 w-36 p-2 py-1 ">
-                        <option value="" class="bg-transparent p-1">Select Books</option>
-                        <?php if (!empty($category_name_list)) {
-                            foreach ($category_name_list as $category_name) {
-                                ?>
-                                <option value="<?php echo $category_name ?>" class="bg-transparent p-1">
-                                    <?php echo $category_name ?>
-                                </option>
-                            <?php }
-                        } ?>
-                    </select>
-                    <input type="search" name="search" id="search"
-                        class="border-2 shadow border-slate-200 rounded-lg p-1 text-slate-600 pl-3 text-lg w-64"
-                        placeholder="Search any book...">
-                    <button type="submit"
-                        class="p-2 py-2 mt-[1px] bg-slate-50 text-slate-600 border rounded-r-lg absolute right-0 top-4">
-                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                            fill="currentColor" viewBox="0 0 16 16">
-                            <path
-                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
-                            </path>
-                        </svg>
-                    </button>
-                </form>
-            </div>
+           
             <form action="../books_details/book_store" method="post" class="py-2 absolute bottom-14 z-20">
                 <button type="submit"
                     class="px-4 py-2 font-semibold border bg-indigo-600 text-blue-50 rounded-lg flex items-center gap-2 "><span>Rent
@@ -130,46 +111,69 @@ if (!empty($fetch_category_data_from_db)) {
                 </button>
             </form>
         </section>
-        <section class="w-full h-full px-2 py-10 grid place-items-center space-y-8 relative" id="books">
+        <section class="w-full h-full px-2 py-10 grid place-items-center space-y-8" id="books">
+        <div class="absolute right-2 top-16 z-20">
+                <form action="" method="post" class="flex items-center gap-2 relative z-20 py-4">
+                    <select name="category_name" id="category"
+                        class="rounded-lg border-2 border-slate-500 text-slate-600 w-40 p-2 py-1 ">
+                        <option value="" class="bg-transparent p-1">Select Category</option>
+                        <?php if (!empty($category_name_list)) {
+                            foreach ($category_name_list as $category_name) {
+                                ?>
+                                <option value="<?php echo $category_name ?>" class="bg-transparent p-1">
+                                    <?php echo $category_name ?>
+                                </option>
+                            <?php }
+                        } ?>
+                    </select>
+                    <input type="search" name="search" id="search"
+                        class="border-2 border-slate-500 rounded-lg p-1 text-slate-600 pl-3 text-lg w-64"
+                        placeholder="Search any book...">
+                    <button type="submit"
+                        class="p-2 py-[7px] border-l-2 mt-[3px] z-30 text-slate-600 bg-white rounded-r-lg absolute right-[3px] top-4">
+                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            fill="currentColor" viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z">
+                            </path>
+                        </svg>
+                    </button>
+                        <small class="text-white font-semibold absolute left-44 top-16"><?php echo $err_search ?></small>
+                    </form>
+            </div>
             <h2 class="font-bold text-3xl underline">Our Book Store</h2>
             
-            <div class=" flex items-center justify-center flex-wrap gap-24 p-6">
-                <?php foreach ($fetch_book_data_from_db as $item) {
+            <div class=" flex items-center justify-center flex-wrap gap-28 p-6 px-20">
+                <?php foreach ($fetch_book_table_data as $item) {
                     $book_id = isset($item[0]) ? $item[0] : "";
                     $book_name = isset($item[1]) ? ucwords($item[1]) : "";
                     $book_author_name = isset($item[2]) ? $item[2] : "";
                     $book_category_name = isset($item[3]) ? $item[3] : "";
                     $book_image = isset($item[10]) ? $item[10] : "";
 
-                    if ((strpos(strtolower($book_name), $search) !== false) || (strpos(strtolower($book_author_name), $search) !== false) || (strpos(strtolower($book_category_name), $search) !== false)) {
-                        $found = true;
-                        $searchdata = "visible";
-                    } else {
-                        $searchdata = "hidden";
+                    $content_data = [$book_category_name,$book_name];
+                    $searched_data = [$category,$search];
+                    
+                    if(empty($err_search)){
+                        $search_result = $search_data->search_content_data( $searched_data, $content_data);
+                        $exist[] = isset($search_result[0][0]) ? $search_result[0][0] : '';
+                        $searchdata = isset($search_result[1][0]) ? $search_result[1][0] : '';
+                        
+                        $not_exist = 1;
+                        
+                        if(!empty($search)){
+                            $data_not_found = (!in_array($not_exist,$exist)) ? ('<p class="w-full h-full grid place-items-center">Data not found</p>') : '';
+                        }else{
+                            $searchdata = "visible";
+                        }
+                    }else{
+                        echo "Data not found";
+                        break;
                     }
-
-                    if (!$found) {
-                        $data_not_found = '<p class="w-full h-full grid place-items-center">Data not found</p>';
-                    }
-
-                    // if (!empty($search)) {
-                    //     if (($search == strtolower($book_name))) {
-                    //         $searchdata = "visible";
-                    //         $data[] = $searchdata;
-                    //         $data_not_found = "";
-                    //     } else {
-                    //         $searchdata = "hidden";
-                    //         $data_not_found = "Data Not found";
-                    //         $data[] = $searchdata;
-                    //     }
-                    // }
-                    // $more_images = '<svg class="w-20 h-20 absolute top-0 right-0 inset-0 text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. --><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zM200 344V280H136c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H248v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"></path></svg>'
-                    // if (empty($data_not_found)) {
+                    
                     ?>
                     <article class="<?php echo $searchdata ?> w-40 h-52 text-center relative ">
                         <div class="w-full h-full rounded-xl space-y-4">
-                            <!-- <a href="fetch_categories_books?book_category=<?php echo $book_name ?>"
-                                class=" absolute inset-0 z-10"></a> -->
                             <a href="../rented_book_details/buy_book?book_id=<?php echo $book_id ?>"
                                 class=" absolute inset-0 z-10"></a>
                             <img src="../../Image/<?php echo $book_image ?>" alt="Book1"
@@ -178,20 +182,15 @@ if (!empty($fetch_category_data_from_db)) {
                             <h2 class="font-bold text-lg">
                                 <?php echo $book_name ?>
                             </h2>
-
                         </div>
                     </article>
                 <?php }
-                // }
-                
-                    // echo (!in_array('visible', $data)) ? ($data_not_found = '<p class="w-full h-full p-1 grid place-items-center text-xl">Data not found</p>') : '';
                     echo $data_not_found;
-                
                 ?>
 
             </div>
         </section>
-        <section class="w-full h-full text-center py-16 px-6 mt-12 bg-slate-50 space-y-6">
+        <section class="w-full h-full text-center py-16 px-6 mt-20 bg-slate-50 space-y-6" id="reviews">
             <h2 class="font-bold text-3xl">User Reviews</h2>
             <div class=" overflow-scroll w-full grid grid-cols-3 gap-4 p-4 border shadow">
                 <?php
@@ -359,48 +358,41 @@ if (!empty($fetch_category_data_from_db)) {
         </section>
     </main>
 
-    <footer class="w-full h-full px-6  bg-slate-900 text-white">
-        <div class="px-2 py-16">
-            <svg class="w-10 h-10 text-indigo-600" xmlns="http://www.w3.org/2000/svg" version="1.1"
-                viewBox="0 0 512 512" fill="currentColor">
-                <path
-                    d="M128,204.6666718C145.0624084,136.2265015,187.7375946,102,256,102c102.3999939,0,115.2000122,77,166.3999939,89.8333282c34.1376038,8.5598297,64-4.2734985,89.6000061-38.5C494.9375916,221.7734985,452.2623901,256,384,256c-102.3999939,0-115.2000122-77-166.3999939-89.8333282C183.4624023,157.606842,153.6000061,170.4401703,128,204.6666718z M0,358.6666565C17.0623989,290.2265015,59.7375984,256,128,256c102.3999939,0,115.1999969,77,166.3999939,89.8333435c34.1376038,8.5598145,64-4.2734985,89.6000061-38.5C366.9375916,375.7734985,324.2623901,410,256,410c-102.3999939,0-115.1999969-77-166.3999939-89.8333435C55.4624023,311.606842,25.6000004,324.440155,0,358.6666565z">
-                </path>
-            </svg>
+    <footer class="w-full h-full px-6  bg-slate-900 text-white" id="footer">
+        <div class="px-2 py-8">
+            <div class="w-12 h-12 ">
+                <img src="../../Image/Ucodelogo.png" alt="Ucodelogo"
+                    class="w-full h-full object-cover border rounded-full shadow shadow-black">
+            </div>
         </div>
         <ul class=" w-full flex gap-2 max-w-7xl flex-wrap">
             <li class="w-full max-w-xs">
-                <span class="font-semibold py-2">Solutions</span>
+                <span class="font-semibold py-2">Home</span>
                 <ul class=" py-6">
-                    <li class="text-slate-300 py-3"><a href="#">Marketing</a></li>
-                    <li class="text-slate-300 py-3"><a href="#">Analytics</a></li>
-                    <li class="text-slate-300 py-3"><a href="#">Commerce</a></li>
-                    <li class="text-slate-300 py-3"><a href="#">Insights</a></li>
+                    <li class="text-slate-300 py-3"><a href="../home_page">Home Page</a></li>
+                    <li class="text-slate-300 py-3"><a href="#books">Book Store</a></li>
+                    <li class="text-slate-300 py-3"><a href="#reviews">User Reviews</a></li>
+                    <li class="text-slate-300 py-3"><a href="#footer">Home Details</a></li>
                 </ul>
             </li>
             <li class="w-full max-w-xs">
-                <span class="font-semibold py-2">Support</span>
+                <span class="font-semibold py-2">Categories Details</span>
                 <ul class=" py-6">
-                    <li class="text-slate-300 py-3"><a href="#">Pricing</a></li>
-                    <li class="text-slate-300 py-3"><a href="#">Analytics</a></li>
-                    <li class="text-slate-300 py-3"><a href="#">Commerce</a></li>
-                    <li class="text-slate-300 py-3"><a href="#">Insights</a></li>
+                    <li class="text-slate-300 py-3"><a href="../categories_details/book_categories">Categories</a></li>
+                    <li class="text-slate-300 py-3"><a href="../books_details/book_store">Books</a></li>
                 </ul>
             </li>
             <li class="w-full max-w-xs">
-                <span class="font-semibold py-2">Company</span>
+                <span class="font-semibold py-2">Books Store</span>
                 <ul class=" py-6">
-                    <li class="text-slate-300 py-3"><a href="#">About</a></li>
-                    <li class="text-slate-300 py-3"><a href="#">Blog</a></li>
-                    <li class="text-slate-300 py-3"><a href="#">Commerce</a></li>
-                    <li class="text-slate-300 py-3"><a href="#">Insights</a></li>
-                    <li class="text-slate-300 py-3"><a href="#">Insights</a></li>
+                    <li class="text-slate-300 py-3"><a href="../books_details/book_store">Book</a></li>
+                    <li class="text-slate-300 py-3"><a href="../categories_details/book_categories">Categories List</a></li>
                 </ul>
             </li>
             <li class="">
-                <span class="font-semibold py-2">Legal</span>
+                <span class="font-semibold py-2">User details</span>
                 <ul class=" py-6">
-                    <li class="text-slate-300 py-3"><a href="#">Claim</a></li>
+                    <li class="text-slate-300 py-3"><a href="../book_return_details/return_home_page?user_id=<?php echo $user_id ?>">Your Details</a></li>
                     <li class="text-slate-300 py-3"><a href="#">Privacy</a></li>
                     <li class="text-slate-300 py-3"><a href="#">Commerce</a></li>
                 </ul>

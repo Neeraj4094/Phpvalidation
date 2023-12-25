@@ -1,14 +1,8 @@
 <?php
-// include "../database_connection.php";
-// include "../send_fetch_data_from_db.php";
-include "../admin_details/admin_update_fetch_data.php";
+include "../admin_details/admin_form_data_handler.php";
 
 if ($_SESSION['admin'] == null) {
     header("location: ../admin_details/admin_login.php");
-} else {
-    $page = "Details";
-    $admin = 1;
-    define($admin, true);
 }
 
 $create_date = $modify_date = '';
@@ -18,11 +12,11 @@ $admin_fetch_data_from_db = $fetch_data_from_db->fetchdatafromdb($conn, $tablena
 
 
 $search = $dataimage = $data_not_found = $not_found = '';
-// $data = [];
+
 $found = false;
-if (isset($_POST['search'])) {
-    $search = strtolower($_POST['search']);
-}
+
+$search = (isset($_POST['search'])) ? strtolower($_POST['search']) : '';
+
 ?>
 
 <!DOCTYPE html>
@@ -113,25 +107,15 @@ if (isset($_POST['search'])) {
                         $create_date = $date->date_time_in_india($book_created_date);
                         $modify_date = $date->date_time_in_india($book_modified_date);
 
-                        // if (!empty($search)) {
-                        //     if (($search == strtolower($book_name)) || ($search == strtolower($author_name)) || ($search == strtolower($category_name))) {
-                        //         $searchdata = "visible";
-                        //         $data[] = $searchdata;
-                        //     } else {
-                        //         $searchdata = "hidden";
-                        //         $data[] = $searchdata;
-                        //     }
-                        // }
-                        
                         if ((strpos(strtolower($book_name), $search) !== false) || (strpos(strtolower($author_name), $search) !== false) || (strpos(strtolower($category_name), $search) !== false)) {
                             $found = true;
                             $searchdata = "visible";
-                        }else{
+                        } else {
                             $searchdata = "hidden";
                         }
-                            
+
                         $data_not_found = (!$found) ? ('<p class="w-full h-full grid place-items-center">Data not found</p>') : '';
-                        
+
                         ?>
                         <div class="<?php echo $searchdata ?> py-2 mt-2 <?php ?>  rounded-md border w-full shadow">
                             <div class=" flex justify-between items-center p-2 gap-4 w-full ">
@@ -193,12 +177,46 @@ if (isset($_POST['search'])) {
 
                                         </button>
                                     </form>
-                                    <form action="delete_books?id=<?php echo $book_id ?>" method="post">
-                                        <button data-toggle="tooltip" data-placement="top" title="Delete"
-                                            class="border-2 px-4 py-1 rounded-md">
-                                            <?php echo $delete ?>
-                                        </button>
-                                    </form>
+
+                                    <button id="<?php echo 'showBookBtn_' . $book_id ?>" class=" border-2 px-4 py-1 rounded-md">
+                                        <?php echo $delete ?>
+                                    </button>
+                                    <script>
+                                        document.getElementById('<?php echo 'showBookBtn_' . $book_id ?>').addEventListener('click', function () {
+                                            var box = document.getElementById('<?php echo 'bookData_' . $book_id ?>');
+                                            box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'block' : 'none';
+                                        });
+                                    </script>
+
+                                    <div id="<?php echo 'bookData_' . $book_id ?>" class="hidden">
+
+                                        <div
+                                            class="<?php echo $content_visible ?> w-full h-screen flex items-center justify-center fixed  left-0 bottom-0 right-0 bg-black/40">
+                                            <div
+                                                class="w-80 h-36 grid font-semibold place-items-center border rounded-xl py-2 shadow z-20 bg-white text-black relative">
+                                                <form action="books" method="post"
+                                                    class="font-bold text-2xl text-slate-400 absolute right-2 top-2">
+                                                    <button type="submit">
+                                                        <svg class="w-6 h-6" fill="currentColor"
+                                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                            <path
+                                                                d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z">
+                                                            </path>
+                                                        </svg>
+                                                    </button>
+                                                </form>
+                                                <div class="grid place-items-center gap-4 pb-2">
+                                                    <h2 class="px-6 font-semibold pt-3 text-black text-center">Are you sure u
+                                                        want to delete this book</h2>
+                                                    <form action="delete_books?id=<?php echo $book_id ?>" method="post"
+                                                        class="">
+                                                        <button type="submit"
+                                                            class="  font-bold rounded-md bg-blue-600 text-white px-3 border ">Yes</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

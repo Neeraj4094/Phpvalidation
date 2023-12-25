@@ -10,7 +10,7 @@ $send_data_to_db = new send_data_to_db();
 $fetch_data_from_db = new fetch_db_data();
 
 $login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] : '';
-$user_id_data = $fetch_data_from_db->fetch_data('user_details','user_id', $login_email, $conn, 'user_email');
+$user_id_data = $fetch_data_from_db->fetch_data('user_details','user_id', $login_email, $conn, 'email');
 $user_id = isset($user_id_data[0][0]) ? $user_id_data[0][0] :'';
 
 

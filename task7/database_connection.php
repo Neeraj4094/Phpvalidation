@@ -52,12 +52,12 @@ try {
 
     $admin_table_name = "admin_data";
     $admin_tablecolumn_name = "CREATE TABLE IF NOT EXISTS $admin_table_name(
-        admin_id INT(4) PRIMARY KEY AUTO_INCREMENT,
-        admin_name VARCHAR(30),
-        admin_email VARCHAR(35),
-        admin_password VARCHAR(100),
-        admin_phone_number text(255),
-        admin_occupation varchar(20)
+        id INT(4) PRIMARY KEY AUTO_INCREMENT,
+        name VARCHAR(30),
+        email VARCHAR(35),
+        password VARCHAR(100),
+        phone_number text(255),
+        occupation varchar(20)
     )";
 
     $createtable = new create_tb();
@@ -69,12 +69,12 @@ try {
     $books_table_name = "books_details";
     $books_tablecolumn_name = "CREATE TABLE IF NOT EXISTS $books_table_name(
     book_id INT(4) PRIMARY KEY AUTO_INCREMENT,
-    book_name VARCHAR(255),
-    book_author VARCHAR(20),
-    book_category VARCHAR(20),
-    book_copies INT(3),
-    book_price text(10),
-    book_description text(255),
+    name VARCHAR(255),
+    author VARCHAR(20),
+    category VARCHAR(20),
+    copies INT(3),
+    price text(10),
+    description text(255),
     book_image_name VARCHAR(35),
     created_date datetime,
     modified_date datetime,
@@ -103,13 +103,15 @@ try {
     $user_table_name = "User_details";
     $user_tablecolumn_name = "CREATE TABLE IF NOT EXISTS $user_table_name(
         user_id INT(4) PRIMARY KEY AUTO_INCREMENT,
-        user_name VARCHAR(30),
-        user_email VARCHAR(40),
-        user_password VARCHAR(100),
-        user_phone_no text(255),
-        user_address VARCHAR(50),
+        name VARCHAR(30),
+        email VARCHAR(40),
+        password VARCHAR(100),
+        phone_no text(255),
+        address VARCHAR(50),
         gender varchar(10),
-        user_status varchar(20)
+        status varchar(20),
+        created_date datetime,
+        modified_date datetime
     )";
 
     $create_user_table = $createtable->create_table($conn, $user_tablecolumn_name); //Create table of users

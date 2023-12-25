@@ -1,20 +1,19 @@
 <?php
 include './book_fetch_validation.php';
-// include '../admin_session.php';
 
 if (empty($book_category) && empty($book_author)) {
     $book_category = '';
-    $book_author = $err_msg = '';
+    $book_author = $err_msg = $book_charges = '';
 }
-$cart_data = $cart_status= [];
+$cart_data = $cart_status = [];
 $cart_book_id = $cart_user_email = [];
 $fetch_data_from_db = new fetch_db_data();
 $fetch_cart_query = $fetch_data_from_db->fetchiddata('cart_details', $book_id, $conn, 'book_id');
-$fetch_cart_data_from_db = mysqli_fetch_all($fetch_cart_query);
-foreach ($fetch_cart_data_from_db as $data) {
+$fetch_cart_table_data = mysqli_fetch_all($fetch_cart_query);
+foreach ($fetch_cart_table_data as $data) {
     $cart_data = $data;
 }
-$db_cart_data = $fetch_data_from_db->fetchdatafromdb($conn, 'cart_details');
+$table_cart_data = $fetch_data_from_db->fetchdatafromdb($conn, 'cart_details');
 
 $book_id = isset($_GET['book_id']) ? intval($_GET['book_id']) : '';
 
@@ -28,87 +27,61 @@ if (empty($cart_msg)) {
 
 $fetch_order_data = $fetch_data_from_db->fetch_user_order_data('rented_book_details', $book_id, $user_id, $conn);
 
-
-// echo "<pre>";
-// print_r($fetch_order_data);
-// echo "</pre>";
-if(empty($fetch_user_id_data)){
+if (empty($fetch_user_id_data)) {
     $cart_status[] = "Not Exist";
-}else{
-    if(!in_array($book_id, $book_id_list) && !in_array($user_id, $user_id_list)) {
+} else {
+    if (!in_array($book_id, $book_id_list) && !in_array($user_id, $user_id_list)) {
         $cart_status[] = "Not Exist";
-    }
-    elseif(!in_array($book_id, $book_id_list) && in_array($user_id, $user_id_list)) {
+    } elseif (!in_array($book_id, $book_id_list) && in_array($user_id, $user_id_list)) {
         $cart_status[] = "Not Exist";
-    }
-    elseif(in_array($book_id, $book_id_list) && in_array($user_id, $user_id_list) && (empty($fetch_order_data))) {
+    } elseif (in_array($book_id, $book_id_list) && in_array($user_id, $user_id_list) && (empty($fetch_order_data))) {
         $cart_status[] = "Not Exist";
-    }
-    else{
+    } else {
         $cart_status[] = "Exist";
     }
 }
 // }
 $compare_status = "Exist";
-if(!in_array($compare_status,$cart_status)){
+if (!in_array($compare_status, $cart_status)) {
     $check_cart_status = true;
-}else{
+} else {
     $check_cart_status = false;
 }
 
-// print_r($order_book_id_list);
-
 if (($_SERVER["REQUEST_METHOD"] == "POST") && (isset($_POST["save_to_cart"]))) {
-    // if  {
     $tablename = 'cart_details';
 
     $column_name = ['book_id', 'user_id'];
     $row_data = [$book_id, $user_id];
-    
-        if ($check_cart_status) {
-            if(empty($fetch_rented_book_user_data)){
-                $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
-                header("location: ./buy_book?book_id=" . $book_id);
-            }elseif(!in_array($book_id,$order_book_id_list) || (empty($fetch_order_data))){
-                $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
-                header("location: ./buy_book?book_id=" . $book_id);
-            }else{
-                $err_msg = "You have already purchase this book";
-            }
-            
-        }else{
+
+    if ($check_cart_status) {
+        if (empty($user_rented_book_data)) {
+            $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
+            header("location: ./buy_book?book_id=" . $book_id);
+        } elseif (!in_array($book_id, $order_book_id_list) || (empty($fetch_order_data))) {
+            $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
+            header("location: ./buy_book?book_id=" . $book_id);
+        } else {
             $err_msg = "You have already purchase this book";
-            
-            header("location: delete_cart?book_id=" . $book_id);
         }
-        //  elseif (in_array($book_id, $book_id_list) && !in_array($user_id, $user_id_list)) {
-        //     if(empty($fetch_rented_book_user_data)){
-                
-        //         $admin_register_data = $send_data_to_db->insertindb('cart_details', $column_name, $row_data, $conn);
-        //         header("location: ./buy_book?book_id=" . $book_id);
-        //     }else{
-        //         $err_msg = "You have already purchase this book";
-        //     }
-        // } else {
-        //     $err_msg = "Sorry";
-        // }
-    
+
+    } else {
+        $err_msg = "You have already purchase this book";
+
+        header("location: delete_cart?book_id=" . $book_id);
+    }
+
 }
 
-foreach ($fetch_rented_book_user_data as $data) {
+foreach ($user_rented_book_data as $data) {
     $rented_book_id = isset($data[7]) ? $data[7] : '';
     $rented_book_id_list[] = $rented_book_id;
     $user_email = isset($data[1]) ? $data[1] : '';
     $user_email_list[] = $user_email;
-    // if ($book_id == $rented_book_id && ($login_email == $user_email)) {
-    //     $errmsg = 'You have already purchse this book';
-    // }
 
 }
 
-// $cancel_login = '';
-
-$fetch_id_query = $fetch_data_from_db->fetchiddata('user_details', $login_email, $conn, 'user_email');
+$fetch_id_query = $fetch_data_from_db->fetchiddata('user_details', $login_email, $conn, 'email');
 $fetch_id_data = mysqli_fetch_all($fetch_id_query);
 $user_name = isset($fetch_id_data[0][1]) ? $fetch_id_data[0][1] : '';
 
@@ -126,20 +99,10 @@ foreach ($fetch_id_data as $key => $value) {
     $book_price = isset($value[5]) ? $value[5] : '';
     $book_description = isset($value[6]) ? $value[6] : '';
     $book_image = isset($value[10]) ? $value[10] : '';
-    $book_charges = $book_price/100 * 1;
-    
+    $book_charges = $book_price / 100 * 1;
+
 }
 
-// foreach($fetch_user_id_data as $data){
-//     $book_id = isset($data[1]) ? $data[1] : '';
-//     if(in_array($book_id,$order_book_id_list)){
-//         header('location: delete_cart.php?book_id=' . $book_id);
-//     }
-// }
-// echo "<pre>";
-// print_r($fetch_user_id_data);
-// print_r($order_book_id_list);
-// echo "</pre>";
 ?>
 
 <!DOCTYPE html>
@@ -158,53 +121,73 @@ foreach ($fetch_id_data as $key => $value) {
 <body class=" w-full h-full text-slate-700">
     <h2 class="w-full border text-center bg-green-50 text-slate-800 z-10 shadow">
         <?php
-            echo $err_msg;
+        echo $err_msg;
         ?>
     </h2>
     <header>
         <?php include '../home_page/home_header.php' ?>
     </header>
     <main class="flex w-full gap-4 py-1">
-        <div class="flex-1 w-full h-full bg-slate-50 py-10 relative">
-            <div class="grid place-items-center ">
+        <div class="flex-1 w-full h-full bg-slate-50 p-10 relative">
+            <div class="flex items-center justify-center h-full w-full">
                 <div class="w-60 h-80 border rounded-xl ">
                     <img src="../../Image/<?php echo $book_image ?>" alt="Book1"
                         class="w-full h-full object-cover rounded-xl">
                 </div>
                 <?php
-                if(empty($db_cart_data)){ ?>
+                if (empty($table_cart_data)) { ?>
                     <form action="buy_book?book_id=<?php echo $book_id ?>" method="post" class="absolute right-2 top-2 ">
-                    <button type="submit" name="save_to_cart">
-                        <svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none"><path d="M2.99707 3.49609C2.99707 3.21995 3.22093 2.99609 3.49707 2.99609H3.93543C4.66237 2.99609 5.07976 3.46917 5.32152 3.94075C5.4872 4.2639 5.6065 4.65813 5.70508 4.99951H15.9999C16.6634 4.99951 17.1429 5.63392 16.9619 6.27229L15.4664 11.5468C15.2225 12.4073 14.4368 13.0012 13.5423 13.0012H8.46306C7.56125 13.0012 6.77099 12.3977 6.5336 11.5277L5.89118 9.17338C5.88723 9.16268 5.88361 9.15177 5.88034 9.14067L4.851 5.6429C4.81568 5.52686 4.78318 5.41439 4.7518 5.3058C4.65195 4.96027 4.56346 4.65406 4.43165 4.39696C4.2723 4.08613 4.12597 3.99609 3.93543 3.99609H3.49707C3.22093 3.99609 2.99707 3.77224 2.99707 3.49609ZM6.84471 8.86872L7.49833 11.2645C7.61702 11.6995 8.01215 12.0012 8.46306 12.0012H13.5423C13.9895 12.0012 14.3824 11.7043 14.5044 11.274L15.9999 5.99951H6.00063L6.84471 8.86872ZM10 15.4995C10 16.3279 9.32843 16.9995 8.5 16.9995C7.67157 16.9995 7 16.3279 7 15.4995C7 14.6711 7.67157 13.9995 8.5 13.9995C9.32843 13.9995 10 14.6711 10 15.4995ZM9 15.4995C9 15.2234 8.77614 14.9995 8.5 14.9995C8.22386 14.9995 8 15.2234 8 15.4995C8 15.7757 8.22386 15.9995 8.5 15.9995C8.77614 15.9995 9 15.7757 9 15.4995ZM15 15.4995C15 16.3279 14.3284 16.9995 13.5 16.9995C12.6716 16.9995 12 16.3279 12 15.4995C12 14.6711 12.6716 13.9995 13.5 13.9995C14.3284 13.9995 15 14.6711 15 15.4995ZM14 15.4995C14 15.2234 13.7761 14.9995 13.5 14.9995C13.2239 14.9995 13 15.2234 13 15.4995C13 15.7757 13.2239 15.9995 13.5 15.9995C13.7761 15.9995 14 15.7757 14 15.4995Z" fill="currentColor"></path></svg>
-                    </button>
-                        </form>
+                        <button type="submit" name="save_to_cart">
+                            <svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
+                                <path
+                                    d="M2.99707 3.49609C2.99707 3.21995 3.22093 2.99609 3.49707 2.99609H3.93543C4.66237 2.99609 5.07976 3.46917 5.32152 3.94075C5.4872 4.2639 5.6065 4.65813 5.70508 4.99951H15.9999C16.6634 4.99951 17.1429 5.63392 16.9619 6.27229L15.4664 11.5468C15.2225 12.4073 14.4368 13.0012 13.5423 13.0012H8.46306C7.56125 13.0012 6.77099 12.3977 6.5336 11.5277L5.89118 9.17338C5.88723 9.16268 5.88361 9.15177 5.88034 9.14067L4.851 5.6429C4.81568 5.52686 4.78318 5.41439 4.7518 5.3058C4.65195 4.96027 4.56346 4.65406 4.43165 4.39696C4.2723 4.08613 4.12597 3.99609 3.93543 3.99609H3.49707C3.22093 3.99609 2.99707 3.77224 2.99707 3.49609ZM6.84471 8.86872L7.49833 11.2645C7.61702 11.6995 8.01215 12.0012 8.46306 12.0012H13.5423C13.9895 12.0012 14.3824 11.7043 14.5044 11.274L15.9999 5.99951H6.00063L6.84471 8.86872ZM10 15.4995C10 16.3279 9.32843 16.9995 8.5 16.9995C7.67157 16.9995 7 16.3279 7 15.4995C7 14.6711 7.67157 13.9995 8.5 13.9995C9.32843 13.9995 10 14.6711 10 15.4995ZM9 15.4995C9 15.2234 8.77614 14.9995 8.5 14.9995C8.22386 14.9995 8 15.2234 8 15.4995C8 15.7757 8.22386 15.9995 8.5 15.9995C8.77614 15.9995 9 15.7757 9 15.4995ZM15 15.4995C15 16.3279 14.3284 16.9995 13.5 16.9995C12.6716 16.9995 12 16.3279 12 15.4995C12 14.6711 12.6716 13.9995 13.5 13.9995C14.3284 13.9995 15 14.6711 15 15.4995ZM14 15.4995C14 15.2234 13.7761 14.9995 13.5 14.9995C13.2239 14.9995 13 15.2234 13 15.4995C13 15.7757 13.2239 15.9995 13.5 15.9995C13.7761 15.9995 14 15.7757 14 15.4995Z"
+                                    fill="currentColor"></path>
+                            </svg>
+                        </button>
+                    </form>
                 <?php }
-                foreach($db_cart_data as $cart_data){
-                    $book_id_in_cart = isset( $cart_data[1] ) ? $cart_data[1] :'';
-                    $user_email_in_cart = isset( $cart_data[2] ) ? $cart_data[2] :'';
+                foreach ($table_cart_data as $cart_data) {
+                    $book_id_in_cart = isset($cart_data[1]) ? $cart_data[1] : '';
+                    $user_email_in_cart = isset($cart_data[2]) ? $cart_data[2] : '';
                     if (($book_id == $book_id_in_cart) && ($user_id == $user_email_in_cart)) {
-                    ?>
+                        ?>
                         <form action="delete_cart.php?book_id=<?php echo $book_id ?>" method="post"
-                                    class="absolute right-2 top-2 ">
+                            class="absolute right-2 top-2 ">
                             <button type="submit" name="delete_from_cart">
-                                <svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.61132 13C9.24662 13 8.91085 13.1985 8.7351 13.5181C8.36855 14.1845 8.85071 15 9.61131 15H18.92C19.4723 15 19.92 15.4477 19.92 16C19.92 16.5523 19.4723 17 18.92 17H17.93H7.92999H7.92004C6.40004 17 5.44004 15.37 6.17004 14.03L7.02318 12.488C7.33509 11.9243 7.35632 11.2448 7.08022 10.6627L4.25211 4.70011C4.04931 4.27254 3.6184 4 3.14518 4H2.92004C2.36776 4 1.92004 3.55228 1.92004 3C1.92004 2.44772 2.36776 2 2.92004 2H3.92398C4.69708 2 5.40095 2.44557 5.7317 3.14435L5.90228 3.50471C5.93443 3.5016 5.96703 3.5 6 3.5H21C21.5523 3.5 22 3.94772 22 4.5C22 4.77321 21.8904 5.02082 21.7129 5.20131C21.7448 5.41025 21.7106 5.63097 21.6008 5.83041L18.22 11.97C17.88 12.59 17.22 13 16.47 13H9.61132ZM7.92999 17C9.03456 17 9.92999 17.8954 9.92999 19C9.92999 20.1046 9.03456 21 7.92999 21C6.82542 21 5.92999 20.1046 5.92999 19C5.92999 17.8954 6.82542 17 7.92999 17ZM17.93 17C16.8254 17 15.93 17.8954 15.93 19C15.93 20.1046 16.8254 21 17.93 21C19.0346 21 19.93 20.1046 19.93 19C19.93 17.8954 19.0346 17 17.93 17Z" fill="currentColor"></path><path d="M7.92999 20C8.48228 20 8.92999 19.5523 8.92999 19C8.92999 18.4477 8.48228 18 7.92999 18C7.37771 18 6.92999 18.4477 6.92999 19C6.92999 19.5523 7.37771 20 7.92999 20Z" fill="currentColor"></path><path d="M18.93 19C18.93 19.5523 18.4823 20 17.93 20C17.3777 20 16.93 19.5523 16.93 19C16.93 18.4477 17.3777 18 17.93 18C18.4823 18 18.93 18.4477 18.93 19Z" fill="currentColor"></path><path d="M15.99 6.79166L15.4025 6.2L12.6567 8.94583L11.5817 7.875L10.99 8.4625L12.6567 10.125L15.99 6.79166Z" fill="white"></path></svg>
+                                <svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M9.61132 13C9.24662 13 8.91085 13.1985 8.7351 13.5181C8.36855 14.1845 8.85071 15 9.61131 15H18.92C19.4723 15 19.92 15.4477 19.92 16C19.92 16.5523 19.4723 17 18.92 17H17.93H7.92999H7.92004C6.40004 17 5.44004 15.37 6.17004 14.03L7.02318 12.488C7.33509 11.9243 7.35632 11.2448 7.08022 10.6627L4.25211 4.70011C4.04931 4.27254 3.6184 4 3.14518 4H2.92004C2.36776 4 1.92004 3.55228 1.92004 3C1.92004 2.44772 2.36776 2 2.92004 2H3.92398C4.69708 2 5.40095 2.44557 5.7317 3.14435L5.90228 3.50471C5.93443 3.5016 5.96703 3.5 6 3.5H21C21.5523 3.5 22 3.94772 22 4.5C22 4.77321 21.8904 5.02082 21.7129 5.20131C21.7448 5.41025 21.7106 5.63097 21.6008 5.83041L18.22 11.97C17.88 12.59 17.22 13 16.47 13H9.61132ZM7.92999 17C9.03456 17 9.92999 17.8954 9.92999 19C9.92999 20.1046 9.03456 21 7.92999 21C6.82542 21 5.92999 20.1046 5.92999 19C5.92999 17.8954 6.82542 17 7.92999 17ZM17.93 17C16.8254 17 15.93 17.8954 15.93 19C15.93 20.1046 16.8254 21 17.93 21C19.0346 21 19.93 20.1046 19.93 19C19.93 17.8954 19.0346 17 17.93 17Z"
+                                        fill="currentColor"></path>
+                                    <path
+                                        d="M7.92999 20C8.48228 20 8.92999 19.5523 8.92999 19C8.92999 18.4477 8.48228 18 7.92999 18C7.37771 18 6.92999 18.4477 6.92999 19C6.92999 19.5523 7.37771 20 7.92999 20Z"
+                                        fill="currentColor"></path>
+                                    <path
+                                        d="M18.93 19C18.93 19.5523 18.4823 20 17.93 20C17.3777 20 16.93 19.5523 16.93 19C16.93 18.4477 17.3777 18 17.93 18C18.4823 18 18.93 18.4477 18.93 19Z"
+                                        fill="currentColor"></path>
+                                    <path
+                                        d="M15.99 6.79166L15.4025 6.2L12.6567 8.94583L11.5817 7.875L10.99 8.4625L12.6567 10.125L15.99 6.79166Z"
+                                        fill="white"></path>
+                                </svg>
                             </button>
 
                         </form>
-                    
-                
+
+
                     <?php } else {
-                        
-                        // if (inarra($book_id, $rented_book_id_list) && ($login_email == $user_email)) {
+
                         ?>
                         <form action="buy_book?book_id=<?php echo $book_id ?>" method="post" class="absolute right-2 top-2 ">
-                        <button type="submit" name="save_to_cart">
-                            <svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none"><path d="M2.99707 3.49609C2.99707 3.21995 3.22093 2.99609 3.49707 2.99609H3.93543C4.66237 2.99609 5.07976 3.46917 5.32152 3.94075C5.4872 4.2639 5.6065 4.65813 5.70508 4.99951H15.9999C16.6634 4.99951 17.1429 5.63392 16.9619 6.27229L15.4664 11.5468C15.2225 12.4073 14.4368 13.0012 13.5423 13.0012H8.46306C7.56125 13.0012 6.77099 12.3977 6.5336 11.5277L5.89118 9.17338C5.88723 9.16268 5.88361 9.15177 5.88034 9.14067L4.851 5.6429C4.81568 5.52686 4.78318 5.41439 4.7518 5.3058C4.65195 4.96027 4.56346 4.65406 4.43165 4.39696C4.2723 4.08613 4.12597 3.99609 3.93543 3.99609H3.49707C3.22093 3.99609 2.99707 3.77224 2.99707 3.49609ZM6.84471 8.86872L7.49833 11.2645C7.61702 11.6995 8.01215 12.0012 8.46306 12.0012H13.5423C13.9895 12.0012 14.3824 11.7043 14.5044 11.274L15.9999 5.99951H6.00063L6.84471 8.86872ZM10 15.4995C10 16.3279 9.32843 16.9995 8.5 16.9995C7.67157 16.9995 7 16.3279 7 15.4995C7 14.6711 7.67157 13.9995 8.5 13.9995C9.32843 13.9995 10 14.6711 10 15.4995ZM9 15.4995C9 15.2234 8.77614 14.9995 8.5 14.9995C8.22386 14.9995 8 15.2234 8 15.4995C8 15.7757 8.22386 15.9995 8.5 15.9995C8.77614 15.9995 9 15.7757 9 15.4995ZM15 15.4995C15 16.3279 14.3284 16.9995 13.5 16.9995C12.6716 16.9995 12 16.3279 12 15.4995C12 14.6711 12.6716 13.9995 13.5 13.9995C14.3284 13.9995 15 14.6711 15 15.4995ZM14 15.4995C14 15.2234 13.7761 14.9995 13.5 14.9995C13.2239 14.9995 13 15.2234 13 15.4995C13 15.7757 13.2239 15.9995 13.5 15.9995C13.7761 15.9995 14 15.7757 14 15.4995Z" fill="currentColor"></path></svg>
-                        </button>
+                            <button type="submit" name="save_to_cart">
+                                <svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
+                                    <path
+                                        d="M2.99707 3.49609C2.99707 3.21995 3.22093 2.99609 3.49707 2.99609H3.93543C4.66237 2.99609 5.07976 3.46917 5.32152 3.94075C5.4872 4.2639 5.6065 4.65813 5.70508 4.99951H15.9999C16.6634 4.99951 17.1429 5.63392 16.9619 6.27229L15.4664 11.5468C15.2225 12.4073 14.4368 13.0012 13.5423 13.0012H8.46306C7.56125 13.0012 6.77099 12.3977 6.5336 11.5277L5.89118 9.17338C5.88723 9.16268 5.88361 9.15177 5.88034 9.14067L4.851 5.6429C4.81568 5.52686 4.78318 5.41439 4.7518 5.3058C4.65195 4.96027 4.56346 4.65406 4.43165 4.39696C4.2723 4.08613 4.12597 3.99609 3.93543 3.99609H3.49707C3.22093 3.99609 2.99707 3.77224 2.99707 3.49609ZM6.84471 8.86872L7.49833 11.2645C7.61702 11.6995 8.01215 12.0012 8.46306 12.0012H13.5423C13.9895 12.0012 14.3824 11.7043 14.5044 11.274L15.9999 5.99951H6.00063L6.84471 8.86872ZM10 15.4995C10 16.3279 9.32843 16.9995 8.5 16.9995C7.67157 16.9995 7 16.3279 7 15.4995C7 14.6711 7.67157 13.9995 8.5 13.9995C9.32843 13.9995 10 14.6711 10 15.4995ZM9 15.4995C9 15.2234 8.77614 14.9995 8.5 14.9995C8.22386 14.9995 8 15.2234 8 15.4995C8 15.7757 8.22386 15.9995 8.5 15.9995C8.77614 15.9995 9 15.7757 9 15.4995ZM15 15.4995C15 16.3279 14.3284 16.9995 13.5 16.9995C12.6716 16.9995 12 16.3279 12 15.4995C12 14.6711 12.6716 13.9995 13.5 13.9995C14.3284 13.9995 15 14.6711 15 15.4995ZM14 15.4995C14 15.2234 13.7761 14.9995 13.5 14.9995C13.2239 14.9995 13 15.2234 13 15.4995C13 15.7757 13.2239 15.9995 13.5 15.9995C13.7761 15.9995 14 15.7757 14 15.4995Z"
+                                        fill="currentColor"></path>
+                                </svg>
+                            </button>
                         </form>
                     <?php }
-                    }
-                    // }
+                }
                 ?>
             </div>
 
@@ -301,8 +284,8 @@ foreach ($fetch_id_data as $key => $value) {
                     </div>
 
                     <a href="rented_books?buy_book_id=<?php echo $book_id ?>"
-                        class="py-3 border flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-lg">Buy
-                        Now</a>
+                        class="py-3 border flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-lg">Read
+                        & Rent</a>
                 </div>
             </div>
     </main>

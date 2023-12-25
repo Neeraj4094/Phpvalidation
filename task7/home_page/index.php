@@ -12,13 +12,7 @@ if(!empty($id)){
     $category_path = '/fetch_categories_books?'.$id;
     $category_page_url = '../fetch_categories_books.php';
 }else{
-    $update_path = '';
-    $delete_path = '';
-    $update_page_url = '';
-    $delete_page_url = '';
-    $category_path = '';
-    $category_page_url = '';
-    $return_path = $return_page_url = '';
+    $update_path = $delete_path = $update_page_url = $delete_page_url = $category_path = $category_page_url = '';
 }
 include '../view/home_index.php';
 ?>

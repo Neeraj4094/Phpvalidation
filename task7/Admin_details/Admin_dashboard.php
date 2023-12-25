@@ -1,6 +1,5 @@
 <?php
-include 'admin_update_fetch_data.php';
-include '../authentication.php';
+include 'admin_form_data_handler.php';
 
 if ($_SESSION['admin'] == null) {
     header("location: ./admin_login");
@@ -10,8 +9,7 @@ $found = false;
 if (empty($admin_logged_in_name)) {
     $admin_logged_in_name = "";
 }
-$search = $dataimage = $data_not_found = $not_found = '';
-// $data = [];
+$data_not_found = '';
 
 $search = isset($_POST['search']) ? strtolower($_POST['search']) : '';
 
@@ -61,7 +59,8 @@ $search = isset($_POST['search']) ? strtolower($_POST['search']) : '';
                         </button>
                     </form>
                 </div>
-                <a href="admin_registeration" class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg"><span
+                <a href="admin_registeration?admin_email=<?php echo $admin_id ?>"
+                    class=" uppercase px-4 py-2 bg-blue-600 text-white rounded-lg"><span
                         class="font-bold text-xl">+</span> Add Admins</a>
             </div>
         </div>
@@ -76,55 +75,34 @@ $search = isset($_POST['search']) ? strtolower($_POST['search']) : '';
                 $delete = '<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none"><path d="M7 3H9C9 2.44772 8.55228 2 8 2C7.44772 2 7 2.44772 7 3ZM6 3C6 1.89543 6.89543 1 8 1C9.10457 1 10 1.89543 10 3H14C14.2761 3 14.5 3.22386 14.5 3.5C14.5 3.77614 14.2761 4 14 4H13.4364L12.2313 12.8378C12.0624 14.0765 11.0044 15 9.75422 15H6.24578C4.99561 15 3.93762 14.0765 3.76871 12.8378L2.56355 4H2C1.72386 4 1.5 3.77614 1.5 3.5C1.5 3.22386 1.72386 3 2 3H6ZM7 6.5C7 6.22386 6.77614 6 6.5 6C6.22386 6 6 6.22386 6 6.5V11.5C6 11.7761 6.22386 12 6.5 12C6.77614 12 7 11.7761 7 11.5V6.5ZM9.5 6C9.22386 6 9 6.22386 9 6.5V11.5C9 11.7761 9.22386 12 9.5 12C9.77614 12 10 11.7761 10 11.5V6.5C10 6.22386 9.77614 6 9.5 6Z" fill="currentColor"></path></svg>';
                 $no_delete = '<svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M3.93931 5L2.21966 3.28032C1.92677 2.98743 1.92678 2.51255 2.21968 2.21966C2.51257 1.92677 2.98745 1.92678 3.28034 2.21968L21.7801 20.7198C22.073 21.0127 22.073 21.4876 21.7801 21.7805C21.4872 22.0734 21.0123 22.0734 20.7194 21.7805L18.5293 19.5903C17.9867 21.0098 16.6131 22 15.0263 22H8.97369C7.04254 22 5.42715 20.5334 5.24113 18.6112L4.06908 6.5H2.75C2.33579 6.5 2 6.16421 2 5.75C2 5.33579 2.33579 5 2.75 5H3.93931ZM17.2782 18.3392L15 16.0609V17.25C15 17.6642 14.6642 18 14.25 18C13.8358 18 13.5 17.6642 13.5 17.25V14.5609L10.5 11.5608V17.25C10.5 17.6642 10.1642 18 9.75 18C9.33579 18 9 17.6642 9 17.25V10.0608L5.59074 6.65147L6.73416 18.4667C6.84577 19.62 7.815 20.5 8.97369 20.5H15.0263C16.185 20.5 17.1542 19.62 17.2658 18.4667L17.2782 18.3392ZM13.5 10.3185L15 11.8186V9.75C15 9.33579 14.6642 9 14.25 9C13.8358 9 13.5 9.33579 13.5 9.75V10.3185ZM18.4239 6.5L17.6525 14.4711L19.0265 15.8452L19.9309 6.5H21.25C21.6642 6.5 22 6.16421 22 5.75C22 5.33579 21.6642 5 21.25 5H15.5C15.5 3.067 13.933 1.5 12 1.5C10.067 1.5 8.5 3.067 8.5 5H8.18156L9.68153 6.5H18.4239ZM14 5H10C10 3.89543 10.8954 3 12 3C13.1046 3 14 3.89543 14 5Z" fill="currentColor"></path></svg>';
 
-                // echo "<pre>";
-                // print_r( $admin_data );
-                // echo "</pre>";
-                foreach ($admin_fetch_data_from_db as $item) {
-                    $itemid = '';
-                    $itemname = $item[1];
-                    $itememail = $item[2];
-                    $itempassword = $item[3];
-                    $item_phone_number = $item[4];
-                    $itemoccupation = $item[5];
+                foreach ($fetch_admin_table_data as $item) {
+                    $admin_name = $item[1];
+                    $admin_email = $item[2];
+                    $admin_password = $item[3];
+                    $admin_phone_number = $item[4];
+                    $admin_occupation = $item[5];
 
-                    $registerid = $item[0];
-                    // print_r($session_email);
                     $check = in_array($session_email, $item);
-                    $checkid = $check ? $admin_logged_in_id : $itemid;
-                    $username = $check ? $admin_logged_in_name : $itemname;
-                    $useremail = $check ? $admin_logged_in_email : $itememail;
+                    $checkid = $check ? $admin_logged_in_id : '';
 
-                    // $admin_password = password_verify($_SESSION['admin']['password'], $admin_logged_in_password);
-                    // echo $login_password;
-                    // $userpassword = $check ? $login_password : substr($itempassword, 0, 4) . "**********";
-                    $user_phone_number = $check ? $admin_logged_in_phone_number : $item_phone_number;
-                    // $useroccupation = $check ? $admin_logged_in_occupation : $itemoccupation;
-                    // $userskills = $check ? $dataskills : $itemskills;
                     $userloggedin = $check ? $edit : $locked;
                     $userdelete = $check ? $delete : $no_delete;
                     $boxColor = $check ? 'bg-white shadow-sm border ' : 'bg-white ';
                     $textcolor = $check ? 'font-bold' : 'font-semibold';
                     $circlecolor = $check ? 'bg-blue-800' : 'bg-indigo-600';
                     $textcol = $check ? 'font-semibold' : 'font-normal';
-                    // if (!empty($search)) {
-                    //     if (($search == strtolower($username)) || ($search == strtolower($useremail)) || ($search == strtolower($user_phone_number))) {
-                    //         $searchdata = "visible";
-                    //         $data[] = $searchdata;
-                    //     } else {
-                    //         $searchdata = "hidden";
-                    //         $data[] = $searchdata;
-                    //     }
-                    // }
+                    $content_visible = (!empty($checkid)) ? 'visible' : 'hidden';
+
 
                     if ((strpos(strtolower($username), $search) !== false) || (strpos(strtolower($useremail), $search) !== false) || (strpos(strtolower($user_phone_number), $search) !== false)) {
                         $found = true;
                         $searchdata = "visible";
-                    }else{
+                    } else {
                         $searchdata = "hidden";
                     }
-                        
+
                     $data_not_found = (!$found) ? ('<p class="w-full h-full grid place-items-center">Data not found</p>') : '';
-                    
+
                     ?>
                     <div
                         class="<?php echo $searchdata; ?> gap-2 py-2 mt-2 <?php echo $boxColor ?>  rounded-md border w-full shadow">
@@ -142,52 +120,72 @@ $search = isset($_POST['search']) ? strtolower($_POST['search']) : '';
                                         <div>
                                             <div class="flex items-center gap-1">
                                                 <h2 class="<?php echo $textcolor ?> ">
-                                                    <?php echo $username ?>
+                                                    <?php echo $admin_name ?>
                                                 </h2>
-                                                <p class=" px-1 rounded-lg mx-2 bg-purple-600 text-white">
-                                                    <?php // echo $useroccupation ?>
-                                                </p>
+
                                             </div>
                                             <p>
-                                                <?php echo $useremail ?>
+                                                <?php echo $admin_email ?>
                                             </p>
                                             <p>
-                                                <?php echo "Phone Number: " . $user_phone_number ?>
+                                                <?php echo "Phone Number :- " . $admin_phone_number ?>
                                             </p>
-                                        </div>
-                                        <div class="space-y-1">
-                                            <!-- <p>Email :-
-                                                    <?php echo $useremail ?>
-                                                </p> -->
-                                            <!-- <p>Password :-
-                                                    <span class="<?php echo $textcolor ?>"><?php echo $userpassword ?></span>
-                                                </p> -->
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
                             <div class="flex items-center justify-between gap-6">
-                                <!-- <p class=" bg-indigo-500 text-white px-3 py-1 rounded-full">
-                                        <?php echo $useroccupation ?>
-                                    </p> -->
                                 <p class=" bg-purple-500 text-white px-3 py-1 rounded-full">
-                                    <?php echo $user_phone_number ?>
+                                    <?php echo "Position :- " . $admin_occupation ?>
                                 </p>
-
-                                <form action="admin_update_data?id=<?php echo $checkid ?>" method="post">
+                                <form action="admin_update_data?id=<?php echo $checkid ?>" method="post" id="update">
                                     <button type="submit" data-toggle="tooltip" data-placement="top" title="Edit"
                                         class="px-1 rounded-lg bg-slate-100 text-black">
                                         <?php echo $userloggedin ?>
 
                                     </button>
                                 </form>
-                                <form action="delete_admin_account?id=<?php echo $checkid ?>" method="post">
-                                    <button data-toggle="tooltip" data-placement="top" title="Delete"
-                                        class="border-2 px-4 py-1 rounded-md">
-                                        <?php echo $userdelete ?>
-                                    </button>
-                                </form>
+
+                                <button id="<?php echo 'showBookBtn_' . $checkid ?>" class=" border-2 px-4 py-1 rounded-md">
+                                    <?php echo $userdelete ?>
+                                </button>
+                                <script>
+                                    document.getElementById('<?php echo 'showBookBtn_' . $checkid ?>').addEventListener('click', function () {
+                                        var box = document.getElementById('<?php echo 'bookData_' . $checkid ?>');
+                                        box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'block' : 'none';
+                                    });
+                                </script>
+
+                                <div id="<?php echo 'bookData_' . $checkid ?>" class="hidden">
+
+                                    <div
+                                        class="<?php echo $content_visible ?> w-full h-screen flex items-center justify-center fixed  left-0 bottom-0 right-0 bg-black/40">
+                                        <div
+                                            class="w-80 h-36 grid font-semibold place-items-center border rounded-xl py-2 shadow z-20 bg-white text-black relative">
+                                            <form action="admin" method="post"
+                                                class="font-bold text-2xl text-slate-400 absolute right-2 top-2">
+                                                <button type="submit">
+                                                    <svg class="w-6 h-6" fill="currentColor"
+                                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                        <path
+                                                            d="M16 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2.939 12.789L10 11.729l-3.061 3.06-1.729-1.728L8.271 10l-3.06-3.061L6.94 5.21 10 8.271l3.059-3.061 1.729 1.729L11.729 10l3.06 3.061-1.728 1.728z">
+                                                        </path>
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                            <div class="grid place-items-center gap-4 pb-2">
+                                                <h2 class="px-6 font-semibold pt-3 text-black text-center">Are you sure u
+                                                    want to delete this account</h2>
+                                                <form action="delete_admin_account?id=<?php echo $checkid ?>" method="post"
+                                                    class="">
+                                                    <button type="submit"
+                                                        class="  font-bold rounded-md bg-blue-600 text-white px-3 border ">Yes</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,5 @@
 <?php
-// include '../database_connection.php';
-// include '../send_fetch_data_from_db.php';
+
 include './book_fetch_validation.php';
 
 if ($_SESSION['login'] == null) {
@@ -10,171 +9,38 @@ if ($_SESSION['login'] == null) {
 }
 
 if (empty($id)) {
-    $user_order_data= [];
+    $user_order_data = [];
     $book_renting_amount = $book_price = $book_charges_without_shipping = $total_charges = 0;
     $book_name = $book_author = $book_category = $book_issue_date = $book_returned_date = $user_address = $user_city = $user_state = '';
 }
-// $buy_book_id = isset( $_GET['id'] ) ? intval( $_GET['id'] ) : '';
+
 $fetch_data_from_db = new fetch_db_data();
 
-// if(!empty($buy_book_id)){
-    if(empty($user_order_book_id)){
-        foreach($cart_item_array as $book_id){
-            $fetch_buy_book_id_query = $fetch_data_from_db->fetchiddata('books_details', $book_id, $conn, 'book_id');
-            $fetch_buy_book_id_data[] = mysqli_fetch_all($fetch_buy_book_id_query);
-            $fetch_order_data[] = $fetch_data_from_db->fetch_user_order_data('rented_book_details', $book_id, $user_id, $conn);
-        }
-    }else{
-        $fetch_buy_book_id_query = $fetch_data_from_db->fetchiddata('books_details', $buy_book_id, $conn, 'book_id');
+if (empty($user_order_book_id)) {
+    foreach ($cart_item_array as $book_id) {
+        $fetch_buy_book_id_query = $fetch_data_from_db->fetchiddata('books_details', $book_id, $conn, 'book_id');
         $fetch_buy_book_id_data[] = mysqli_fetch_all($fetch_buy_book_id_query);
-        $fetch_order_data[] = $fetch_data_from_db->fetch_user_order_data('rented_book_details', $buy_book_id, $user_id, $conn);
+        $fetch_order_data[] = $fetch_data_from_db->fetch_user_order_data('rented_book_details', $book_id, $user_id, $conn);
     }
-    // print_r($fetch_order_data);
+} else {
+    $fetch_buy_book_id_query = $fetch_data_from_db->fetchiddata('books_details', $buy_book_id, $conn, 'book_id');
+    $fetch_buy_book_id_data[] = mysqli_fetch_all($fetch_buy_book_id_query);
+    $fetch_order_data[] = $fetch_data_from_db->fetch_user_order_data('rented_book_details', $buy_book_id, $user_id, $conn);
+}
 
-    foreach($fetch_order_data as $id_data){
-        $book_issue_date = isset( $id_data[0][7]) ? $id_data[0][7] :'';
-        $book_return_date = isset( $id_data[0][8]) ? $id_data[0][8] :'';
-        $charges = isset( $id_data[0][9]) ? $id_data[0][9] :'';
-        // echo $charges;
-        if($total_charges == 0){
-            $total_charges = $charges;
-        }else{
-                $total_charges += $charges;
-        }
-        if(!empty($total_charges)){
-            $book_charges_without_shipping = ($total_charges - 10);
-        }
+foreach ($fetch_order_data as $id_data) {
+    $book_issue_date = isset($id_data[0][7]) ? $id_data[0][7] : '';
+    $book_return_date = isset($id_data[0][8]) ? $id_data[0][8] : '';
+    $charges = isset($id_data[0][9]) ? $id_data[0][9] : '';
+    if ($total_charges == 0) {
+        $total_charges = $charges;
+    } else {
+        $total_charges += $charges;
     }
-    // print_r($buy_book_id);
-// }else{
-//     foreach($cart_item_array as $buy_book_id){
-    // $fetch_buy_book_id_query = $fetch_data_from_db->fetchiddata('books_details', $buy_book_id, $conn, 'book_id');
-    // $fetch_buy_book_id_data[] = mysqli_fetch_all($fetch_buy_book_id_query);
-// }
-// }
-// $user_id_data = $fetch_data_from_db->fetch_data('user_details','user_email', $user_id, $conn, 'user_id');
-// print_r($book_id_array);
-// if(!empty($buy_book_id)){
-// $fetch_rented_book_id_query = $fetch_data_from_db->fetchiddata('rented_book_details', $buy_book_id, $conn, 'book_id');
-// $fetch_rented_book_id_data[] = mysqli_fetch_all($fetch_rented_book_id_query);
-// }else{
-// foreach($book_id_array as $buy_book_id){
-//     $fetch_rented_book_id_query = $fetch_data_from_db->fetchiddata('rented_book_details', $buy_book_id, $conn, 'book_id');
-//     $fetch_rented_book_id_data[] = mysqli_fetch_all($fetch_rented_book_id_query);
-// }
-
-// if(!empty($buy_book_id)){
-//     $order_id_query = "select * from rented_book_details where book_id = '$buy_book_id'";
-//     $order_id_data[] = mysqli_query($conn, $order_id_query);
-// }else{
-//     foreach($cart_item_array as $buy_book_id){
-//         $order_id_sql_query = "select * from rented_book_details where user_id = '$user_id'";
-//         $order_id_query = mysqli_query($conn, $order_id_sql_query);
-//         $order_id_data[] = mysqli_fetch_all($order_id_query);
-//     }
-// }
-// print_r($order_id_data);
-// }
-// foreach ($fetch_rented_book_id_data as $value) {
-//     $user_address = isset($value[3]) ? $value[3] : '';
-//     $user_state = isset($value[4]) ? $value[4] : '';
-//     $user_city = isset($value[5]) ? $value[5] : '';
-//     $book_issue_date = isset($value[8]) ? $value[8] : '';
-//     $book_return_date = isset($value[9]) ? $value[9] : '';
-//     $book_renting_amount = isset($value[10]) ? $value[10] : '';
-// }
-// if(count($fetch_rented_book_id_data) == 1){
-// $actual_book_renting_charges = ($book_renting_amount - 10);
-// $total_charges = $book_renting_amount;
-// if(!empty($get_selected_cart_item)){
-//     unset($get_selected_cart_item);
-// }
-// }
-
-// $total_rented_books = count($cart_book_id_data);
-
-// if (!empty($total_rented_books)) {
-//     $shipping_charges = 10 / $total_rented_books;
-// }
-
-// $fetch_rented_book_data = $fetch_data_from_db->fetchdatafromdb($conn, 'rented_book_details');
-
-
-
-// $rented_book = isset($fetch_rented_book_id_data[0]) ? $fetch_rented_book_id_data[0] : '';
-// // foreach($fetch_rented_book_id_data as $id_data){
-// foreach($rented_book as $data){
-//     $user_id_list_array[] = isset($data[1]) ? $data[1] : '';
-        
-//     if(in_array($user_id,$user_id_list_array)){
-//         // echo "OK";
-//         $user_order_data[] = $data;
-//     }
-// }
-
-// echo "<pre>";
-// // print_r($fetch_buy_book_id_data);
-// echo "</pre>";
-// foreach($user_order_data as $id_data){
-//     // print_r($user_order_data);
-    
-        
-//     }
-
-// foreach($fetch_buy_book_id_data as $data){
-    
-//     if(in_array($user_id,$user_id_list_array)){
-//     $user_book_status = isset($id_data[0][14]) ? $id_data[0][14] : '';
-//     // if($user_book_status == "Pending"){
-//         $book_status = $user_book_status;
-//         // $user_rented_book_data = $id_data;
-        
-//     }
-
-// }
-
-
-// foreach ($cart_item_array as $item) {
-//     $fetch_rented_book_id_query = $fetch_data_from_db->fetchiddata('rented_book_details', $item, $conn, 'book_id');
-//     $fetch_cart_rented_book_data[] = mysqli_fetch_all($fetch_rented_book_id_query);
-// }
-
-// function match_id($item, $fetch_rented_book_data, $login_email)
-// {
-//     $book_price = '';
-//     foreach ($fetch_rented_book_data as $data) {
-//         $rented_book_table_useremail = isset($data[1]) ? $data[1] : '';
-//         $rented_book_table_bookid = isset($data[7]) ? $data[7] : '';
-
-//         // echo $rented_book_table_useremail;
-//         if ($item == $rented_book_table_bookid && $login_email == $rented_book_table_useremail) {
-//             $book_price = $data;
-//         }
-//     }
-//     return $book_price;
-// }
-// foreach ($cart_item_array as $item) {
-//     $rented_books_price[] = match_id($item, $fetch_rented_book_data, $login_email);
-// }
-
-// if (!empty($get_selected_cart_item)) {
-//     // echo "Ok";
-//     // if(!$rented_books_price){
-//         // if(count($fetch_rented_book_id_data) > 1){
-//             foreach ($rented_books_price as $data) {
-//                 $charges = isset($data[10]) ? $data[10] : "";
-//                 $actual_book_renting_charges += $charges;
-//                 $book_issue_date = isset($data[8]) ? $data[8] : "";
-//                 $book_return_date = isset($data[9]) ? $data[9] : "";
-//                 // echo $charges;
-//             }
-//             $actual_book_renting_charges = $actual_book_renting_charges - 10;
-//             $total_charges = $actual_book_renting_charges + 10;
-//         // }
-// }
-// echo "<pre>";
-// print_r($rented_books_price);
-// echo "</pre>";
+    if (!empty($total_charges)) {
+        $book_charges_without_shipping = ($total_charges - 10);
+    }
+}
 
 
 ?>

@@ -1,9 +1,7 @@
 <?php
 include 'book_categories_validation.php';
 if (!empty($err_image) && (is_array($err_image))) {
-    // if  {
-        $err_image = '';
-    // }
+    $err_image = '';
 }
 ?>
 
@@ -28,8 +26,8 @@ if (!empty($err_image) && (is_array($err_image))) {
         <div class="flex-1 h-full">
             <img src="../../Image/book3.jpg" alt="Main Image" class="w-full h-full object-cover">
         </div>
-        <form action="" method="post" class="h-full shadow flex-1 "
-            name="registeration_form" enctype="multipart/form-data">
+        <form action="" method="post" class="h-full shadow flex-1 " name="registeration_form"
+            enctype="multipart/form-data">
             <div class="flex items-center justify-center w-full h-full">
                 <div class="space-y-3 bg-slate-50 rounded-xl shadow p-10">
                     <div class="flex gap-10">

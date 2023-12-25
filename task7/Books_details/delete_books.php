@@ -1,5 +1,5 @@
 <?php
-require("../admin_details/admin_update_fetch_data.php");
+require("../admin_details/admin_form_data_handler.php");
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 if (!$id) {
     header("location: ../admin_details/admin");
@@ -11,7 +11,6 @@ $fetch_id_data = mysqli_fetch_all($querydata);
 $delete_book_data = new delete_from_db();
 
 $delete_from_db = $delete_book_data->deletefromdb('books_details', $conn, 'book_id', $id, 'books');
-if (!$delete_from_db) {
-    echo "Error: " . mysqli_error($conn);
-}
+echo (!$delete_from_db) ? ("Error: " . mysqli_error($conn)) : '';
+
 ?>

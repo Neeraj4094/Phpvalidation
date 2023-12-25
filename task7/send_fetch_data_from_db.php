@@ -42,7 +42,6 @@ class fetch_db_data
      */
     function searchemail(array $array, string $data): array
     {
-        // print_r($array);
         foreach ($array as $item) {
             if (in_array($data, $item)) {
                 return $item;
@@ -163,6 +162,7 @@ class send_data_to_db
         }
         $update = implode(', ', $updateValues);
         $updateindb = "UPDATE $tablename set $update where $col_id = '$id'";
+        
         $updatequery = mysqli_query($con, $updateindb);
         if (!$updatequery) {
             die("Error:" . mysqli_error($con));
@@ -321,8 +321,6 @@ class book_payment
     {
         $updateindb = "UPDATE rented_book_details SET payment_status = 'Success' WHERE book_id = '$id' AND user_id = '$user_id'";
 
-        // $updateindb = "UPDATE rented_book_details set 'payment_record' = 'Success' where 'book_id' = '$id' AND 'user_email' = '$user_email'";
-
         $updatequery = mysqli_query($con, $updateindb);
         if (!$updatequery) {
             die("Error:" . mysqli_error($con));
@@ -330,8 +328,65 @@ class book_payment
         return true;
     }
 }
+
+
+/**
+ * class search_data
+ *
+ * This is a brief description of the search_data class.
+ * This class is used searching data from an array
+ */
+class search_data{
+    /**
+     *
+     * This is a brief description of the searchemail function.
+     * This function is used for show date according to asia time.
+     * @param array $searched_data This is the data that will be searched from an array 
+     * @param array $content_data The array from which data will be searched
+     * @return array Returns array when the data is found.
+     */
+    public function search_content_data(array $searched_data, array $content_data) : array
+    {
+        $searchdata= $found = [];
+        $category_name = isset($content_data[0]) ? $content_data[0] : '';
+        $book_name = isset($content_data[1]) ? $content_data[1] : '';
+        
+            $searched_category_name = isset($searched_data[0]) ? $searched_data[0] : '';
+            $searched_book_name = isset($searched_data[1]) ? $searched_data[1] : '';
+
+            if($category_name == $searched_category_name){
+                
+                if ((strpos(strtolower($book_name), strtolower($searched_book_name)) !== false)) {
+                    $found[] = true;
+                    $searchdata[] = "visible";
+                }else{
+                    $found[] = false;
+                    $searchdata[] = "hidden";
+                }
+            }
+            else{
+                
+                if(empty($searched_category_name) && !empty($searched_book_name)){
+                    if ((strpos(strtolower($book_name), strtolower($searched_book_name)) !== false)) {
+                        $found[] = true;
+                        $searchdata[] = "visible";
+                    }else{
+                        $found[] = false;
+                        $searchdata[] = "hidden";
+                    }
+                    $found[] = false;
+                    $searchdata[] = "hidden";
+                }
+                $found[] = false;
+                $searchdata[] = "hidden";
+            }
+        return array($found,$searchdata);
+    }
+}
+
 $fetch_data_from_db = new fetch_db_data();
 $send_data_to_db = new send_data_to_db();
+$search_data = new search_data();
 
 $cancel_login = $show_login_data = '';
 

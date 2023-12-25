@@ -22,7 +22,7 @@ require 'new_password_validation.php';
         <div class="flex-1 h-full">
             <img src="../../Image/book3.jpg" alt="Main Image" class="w-full h-full object-cover">
         </div>
-        <form action="new_password" method="post"
+        <form action="new_password?id=<?php echo $user_id ?>" method="post"
             class="grid px-12 py-8 border bg-white shadow-sm text-slate-500 flex-1" name="login_form">
             <div class="max-w-md space-y-4 px-16">
 
@@ -37,29 +37,20 @@ require 'new_password_validation.php';
                 <div>
                     <h2 class="font-semibold text-2xl">Reset your Password</h2>
                 </div>
-                <!-- <div class="grid space-y-2 ">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email" placeholder="Enter email" class="border rounded-lg p-2">
-                    <span class="text-red-600 text-sm ">* <small><?php echo $err_login_email ?></small></span>
-                
-                </div> -->
+
                 <div class="grid space-y-2">
-                    <!-- <label for="new_password">New Password</label> -->
                     <input type="password" name="new_password" id="new_password" placeholder="New password"
                         class="border rounded-lg p-2" value="<?php echo $new_password ?>">
                     <span class="text-red-600 w-96">* <small>
                             <?php echo $err_new_password ?>
                         </small></span>
-                    <!-- <small>(Password must have 1 Capital alphabet, 1 small alphabet, 1 special character & 1 number)</small> -->
                 </div>
                 <div class="grid space-y-2">
-                    <!-- <label for="confirm_password">Conform Password</label> -->
                     <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm password"
                         class="border rounded-lg p-2" value="<?php echo $confirm_password ?>">
                     <span class="text-red-600 w-96">* <small>
                             <?php echo $err_confirm_password ?>
                         </small></span>
-                    <!-- <small>(Password must have 1 Capital alphabet, 1 small alphabet, 1 special character & 1 number)</small> -->
                 </div>
 
                 <div class="">
@@ -67,10 +58,8 @@ require 'new_password_validation.php';
                         <input type="submit" name="reset_password" id="reset_password"
                             class="bg-indigo-500 text-white px-10 py-2 rounded-lg cursor-pointer" value="Submit">
                     </div>
-
                 </div>
             </div>
-
         </form>
     </div>
 </body>

@@ -41,7 +41,7 @@ $low_charges= $mid_charges = $normal_charges = 0;
 
         ?>
     </h2>
-    <!-- <div class="flex w-full px-4"> -->
+    
         <form method="post"  action="./rented_books?<?php echo $product_name . "=" . $item_id ?>" class="flex gap-4 h-full w-full p-4">
             <div class="p-2 flex-1 space-y-2 ">
                 <h2 class="font-semibold text-xl px-2">Contact Information</h2>
@@ -60,17 +60,7 @@ $low_charges= $mid_charges = $normal_charges = 0;
                                 <input type="text" name="address" id="address" placeholder="Your Address" class="border rounded-lg p-2" value="<?php echo $address ?>">
                                 <span class="text-red-600 text-sm max-w-xs w-64">* <small><?php echo $err_address ?></small></span>
                             </div>
-                            <!-- <div class="grid pt-2 space-y-2">
-                                <label for="days" class="">No of Days for Purchase</label>
-                                <select name="return_date" id="days" class=" text-slate-500 border py-2 px-1 rounded-lg">
-                                    <option value="" class="bg-transparent p-1">Select Days</option>
-                                    <option value="7" <?php ($book_return_date == "7")? 'selected' : '' ?> class="bg-transparent p-1">1 week</option>
-                                    <option value="14" <?php ($book_return_date == "14")? 'selected' : '' ?> class="bg-transparent p-1">2 week</option>
-                                    <option value="21" <?php ($book_return_date == "21")? 'selected' : '' ?> class="bg-transparent p-1">3 week</option>
-                                </select>
-                                <span class="text-red-600 text-sm max-w-xs w-40">* <small><?php echo $err_returned_date ?></small></span>
-                                
-                            </div> -->
+                            
                         </div>
                         <div class="flex w-full gap-4 items-center justify-between">
                             <div class="w-full">
@@ -202,33 +192,11 @@ $low_charges= $mid_charges = $normal_charges = 0;
                 
                 <div class="px-4 border-b-2">
                     <div class="grid items-center gap-1">
-                            <!-- <h2 for="role" class="w-auto font-semibold">Days for Purchase</h2> -->
-                            
-                            <!-- <?php
-                            //  foreach($book_actual_charges as $charges){
-                                
-                            //     $week = isset($charges[0]) ? $charges[0] : '';
-                            //     $book_without_shipping_charges = isset($charges[1]) ? $charges[1] : '';
-                            //     $book_charges_with_shipping = $book_without_shipping_charges + 10;
-                                // echo $book_charges_with_shipping;
-                                ?> -->
-                                <!-- <div class="flex items-center gap-2">
-                                    <input type="radio" name="days_charges"  value="<?php echo $book_charges_with_shipping ?>" id="<?php echo $book_charges_with_shipping ?>">
-                                    <label for="<?php echo $book_charges_with_shipping ?>">
-                                        <div class="flex justify-between gap-4 py-3 border-b">
-                                            <dt class="grid text-sm "><span>Book Charges + Shipping</span> <small>(For <?php echo $week ?> week)</small></dt>
-                                            <dd class=""><?php echo "$" . $book_without_shipping_charges . "+ $10 = " ?><span class="font-semibold flex"><?php echo "$" .($book_without_shipping_charges + 10) ?></span></dd>
-                                        </div>
-                                    </label>
-                                </div> -->
-                                <div class="grid py-4 px-2">
-                                    <label for="return_date" class="py-1 flex items-center gap-2">Return Data</label>
-                                    <input type="date" name="return_date" id="return_date" class="border rounded-lg p-2">
-                                    <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_selected_date ?></small></span>
-                                </div>
-                            <?php // } ?>
-                            
-                            <!-- <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_charges_days ?></small></span> -->
+                            <div class="grid py-4 px-2">
+                                <label for="return_date" class="py-1 flex items-center gap-2">Return Data</label>
+                                <input type="date" name="return_date" id="return_date" class="border rounded-lg p-2">
+                                <span class="text-red-600 text-sm max-w-xs w-96">* <small><?php echo $err_selected_date ?></small></span>
+                            </div>
                         </div>
                     </div>
                     <div class="p-4">
@@ -238,6 +206,5 @@ $low_charges= $mid_charges = $normal_charges = 0;
             </div>
         </div>
         </form>
-    <!-- </div> -->
 </body>
 </html>

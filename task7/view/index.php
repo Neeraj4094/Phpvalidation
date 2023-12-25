@@ -2,9 +2,7 @@
 $request = $_SERVER['REQUEST_URI'];
 
 if (empty($rented_book_path) || empty($rented_book_url)) {
-
     $rented_book_url = $rented_book_path = '';
-
 }
 if (empty($thanks_path) || empty($thanks_page_url)) {
     $thanks_page_url = $thanks_path = '';
@@ -16,10 +14,7 @@ if (empty($delete_cart_url)) {
 if (empty($delete_path)) {
     $delete_path = $delete_page_url = '';
 }
-if (empty($reset_password_path) || empty($reset_password_url)) {
-    // $book_page_url = '';
-    // $book_path = '';
-}
+
 if (empty($category_path)) {
     $category_path = $category_page_url = '';
 }
@@ -41,11 +36,13 @@ if(empty($user_rented_book_path)){
     $user_rented_book_path = $user_rented_book_url = '';
 }
 
-// echo $delete_cart_path;
-// else{
-//     $update_path = '';
-//     $delete_path = '';
-// }
+if(empty($pagination_url)){
+    $pagination_url = $pagination_path = '';
+}
+
+if(empty($add_admin_url)){
+    $add_admin_url = $add_admin_path = '';
+}
 
 $routes = [
     '/' => '../admin_details/admin_dashboard.php',
@@ -62,12 +59,13 @@ $routes = [
     $delete_cart_path => $delete_cart_url,
     $reset_password_path => $reset_password_url,
     $user_rented_book_path => $user_rented_book_url,
+    $pagination_url => $pagination_path,
+    $add_admin_url => $add_admin_path,
     '/admin_registeration' => 'admin_registeration.php',
     '/books' => 'books_dashboard.php',
     '/add_books' => 'add_books.php',
     '/book_store' => 'book_store.php',
     '/category' => 'category_dashboard.php',
-    // '/users' => 'user_dashboard.php',
     '/user_login' => 'user_login.php',
     '/add_categories' => 'add_categories.php',
     '/book_categories' => 'books_categories.php',
@@ -79,11 +77,9 @@ $routes = [
     '/rented_books' => 'rented_book.php',
     '/new_password' => 'new_password.php',
     '/recover_email' => 'recover_email.php',
+    '/rented_book_pagination' => 'rented_book_pagination.php',
 ];
-// echo "<pre>";
-// print_r($routes);
-// print_r($router);
-// echo "</pre>";
+
 function error_msg()
 {
     http_response_code(404);
@@ -102,4 +98,4 @@ function router_control($router, $routes)
 
 router_control($router, $routes)
 
-    ?>
+?>

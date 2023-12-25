@@ -1,7 +1,13 @@
 <?php
 $errmsg = $err_name = $err_email = $err_password = $err_phone_number = $err_role = '';
 $name = $email = $user_password = $phone_number = '';
-include 'admin_update_fetch_data.php';
+include 'admin_form_data_handler.php';
+
+$admin = isset($_GET['admin_email']) ? $_GET['admin_email'] : '';
+if (empty($admin)) {
+    header("location: ./admin_login");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +35,7 @@ include 'admin_update_fetch_data.php';
             enctype="multipart/form-data">
             <div class="flex items-center justify-center w-full h-full">
                 <div class=" bg-slate-50 rounded-xl shadow py-4 px-10">
-                <div>
+                    <div>
                     </div>
                     <h2 class="font-semibold text-xl py-1">Sign up to your account</h2>
                     <div class="">
@@ -52,7 +58,7 @@ include 'admin_update_fetch_data.php';
                             </small></span>
                     </div>
                     <div class="">
-                        <label for="password">Password</label>
+                        <label for="password"><span>Password</span><small> (Enter atleast 8 characters)</small></label>
                         <input type="password" name="password" id="password" placeholder="Password"
                             class="border rounded-sm w-full p-1" value="<?php echo $user_password ?>">
                         <span class="text-red-600 text-sm max-w-xs w-60">* <small>
@@ -73,12 +79,12 @@ include 'admin_update_fetch_data.php';
                             <select name="occupation" id="role"
                                 class="rounded-lg bg-slate-100 text-slate-500 border w-48 p-2 ">
                                 <option value="" class="bg-transparent p-1">Select Your Role</option>
-                                <option value="Testing" <?php echo ($occupation == 'Testing') ? 'selected' : '' ?>
-                                    class="bg-transparent p-1">Testing</option>
-                                <option value="Designing" <?php echo ($occupation == 'Designing') ? 'selected' : '' ?>
-                                    class="bg-transparent p-1">Designing</option>
-                                <option value="Managining" <?php echo ($occupation == 'Managining') ? 'selected' : '' ?>
-                                    class="bg-transparent p-1">Managining</option>
+                                <option value="Owner" <?php echo ($occupation == 'Owner') ? 'selected' : '' ?>
+                                    class="bg-transparent p-1">Owner</option>
+                                <option value="HR" <?php echo ($occupation == 'HR') ? 'selected' : '' ?>
+                                    class="bg-transparent p-1">HR</option>
+                                <option value="Employee" <?php echo ($occupation == 'Employee') ? 'selected' : '' ?>
+                                    class="bg-transparent p-1">Employee</option>
                             </select>
                         </div>
                         <span class="text-red-600 text-sm">* <small>

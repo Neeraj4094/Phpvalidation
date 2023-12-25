@@ -10,31 +10,20 @@ if ($_SESSION['login'] == null) {
 
 $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : '';
 
-// $login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] : '';
-// $user_id_data = $fetch_data_from_db->fetch_data('user_details','user_id', $login_email, $conn, 'user_email');
-// $user_id = isset($user_id_data[0][0]) ? $user_id_data[0][0] :'';
+$category_query = $fetch_data_from_db->fetchiddata('rented_book_details', $user_id, $conn, 'user_id');
+$fetch_category_data = mysqli_fetch_all($category_query);
 
 
-
-$fetch_category_name_query = $fetch_data_from_db->fetchiddata('rented_book_details', $user_id, $conn, 'user_id');
-$fetch_category_name_data = mysqli_fetch_all($fetch_category_name_query);
-
-
-foreach ($fetch_category_name_data as $data) {
-    // echo "<pre>";
-    // print_r($data);
-    // echo "</pre>";
+foreach ($fetch_category_data as $data) {
     $id = isset($data[6]) ? $data[6] : '';
     $payment_details = isset($data[14]) ? $data[14] : '';
 
-
     if ($payment_details != 'Success') {
-        $fetch_id_query = $fetch_data_from_db->fetchiddata('books_details', $id, $conn, 'book_id');
-        $fetch_category_id_data[] = mysqli_fetch_all($fetch_id_query);
+        $book_id_query = $fetch_data_from_db->fetchiddata('books_details', $id, $conn, 'book_id');
+        $fetch_category_id_data[] = mysqli_fetch_all($book_id_query);
     }
 }
-$fetch_id_query = '';
-$login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] : '';
+$book_id_query = '';
 
 ?>
 <!DOCTYPE html>
