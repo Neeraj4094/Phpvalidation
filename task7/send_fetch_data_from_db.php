@@ -134,7 +134,7 @@ class send_data_to_db
         $columns = implode(', ', $column_name);
         $values = "'" . implode("', '", $row_data) . "'";
         $insert = "insert into $tablename ($columns) values ($values)";
-        print_r($insert);
+        
         $result = mysqli_query($con, $insert);
         if (!$result) {
             die("Error:" . mysqli_error($con));

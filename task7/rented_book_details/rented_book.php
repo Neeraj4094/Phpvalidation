@@ -142,6 +142,7 @@ $low_charges= $mid_charges = $normal_charges = 0;
                         $book_author_name = !empty($data[0][2]) ? $data[0][2] : '';
                         $book_category_name = !empty($data[0][3]) ? $data[0][3] : '';
                         $book_price = !empty($data[0][5]) ? $data[0][5] : '';
+                        $book_rent_charges = !empty($data[0][10]) ? $data[0][10] : '';
                         $book_image = !empty($data[0][11]) ? $data[0][11] : '';
                             
                             $book_charges = ($book_price/100);
@@ -172,8 +173,12 @@ $low_charges= $mid_charges = $normal_charges = 0;
                                 <p class=" text-slate-400 text-lg"><?php echo "Author :- " . $book_author_name ?></p>
                                 <p class=" text-slate-400"><?php echo "Category :- " . $book_category_name ?></p>
                             </div>
-                            <div class="flex py-4 items-baseline justify-between">
+                            <div class="flex pt-4 items-baseline justify-between">
                                 <span class="font-semibold"><?php echo "Price :- $" . $book_price ?></span>
+                            </div>
+                            <div class="flex items-baseline justify-between">
+                                <!-- <span class="font-semibold"><?php echo "Price :- $" . $book_price ?></span> -->
+                                <span class="font-medium text-sm"><?php echo "Rent Charges :- $" . $book_rent_charges . "/Per Day" ?></span>
                             </div>
                         </div>
                         <?php  if($product_name != "buy_book_id"){ ?>
