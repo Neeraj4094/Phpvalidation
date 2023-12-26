@@ -94,7 +94,7 @@ $search = isset($_POST['search']) ? strtolower($_POST['search']) : '';
                     $content_visible = (!empty($checkid)) ? 'visible' : 'hidden';
 
 
-                    if ((strpos(strtolower($username), $search) !== false) || (strpos(strtolower($useremail), $search) !== false) || (strpos(strtolower($user_phone_number), $search) !== false)) {
+                    if ((strpos(strtolower($admin_name), $search) !== false) || (strpos(strtolower($admin_email), $search) !== false) || (strpos(strtolower($admin_phone_number), $search) !== false)) {
                         $found = true;
                         $searchdata = "visible";
                     } else {

@@ -346,7 +346,7 @@ if (!in_array($page_number_data, $user_id_list)) {
                 echo $data_not_found;
                 ?>
             </span>
-            <div class="flex gap-1 fixed bottom-3 left-1/2 right-1/2">
+            <div class="flex gap-1 fixed bottom-3 left-1/2 right-1/2 bg-slate-100 z-20">
                 <?php
                 for ($i = 0; $i < $total_pages; $i++) {
                     $user_email = isset($user_emails_list[$i]) ? $user_emails_list[$i] : '';

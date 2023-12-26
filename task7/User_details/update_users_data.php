@@ -75,15 +75,15 @@ include './user_validation.php';
                             <legend>Gender :-</legend>
                             <div class="flex gap-10">
                                 <div>
-                                    <input type="radio" name="gender" id="Male" value="Male" <?php echo ($fetch_user_gender == 'Male') ? 'checked' : '' ?>>
+                                    <input type="radio" name="gender" id="male" value="Male" <?php echo ($fetch_user_gender == 'Male') ? 'checked' : '' ?>>
                                     <label for="male">Male</label>
                                 </div>
                                 <div>
-                                    <input type="radio" name="gender" id="Female" value="Female" <?php echo ($fetch_user_gender == 'Female') ? 'checked' : '' ?>>
+                                    <input type="radio" name="gender" id="female" value="Female" <?php echo ($fetch_user_gender == 'Female') ? 'checked' : '' ?>>
                                     <label for="female">Female</label>
                                 </div>
                                 <div>
-                                    <input type="radio" name="gender" id="Other" value="Other" <?php echo ($fetch_user_gender == 'Other') ? 'checked' : '' ?>>
+                                    <input type="radio" name="gender" id="other" value="Other" <?php echo ($fetch_user_gender == 'Other') ? 'checked' : '' ?>>
                                     <label for="other">Other</label>
                                 </div>
                             </div>

@@ -80,7 +80,7 @@ $low_charges= $mid_charges = $normal_charges = 0;
                             <div class="w-full">
                                 <div class="grid space-y-1 pt-1">
                                     <label for="postal_code" class="py-1">Pin Code</label>
-                                    <input type="text" name="postal_code" id="postal_code" placeholder="Postal Code" class="border rounded-lg p-2" value="<?php echo $user_postal_code ?>">
+                                    <input type="text" name="postal_code" id="postal_code" maxlength="6" placeholder="Postal Code" class="border rounded-lg p-2" value="<?php echo $user_postal_code ?>">
                                 </div>
                                 <span class="text-red-600 text-sm">* <small><?php echo $err_postal_code ?></small></span>
                             </div>

@@ -6,27 +6,13 @@ if ($_SESSION['login'] == null) {
 }
 
 
-
-// $fetch_cart_data = $fetch_data_from_db->fetchdatafromdb($conn, 'cart_details');
-
 $show_login_data = '';
 if (empty($fetch_bookid_data)) {
     $fetch_bookid_data = [];
 }
-// $login_email = isset($_SESSION['login']['email']) ? $_SESSION['login']['email'] : '';
 
-
-// $user_name = isset($fetch_user_id_data[0][1]) ? $fetch_user_id_data[0][1] : '';
-
-// echo "<pre>";
-// print_r($fetch_user_id_data);
-// echo "</pre>";
 $cart_item = isset($cart_book_id_data[0]) ? $cart_book_id_data[0] : '';
-// $book_id = isset($_GET['book_id']) ? intval($_GET['book_id']) : '';
 
-// print_r($fetch_user_id_data);
-// $fetch_rented_book_user_query = $fetch_data_from_db->fetchiddata('rented_book_details', $book_id, $conn, 'book_id');
-// $fetch_rented_book_user_data = mysqli_fetch_all($fetch_rented_book_user_query);
 if (empty($order_book_id_list)) {
     foreach ($fetch_user_id_data as $data) {
         $book_id = isset($data[1]) ? $data[1] : '';
@@ -37,17 +23,31 @@ if (empty($order_book_id_list)) {
         $_SESSION['selected_cart'] = $book_cart_id_list;
     }
 }
-
 foreach ($fetch_user_id_data as $data) {
     $book_id = isset($data[1]) ? $data[1] : '';
     $cartiddata = "select * from rented_book_details where book_id = '$book_id' AND user_id = '$user_id' AND payment_status = 'Success'";
 
     $order_query = mysqli_query($conn, $cartiddata);
     $fetch_order_data[] = mysqli_fetch_all($order_query);
-    // $fetch_order_data[] = $fetch_data_from_db->fetch_user_order_data('rented_book_details', $book_id, $user_id, $conn);
-    $check_table_status = isset($fetch_order_data[0]) ? $fetch_order_data[0] : '';
+    
+    foreach($fetch_order_data as $data){
+        $check_table_status = isset($data[0][6]) ? $data[0][6] : '';
+        if(($book_id == $check_table_status)){
+            $user_pending_status = "select * from rented_book_details where book_id = '$book_id' AND user_id = '$user_id' AND payment_status = 'Pending'";
 
-    if ((!in_array($book_id, $order_book_id_list) && !empty($order_book_id_list)) && (empty($check_table_status))) {
+            $pending_books_query = mysqli_query($conn, $user_pending_status);
+            $pending_books_data = mysqli_fetch_all($pending_books_query);
+            
+            if(empty($pending_books_data)){
+            $fetch_bookid_query = $fetch_data_from_db->fetchiddata('books_details', $book_id, $conn, 'book_id');
+            $fetch_bookid_data[] = mysqli_fetch_all($fetch_bookid_query);
+            $book_cart_id_array[] = $book_id;
+            $book_cart_id_list = implode(',', $book_cart_id_array);
+            $_SESSION['selected_cart'] = $book_cart_id_list;
+            }
+        }
+    }
+    if ((!in_array($book_id, $order_book_id_list) && !empty($order_book_id_list))) {
         $fetch_bookid_query = $fetch_data_from_db->fetchiddata('books_details', $book_id, $conn, 'book_id');
         $fetch_bookid_data[] = mysqli_fetch_all($fetch_bookid_query);
         $book_cart_id_array[] = $book_id;
