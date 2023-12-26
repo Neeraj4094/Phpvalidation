@@ -69,15 +69,16 @@ try {
     $books_table_name = "books_details";
     $books_tablecolumn_name = "CREATE TABLE IF NOT EXISTS $books_table_name(
     book_id INT(4) PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255),
-    author VARCHAR(20),
-    category VARCHAR(20),
-    copies INT(3),
-    price text(10),
+    book_name VARCHAR(255),
+    book_author VARCHAR(20),
+    book_category VARCHAR(20),
+    book_copies INT(3),
+    book_price text(10),
     description text(255),
     book_image_name VARCHAR(35),
     created_date datetime,
     modified_date datetime,
+    book_rent_price int(4),
     book_unique_image_name TEXT(40)
     )";
 

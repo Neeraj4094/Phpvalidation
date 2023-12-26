@@ -82,7 +82,7 @@ foreach ($fetch_order_data as $id_data) {
                         $book_author = !empty($data[0][2]) ? $data[0][2] : '';
                         $book_category = !empty($data[0][3]) ? $data[0][3] : '';
                         $book_price = !empty($data[0][5]) ? $data[0][5] : '';
-                        $book_image = !empty($data[0][10]) ? $data[0][10] : '';
+                        $book_image = !empty($data[0][11]) ? $data[0][11] : '';
                         ?>
 
                         <article class="flex w-full border-b py-2">

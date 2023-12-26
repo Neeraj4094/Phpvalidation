@@ -18,7 +18,7 @@ if (is_array($err_image)) {
 <body class="bg-slate-100 h-full">
     <h2 class="w-full border text-center bg-green-50 text-slate-800 fixed top-0 shadow">
         <?php
-        echo $errmsg;
+        // echo $errmsg;
 
         ?>
     </h2>
@@ -30,7 +30,7 @@ if (is_array($err_image)) {
             name="registeration_form" enctype="multipart/form-data">
             <div class="flex items-center justify-center w-full h-full">
                 <div class="space-y-3 bg-slate-50 rounded-lg shadow py-6 h-full px-10">
-                    <div class=" space-y-3 gap-10">
+                    <div class=" gap-10">
                         <div class="grid">
                             <div class="flex gap-2 items-center w-full">
                                 <label for="category">Category Name :-</label>
@@ -108,15 +108,26 @@ if (is_array($err_image)) {
                                 </div>
                             </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <label>Upload Your Image :-</label>
+                        <div class="flex items-center">
                             <div class="grid">
-                                <input type="file" name="book_image" id="book_image">
+                            <div class=" items-center gap-2 grid">
+                                <label>Upload Your Image :-</label>
+                                <div class="grid">
+                                    <input type="file" name="book_image" id="book_image">
+                                </div>
+                            </div>
+                            <span class="text-red-600 text-sm">* <small>
+                                    <?php echo $err_image ?>
+                                </small></span>
+                            </div>
+                            <div class="grid space-y-2">
+                                <label for="rent_price">Book Rent Price :- </label>
+                                <input type="text" name="rent_price" id="rent_price" value="<?php echo $rent_price ?>" placeholder="Rent Price">
+                                <span class="text-red-600 text-sm">* <small>
+                                    <?php echo $err_book_rent ?>
+                                </small></span>
                             </div>
                         </div>
-                        <span class="text-red-600 text-sm">* <small>
-                                <?php echo $err_image ?>
-                            </small></span>
                     </div>
                     <div>
                         <input type="submit" name="add_books"

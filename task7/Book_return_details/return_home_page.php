@@ -55,7 +55,7 @@ $book_id_query = '';
                     $book_name = isset($id_data[0][1]) ? ucwords($id_data[0][1]) : '';
                     $book_author = isset($id_data[0][2]) ? $id_data[0][2] : '';
                     $book_price = isset($id_data[0][5]) ? $id_data[0][5] : '';
-                    $book_image = isset($id_data[0][10]) ? $id_data[0][10] : '';
+                    $book_image = isset($id_data[0][11]) ? $id_data[0][11] : '';
                     $rented_book_details = [$book_id, $user_id];
                     $rented_book_array = implode(',', $rented_book_details);
 

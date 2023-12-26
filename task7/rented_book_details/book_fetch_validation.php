@@ -56,7 +56,6 @@ if (empty($buy_book_id)) {
     
 }
 
-
 $user_rented_book_query = $fetch_data_from_db->fetchiddata('rented_book_details', $user_id, $conn, 'user_id');
 $user_rented_book_data = mysqli_fetch_all($user_rented_book_query);
 
@@ -155,15 +154,17 @@ if (($_SERVER["REQUEST_METHOD"] == "POST") && (isset($_POST['rent_now']))) {
         if (empty($err_email) && empty($err_address) && empty($err_state) && empty($err_city) && empty($err_postal_code) && empty($err_name_on_card) && empty($err_card_number) && empty($err_card_expiration_date) && empty($err_cvc) && empty($err_selected_date)) {
               
                 if($check_order_status){
-                    
+                    print_r($cart_book_id_data);
                     foreach ($cart_book_id_data as $data) {
                         $book_id = !empty($data[0][0]) ? ($data[0][0]) : '';
                         $book_copies = !empty($data[0][4]) ? $data[0][4] : '';
                         $book_price = !empty($data[0][5]) ? $data[0][5] : '';
+                        $book_rent_price = !empty($data[0][10]) ? $data[0][10] : '';
                         $payment_status = "Pending";
-                        $book_charges = ($book_price / 100);
+                        $book_charges = ($book_price / 200) * $book_rent_price;
 
                         $book_renting_charges = ($daysSpent * $book_charges) + $shipping_charges;
+                        echo $book_renting_charges;
                         $returned_date = date('Y-m-d', strtotime($issue_date . " + $book_return_date days"));
                         
                         $column_name = ['user_id', 'user_address', 'user_state', 'user_city', 'user_pin_code', 'book_id', 'issue_date', 'returned_date', 'renting_charges', 'user_name_on_card', 'user_card_number', 'user_card_expiration_date', 'user_card_cvc', 'payment_status'];

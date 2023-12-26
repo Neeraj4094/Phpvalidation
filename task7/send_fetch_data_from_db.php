@@ -133,8 +133,8 @@ class send_data_to_db
         $result = '';
         $columns = implode(', ', $column_name);
         $values = "'" . implode("', '", $row_data) . "'";
-
         $insert = "insert into $tablename ($columns) values ($values)";
+        print_r($insert);
         $result = mysqli_query($con, $insert);
         if (!$result) {
             die("Error:" . mysqli_error($con));
@@ -207,6 +207,7 @@ class upload_image
                 if (move_uploaded_file($book_image["tmp_name"], $upload)) {
                     if ($id == null) {
                         array_push($book_details_array, $book_unique_image_name);
+                        // print_r($book_details_array);
 
                         $sendtodb->insertindb($tablename, $book_column, $book_details_array, $conn); // Sending image data on db
 

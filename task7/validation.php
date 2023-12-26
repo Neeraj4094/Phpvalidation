@@ -90,6 +90,28 @@ trait errorhandler
      *
      * This is a brief description of the searchemail function.
      * This function is to check the data is in format or not.
+     * @param mixed $value The is used to check the data is in format or not
+     * @return string Returns string if the data is matched with the condition, otherwise false.
+     */
+    public function check_number(mixed $value): string
+    {
+        $err = "";
+        $check_number = preg_match('@[0-9]@', $value);
+        if (empty($value)) {
+            $err = "Invalid";
+            return $err;
+        }
+        if(!$check_number){
+            $err = "Invalid";
+            return $err;
+        }
+        return $err;
+    }
+
+    /**
+     *
+     * This is a brief description of the searchemail function.
+     * This function is to check the data is in format or not.
      * @param mixed $user_card_expiration_date The is used to check the expiry date and also checks it is empty or not
      * @return string Returns string if the data is matched with the condition, otherwise false.
      */
@@ -221,7 +243,7 @@ class admin_data_validation
      * @return array Returns an array containing validation results.
      **/
     use errorhandler;
-    public $name, $email, $password, $occupation, $phone_number, $login_email, $login_password, $book_category_name, $book_name, $author_name, $book_copies, $book_image, $category_image, $user_gender, $user_address, $book_return_date, $book_price, $book_description;
+    public $name, $email, $password, $occupation, $phone_number, $login_email, $login_password, $book_category_name, $book_name, $author_name, $book_copies, $book_image, $category_image, $user_gender, $user_address, $book_return_date, $book_price, $book_description,$book_rent_price;
     public $user_adress, $user_state, $user_city, $user_postal_code, $user_name_on_card, $user_card_number, $user_card_expiration_date, $user_card_cvc, $user_payment_method, $review, $user_review, $select_to_cart, $days_charges, $advance_charges, $new_password, $confirm_password;
 
     /**
@@ -283,8 +305,8 @@ class admin_data_validation
     public function books_data_validation()
     {
         // Add Books
-        $submit_book_category_name = $submit_book_name = $submit_author_name = $submit_book_copies = $submit_book_image = $submit_book_price = $submit_book_description = '';
-        if (!empty($_POST['category_name']) || !empty($_POST['book_name']) || !empty($_POST['author_name']) || !empty($_POST['copies']) || isset($_FILES['book_image']) || !empty($_POST['book_price']) || !empty($_POST['description'])) {
+        $submit_book_category_name = $submit_book_name = $submit_author_name = $submit_book_copies = $submit_book_image = $submit_book_price = $submit_book_description = $submit_book_rent_price = '';
+        if (!empty($_POST['category_name']) || !empty($_POST['book_name']) || !empty($_POST['author_name']) || !empty($_POST['copies']) || isset($_FILES['book_image']) || !empty($_POST['book_price']) || !empty($_POST['rent_price']) || !empty($_POST['description'])) {
             $this->book_category_name = (isset($_POST['category_name'])) ? $_POST['category_name'] : '';
             $submit_book_category_name = $this->book_category_name;
             $this->book_name = (isset($_POST['book_name'])) ? $_POST['book_name'] : '';
@@ -297,11 +319,12 @@ class admin_data_validation
             $submit_book_price = $this->book_price;
             $this->book_description = (isset($_POST['description'])) ? $_POST['description'] : '';
             $submit_book_description = $this->book_description;
-
+            $this->book_rent_price = (isset($_FILES['rent_price'])) ? $_FILES['rent_price'] : '';
+            $submit_book_rent_price = $this->book_rent_price;
             $this->book_image = (isset($_FILES['book_image'])) ? $_FILES['book_image'] : '';
             $submit_book_image = $this->book_image;
         }
-        return array($submit_book_category_name, $submit_book_name, $submit_author_name, $submit_book_copies, $submit_book_price, $submit_book_description, $submit_book_image);
+        return array($submit_book_category_name, $submit_book_name, $submit_author_name, $submit_book_copies, $submit_book_price, $submit_book_description,$submit_book_rent_price, $submit_book_image);
     }
 
     /**
@@ -463,7 +486,8 @@ if (!empty($books_data_validation)) {
     $book_copies = $books_data_validation[3];
     $book_price = $books_data_validation[4];
     $book_description = $books_data_validation[5];
-    $book_image = $books_data_validation[6];
+    $rent_price = $books_data_validation[6];
+    $book_image = $books_data_validation[7];
 }
 
 if (!empty($category_data_validation)) {
@@ -505,4 +529,5 @@ $book_image_name = isset($book_image['name']) ? $book_image['name'] : '';
 $user_password = $password;
 $admin_password = $login_password;
 $admin_email = $login_email;
+
 ?>

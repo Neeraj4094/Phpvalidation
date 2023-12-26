@@ -101,7 +101,8 @@ $search = (isset($_POST['search'])) ? strtolower($_POST['search']) : '';
                         $book_description = $item[6];
                         $book_created_date = $item[8];
                         $book_modified_date = $item[9];
-                        $book_unique_image_in_db = $item[10];
+                        $book_rent_price = $item[10];
+                        $book_unique_image_in_db = $item[11];
 
                         $date = new date();
                         $create_date = $date->date_time_in_india($book_created_date);
@@ -136,17 +137,21 @@ $search = (isset($_POST['search'])) ? strtolower($_POST['search']) : '';
                                         <div class="flex gap-20 items-center">
                                             <div>
                                                 <div class="flex items-center gap-4">
-                                                    <h2 class="<?php echo "Color" ?> ">
+                                                    <h2 class=" ">
                                                         <?php echo "Book: " . $book_name ?>
                                                     </h2>
                                                     <p class=" px-1 rounded-md bg-purple-600 text-white">
                                                         <?php echo $category_name ?>
                                                     </p>
                                                 </div>
-
-                                                <p>
-                                                    <?php echo "Author :- " . $author_name ?>
-                                                </p>
+                                                <div class="flex items-center gap-4">
+                                                    <p>
+                                                        <?php echo "Author :- " . $author_name ?>
+                                                    </p>
+                                                    <p class="font-semibold">
+                                                        <?php echo "Rent Price :- " . $book_rent_price ?>
+                                                    </p>
+                                                </div>
                                                 <div class="flex gap-6 items-center ">
                                                     <p>Created :-
                                                         <?php echo $create_date ?>

@@ -149,7 +149,7 @@ if (!empty($fetch_category_data_from_db)) {
                     $book_name = isset($item[1]) ? ucwords($item[1]) : "";
                     $book_author_name = isset($item[2]) ? $item[2] : "";
                     $book_category_name = isset($item[3]) ? $item[3] : "";
-                    $book_image = isset($item[10]) ? $item[10] : "";
+                    $book_image = isset($item[11]) ? $item[11] : "";
 
                     $content_data = [$book_category_name,$book_name];
                     $searched_data = [$category,$search];

@@ -30,7 +30,7 @@ if (!empty($err_image) && (is_array($err_image))) {
         <form action="books_update_data?id=<?php echo $id ?>" method="post" class="h-full shadow flex-1 "
             name="registeration_form" enctype="multipart/form-data">
             <div class="flex items-center justify-center w-full h-full p-4">
-                <div class="space-y-1 bg-slate-50 rounded-xl shadow py-6 px-10 h-full w-full">
+                <div class="space-y-1 bg-slate-50 rounded-xl shadow py-2 px-10 h-full w-full">
                     <div class=" gap-10">
                         <div class=" w-full">
                             <label for="category_name">Category Name</label>
@@ -91,15 +91,26 @@ if (!empty($err_image) && (is_array($err_image))) {
                                 </div>
                             </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <label>Upload Your Image :-</label>
+                        <div class="flex items-center">
                             <div class="grid">
-                                <input type="file" name="book_image" id="book_image">
+                            <div class=" items-center gap-2 grid">
+                                <label>Upload Your Image :-</label>
+                                <div class="grid">
+                                    <input type="file" name="book_image" id="book_image">
+                                </div>
+                            </div>
+                            <span class="text-red-600 text-sm">* <small>
+                                    <?php echo $err_image ?>
+                                </small></span>
+                            </div>
+                            <div class="grid space-y-2">
+                                <label for="rent_price">Book Rent Price :- </label>
+                                <input type="text" name="rent_price" id="rent_price" value="<?php echo $fetch_book_rent_price ?>" placeholder="Rent Price">
+                                <span class="text-red-600 text-sm">* <small>
+                                    <?php echo $err_book_rent ?>
+                                </small></span>
                             </div>
                         </div>
-                        <span class="text-red-600 text-sm">* <small>
-                                <?php echo $err_image ?>
-                            </small></span>
                     </div>
                     <div>
                         <input type="submit" name="add_books"

@@ -34,7 +34,7 @@ if (!empty($fetch_category_name_data)) {
         $ordered_book_category = isset($book_data[3]) ? $book_data[3] : '';
         $book_copies = isset($book_data[4]) ? $book_data[4] : '';
         $ordered_book_price = isset($book_data[5]) ? $book_data[5] : '';
-        $ordered_book_image = isset($book_data[10]) ? $book_data[10] : '';
+        $ordered_book_image = isset($book_data[11]) ? $book_data[11] : '';
     }
 }
 

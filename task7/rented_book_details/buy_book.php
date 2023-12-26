@@ -98,7 +98,7 @@ foreach ($fetch_id_data as $key => $value) {
     $book_copies = isset($value[4]) ? $value[4] : '';
     $book_price = isset($value[5]) ? $value[5] : '';
     $book_description = isset($value[6]) ? $value[6] : '';
-    $book_image = isset($value[10]) ? $value[10] : '';
+    $book_image = isset($value[11]) ? $value[11] : '';
     $book_charges = $book_price / 100 * 1;
 
 }

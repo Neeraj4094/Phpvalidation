@@ -105,7 +105,7 @@ foreach ($fetch_user_id_data as $data) {
                         $book_category = isset($data[0][3]) ? $data[0][3] : '';
                         $book_copies = isset($data[0][4]) ? $data[0][4] : '';
                         $book_price = isset($data[0][5]) ? $data[0][5] : '';
-                        $book_image = isset($data[0][10]) ? $data[0][10] : '';
+                        $book_image = isset($data[0][11]) ? $data[0][11] : '';
                         ?>
                         <div class="flex items-center gap-4 w-full">
                             <div for="<?php echo $book_id ?>" class="w-full">
